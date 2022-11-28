@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidbolts.topsheet.TopSheetBehavior
 import cthree.user.flypass.R
+import cthree.user.flypass.adapter.TicketListAdapter
+import cthree.user.flypass.data.DummyData
+import cthree.user.flypass.data.Ticket
 import cthree.user.flypass.databinding.FragmentTicketListBinding
 
 class TicketListFragment : Fragment() {
@@ -38,11 +42,14 @@ class TicketListFragment : Fragment() {
         topSheetBehavior = TopSheetBehavior.from(binding.topSheetContainer.topSheet)
         topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
         binding.toolbarLayout.ivDropDown.setOnClickListener {
-            if(binding.toolbarLayout.ivDropDown.isChecked)
+            if(binding.toolbarLayout.ivDropDown.isChecked){
+                binding.topSheetBg.isVisible = true
                 topSheetBehavior.state = TopSheetBehavior.STATE_EXPANDED
-            else
+            }
+            else{
+                binding.topSheetBg.isVisible = false
                 topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
-
+            }
         }
         binding.topSheetContainer.swRoundTrip.setOnClickListener {
             binding.topSheetContainer.tvArrivalDate.isVisible = binding.topSheetContainer.swRoundTrip.isChecked
@@ -51,6 +58,26 @@ class TicketListFragment : Fragment() {
         binding.topSheetContainer.btnSearch.setOnClickListener {
             topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
             binding.toolbarLayout.ivDropDown.isChecked = false
+            binding.topSheetBg.isVisible = false
         }
+        binding.topSheetBg.setOnClickListener {
+            topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
+            binding.toolbarLayout.ivDropDown.isChecked = false
+            binding.topSheetBg.isVisible = false
+        }
+        setAdapter()
+    }
+
+    private fun setAdapter(){
+        val adapter = TicketListAdapter(DummyData.ticketList)
+        binding.rvTicketList.adapter = adapter
+        binding.rvTicketList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter.setOnItemClickListener(object : TicketListAdapter.OnItemClickListener{
+            override fun onItemClick(ticket: Ticket) {
+                val detailFragment = TicketDetailFragment(ticket)
+                detailFragment.show(requireActivity().supportFragmentManager, detailFragment.tag)
+            }
+
+        })
     }
 }

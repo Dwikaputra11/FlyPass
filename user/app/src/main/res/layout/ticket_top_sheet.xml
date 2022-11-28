@@ -4,111 +4,166 @@
     android:id="@+id/top_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="@color/color_primary"
     android:orientation="vertical"
     android:padding="12dp"
     android:elevation="8dp"
-    android:layout_marginTop="?actionBarSize"
     app:layout_behavior="@string/top_sheet_behavior"
     >
 
     <LinearLayout
+        android:padding="10dp"
+        android:orientation="vertical"
         android:layout_marginTop="?actionBarSize"
+        android:background="@drawable/radius_10dp"
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="From"
+            android:textColor="@color/smokey_700"
+            style="@style/boldGreyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etFrom"
+                android:layout_width="wrap_content"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:hint="Pilih Kota"
+                android:drawableStart="@drawable/ic_round_flight_takeoff_24"
+                android:drawablePadding="8dp"
+                />
+            <ImageView
+                android:id="@+id/btnSwap"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_swap_vertical_circle_24"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+        <TextView
+            android:text="To"
+            style="@style/boldGreyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etTo"
+            android:hint="Pilih Kota"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_round_flight_land_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:layout_width="84dp"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:src="@drawable/ic_launcher_background" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="Departure Date"
+                style="@style/boldGreyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:text="Round trip?"
+                android:paddingHorizontal="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:drawableStart="@drawable/ic_round_calendar_today_24"
+                android:drawablePadding="8dp"
+                android:id="@+id/etDepartureDate"
+                android:hint="Pilih Tanggal Keberangkatan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swRoundTrip"
+                app:thumbTint="@color/color_primary"
+                app:trackTint="@color/smokey_500"
+                android:buttonTint="@color/color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvArrivalDate"
+            android:visibility="gone"
+            android:text="Arrival Date"
+            style="@style/boldGreyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:visibility="gone"
+            android:drawableStart="@drawable/ic_round_calendar_today_24"
+            android:drawablePadding="8dp"
+            android:id="@+id/etArrivalDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pilih Tanggal Kedatangan"
+            />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dandelion Chocolate"
-                android:textColor="#000000"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatRatingBar
-                    style="@style/Base.Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:rating="4" />
-
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4.7"
-                    android:textColor="@color/teal_200" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="(51)"
-                    android:textColor="@color/teal_200" />
-
+                    style="@style/boldGreyText"
+                    android:text="Passengers"
+                    />
+                <EditText
+                    android:id="@+id/etPassengers"
+                    android:hint="passengers"
+                    android:drawableStart="@drawable/ic_round_people_24"
+                    android:drawablePadding="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="12 min away"
-                android:textColor="#000000" />
-
+            <LinearLayout
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/boldGreyText"
+                    android:text="Seat Class"
+                    />
+                <EditText
+                    android:id="@+id/etSeatClass"
+                    android:hint="seat class"
+                    android:drawableStart="@drawable/ic_round_event_seat_24"
+                    android:drawablePadding="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSearch"
+            android:text="Search"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:drawableLeft="@drawable/ic_launcher_background"
-        android:drawablePadding="16dp"
-        android:text="740 Valencia St, San Fracisco, CA"
-        android:textColor="#000000" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:drawableLeft="@drawable/ic_launcher_background"
-        android:drawablePadding="16dp"
-        android:text="(415) 349-0942"
-        android:textColor="#000000" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:drawablePadding="16dp"
-        android:text="Wed, 10 AM - 9 PM"
-        android:textColor="#000000" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/teal_200"
-        android:text="PROCEED PAYMENT"
-        android:textColor="#fff" />
-
 </LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/toolbarLayout"
+            layout="@layout/ticket_toolbar"/>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_marginTop="?actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/top_sheet_behavior"
+            app:behavior_peekHeight="0dp"
+            >
+
+            <include
+                android:id="@+id/topSheetContainer"
+                layout="@layout/ticket_top_sheet"
+                app:layout_anchor="@id/toolbarLayout"
+                app:layout_anchorGravity="bottom" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

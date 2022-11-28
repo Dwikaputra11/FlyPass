@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#007aff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jakarta"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semarang"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TextView
+                android:id="@+id/tvPassengger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Orang"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="6dp"
+                android:text="|"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wed, 30 Nov"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="6dp"
+                android:text="|"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvSeatClass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Economy"
+                android:textColor="@color/white"
+                />
+
+            <CheckBox
+                android:layout_gravity="center"
+                android:id="@+id/ivDropDown"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle_shape"
+                android:button="@drawable/arrow_top_sheet_state"
+                android:layout_marginHorizontal="10dp"
+                />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.appbar.AppBarLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "994666280575",
+    "project_id": "flypass-78acc",
+    "storage_bucket": "flypass-78acc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994666280575:android:ea02de3c2211cf794c314a",
+        "android_client_info": {
+          "package_name": "cthree.user.flypass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994666280575-rl0ae95lp6o4p26gt20r6avl5gnfrbkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cthree.user.flypass",
+            "certificate_hash": "d56530b6a279dab578baf7c4612024aaa7737970"
+          }
+        },
+        {
+          "client_id": "994666280575-4r622gph02rqhe5fcdllp7nhn2tudpki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD95MEQ-0da_s3UOjHgFs2St3DpBdejpqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994666280575-4r622gph02rqhe5fcdllp7nhn2tudpki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

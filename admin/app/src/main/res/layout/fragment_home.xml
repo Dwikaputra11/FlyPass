@@ -60,7 +60,7 @@
         android:textColor="@color/black"
         android:padding="18dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -68,6 +68,7 @@
         android:layout_marginStart="26dp"
         android:text="User Account"
         android:textColor="@color/black"
+        android:backgroundTint="@color/white"
         android:background="@drawable/btn_rounded"
         android:padding="18dp"/>
 

@@ -12,6 +12,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="sky_200">#48A5FF</color>
+    <color name="sky_500">#30A8FF</color>
+    <color name="sky_700">#47B5FF</color>
+    <color name="sky_900">#0076CB</color>
+    <color name="smokey_100">#F4F4F4</color>
+    <color name="smokey_200">#F1F3FF</color>
+    <color name="smokey_500">#DADCE3</color>
+    <color name="smokey_700">#858585</color>
+    <color name="smokey_900">#676666</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

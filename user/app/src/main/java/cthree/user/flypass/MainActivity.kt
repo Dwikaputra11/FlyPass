@@ -17,20 +17,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbarLayout.toolbar)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_ios_24)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        topSheetBehavior = TopSheetBehavior.from(binding.topSheetContainer.topSheet)
-        topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
-        binding.toolbarLayout.ivDropDown.setOnClickListener {
-            if(binding.toolbarLayout.ivDropDown.isChecked)
-                topSheetBehavior.state = TopSheetBehavior.STATE_EXPANDED
-            else
-                topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
-
-        }
+//        setSupportActionBar(binding.toolbarLayout.toolbar)
+//        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_ios_24)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
+//
+//        topSheetBehavior = TopSheetBehavior.from(binding.topSheetContainer.topSheet)
+//        topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
+//        binding.toolbarLayout.ivDropDown.setOnClickListener {
+//            if(binding.toolbarLayout.ivDropDown.isChecked)
+//                topSheetBehavior.state = TopSheetBehavior.STATE_EXPANDED
+//            else
+//                topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
+//
+//        }
 
     }
 }

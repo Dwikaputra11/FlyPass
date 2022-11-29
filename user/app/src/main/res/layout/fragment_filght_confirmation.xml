@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/screen_background"
     tools:context=".ui.booking.FlightConfirmationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
 
-</FrameLayout>
+    <ScrollView
+        android:layout_below="@id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/boldGreyText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Departure Flight" />
+                <TextView
+                    android:id="@+id/tvChange"
+                    android:textColor="@color/color_primary"
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change" />
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/flightDesc"
+                layout="@layout/flight_small_desc"/>
+            <include
+                android:id="@+id/flightDetails"
+                layout="@layout/flight_details"/>
+            <include
+                android:visibility="gone"
+                android:id="@+id/flightShowDetails"
+                layout="@layout/flight_show_details"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/confirmLayout"
+        layout="@layout/confirm_ticket"/>
+
+
+</RelativeLayout>

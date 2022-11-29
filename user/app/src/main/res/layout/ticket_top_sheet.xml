@@ -88,7 +88,7 @@
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/swRoundTrip"
                 app:thumbTint="@color/color_primary"
-                app:trackTint="@color/smokey_500"
+                app:trackTint="@color/smokey_300"
                 android:buttonTint="@color/color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

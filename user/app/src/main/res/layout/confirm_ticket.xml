@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Price"
+        android:textColor="@color/text_grey_title"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_below="@id/textView"
+        android:text="Rp"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvPrice"
+        android:textColor="@color/color_primary"
+        android:textStyle="bold"
+        android:text="850.000"
+        android:paddingStart="5dp"
+        android:layout_toEndOf="@id/textView3"
+        android:layout_below="@id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textSize="12sp"
+        android:textColor="@color/smokey_500"
+        android:layout_below="@id/tvPrice"
+        android:text="including tax fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirm"
+        android:textAllCaps="false"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:elevation="4dp"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:paddingHorizontal="10dp"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

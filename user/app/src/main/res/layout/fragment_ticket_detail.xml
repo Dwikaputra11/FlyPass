@@ -63,7 +63,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvDepartCityDetail"
+        android:id="@+id/tvDepartCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -82,12 +82,12 @@
         android:text="(CGK)"
         android:textSize="16sp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDepartCityDetail"
-        app:layout_constraintStart_toEndOf="@+id/tvDepartCityDetail"
-        app:layout_constraintTop_toTopOf="@+id/tvDepartCityDetail" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvDepartCity"
+        app:layout_constraintStart_toEndOf="@+id/tvDepartCity"
+        app:layout_constraintTop_toTopOf="@+id/tvDepartCity" />
 
     <TextView
-        android:id="@+id/tvArriveCityDetail"
+        android:id="@+id/tvArriveCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -106,9 +106,9 @@
         android:text="(CGK)"
         android:textSize="16sp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/tvArriveCityDetail"
-        app:layout_constraintStart_toEndOf="@+id/tvArriveCityDetail"
-        app:layout_constraintTop_toTopOf="@+id/tvArriveCityDetail" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvArriveCity"
+        app:layout_constraintStart_toEndOf="@+id/tvArriveCity"
+        app:layout_constraintTop_toTopOf="@+id/tvArriveCity" />
 
     <TextView
         android:id="@+id/tvDepartAirportName"
@@ -117,8 +117,8 @@
         android:text="Soekarno-Hatta International Airport"
         android:textColor="@color/black"
         android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="@+id/tvDepartCityDetail"
-        app:layout_constraintTop_toBottomOf="@+id/tvDepartCityDetail" />
+        app:layout_constraintStart_toStartOf="@+id/tvDepartCity"
+        app:layout_constraintTop_toBottomOf="@+id/tvDepartCity" />
 
     <TextView
         android:id="@+id/tvDepartDate"
@@ -136,8 +136,8 @@
         android:text="Soekarno-Hatta International Airport"
         android:textColor="@color/black"
         android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="@+id/tvArriveCityDetail"
-        app:layout_constraintTop_toBottomOf="@+id/tvArriveCityDetail" />
+        app:layout_constraintStart_toStartOf="@+id/tvArriveCity"
+        app:layout_constraintTop_toBottomOf="@+id/tvArriveCity" />
 
     <TextView
         android:id="@+id/tvArrivalDate"
@@ -154,12 +154,12 @@
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintBottom_toTopOf="@+id/tvArriveCityDetail"
+        app:layout_constraintBottom_toTopOf="@+id/tvArriveCity"
         app:layout_constraintStart_toEndOf="@+id/verticalLine"
         app:layout_constraintTop_toBottomOf="@+id/tvDepartDate" />
 
     <TextView
-        android:id="@+id/tvAirplaneNameDetail"
+        android:id="@+id/tvAirplaneName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -171,14 +171,14 @@
         app:layout_constraintTop_toTopOf="@+id/airplaneLogo" />
 
     <TextView
-        android:id="@+id/tvFlightCodeDetail"
+        android:id="@+id/tvFlightCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GIA-4643"
         android:textColor="@color/black"
         android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="@+id/tvAirplaneNameDetail"
-        app:layout_constraintTop_toBottomOf="@+id/tvAirplaneNameDetail" />
+        app:layout_constraintStart_toStartOf="@+id/tvAirplaneName"
+        app:layout_constraintTop_toBottomOf="@+id/tvAirplaneName" />
 
     <TextView
         android:id="@+id/seatClass"
@@ -188,7 +188,7 @@
         android:text="Economy"
         android:textColor="@color/black"
         android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvFlightCodeDetail"
-        app:layout_constraintStart_toEndOf="@+id/tvFlightCodeDetail"
-        app:layout_constraintTop_toTopOf="@+id/tvFlightCodeDetail" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvFlightCode"
+        app:layout_constraintStart_toEndOf="@+id/tvFlightCode"
+        app:layout_constraintTop_toTopOf="@+id/tvFlightCode" />
 </androidx.constraintlayout.widget.ConstraintLayout>

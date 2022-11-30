@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +16,13 @@ import cthree.user.flypass.adapter.TicketListAdapter
 import cthree.user.flypass.data.DummyData
 import cthree.user.flypass.data.Ticket
 import cthree.user.flypass.databinding.FragmentTicketListBinding
+import cthree.user.flypass.databinding.FragmentTicketRoundTripListBinding
 
-private const val TAG = "TicketListFragment"
+private const val TAG = "TicketRoundTripListFragment"
 
-class TicketListFragment : Fragment() {
+class TicketRoundTripListFragment : Fragment() {
 
-    private lateinit var binding: FragmentTicketListBinding
+    private lateinit var binding: FragmentTicketRoundTripListBinding
     private lateinit var topSheetBehavior: TopSheetBehavior<View>
     private var isRoundTrip = true;
     private var singleDepart = "Jakarta"
@@ -42,7 +42,7 @@ class TicketListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTicketListBinding.inflate(layoutInflater, container, false)
+        binding = FragmentTicketRoundTripListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -50,6 +50,7 @@ class TicketListFragment : Fragment() {
         setToolbar()
         setTopSheetDialog()
         setAdapter()
+        roundTrip()
     }
 
     private fun setToolbar(){
@@ -92,10 +93,11 @@ class TicketListFragment : Fragment() {
         }
     }
 
+
     private fun setAdapter(){
         binding.rvTicketList.adapter = adapter
         binding.rvTicketList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        adapter.submitList(DummyData.firstTicketList)
+        adapter.submitList(DummyData.secondTicketList)
         adapter.setOnItemClickListener(object : TicketListAdapter.OnItemClickListener{
             override fun onItemClick(view: View, ticket: Ticket) {
                 when(view.id){
@@ -105,14 +107,17 @@ class TicketListFragment : Fragment() {
                     }
                     R.id.container ->{
                         Log.d(TAG, "onItemClick: CardView Clicked")
-                        if(isRoundTrip){
-                            Navigation.findNavController(binding.root).navigate(R.id.action_ticketListFragment_to_ticketRoundTripListFragment)
-                        }else{
-                            Navigation.findNavController(binding.root).navigate(R.id.action_ticketListFragment_to_flightConfirmationFragment)
-                        }
+                        Navigation.findNavController(binding.root).navigate(R.id.action_ticketRoundTripListFragment_to_flightConfirmationFragment)
                     }
                 }
             }
         })
+    }
+
+    private fun roundTrip(){
+        binding.toolbarLayout.tvFrom.text           = roundDepart
+        binding.toolbarLayout.tvTo.text             = roundArrive
+        binding.toolbarLayout.tvDate.text           = roundDepartDate
+        binding.toolbarLayout.tvSeatClass.text      = seatClass
     }
 }

@@ -33,8 +33,8 @@ class TicketDetailFragment(val ticket: Ticket) : BottomSheetDialogFragment() {
     private fun setViews() {
         binding.aitaDepartAirport.text = ticket.aitaDeparture
         binding.aitaArriveAirport.text = ticket.aitaArrival
-//        binding.flightCode.text = ticket.flightCode
-//        binding.tvAirplaneName.text = ticket.airplaneName
+        binding.tvFlightCode.text = ticket.flightCode
+        binding.tvAirplaneName.text = ticket.airplaneName
         binding.seatClass.text = ticket.seatClass
         binding.tvArriveTime.text = ticket.arrivalTime
         binding.tvDepartTime.text = ticket.departureTime

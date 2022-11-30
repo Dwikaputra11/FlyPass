@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -190,24 +190,19 @@
         app:layout_constraintStart_toEndOf="@+id/tvFlightCode"
         app:layout_constraintTop_toTopOf="@+id/tvFlightCode" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbShowMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Show More "
+        android:button="@drawable/show_more_arrow_state"
+        android:buttonTint="@color/color_primary"
+        android:layoutDirection="rtl"
+        android:text="Show More"
         android:textColor="@color/color_primary"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/tvArriveTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvArriveCity"
         app:layout_constraintTop_toBottomOf="@+id/tvArrivalDate" />
-
-    <ImageView
-        android:id="@+id/ivDropDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:src="@drawable/ic_round_keyboard_arrow_down_15"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

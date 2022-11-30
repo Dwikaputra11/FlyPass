@@ -31,7 +31,7 @@ class TicketListAdapter(private val ticketList: ArrayList<Ticket>): RecyclerView
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.aitaArriveAirport.text = ticketList[position].aitaArrival
         holder.binding.aitaDepartAirport.text = ticketList[position].aitaDeparture
-        holder.binding.tvAirplaneName.text = ticketList[position].airplaneName
+//        holder.binding.tvAirplaneName.text = ticketList[position].airplaneName
         holder.binding.tvArriveTime.text = ticketList[position].arrivalTime
         holder.binding.tvDepartTime.text = ticketList[position].departureTime
         holder.binding.tvDuration.text = ticketList[position].duration.toString()

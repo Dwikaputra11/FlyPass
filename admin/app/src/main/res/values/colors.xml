@@ -8,6 +8,8 @@
     <color name="text_grey_desc">#A8A8A8</color>
     <color name="green_button">#57C24E</color>
     <color name="red_button">#E31313</color>
+    <color name="green_500">#57C24E</color>
+    <color name="red_500">#E31313</color>
     <color name="screen_background">#EFEFEF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

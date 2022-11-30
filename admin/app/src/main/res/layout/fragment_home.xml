@@ -1,76 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FCFCFC"
-    android:orientation="vertical"
-    tools:context=".ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_home"
+    tools:context=".HomeFragment">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Admin"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="40dp"
         android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="Welcome Admin"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:fontFamily="@font/poppins_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_user_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="26dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
         android:layout_marginStart="26dp"
-        android:text="User Account"
-        android:textColor="@color/black"
-        android:padding="18dp"/>
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView">
 
-    <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_user"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Account"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="70dp"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_refund_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
-        android:text="User Account"
-        android:textColor="@color/black"
-        android:padding="18dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_user_account">
 
-    <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_refund"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refund Status"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="70dp"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_ticket_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
-        android:text="User Account"
-        android:textColor="@color/black"
-        android:padding="18dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_refund_status">
 
-    <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_ticket"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ticket List"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="70dp"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_add_ticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
-        android:text="User Account"
-        android:textColor="@color/black"
-        android:padding="18dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_ticket_list">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_add_ticket"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Ticket"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="70dp"
+                android:fontFamily="@font/poppins_regular"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogin"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginStart="26dp"
-        android:text="User Account"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white"
-        android:background="@drawable/btn_rounded"
-        android:padding="18dp"/>
+        android:layout_height="70dp"
+        android:layout_marginTop="144dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginEnd="85dp"
+        android:text="Login"
+        android:fontFamily="@font/poppins_regular"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:backgroundTint="@color/color_primary"
+        app:cornerRadius="10dp"
+        app:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_ticket"
+        app:rippleColor="@color/color_primary" />
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

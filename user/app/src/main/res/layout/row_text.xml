@@ -3,16 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.UsernameEditFragment"
-    android:padding="20dp"
-    android:orientation="vertical">
+    android:padding="15dp">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Username"
-        android:textSize="14sp"
-        android:textColor="#555050"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textSize="16sp"
+        android:textColor="#7A000000"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,"/>
 </LinearLayout>

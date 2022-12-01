@@ -7,6 +7,7 @@
     tools:context=".ui.intro.OnBoardingFragment">
 
     <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpOnBoard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"

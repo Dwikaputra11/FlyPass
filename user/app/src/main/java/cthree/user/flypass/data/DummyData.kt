@@ -1,5 +1,7 @@
 package cthree.user.flypass.data
 
+import cthree.user.flypass.R
+
 object DummyData {
     val firstTicketList = arrayListOf(
         Ticket(
@@ -169,5 +171,23 @@ object DummyData {
             seatClass = "Economy",
             flightCode = "GIA-1272",
         ),
+    )
+
+    val onBoardingItem = listOf(
+        OnBoarding(
+            R.drawable.ic_on_boarding_1,
+            "Anytime &amp; Anywhere",
+            "Pesan tiketmu kapanpun dan dimanapun kamu berada."
+        ),
+        OnBoarding(
+            R.drawable.ic_on_boarding_1,
+            "Anytime &amp; Anywhere",
+            "Pesan tiketmu kapanpun dan dimanapun kamu berada."
+        ),
+        OnBoarding(
+            R.drawable.ic_on_boarding_1,
+            "Anytime &amp; Anywhere",
+            "Pesan tiketmu kapanpun dan dimanapun kamu berada."
+        )
     )
 }

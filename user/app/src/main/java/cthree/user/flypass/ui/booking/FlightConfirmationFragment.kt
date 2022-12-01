@@ -32,6 +32,7 @@ class FlightConfirmationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupToolbar()
         binding.flightDetails.cbShowMore.setOnClickListener {
+            binding.flightDetails.cbShowMore.text = if(binding.flightDetails.cbShowMore.isChecked) "Show Less" else "Show More"
             binding.flightShowDetails.root.isVisible = binding.flightDetails.cbShowMore.isChecked
         }
         binding.confirmLayout.btnConfirm.setOnClickListener {

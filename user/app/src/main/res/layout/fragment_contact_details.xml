@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.booking.ContactDetailsFragment">
 
@@ -23,12 +24,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <RadioGroup
+            android:id="@+id/rgTitle"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton
                 android:id="@+id/rbMr"
                 android:layout_weight="1"
+                android:checked="true"
+                android:buttonTint="@color/color_primary"
                 android:text="Tuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -36,12 +40,14 @@
                 android:id="@+id/rbMrs"
                 android:layout_weight="1"
                 android:text="Nyonya"
+                android:buttonTint="@color/color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <RadioButton
                 android:id="@+id/rbMiss"
                 android:layout_weight="1"
                 android:text="Nona"
+                android:buttonTint="@color/color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RadioGroup>
@@ -53,6 +59,7 @@
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
         <EditText
             android:id="@+id/etName"
             android:hint="ex. Rangga Laksana"
@@ -106,6 +113,7 @@
         android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/radius_10dp"
+        app:backgroundTint="@color/color_primary"
         android:textSize="16sp"
         android:drawablePadding="10dp"
         android:layout_width="match_parent"

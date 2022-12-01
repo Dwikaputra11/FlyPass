@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_baseline_home_24"
+        app:showAsAction="withText"
+        android:title="Home"/>
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/ic_baseline_list_alt_24"
+        android:title="My Booking"/>
+    <item
+        app:showAsAction="withText"
+        android:title="Wishlist"
+        android:icon="@drawable/ic_round_bookmark_add_24"/>
+    <item
+        app:showAsAction="withText"
+        android:icon="@drawable/ic_baseline_person_pin_24"
+        android:title="Profile"/>
+
+</menu>

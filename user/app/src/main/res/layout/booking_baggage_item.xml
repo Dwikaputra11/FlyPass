@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvTraveler"
+        android:text="Adult 1"
+        android:textColor="@color/smokey_700"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/baggageWeight"
+        android:drawablePadding="10dp"
+        android:text="20"
+        android:textColor="@color/smokey_700"
+        android:layout_toStartOf="@id/tvKg"
+        android:paddingHorizontal="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:drawableStartCompat="@drawable/ic_baseline_luggage_20" />
+    <TextView
+        android:id="@+id/tvKg"
+        android:text="Kg"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

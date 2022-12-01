@@ -1,13 +1,27 @@
 package cthree.user.flypass.ui.booking
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import cthree.user.flypass.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import cthree.user.flypass.adapter.AddBaggageAdapter
+import cthree.user.flypass.data.Baggage
+import cthree.user.flypass.databinding.FragmentBaggageBinding
 
-class BaggageFragment : Fragment() {
+class BaggageFragment : BottomSheetDialogFragment() {
+
+    private lateinit var binding: FragmentBaggageBinding
+    private lateinit var listener: OnClickListener
+
+    interface OnClickListener{
+        fun onClick(baggageList: List<Baggage>)
+    }
+
+    fun setOnClickListener(listener: OnClickListener){
+        this.listener = listener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,7 +30,22 @@ class BaggageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_baggage, container, false)
+    ): View {
+        binding = FragmentBaggageBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = AddBaggageAdapter()
+        binding.rvBaggageTraveler.adapter = adapter
+        binding.rvBaggageTraveler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        binding.btnSave.setOnClickListener {
+            listener.onClick(adapter.getTravelerBaggage())
+            dismiss()
+        }
+        binding.toolbarLayout.ivClose.setOnClickListener {
+            dismiss()
+        }
     }
 }

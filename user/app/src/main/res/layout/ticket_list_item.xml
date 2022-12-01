@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp"
@@ -150,7 +151,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
-            android:id="@+id/tvAirplaneNameDetail"
+            android:id="@+id/tvAirplaneName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -173,9 +174,9 @@
             android:textSize="10dp"
             android:minHeight="0dp"
             android:minWidth="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvAirplaneNameDetail"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAirplaneName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvAirplaneNameDetail" />
+            app:layout_constraintTop_toTopOf="@+id/tvAirplaneName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

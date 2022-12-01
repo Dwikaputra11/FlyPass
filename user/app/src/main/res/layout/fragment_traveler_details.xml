@@ -24,12 +24,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <RadioGroup
+            android:id="@+id/rgTitle"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton
                 android:id="@+id/rbMr"
                 android:layout_weight="1"
+                android:checked="true"
+                android:buttonTint="@color/color_primary"
                 android:text="Tuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -37,12 +40,14 @@
                 android:id="@+id/rbMrs"
                 android:layout_weight="1"
                 android:text="Nyonya"
+                android:buttonTint="@color/color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <RadioButton
                 android:id="@+id/rbMiss"
                 android:layout_weight="1"
                 android:text="Nona"
+                android:buttonTint="@color/color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RadioGroup>
@@ -86,7 +91,8 @@
             android:drawableEnd="@drawable/ic_round_calendar_today_24"
             android:drawableTint="@color/smokey_500"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:focusable="false" />
         <TextView
             android:layout_marginTop="10dp"
             android:id="@+id/textView5"
@@ -109,6 +115,7 @@
         android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/radius_10dp"
+        app:backgroundTint="@color/color_primary"
         android:textSize="16sp"
         app:elevation="4dp"
         android:drawablePadding="10dp"

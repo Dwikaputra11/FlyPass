@@ -1,4 +1,4 @@
-package cthree.user.flypass.ui.profile
+package cthree.user.flypass.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.FragmentSearchAirportBinding
 
-class ProfileAccountInfoFragment : Fragment() {
+class SearchAirportFragment : Fragment() {
+
+    private lateinit var binding: FragmentSearchAirportBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,9 +19,8 @@ class ProfileAccountInfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_account_info, container, false)
+    ): View? {
+        binding = FragmentSearchAirportBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
-
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,9 +8,8 @@
     android:background="?android:colorPrimary"
     android:orientation="vertical">
     <include
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        layout="@layout/toolbar_general" />
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_home" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -134,9 +132,11 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
                         <EditText
+                            android:focusable="false"
+                            android:id="@+id/etFromAirport"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_round_flight_takeoff_24"
+                            android:drawableStart="@drawable/ic_round_flight_takeoff_24"
                             android:hint="Pilih Kota"
                             android:drawablePadding="15dp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -151,9 +151,11 @@
                         android:text="To"
                         android:layout_marginTop="15dp"/>
                     <EditText
+                        android:focusable="false"
+                        android:id="@+id/etToAirport"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_round_flight_takeoff_24"
+                        android:drawableStart="@drawable/ic_round_flight_takeoff_24"
                         android:hint="Pilih Kota"
                         android:drawablePadding="15dp"/>
                     <TextView

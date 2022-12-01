@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.intro.JoinMemberFragment"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="188dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/champion_1" />
+
+    <TextView
+        android:id="@+id/tvBenefit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minLines="2"
+        android:text="Dapatkan benefit menjadi member"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.158" />
+
+    <TextView
+        android:id="@+id/tvBenefit2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Pesan tiketmu kapanpun dan dimanapun kamu berada."
+        android:textAlignment="center"
+        android:textColor="@color/text_grey_desc"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvBenefit1"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="@+id/tvBenefit1"
+        app:layout_constraintTop_toBottomOf="@+id/tvBenefit1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogin"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="Login"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/color_primary"
+        app:cornerRadius="8dp"
+        app:elevation="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBenefit2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegister"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:text="Register"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/color_primary"
+        app:cornerRadius="8dp"
+        app:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintStart_toEndOf="@+id/btnLogin"
+        app:layout_constraintTop_toTopOf="@+id/btnLogin" />
+
+    <LinearLayout
+        android:id="@+id/requestDivider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin">
+
+        <View
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_grey_desc" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="OR"
+            android:textColor="@color/text_grey_desc"
+            android:textStyle="normal" />
+
+        <View
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:background="@color/text_grey_desc" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNanti"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="Nanti Saja"
+        android:textColor="@color/color_primary"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="8dp"
+        app:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/requestDivider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/requestDivider"
+        app:layout_constraintTop_toBottomOf="@+id/requestDivider"
+        app:strokeColor="@color/smokey_500"
+        app:strokeWidth="1dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

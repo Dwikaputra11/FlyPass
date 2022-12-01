@@ -29,6 +29,15 @@ class HomeFragment : Fragment() {
         binding.btnSearch.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_ticketListFragment)
         }
+
+        binding.etFromAirport.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_searchAirportFragment)
+        }
+
+        binding.etToAirport.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_searchAirportFragment)
+        }
+
     }
 
 }

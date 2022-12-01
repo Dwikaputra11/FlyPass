@@ -4,34 +4,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.models.flight.FlightList
+import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class FlightViewModel : ViewModel() {
+@HiltViewModel
+class FlightViewModel @Inject constructor() : ViewModel() {
 
-    lateinit var liveDataFlight : MutableLiveData<List<Flight>?>
-    lateinit var searchFlight : MutableLiveData<List<Flight>>
+    private val liveDataFlight : MutableLiveData<FlightList?> = MutableLiveData()
+    private val searchFlight : MutableLiveData<FlightList?> = MutableLiveData()
 
-    init {
-        liveDataFlight = MutableLiveData()
-        searchFlight = MutableLiveData()
-    }
-
-    fun getLiveDataFlights() : MutableLiveData<List<Flight>?>{
+    fun getLiveDataFlights() : MutableLiveData<FlightList?>{
         return liveDataFlight
     }
 
-    fun getSearchFlights() : MutableLiveData<List<Flight>>{
+    fun getSearchFlights() : MutableLiveData<FlightList?>{
         return searchFlight
     }
 
     fun callApiFlight(){
         APIClient.instance.apiServiceFlight()
-            .enqueue(object : Callback<List<Flight>> {
+            .enqueue(object : Callback<FlightList> {
                 override fun onResponse(
-                    call: Call<List<Flight>>,
-                    response: Response<List<Flight>>
+                    call: Call<FlightList>,
+                    response: Response<FlightList>
                 ) {
                     if (response.isSuccessful){
                         liveDataFlight.postValue(response.body())
@@ -40,18 +39,18 @@ class FlightViewModel : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<List<Flight>>, t: Throwable) {
+                override fun onFailure(call: Call<FlightList>, t: Throwable) {
                     liveDataFlight.postValue(null)
                 }
             })
     }
 
-    fun callSeacrhFlight(depDate: String, depAirport: String, arrAirport: String){
+    fun callSearchFlight(depDate: String, depAirport: String, arrAirport: String){
         APIClient.instance.flightSearch(depDate, depAirport, arrAirport)
-            .enqueue(object : Callback<List<Flight>> {
+            .enqueue(object : Callback<FlightList> {
                 override fun onResponse(
-                    call: Call<List<Flight>>,
-                    response: Response<List<Flight>>
+                    call: Call<FlightList>,
+                    response: Response<FlightList>
                 ) {
                     if (response.isSuccessful){
                         liveDataFlight.postValue(response.body())
@@ -60,7 +59,7 @@ class FlightViewModel : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<List<Flight>>, t: Throwable) {
+                override fun onFailure(call: Call<FlightList>, t: Throwable) {
                     liveDataFlight.postValue(null)
                 }
             })

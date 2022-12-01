@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_ticketListFragment_to_ticketRoundTripListFragment"
             app:destination="@id/ticketRoundTripListFragment" />
+        <action
+            android:id="@+id/action_ticketListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/flightConfirmationFragment"
@@ -48,7 +51,11 @@
         android:id="@+id/bookingCompleteFragment"
         android:name="cthree.user.flypass.ui.booking.BookingCompleteFragment"
         android:label="fragment_booking_complete"
-        tools:layout="@layout/fragment_booking_complete" />
+        tools:layout="@layout/fragment_booking_complete" >
+        <action
+            android:id="@+id/action_bookingCompleteFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ticketRoundTripListFragment"
         android:name="cthree.user.flypass.ui.ticket.TicketRoundTripListFragment"
@@ -57,6 +64,9 @@
         <action
             android:id="@+id/action_ticketRoundTripListFragment_to_flightConfirmationFragment"
             app:destination="@id/flightConfirmationFragment" />
+        <action
+            android:id="@+id/action_ticketRoundTripListFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"

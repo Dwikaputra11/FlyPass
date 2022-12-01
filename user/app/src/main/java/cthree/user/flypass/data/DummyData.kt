@@ -190,4 +190,16 @@ object DummyData {
             "Pesan tiketmu kapanpun dan dimanapun kamu berada."
         )
     )
+
+    val highlightTopicItem = listOf(
+        HighlightTopic(
+            "Highlight 1"
+        ),
+        HighlightTopic(
+            "Highlight 2"
+        ),
+        HighlightTopic(
+            "Highlight 3"
+        ),
+    )
 }

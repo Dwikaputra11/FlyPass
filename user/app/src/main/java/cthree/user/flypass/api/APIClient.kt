@@ -15,13 +15,13 @@ object APIClient {
         .addInterceptor(logging)
         .build()
 
-    val instance : APIInterface by lazy {
+    val instance : ApiService by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
-        retrofit.create(APIInterface::class.java)
+        retrofit.create(ApiService::class.java)
     }
 
 }

@@ -4,29 +4,30 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.models.airport.Airport
+import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.flight.Flight
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class AirportViewModel : ViewModel() {
+@HiltViewModel
+class AirportViewModel @Inject constructor(): ViewModel() {
 
-    lateinit var liveDataAirport : MutableLiveData<List<Airport>?>
+    private val liveDataAirport : MutableLiveData<AirportList?> = MutableLiveData()
 
-    init {
-        liveDataAirport = MutableLiveData()
-    }
-
-    fun getLiveDataAirports() : MutableLiveData<List<Airport>?>{
+    fun getLiveDataAirports() : MutableLiveData<AirportList?>{
         return liveDataAirport
     }
 
     fun callApiAirport(){
         APIClient.instance.apiServiceAirport()
-            .enqueue(object : Callback<List<Airport>> {
+            .enqueue(object : Callback<AirportList?> {
                 override fun onResponse(
-                    call: Call<List<Airport>>,
-                    response: Response<List<Airport>>
+                    call: Call<AirportList?>,
+                    response: Response<AirportList?>
                 ) {
                     if (response.isSuccessful){
                         liveDataAirport.postValue(response.body())
@@ -35,7 +36,7 @@ class AirportViewModel : ViewModel() {
                     }
                 }
 
-                override fun onFailure(call: Call<List<Airport>>, t: Throwable) {
+                override fun onFailure(call: Call<AirportList?>, t: Throwable) {
                     liveDataAirport.postValue(null)
                 }
             })

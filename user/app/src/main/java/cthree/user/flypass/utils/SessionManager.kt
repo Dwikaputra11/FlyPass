@@ -15,6 +15,13 @@ class SessionManager(
         editor.apply()
     }
 
+    fun setIsFirstInstall(){
+        editor.putBoolean(Constants.IS_FIRST_INSTALL, true)
+        editor.apply()
+    }
+
+    fun getIsFirstInstall(): Boolean = prefs.getBoolean(Constants.IS_FIRST_INSTALL, false)
+
     fun getPassenger(): Int = prefs.getInt(Constants.PASSENGER_AMOUNT, 2)
 
 }

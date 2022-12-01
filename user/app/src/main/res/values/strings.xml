@@ -1,10 +1,4 @@
 <resources>
     <string name="app_name">FlyPass</string>
     <string name="hello_blank_fragment">Hello Blank Fragment</string>
-    <string-array name="baggage_list">
-        <item>20kg - Free</item>
-        <item>20kg + 5kg - Rp 150.000</item>
-        <item>20kg + 10kg - Rp 250.000</item>
-        <item>20kg + 20kg - Rp 300.000</item>
-    </string-array>
 </resources>

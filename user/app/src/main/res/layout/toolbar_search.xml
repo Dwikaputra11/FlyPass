@@ -3,19 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:menu="@menu/home_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <ImageView
-            android:layout_gravity="center_vertical"
-            android:paddingHorizontal="10dp"
-            android:src="@drawable/logo_toolbar"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            app:iconifiedByDefault="false"
+            app:searchIcon="@null"
+            android:layout_marginStart="?actionBarSize"
+            android:layout_marginEnd="?actionBarSize"
+            android:background="@drawable/radius_10dp"
+            android:backgroundTint="@color/white"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </FrameLayout>
 

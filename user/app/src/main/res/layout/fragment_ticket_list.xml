@@ -1,60 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/screen_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ticket.TicketListFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginTop="?actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTicketList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <View
-        android:id="@+id/topSheetBg"
-        android:visibility="gone"
-        android:layout_marginTop="?actionBarSize"
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000"
-        />
+        android:text="@string/hello_blank_fragment" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <include
-            android:id="@+id/toolbarLayout"
-            layout="@layout/ticket_toolbar"/>
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/top_sheet_behavior"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <include
-                android:id="@+id/topSheetContainer"
-                layout="@layout/ticket_top_sheet"
-                app:layout_anchor="@id/toolbarLayout"
-                app:layout_anchorGravity="bottom" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.TermsConditionsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#555050"
+            android:text="1. About Conditions &amp; Terms"/>
+        <TextView
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            android:textColor="#7A000000"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit"/>
+        <TextView
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#555050"
+            android:text="2. About Our Services"/>
+        <TextView
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="16sp"
+            android:textColor="#7A000000"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit"/>
+    </LinearLayout>
 
-</FrameLayout>
+</ScrollView>

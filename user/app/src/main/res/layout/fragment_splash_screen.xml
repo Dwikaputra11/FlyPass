@@ -1,38 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_primary"
-    tools:context=".ui.intro.SplashScreenFragment" >
+    tools:context=".ui.intro.SplashScreenFragment">
 
-    <ImageView
-        android:id="@+id/ivSplashLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_flypass"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.50" />
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
 
-    <com.agrawalsuneet.dotsloader.loaders.LazyLoader
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:lazyloader_animDur="800"
-        app:lazyloader_dotsDist="10dp"
-        app:lazyloader_dotsRadius="8dp"
-        app:lazyloader_firstDelayDur="150"
-        app:lazyloader_firstDotColor="@color/white"
-        app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
-        app:lazyloader_secondDelayDur="300"
-        app:lazyloader_secondDotColor="@color/white"
-        app:lazyloader_thirdDotColor="@color/white" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

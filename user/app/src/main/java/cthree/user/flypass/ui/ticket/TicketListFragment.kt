@@ -58,7 +58,7 @@ class TicketListFragment : Fragment() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
-            Log.d(TAG, "setToolbar: Clicked")
+            Navigation.findNavController(binding.root).popBackStack()
         }
     }
 

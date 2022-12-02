@@ -6,6 +6,10 @@ object Constants {
 
     // Navigation Argument
     const val FLIGHT_DIR = "flight_dir"
+    const val DEPART_DATE = "depDate"
+    const val ARRIVE_DATE = "arrDate"
+    const val DEP_AIRPORT = "depAirport"
+    const val ARR_AIRPORT = "arrAirport"
 
     // Shared Preferences
     const val PREF_NAME = "shared_pref"

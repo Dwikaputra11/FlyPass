@@ -3,11 +3,13 @@ package cthree.user.flypass.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cthree.user.flypass.databinding.AirportSearchItemBinding
 import cthree.user.flypass.models.airport.Airport
 
-class AirportSearchAdapter(private val list: List<Airport>): RecyclerView.Adapter<AirportSearchAdapter.ViewHolder>() {
+class AirportSearchAdapter(): RecyclerView.Adapter<AirportSearchAdapter.ViewHolder>() {
 
     private lateinit var listener: OnItemClickListener
 
@@ -19,10 +21,22 @@ class AirportSearchAdapter(private val list: List<Airport>): RecyclerView.Adapte
         this.listener = listener
     }
 
+    private val diffCallback = object : DiffUtil.ItemCallback<Airport>(){
+        override fun areItemsTheSame(oldItem: Airport, newItem: Airport): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Airport, newItem: Airport): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+    }
+
+    private val differ = AsyncListDiffer(this, diffCallback)
+
     inner class ViewHolder(val binding: AirportSearchItemBinding): RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                listener.onItemClick(list[absoluteAdapterPosition])
+                listener.onItemClick(differ.currentList[absoluteAdapterPosition])
             }
         }
     }
@@ -34,12 +48,14 @@ class AirportSearchAdapter(private val list: List<Airport>): RecyclerView.Adapte
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val airport = list[position]
+        val airport = differ.currentList[position]
         holder.binding.tvAirportLocation.text = "${airport.city}, ${airport.country}"
         holder.binding.tvAirportName.text = "${airport.name} (${airport.iata})"
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return differ.currentList.size
     }
+
+    fun submitList(list: List<Airport>) = differ.submitList(list)
 }

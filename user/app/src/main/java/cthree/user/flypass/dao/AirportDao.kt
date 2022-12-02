@@ -10,13 +10,13 @@ interface AirportDao {
     @Insert
     fun insertAirport(airport: List<Airport>)
 
-    @Query("SELECT * FROM Airport")
+    @Query("SELECT * FROM airports")
     fun getAllAirport() : LiveData<List<Airport>>
 
-    @Query("SELECT * FROM Airport WHERE city LIKE :query OR name LIKE :query OR country LIKE :query")
+    @Query("SELECT * FROM airports WHERE city LIKE :query OR name LIKE :query OR country LIKE :query LIMIT 4")
     fun searchAirport(query: String): LiveData<List<Airport>>
 
-    @Query("DELETE FROM Airport")
+    @Query("DELETE FROM airports")
     fun deleteAllAirport()
 
     @Delete

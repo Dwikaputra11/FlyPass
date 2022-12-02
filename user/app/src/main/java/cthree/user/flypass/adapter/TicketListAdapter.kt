@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cthree.user.flypass.data.Ticket
 import cthree.user.flypass.databinding.TicketListItemBinding
+import cthree.user.flypass.models.flight.Flight
 
 class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() {
     private lateinit var listener: OnItemClickListener
     interface OnItemClickListener{
-        fun onItemClick(view: View, ticket: Ticket)
+        fun onItemClick(view: View, ticket: Flight)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){
@@ -29,12 +29,12 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
         }
     }
 
-    private var diffCallback = object : DiffUtil.ItemCallback<Ticket>() {
-        override fun areItemsTheSame(oldItem: Ticket, newItem: Ticket): Boolean {
-            return oldItem.seatClass == newItem.seatClass
+    private var diffCallback = object : DiffUtil.ItemCallback<Flight>() {
+        override fun areItemsTheSame(oldItem: Flight, newItem: Flight): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Ticket, newItem: Ticket): Boolean {
+        override fun areContentsTheSame(oldItem: Flight, newItem: Flight): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
@@ -48,13 +48,13 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ticket = differ.currentList[position]
-        holder.binding.aitaArriveAirport.text = ticket.aitaArrival
-        holder.binding.aitaDepartAirport.text = ticket.aitaDeparture
-        holder.binding.tvAirplaneName.text = ticket.airplaneName
+        holder.binding.aitaArriveAirport.text = ticket.arrivalAirport.iata
+        holder.binding.aitaDepartAirport.text = ticket.departureAirport.iata
+        holder.binding.tvAirplaneName.text = ticket.airline.name
         holder.binding.tvArriveTime.text = ticket.arrivalTime
         holder.binding.tvDepartTime.text = ticket.departureTime
-        holder.binding.tvDuration.text = ticket.duration.toString()
-        holder.binding.tvSeatClass.text = ticket.seatClass
+        holder.binding.tvDuration.text = ticket.duration
+        holder.binding.tvSeatClass.text = ticket.flightClass.name
         holder.binding.tvTicketPrice.text = ticket.price.toString()
     }
 
@@ -62,7 +62,7 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
         return differ.currentList.size
     }
 
-    fun submitList(ticketList: List<Ticket>) = differ.submitList(ticketList)
+    fun submitList(ticketList: List<Flight>) = differ.submitList(ticketList)
 
     fun cleanList() = differ.currentList.clear()
 }

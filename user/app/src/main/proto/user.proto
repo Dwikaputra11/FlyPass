@@ -11,9 +11,16 @@ message UserProto {
   string departAirportCountry = 4;
   string departAirportName = 5;
 
-  int32 ArriveAirportId = 6;
-  string ArriveAirportCity = 7;
-  string ArriveAirportIata = 8;
-  string ArriveAirportCountry = 9;
-  string ArriveAirportName = 10;
+  int32 arriveAirportId = 6;
+  string arriveAirportCity = 7;
+  string arriveAirportIata = 8;
+  string arriveAirportCountry = 9;
+  string arriveAirportName = 10;
+
+  int32 id = 11;
+  string email = 12;
+  string image = 13;
+  string name = 14;
+  string phone = 15;
+  int32 roleId = 16;
 }

@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import cthree.user.flypass.UserProto
 import cthree.user.flypass.models.airport.Airport
+import cthree.user.flypass.models.user.Profile
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import java.io.IOException
@@ -24,7 +25,34 @@ class UserPreferenceRepository(private val context: Context) {
     }
 
     // save data to data store proto
-    suspend fun saveDataAirportArrive(airport: Airport) {
+    suspend fun saveDataUser(profile: Profile){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setEmail(profile.email).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setId(profile.id).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setImage(profile.image).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setName(profile.name).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setPhone(profile.phone).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setRoleId(profile.roleId).build()
+        }
+    }
+
+    suspend fun saveDataUserId(id: Int){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setId(id).build()
+        }
+    }
+
+    suspend fun saveDataAirportDepartArrive(airport: Airport) {
         //Depart
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setDepartAirportCity(airport.city).build()
@@ -66,7 +94,7 @@ class UserPreferenceRepository(private val context: Context) {
 
     }
 
-    suspend fun clearDataDepartArrival(){
+    suspend fun clearDataDepartArrive(){
         //Depart
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().clearDepartAirportCity().build()

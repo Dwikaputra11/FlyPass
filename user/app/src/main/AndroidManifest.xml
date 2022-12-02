@@ -25,6 +25,21 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- disable default -->
+            <meta-data
+                android:name="cthree.user.flypass.ContextProvider"
+                android:value="androidx.startup"
+                />
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="@string/androidx_startup"
+                tools:node="remove" />
+        </provider>
     </application>
 
 </manifest>

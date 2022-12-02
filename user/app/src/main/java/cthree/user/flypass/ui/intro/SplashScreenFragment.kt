@@ -11,15 +11,18 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentSplashScreenBinding
+import cthree.user.flypass.utils.SessionManager
 
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashScreenBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(

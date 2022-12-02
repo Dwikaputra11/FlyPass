@@ -1,35 +1,33 @@
 package cthree.user.flypass.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.models.airport.Airport
-import cthree.user.flypass.repositories.AirportRepository
-import kotlinx.coroutines.launch
+import cthree.user.flypass.models.airport.AirportList
+import cthree.user.flypass.models.flight.Flight
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ViewModelScoped
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class AirportViewModel (private val airportRepository: AirportRepository): ViewModel() {
+@HiltViewModel
+class AirportViewModel @Inject constructor(): ViewModel() {
 
-    lateinit var liveDataAirport : MutableLiveData<List<Airport>?>
+    private val liveDataAirport : MutableLiveData<AirportList?> = MutableLiveData()
 
-    init {
-        liveDataAirport = MutableLiveData()
-    }
-
-    fun getLiveDataAirports() : MutableLiveData<List<Airport>?>{
+    fun getLiveDataAirports() : MutableLiveData<AirportList?>{
         return liveDataAirport
     }
 
     fun callApiAirport(){
         APIClient.instance.apiServiceAirport()
-            .enqueue(object : Callback<List<Airport>> {
+            .enqueue(object : Callback<AirportList?> {
                 override fun onResponse(
-                    call: Call<List<Airport>>,
-                    response: Response<List<Airport>>
+                    call: Call<AirportList?>,
+                    response: Response<AirportList?>
                 ) {
                     if (response.isSuccessful){
                         liveDataAirport.postValue(response.body())
@@ -38,37 +36,10 @@ class AirportViewModel (private val airportRepository: AirportRepository): ViewM
                     }
                 }
 
-                override fun onFailure(call: Call<List<Airport>>, t: Throwable) {
+                override fun onFailure(call: Call<AirportList?>, t: Throwable) {
                     liveDataAirport.postValue(null)
                 }
             })
     }
 
-    fun getAllAirportFromDB(): LiveData<List<Airport>> {
-        return airportRepository.getAllAirport()
-    }
-
-    fun insertAirportFromDB(airport: List<Airport>) {
-        viewModelScope.launch{
-            airportRepository.insertAirport(airport)
-        }
-    }
-
-    fun deleteAllAirportFromDB(){
-        viewModelScope.launch {
-            airportRepository.deleteAllAirport()
-        }
-    }
-
-    fun deleteSingleAirportFromDB(airport: Airport){
-        viewModelScope.launch {
-            airportRepository.deleteSingleAirport(airport)
-        }
-    }
-
-    fun updateAirportFromDB(airport: Airport){
-        viewModelScope.launch {
-            airportRepository.updateAirport(airport)
-        }
-    }
 }

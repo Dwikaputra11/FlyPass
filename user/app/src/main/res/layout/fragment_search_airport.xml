@@ -16,6 +16,7 @@
         layout="@layout/exist_airport_list_layout"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSearchResult"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

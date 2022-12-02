@@ -7,4 +7,6 @@
         <item>20kg + 10kg - Rp 250.000</item>
         <item>20kg + 20kg - Rp 300.000</item>
     </string-array>
+    <string name="title_on_boarding_1">"Anytime &amp; Anywhere"</string>
+
 </resources>

@@ -6,6 +6,9 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import cthree.user.flypass.api.ApiService
+import cthree.user.flypass.dao.AirportDao
+import cthree.user.flypass.db.MyDatabase
+import cthree.user.flypass.models.airport.Airport
 import cthree.user.flypass.models.airport.AirportList
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -20,13 +23,20 @@ class AirportWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val apiService: ApiService,
+    private val airportDao: AirportDao,
 ): CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         return try {
             apiService.apiServiceAirport().enqueue(object : Callback<AirportList> {
                 override fun onResponse(call: Call<AirportList>, response: Response<AirportList>) {
-
+                    if(response.isSuccessful){
+                        response.body()?.let {
+                            syncAirportDB(it.airport)
+                        }
+                    }else{
+                        throw Exception("Failed")
+                    }
                 }
 
                 override fun onFailure(call: Call<AirportList>, t: Throwable) {
@@ -46,6 +56,12 @@ class AirportWorker @AssistedInject constructor(
                 Log.d(TAG, "doWork: Failed to get data source")
                 Result.failure()
             }
+        }
+    }
+
+    fun syncAirportDB(list: List<Airport>){
+        MyDatabase.databaseWriteExecutor.execute {
+            airportDao.insertAirport(list)
         }
     }
 }

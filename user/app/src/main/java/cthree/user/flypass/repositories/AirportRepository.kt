@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import cthree.user.flypass.dao.AirportDao
 import cthree.user.flypass.db.MyDatabase
 import cthree.user.flypass.models.airport.Airport
+import javax.inject.Inject
 
-class AirportRepository (private val airportDao: AirportDao) {
+class AirportRepository @Inject constructor(private val airportDao: AirportDao) {
 
     fun getAllAirport(): LiveData<List<Airport>> = airportDao.getAllAirport()
+
+    fun searchAirport(query: String): LiveData<List<Airport>> = airportDao.searchAirport(query)
 
     fun insertAirport(airport: List<Airport>){
         MyDatabase.databaseWriteExecutor.execute {

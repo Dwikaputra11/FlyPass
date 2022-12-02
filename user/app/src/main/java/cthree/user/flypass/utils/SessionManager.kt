@@ -2,6 +2,7 @@ package cthree.user.flypass.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import cthree.user.flypass.models.airport.Airport
 
 class SessionManager(
     val context: Context
@@ -23,5 +24,61 @@ class SessionManager(
     fun getIsFirstInstall(): Boolean = prefs.getBoolean(Constants.IS_FIRST_INSTALL, false)
 
     fun getPassenger(): Int = prefs.getInt(Constants.PASSENGER_AMOUNT, 2)
+
+    fun setIsAirportDBExist(){
+        editor.putBoolean(Constants.IS_AIRPORT_DB_EXIST, true)
+        editor.apply()
+    }
+
+    fun setSelectAirport(airport: Airport, type: String){
+        if(type == Constants.DEPART_AIRPORT){
+            editor.putString(Constants.DEPART_AIRPORT_CITY, airport.city)
+            editor.putInt(Constants.DEPART_AIRPORT_ID, airport.id)
+            editor.putString(Constants.DEPART_AIRPORT_IATA, airport.iata)
+            editor.putString(Constants.DEPART_AIRPORT_COUNTRY, airport.country)
+            editor.putString(Constants.DEPART_AIRPORT_NAME, airport.name)
+        } else {
+            editor.putString(Constants.ARRIVE_AIRPORT_CITY, airport.city)
+            editor.putInt(Constants.ARRIVE_AIRPORT_ID, airport.id)
+            editor.putString(Constants.ARRIVE_AIRPORT_IATA, airport.iata)
+            editor.putString(Constants.ARRIVE_AIRPORT_COUNTRY, airport.country)
+            editor.putString(Constants.ARRIVE_AIRPORT_NAME, airport.name)
+        }
+        editor.apply()
+    }
+
+    fun getSelectedAirport(type: String): Airport{
+        return if(type == Constants.DEPART_AIRPORT){
+            val city = prefs.getString(Constants.DEPART_AIRPORT_CITY, Constants.DEPART_DEFAULT_VAL)
+            val country = prefs.getString(Constants.DEPART_AIRPORT_COUNTRY, Constants.DEPART_DEFAULT_VAL)
+            val iata = prefs.getString(Constants.DEPART_AIRPORT_IATA, Constants.DEPART_DEFAULT_VAL)
+            val id = prefs.getInt(Constants.DEPART_AIRPORT_ID, 0)
+            val name = prefs.getString(Constants.DEPART_AIRPORT_NAME, Constants.DEPART_DEFAULT_VAL)
+            Airport(city!!, country!!, iata!!, id, name!!)
+        }else{
+            val city = prefs.getString(Constants.ARRIVE_AIRPORT_CITY, Constants.ARRIVE_DEFAULT_VAL)
+            val country = prefs.getString(Constants.ARRIVE_AIRPORT_COUNTRY, Constants.ARRIVE_DEFAULT_VAL)
+            val iata = prefs.getString(Constants.ARRIVE_AIRPORT_IATA, Constants.ARRIVE_DEFAULT_VAL)
+            val id = prefs.getInt(Constants.ARRIVE_AIRPORT_ID, 0)
+            val name = prefs.getString(Constants.ARRIVE_AIRPORT_NAME, Constants.ARRIVE_DEFAULT_VAL)
+            Airport(city!!, country!!, iata!!, id, name!!)
+        }
+    }
+
+    fun clearAirport(){
+        editor.remove(Constants.DEPART_AIRPORT_CITY)
+        editor.remove(Constants.DEPART_AIRPORT_ID)
+        editor.remove(Constants.DEPART_AIRPORT_IATA)
+        editor.remove(Constants.DEPART_AIRPORT_COUNTRY)
+        editor.remove(Constants.DEPART_AIRPORT_NAME)
+
+        editor.remove(Constants.ARRIVE_AIRPORT_CITY)
+        editor.remove(Constants.ARRIVE_AIRPORT_ID)
+        editor.remove(Constants.ARRIVE_AIRPORT_IATA)
+        editor.remove(Constants.ARRIVE_AIRPORT_COUNTRY)
+        editor.remove(Constants.ARRIVE_AIRPORT_NAME)
+
+        editor.apply()
+    }
 
 }

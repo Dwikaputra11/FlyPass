@@ -34,6 +34,7 @@ class  JoinMemberFragment : Fragment() {
         }
         binding.btnNanti.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_joinMemberFragment_to_homeFragment)
+//            Navigation.findNavController(binding.root).popBackStack(R.id.joinMemberFragment, false)
         }
     }
 }

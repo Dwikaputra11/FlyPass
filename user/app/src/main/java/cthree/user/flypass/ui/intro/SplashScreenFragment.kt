@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.work.WorkInfo
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentSplashScreenBinding
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.viewmodels.AirportViewModel
 
 
 @SuppressLint("CustomSplashScreen")

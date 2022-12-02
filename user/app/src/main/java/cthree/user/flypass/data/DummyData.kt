@@ -1,6 +1,7 @@
 package cthree.user.flypass.data
 
 import cthree.user.flypass.R
+import cthree.user.flypass.models.airport.Airport
 
 object DummyData {
     val firstTicketList = arrayListOf(
@@ -176,17 +177,17 @@ object DummyData {
     val onBoardingItem = listOf(
         OnBoarding(
             R.drawable.ic_on_boarding_1,
-            "Anytime &amp; Anywhere",
+            R.string.title_on_boarding_1,
             "Pesan tiketmu kapanpun dan dimanapun kamu berada."
         ),
         OnBoarding(
             R.drawable.ic_on_boarding_1,
-            "Anytime &amp; Anywhere",
+            R.string.title_on_boarding_1,
             "Pesan tiketmu kapanpun dan dimanapun kamu berada."
         ),
         OnBoarding(
             R.drawable.ic_on_boarding_1,
-            "Anytime &amp; Anywhere",
+            R.string.title_on_boarding_1,
             "Pesan tiketmu kapanpun dan dimanapun kamu berada."
         )
     )
@@ -200,6 +201,128 @@ object DummyData {
         ),
         HighlightTopic(
             "Highlight 3"
+        ),
+    )
+    val frequentSearch = listOf(
+        Airport(
+            city = "Denpasar",
+            country = "Indonesia",
+            iata = "DPS",
+            id = 1,
+            name = "Ngurah Rai Airport"
+        ),
+        Airport(
+            city = "Jakarta",
+            country = "Indonesia",
+            iata = "CGK",
+            id = 1,
+            name = "Soekarno-Hatta Airport"
+        ),
+        Airport(
+            city = "Yogyakarta",
+            country = "Indonesia",
+            iata = "YIA",
+            id = 1,
+            name = "Yogyakarta International Airport"
+        ),
+        Airport(
+            city = "Singapore",
+            country = "Singapore",
+            iata = "CHG",
+            id = 1,
+            name = "Changi Airport"
+        ),
+    )
+
+    val japanAirport  = listOf(
+        Airport(
+            city = "Tokyo",
+            country = "Japan",
+            iata = "CHG",
+            id = 1,
+            name = "Narita Airport"
+        ),
+        Airport(
+            city = "Tokyo",
+            country = "Japan",
+            iata = "CHG",
+            id = 1,
+            name = "Narita Airport"
+        ),
+        Airport(
+            city = "Tokyo",
+            country = "Japan",
+            iata = "CHG",
+            id = 1,
+            name = "Narita Airport"
+        ),
+        Airport(
+            city = "Tokyo",
+            country = "Japan",
+            iata = "CHG",
+            id = 1,
+            name = "Narita Airport"
+        ),
+    )
+
+    val indoAirport = listOf(
+        Airport(
+            city = "Bali",
+            country = "Indonesia",
+            iata = "DPS",
+            id = 1,
+            name = "Ngurah Rai Airport"
+        ),
+        Airport(
+            city = "Bali",
+            country = "Indonesia",
+            iata = "DPS",
+            id = 1,
+            name = "Ngurah Rai Airport"
+        ),
+        Airport(
+            city = "Bali",
+            country = "Indonesia",
+            iata = "DPS",
+            id = 1,
+            name = "Ngurah Rai Airport"
+        ),
+        Airport(
+            city = "Bali",
+            country = "Indonesia",
+            iata = "DPS",
+            id = 1,
+            name = "Ngurah Rai Airport"
+        ),
+    )
+    val chinaAirport = listOf(
+        Airport(
+            city = "Beijing",
+            country = "China",
+            iata = "PEK",
+            id = 1,
+            name = "Beijing Capital International Airport"
+        ),
+        Airport(
+            city = "Beijing",
+            country = "China",
+            iata = "PEK",
+            id = 1,
+            name = "Beijing Capital International Airport"
+        ),
+        Airport(
+            city = "Beijing",
+            country = "China",
+            iata = "PEK",
+            id = 1,
+            name = "Beijing Capital International Airport"
+        ),
+        Airport(
+            city = "Beijing",
+            country = "China",
+            iata = "PEK",
+            id = 1,
+            name = "Beijing Capital International Airport"
         ),
     )
 }

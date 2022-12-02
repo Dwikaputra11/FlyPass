@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnLogin.setOnClickListener {
+//            Navigation.findNavController(binding.root).popBackStack(R.id.loginFragment, false)
             Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_homeFragment)
         }
 

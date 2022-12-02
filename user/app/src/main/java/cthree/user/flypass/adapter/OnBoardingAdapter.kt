@@ -30,7 +30,7 @@ class OnBoardingAdapter(private val list: List<OnBoarding>): RecyclerView.Adapte
         Glide.with(holder.binding.root)
             .load(list[position].image)
             .into(holder.binding.ivOnBoard)
-        holder.binding.tvTitle.text = list[position].title
+        holder.binding.tvTitle.text = holder.binding.root.resources.getString(list[position].title)
         holder.binding.tvMsg.text = list[position].msg
     }
 

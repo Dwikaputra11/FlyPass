@@ -241,7 +241,8 @@
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_joinMemberFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/searchAirportFragment"
@@ -251,5 +252,8 @@
         <action
             android:id="@+id/action_searchAirportFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="flight_dir"
+            app:argType="string" />
     </fragment>
 </navigation>

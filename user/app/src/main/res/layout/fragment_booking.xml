@@ -296,6 +296,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/radius_10dp_blue_border"
                     app:backgroundTintMode="screen"
+                    app:strokeColor="@color/color_primary"
                     android:text="Change/Add Baggage"
                     android:textAllCaps="false"
                     android:textColor="@color/color_primary"

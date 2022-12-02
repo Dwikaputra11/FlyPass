@@ -26,6 +26,7 @@ class AccountInformationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnRegister.setOnClickListener {
+//            Navigation.findNavController(binding.root).popBackStack(R.id.accountInformationFragment,false)
             Navigation.findNavController(binding.root).navigate(R.id.action_accountInformationFragment_to_loginFragment)
         }
     }

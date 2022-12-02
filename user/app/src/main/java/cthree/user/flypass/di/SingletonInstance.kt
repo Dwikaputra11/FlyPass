@@ -1,5 +1,6 @@
 package cthree.user.flypass.di
 
+import android.app.Application
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.hilt.work.HiltWorkerFactory
@@ -7,6 +8,8 @@ import androidx.work.Configuration
 import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import cthree.user.flypass.api.ApiService
+import cthree.user.flypass.dao.AirportDao
+import cthree.user.flypass.db.MyDatabase
 import cthree.user.flypass.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -43,6 +46,16 @@ object SingletonInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDatabase(context: Application): MyDatabase =
+        MyDatabase.getDatabase(context)
+
+    @Provides
+    @Singleton
+    fun providesAirportDao(myDatabase: MyDatabase): AirportDao =
+        myDatabase.airportDao()
 
     @Provides
     @Singleton

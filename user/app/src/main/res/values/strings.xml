@@ -9,4 +9,8 @@
     </string-array>
     <string name="title_on_boarding_1">"Anytime &amp; Anywhere"</string>
 
+    <string name="default_time_format" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+    <string name="date_format" translatable="false">MMM d, yyyy</string>
+    <string name="time_format" translatable="false">HH:mm a</string>
+
 </resources>

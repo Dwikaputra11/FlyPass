@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +11,7 @@
         android:id="@+id/toolbarLayout"
         layout="@layout/toolbar_home" />
     <ScrollView
+        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -48,66 +49,57 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="4dp">
                     <LinearLayout
+                        android:id="@+id/flightPay"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center">
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:src="@drawable/ic_baseline_account_balance_wallet_24"
-                            app:tint="?android:colorPrimary"
-                            android:layout_marginEnd="5dp"/>
                         <TextView
+                            android:drawablePadding="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:text="FlightPay"/>
+                            android:text="FlightPay"
+                            app:drawableTint="@color/color_primary"
+                            app:drawableStartCompat="@drawable/ic_baseline_account_balance_wallet_24" />
                     </LinearLayout>
                     <View
                         android:layout_width="1dp"
                         android:layout_height="42dp"
                         android:background="#D4D4D4"/>
                     <LinearLayout
+                        android:id="@+id/topup"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center">
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:src="@drawable/ic_baseline_add_box_24"
-                            app:tint="?android:colorPrimary"
-                            android:layout_marginEnd="5dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
                             android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:text="Top Up"/>
+                            android:text="Top Up"
+                            app:drawableStartCompat="@drawable/ic_baseline_add_box_24"
+                            app:drawableTint="@color/color_primary" />
                     </LinearLayout>
                     <View
                         android:layout_width="1dp"
                         android:layout_height="42dp"
                         android:background="#D4D4D4"/>
                     <LinearLayout
+                        android:id="@+id/explore"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center">
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:src="@drawable/ic_baseline_explore_24"
-                            app:tint="?android:colorPrimary"
-                            android:layout_marginEnd="5dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
                             android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:text="Explore"/>
+                            android:text="Explore"
+                            app:drawableTint="@color/color_primary"
+                            app:drawableStartCompat="@drawable/ic_baseline_explore_24" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -127,7 +119,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
                         android:text="From" />
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -156,7 +148,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
                         android:text="To"
                         android:layout_marginTop="15dp"/>
@@ -171,7 +163,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
                         android:text="Depart Date"
                         android:layout_marginTop="15dp"/>
@@ -189,11 +181,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="10sp"
                                 android:text="Round Trip?"/>
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:layout_width="wrap_content"
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swRoundTrip"
+                                android:layout_width="50dp"
+                                app:thumbTint="@color/color_primary"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
 
@@ -203,7 +197,7 @@
                             android:layout_height="wrap_content"
                             android:focusable="false"
                             android:drawableStart="@drawable/ic_round_calendar_today_24"
-                            android:hint="Pilih Kota"
+                            android:hint="Tanggal Keberangkatan"
                             android:drawablePadding="15dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -211,19 +205,22 @@
                             app:layout_constraintEnd_toStartOf="@id/rr"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <TextView
+                        android:id="@+id/tvArrivalDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
                         android:visibility="gone"
                         android:text="Return Date"
                         android:layout_marginTop="15dp"/>
                     <EditText
+                        android:id="@+id/etArriveDate"
                         android:visibility="gone"
+                        android:focusable="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_round_calendar_today_24"
-                        android:hint="Pilih Tanggal Kepulangan"
+                        android:drawableStart="@drawable/ic_round_calendar_today_24"
+                        android:hint="Tanggal Kepulangan"
                         android:drawablePadding="15dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -237,10 +234,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="16sp"
                                 android:text="Passangers" />
                             <EditText
+                                android:inputType="number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_round_people_24"
@@ -255,7 +253,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="16sp"
                                 android:text="Seat Class" />
                             <EditText
@@ -303,12 +301,13 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="14sp"
                                 android:text="Clear All" />
                         </LinearLayout>
                     </LinearLayout>
                     <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginBottom="?actionBarSize"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -316,4 +315,4 @@
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

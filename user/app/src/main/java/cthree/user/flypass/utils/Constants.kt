@@ -10,6 +10,11 @@ object Constants {
     const val ARRIVE_DATE = "arrDate"
     const val DEP_AIRPORT = "depAirport"
     const val ARR_AIRPORT = "arrAirport"
+    const val ROUND_TRIP = "roundTrip"
+    const val DEPART_DATE_TV = "departDateTv"
+    const val ARRIVE_DATE_TV = "arriveDateTv"
+    const val DEP_FLIGHT = "depFlight"
+    const val ARR_FLIGHT = "arrFlight"
 
     // Shared Preferences
     const val PREF_NAME = "shared_pref"
@@ -34,5 +39,7 @@ object Constants {
     // WORK MANAGER
     const val AIRPORT_WORKER = "airport_worker"
 
-
+    // TIME CONVERT
+    const val TIME_TYPE = "time_type"
+    const val DATE_TYPE = "date_type"
 }

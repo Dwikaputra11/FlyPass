@@ -11,11 +11,14 @@ import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentFilghtConfirmationBinding
+import cthree.user.flypass.models.flight.Flight
 
 private const val TAG = "FlightConfirmationFragment"
 class FlightConfirmationFragment : Fragment() {
 
     private lateinit var binding: FragmentFilghtConfirmationBinding
+    private lateinit var depFlight: Flight
+    private var arrFlight: Flight? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +34,8 @@ class FlightConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupToolbar()
+        getArgs()
+        setViews()
         binding.flightDetails.cbShowMore.setOnClickListener {
             binding.flightDetails.cbShowMore.text = if(binding.flightDetails.cbShowMore.isChecked) "Show Less" else "Show More"
             binding.flightShowDetails.root.isVisible = binding.flightDetails.cbShowMore.isChecked
@@ -38,6 +43,22 @@ class FlightConfirmationFragment : Fragment() {
         binding.confirmLayout.btnConfirm.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_flightConfirmationFragment_to_bookingFragment)
         }
+    }
+
+    private fun setViews() {
+
+    }
+
+    private fun getArgs(){
+        val bundle = arguments
+        if(bundle == null){
+            Log.e(TAG, "onViewCreated: Args Failed")
+            return
+        }
+        val args = FlightConfirmationFragmentArgs.fromBundle(bundle)
+        depFlight = args.depFlight
+        arrFlight = args.arrFlight
+        Log.d(TAG, "getArgs: Flight ${args.depFlight}")
     }
     
     private fun setupToolbar(){

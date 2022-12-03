@@ -12,5 +12,16 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/color_primary</item>
         <!-- Customize your theme here. -->
+        <item name="switchStyle">@style/Widget.App.Switch</item>
+    </style>
+
+    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorOnSurface">@color/color_primary</item>
+        <item name="colorSecondary">@color/smokey_300</item>
+        <item name="colorOnPrimary">@color/color_primary</item>
     </style>
 </resources>

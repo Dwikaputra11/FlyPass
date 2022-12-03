@@ -238,7 +238,7 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="?actionBarSize"
                 app:strokeWidth="1dp"
                 app:strokeColor="#DADCE3">
                 <androidx.constraintlayout.widget.ConstraintLayout

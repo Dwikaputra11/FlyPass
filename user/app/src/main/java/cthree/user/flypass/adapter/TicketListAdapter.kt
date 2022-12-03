@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cthree.user.flypass.databinding.TicketListItemBinding
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.utils.Constants
+import cthree.user.flypass.utils.Utils
 
 class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() {
     private lateinit var listener: OnItemClickListener
     interface OnItemClickListener{
-        fun onItemClick(view: View, ticket: Flight)
+        fun onItemClick(view: View, flight: Flight)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){
@@ -48,11 +50,17 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ticket = differ.currentList[position]
+        val isoTimeDepart = "${ticket.departureDate}T${ticket.departureTime}Z"
+        val isoTimeArrive = "${ticket.arrivalDate}T${ticket.arrivalTime}Z"
+        val timeDepart = Utils.convertISOTime(holder.binding.root.context, isoTimeDepart, Constants.TIME_TYPE)
+//        val dateDepart = Utils.convertISOTime(holder.binding.root.context, isoTimeDepart, Constants.DATE_TYPE)
+        val timeArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.TIME_TYPE)
+//        val dateArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.DATE_TYPE)
         holder.binding.aitaArriveAirport.text = ticket.arrivalAirport.iata
         holder.binding.aitaDepartAirport.text = ticket.departureAirport.iata
         holder.binding.tvAirplaneName.text = ticket.airline.name
-        holder.binding.tvArriveTime.text = ticket.arrivalTime
-        holder.binding.tvDepartTime.text = ticket.departureTime
+        holder.binding.tvArriveTime.text = timeArrive
+        holder.binding.tvDepartTime.text = timeDepart
         holder.binding.tvDuration.text = ticket.duration
         holder.binding.tvSeatClass.text = ticket.flightClass.name
         holder.binding.tvTicketPrice.text = ticket.price.toString()

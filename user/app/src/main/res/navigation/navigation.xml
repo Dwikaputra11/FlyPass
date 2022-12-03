@@ -19,6 +19,37 @@
         <action
             android:id="@+id/action_ticketListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <argument
+            android:name="departDate"
+            app:argType="string" />
+        <argument
+            android:name="arriveDate"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="depAriport"
+            app:argType="string" />
+        <argument
+            android:name="arrAiport"
+            app:argType="string" />
+        <argument
+            android:name="arrCity"
+            app:argType="string" />
+        <argument
+            android:name="depCity"
+            app:argType="string" />
+        <argument
+            android:name="isRoundtrip"
+            app:argType="boolean" />
+        <argument
+            android:name="depDateTv"
+            app:argType="string" />
+        <argument
+            android:name="arrDateTv"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/flightConfirmationFragment"
@@ -28,6 +59,14 @@
         <action
             android:id="@+id/action_flightConfirmationFragment_to_bookingFragment"
             app:destination="@id/bookingFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/bookingFragment"
@@ -67,6 +106,26 @@
         <action
             android:id="@+id/action_ticketRoundTripListFragment_to_ticketListFragment"
             app:destination="@id/ticketListFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrDate"
+            app:argType="string" />
+        <argument android:name="arrAirport"
+            app:argType="string" />
+        <argument
+            android:name="depAirport"
+            app:argType="string" />
+        <argument
+            android:name="arrCity"
+            app:argType="string" />
+        <argument
+            android:name="depCity"
+            app:argType="string" />
+        <argument
+            android:name="arrDateTv"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -107,26 +166,8 @@
             android:id="@+id/action_homeFragment_to_ticketListFragment"
             app:destination="@id/ticketListFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileUnregistFragment"
-            app:destination="@id/profileUnregistFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_searchAirportFragment"
             app:destination="@id/searchAirportFragment" />
-        <argument
-            android:name="depDate"
-            app:argType="string" />
-        <argument
-            android:name="depAirport"
-            app:argType="string" />
-        <argument
-            android:name="arrAirport"
-            app:argType="string" />
-        <argument
-            android:name="arrDate"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -268,4 +309,14 @@
             android:name="flight_dir"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/myBookingFragment"
+        android:name="cthree.user.flypass.ui.mybooking.MyBookingFragment"
+        android:label="fragment_my_booking"
+        tools:layout="@layout/fragment_my_booking" />
+    <fragment
+        android:id="@+id/wishlistFragment"
+        android:name="cthree.user.flypass.ui.wishlist.WishlistFragment"
+        android:label="fragment_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
 </navigation>

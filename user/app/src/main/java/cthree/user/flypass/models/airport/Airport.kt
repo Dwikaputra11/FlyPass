@@ -16,7 +16,7 @@ data class Airport(
     @SerializedName("country")
     val country: String,
     @SerializedName("iata")
-    val iata: String?,
+    val iata: String,
     @PrimaryKey
     @SerializedName("id")
     val id: Int,

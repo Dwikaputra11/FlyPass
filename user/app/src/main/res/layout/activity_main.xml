@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="@+id/Bottom_Nav"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/Bottom_Nav"
+        android:id="@+id/bottom_nav"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

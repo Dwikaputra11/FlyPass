@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentJoinMemberBinding
 
@@ -26,6 +28,7 @@ class  JoinMemberFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setBottomNav()
         binding.btnLogin.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_joinMemberFragment_to_loginFragment)
         }
@@ -36,5 +39,9 @@ class  JoinMemberFragment : Fragment() {
             Navigation.findNavController(binding.root).navigate(R.id.action_joinMemberFragment_to_homeFragment)
 //            Navigation.findNavController(binding.root).popBackStack(R.id.joinMemberFragment, false)
         }
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
     }
 }

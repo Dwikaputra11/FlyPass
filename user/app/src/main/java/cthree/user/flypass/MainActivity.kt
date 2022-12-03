@@ -1,10 +1,12 @@
 package cthree.user.flypass
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.androidbolts.topsheet.TopSheetBehavior
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.databinding.ActivityMainBinding
+import cthree.user.flypass.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -18,5 +20,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        bottomNavigationView.setupWithNavController(navController)
+
     }
+
+//    override fun onBackPressed() {
+//        val fragmentList = supportFragmentManager.fragments
+//
+//        var handle = false;
+//        for(f in fragmentList){
+//            if(f is HomeFragment){
+//                handle = f.onBackPressed()
+//            }
+//            if(handle) break
+//        }
+//        if(!handle){
+//            super.onBackPressed()
+//        }
+//    }
 }

@@ -10,10 +10,12 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.WorkInfo
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.AirportSearchAdapter
 import cthree.user.flypass.data.DummyData
@@ -156,5 +158,9 @@ class SearchAirportFragment : Fragment() {
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
         }
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
     }
 }

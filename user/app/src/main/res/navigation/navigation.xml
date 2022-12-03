@@ -115,6 +115,18 @@
         <action
             android:id="@+id/action_homeFragment_to_searchAirportFragment"
             app:destination="@id/searchAirportFragment" />
+        <argument
+            android:name="depDate"
+            app:argType="string" />
+        <argument
+            android:name="depAirport"
+            app:argType="string" />
+        <argument
+            android:name="arrAirport"
+            app:argType="string" />
+        <argument
+            android:name="arrDate"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

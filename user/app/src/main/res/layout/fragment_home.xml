@@ -198,9 +198,11 @@
                         </LinearLayout>
 
                         <EditText
+                           android:id="@+id/etDepartureDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_round_calendar_today_24"
+                            android:focusable="false"
+                            android:drawableStart="@drawable/ic_round_calendar_today_24"
                             android:hint="Pilih Kota"
                             android:drawablePadding="15dp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -213,9 +215,11 @@
                         android:layout_height="wrap_content"
                         android:textColor="#858585"
                         android:textSize="16sp"
+                        android:visibility="gone"
                         android:text="Return Date"
                         android:layout_marginTop="15dp"/>
                     <EditText
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_round_calendar_today_24"

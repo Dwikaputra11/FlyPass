@@ -9,8 +9,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import cthree.user.flypass.R
 import cthree.user.flypass.data.Ticket
 import cthree.user.flypass.databinding.FragmentTicketDetailBinding
+import cthree.user.flypass.models.flight.Flight
 
-class TicketDetailFragment(val ticket: Ticket) : BottomSheetDialogFragment() {
+class TicketDetailFragment(val ticket: Flight) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentTicketDetailBinding
 
@@ -31,11 +32,11 @@ class TicketDetailFragment(val ticket: Ticket) : BottomSheetDialogFragment() {
     }
 
     private fun setViews() {
-        binding.aitaDepartAirport.text = ticket.aitaDeparture
-        binding.aitaArriveAirport.text = ticket.aitaArrival
+        binding.aitaDepartAirport.text = ticket.departureAirport.iata
+        binding.aitaArriveAirport.text = ticket.arrivalAirport.iata
         binding.tvFlightCode.text = ticket.flightCode
-        binding.tvAirplaneName.text = ticket.airplaneName
-        binding.seatClass.text = ticket.seatClass
+        binding.tvAirplaneName.text = ticket.airline.name
+        binding.seatClass.text = ticket.flightClass.name
         binding.tvArriveTime.text = ticket.arrivalTime
         binding.tvDepartTime.text = ticket.departureTime
     }

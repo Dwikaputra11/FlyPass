@@ -37,10 +37,8 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         Handler(Looper.getMainLooper()).postDelayed({
             Navigation.findNavController(binding.root).navigate(R.id.action_splashScreenFragment_to_onBoardingFragment)
         }, 3000L)
-
     }
 }

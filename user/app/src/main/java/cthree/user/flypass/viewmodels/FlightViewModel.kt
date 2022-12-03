@@ -3,6 +3,7 @@ package cthree.user.flypass.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cthree.user.flypass.api.APIClient
+import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.models.flight.FlightList
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +13,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class FlightViewModel @Inject constructor() : ViewModel() {
+class FlightViewModel @Inject constructor(private val apiService: ApiService) : ViewModel() {
 
     private val liveDataFlight : MutableLiveData<FlightList?> = MutableLiveData()
     private val searchFlight : MutableLiveData<FlightList?> = MutableLiveData()
@@ -26,7 +27,7 @@ class FlightViewModel @Inject constructor() : ViewModel() {
     }
 
     fun callApiFlight(){
-        APIClient.instance.apiServiceFlight()
+        apiService.apiServiceFlight()
             .enqueue(object : Callback<FlightList> {
                 override fun onResponse(
                     call: Call<FlightList>,
@@ -46,21 +47,21 @@ class FlightViewModel @Inject constructor() : ViewModel() {
     }
 
     fun callSearchFlight(depDate: String, depAirport: String, arrAirport: String){
-        APIClient.instance.flightSearch(depDate, depAirport, arrAirport)
+        apiService.flightSearch(depDate, depAirport, arrAirport)
             .enqueue(object : Callback<FlightList> {
                 override fun onResponse(
                     call: Call<FlightList>,
                     response: Response<FlightList>
                 ) {
                     if (response.isSuccessful){
-                        liveDataFlight.postValue(response.body())
+                        searchFlight.postValue(response.body())
                     } else{
-                        liveDataFlight.postValue(null)
+                        searchFlight.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<FlightList>, t: Throwable) {
-                    liveDataFlight.postValue(null)
+                    searchFlight.postValue(null)
                 }
             })
     }

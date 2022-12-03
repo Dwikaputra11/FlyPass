@@ -46,7 +46,6 @@ class AirportViewModel @Inject constructor(
         val oneTimeWorkRequest = OneTimeWorkRequest.Builder(AirportWorker::class.java)
             .addTag(Constants.AIRPORT_WORKER)
             .setConstraints(constraint)
-            .setInitialDelay(3L, TimeUnit.SECONDS)
             .setBackoffCriteria(
                 BackoffPolicy.LINEAR,
                 OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
@@ -57,24 +56,6 @@ class AirportViewModel @Inject constructor(
             ExistingWorkPolicy.KEEP,
             oneTimeWorkRequest,
         )
-
-        APIClient.instance.apiServiceAirport()
-            .enqueue(object : Callback<AirportList?> {
-                override fun onResponse(
-                    call: Call<AirportList?>,
-                    response: Response<AirportList?>
-                ) {
-                    if (response.isSuccessful){
-                        liveDataAirport.postValue(response.body())
-                    } else{
-                        liveDataAirport.postValue(null)
-                    }
-                }
-
-                override fun onFailure(call: Call<AirportList?>, t: Throwable) {
-                    liveDataAirport.postValue(null)
-                }
-            })
     }
 
     fun searchAirport(query: String): LiveData<List<Airport>> = airportRepository.searchAirport(query)

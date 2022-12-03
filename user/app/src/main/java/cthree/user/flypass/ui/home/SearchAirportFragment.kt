@@ -34,6 +34,10 @@ class SearchAirportFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var listener: OnItemClickListener
     private lateinit var args: String
+    private val recentSearchAdapter = AirportSearchAdapter()
+    private val indoAirportAdapter = AirportSearchAdapter()
+    private val japanAirportAdapter = AirportSearchAdapter()
+    private val chinaAirportAdapter = AirportSearchAdapter()
 
     interface OnItemClickListener{
         fun onItemClick(airport: Airport)
@@ -58,22 +62,9 @@ class SearchAirportFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbar()
-        val isFirstInstall = sessionManager.getIsFirstInstall()
         args = requireArguments().getString(Constants.FLIGHT_DIR).toString()
 
-
         setAirportList()
-//        if(isFirstInstall){
-//            airportViewModel.fetchAirportData()
-//            airportViewModel.getAirportWorkerInfo().observe(viewLifecycleOwner){
-//                val workInfo = it[0]
-//                if(workInfo.state == WorkInfo.State.SUCCEEDED){
-//                    setAirportList()
-//                }
-//            }
-//        }else{
-//
-//        }
 
         binding.toolbarLayout.searchView.setOnQueryTextListener(object : OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -89,7 +80,7 @@ class SearchAirportFragment : Fragment() {
     }
 
     private fun setAirportList() {
-        val recentSearchAdapter = AirportSearchAdapter(DummyData.frequentSearch)
+        recentSearchAdapter.submitList(DummyData.frequentSearch)
         binding.existAirportList.rvRecentSearch.adapter = recentSearchAdapter
         binding.existAirportList.rvRecentSearch.layoutManager = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
@@ -102,7 +93,9 @@ class SearchAirportFragment : Fragment() {
             }
         })
 
-        val indoAirportAdapter = AirportSearchAdapter(DummyData.indoAirport)
+        airportViewModel.searchAirport("ID").observe(viewLifecycleOwner){
+            indoAirportAdapter.submitList(it)
+        }
         binding.existAirportList.rvIndonesia.adapter = indoAirportAdapter
         binding.existAirportList.rvIndonesia.layoutManager = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
@@ -115,7 +108,9 @@ class SearchAirportFragment : Fragment() {
             }
         })
 
-        val japanAirportAdapter = AirportSearchAdapter(DummyData.japanAirport)
+        airportViewModel.searchAirport("JP").observe(viewLifecycleOwner){
+            japanAirportAdapter.submitList(it)
+        }
         binding.existAirportList.rvJapan.adapter = japanAirportAdapter
         binding.existAirportList.rvJapan.layoutManager = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
@@ -128,7 +123,9 @@ class SearchAirportFragment : Fragment() {
             }
         })
 
-        val chinaAirportAdapter = AirportSearchAdapter(DummyData.chinaAirport)
+        airportViewModel.searchAirport("CN").observe(viewLifecycleOwner){
+            chinaAirportAdapter.submitList(it)
+        }
         binding.existAirportList.rvChina.adapter = chinaAirportAdapter
         binding.existAirportList.rvChina.layoutManager = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {

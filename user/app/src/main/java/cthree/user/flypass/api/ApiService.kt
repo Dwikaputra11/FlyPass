@@ -4,8 +4,14 @@ import cthree.user.flypass.models.airport.Airport
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.models.flight.FlightList
+import cthree.user.flypass.models.user.Profile
+import cthree.user.flypass.models.user.ProfileDataClass
+import cthree.user.flypass.models.user.RegisterResponse
+import cthree.user.flypass.models.user.User
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiService {
@@ -21,4 +27,9 @@ interface ApiService {
     @GET("v1/airport")
     fun apiServiceAirport() : Call<AirportList>
 
+    @GET("v1/user")
+    fun apiServiceUser() : Call<User>
+
+    @POST("v1/register")
+    fun registerUser(@Body request : ProfileDataClass) : Call<RegisterResponse>
 }

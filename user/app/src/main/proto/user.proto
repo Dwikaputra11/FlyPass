@@ -5,11 +5,22 @@ option java_multiple_files = true;
 
 message UserProto {
   // filter for showing / hiding completed tasks
-  int32 userId = 1;
-  //  string username = 2;
-  //  string password = 3;
-  //  string full_name = 4;
-  //  string email = 5;
-  //  string birthDate = 6;
-  //  string avatar = 7;
+  int32 departAirportId = 1;
+  string departAirportCity = 2;
+  string departAirportIata = 3;
+  string departAirportCountry = 4;
+  string departAirportName = 5;
+
+  int32 arriveAirportId = 6;
+  string arriveAirportCity = 7;
+  string arriveAirportIata = 8;
+  string arriveAirportCountry = 9;
+  string arriveAirportName = 10;
+
+  int32 id = 11;
+  string email = 12;
+  string image = 13;
+  string name = 14;
+  string phone = 15;
+  int32 roleId = 16;
 }

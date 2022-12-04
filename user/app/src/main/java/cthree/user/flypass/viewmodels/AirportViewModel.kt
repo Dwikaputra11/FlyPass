@@ -1,14 +1,13 @@
 package cthree.user.flypass.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import androidx.work.*
 import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.models.airport.Airport
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ViewModelScoped
 import cthree.user.flypass.repositories.AirportRepository
@@ -24,9 +23,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AirportViewModel @Inject constructor(
     private val airportRepository: AirportRepository,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    application: Application
 ): ViewModel() {
 
+    private val prefRepo = UserPreferenceRepository(application.applicationContext)
+    val dataUser = prefRepo.readData.asLiveData()
 
     private val airportWorkInfo: LiveData<List<WorkInfo>> = workManager.getWorkInfosByTagLiveData(Constants.AIRPORT_WORKER)
     private val liveDataAirport : MutableLiveData<AirportList?> = MutableLiveData()
@@ -84,5 +86,13 @@ class AirportViewModel @Inject constructor(
         viewModelScope.launch {
             airportRepository.updateAirport(airport)
         }
+    }
+
+    fun addToUserPref(airport: Airport){
+        viewModelScope.launch { prefRepo.saveDataAirportDepartArrive(airport) }
+    }
+
+    fun clearUserPref(){
+        viewModelScope.launch { prefRepo.clearDataDepartArrive() }
     }
 }

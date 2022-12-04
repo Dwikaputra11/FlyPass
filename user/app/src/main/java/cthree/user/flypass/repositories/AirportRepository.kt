@@ -35,6 +35,4 @@ class AirportRepository @Inject constructor(private val airportDao: AirportDao) 
             airportDao.updateAirport(airport)
         }
     }
-
-
 }

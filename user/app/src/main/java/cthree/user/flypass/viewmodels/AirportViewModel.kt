@@ -3,20 +3,14 @@ package cthree.user.flypass.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.work.*
-import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.models.airport.Airport
 import cthree.user.flypass.models.airport.AirportList
-import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import cthree.user.flypass.repositories.AirportRepository
 import cthree.user.flypass.utils.Constants
 import cthree.user.flypass.worker.AirportWorker
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

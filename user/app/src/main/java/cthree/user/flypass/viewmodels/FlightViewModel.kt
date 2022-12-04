@@ -2,9 +2,7 @@ package cthree.user.flypass.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.api.ApiService
-import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.models.flight.FlightList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call

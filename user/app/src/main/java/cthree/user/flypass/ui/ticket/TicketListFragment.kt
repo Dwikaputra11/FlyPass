@@ -16,6 +16,7 @@ import com.androidbolts.topsheet.TopSheetBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.TicketListAdapter
+import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.databinding.FragmentTicketListBinding
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.Constants
@@ -34,8 +35,6 @@ class TicketListFragment : Fragment() {
     private var isRoundTrip : Boolean = false
     private lateinit var depDateTv: String
     private var arrDateTv:String? = null
-    private lateinit var depCity: String
-    private lateinit var arrCity: String
 //    private var singleDepart = "Jakarta"
 //    private var singleArrive = "Bali"
 //    private var singleDepartDate = "Wed, 30 Nov"
@@ -43,10 +42,7 @@ class TicketListFragment : Fragment() {
 //    private var roundArrive = "Jakarta"
 //    private var roundDepartDate = "Sat, 3 Dec"
 //    private var seatClass = "Economy"
-    private lateinit var depDate: String
-    private var arrDate: String? = null
-    private lateinit var arrAirport: String
-    private lateinit var depAirport: String
+    private lateinit var search: RecentSearch
     private val adapter: TicketListAdapter = TicketListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,17 +58,6 @@ class TicketListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        isRoundTrip     = arguments?.getBoolean(Constants.ROUND_TRIP) ?: false
-//        depDate         = arguments?.getString(Constants.DEPART_DATE).toString()
-//        depAirport      = arguments?.getString(Constants.DEP_AIRPORT).toString()
-//        depDateTv       = arguments?.getString(Constants.DEPART_DATE_TV).toString() // for text in toolbar
-//        depCity         = arguments?.getString(Constants.DEPART_AIRPORT_CITY).toString()
-//        // below will be pass to ticket round list
-//        arrDate         = arguments?.getString(Constants.ARRIVE_DATE).toString()
-//        arrAirport      = arguments?.getString(Constants.ARR_AIRPORT).toString()
-//        arrDateTv       = arguments?.getString(Constants.ARRIVE_DATE_TV).toString()
-//        arrCity         = arguments?.getString(Constants.ARRIVE_AIRPORT_CITY).toString()
-
         getArgs()
         setToolbar()
         setTopSheetDialog()
@@ -88,16 +73,11 @@ class TicketListFragment : Fragment() {
         }
 
         val args = TicketListFragmentArgs.fromBundle(bundle)
+        search          = args.search
         isRoundTrip     = args.isRoundtrip
-        depDate         = args.departDate
-        depAirport      = args.depAriport
         depDateTv       = args.depDateTv // for text in toolbar
-        depCity         = args.depCity
         // below will be pass to ticket round list
-        arrDate         = args.arriveDate
-        arrAirport      = args.arrAiport
         arrDateTv       = args.arrDateTv
-        arrCity         = args.arrCity
     }
 
     private fun setToolbar(){
@@ -108,8 +88,10 @@ class TicketListFragment : Fragment() {
 
         // set text base on input user
         binding.toolbarLayout.tvDate.text = Utils.convertDateToDay(depDateTv)
-        binding.toolbarLayout.tvFrom.text = depCity
-        binding.toolbarLayout.tvTo.text = arrCity
+        binding.toolbarLayout.tvFrom.text = search.departCity
+        binding.toolbarLayout.tvTo.text = search.arriveCity
+        binding.toolbarLayout.tvPassengger.text = search.passengerAmount.toString()
+        binding.toolbarLayout.tvSeatClass.text = search.seatClass
 
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
@@ -147,7 +129,7 @@ class TicketListFragment : Fragment() {
     }
 
     private fun setAdapter(){
-        flightViewModel.callSearchFlight(depDate, depAirport, arrAirport)
+        flightViewModel.callSearchFlight(search.departDate, search.iataDepartAirport, search.iataArriveAirport)
         adapter.submitList(emptyList())
         flightViewModel.getSearchFlights().observe(viewLifecycleOwner){
             if(it != null){
@@ -168,13 +150,9 @@ class TicketListFragment : Fragment() {
 //                        val bundle = Bundle()
                         if(isRoundTrip){
                             val directions = TicketListFragmentDirections.actionTicketListFragmentToTicketRoundTripListFragment(
-                                arrDate = arrDate!!,
-                                depCity = arrCity,
-                                arrCity = depCity,
-                                depAirport = arrAirport,
-                                arrAirport = depAirport,
                                 arrDateTv = arrDateTv!!,
-                                depFlight = flight
+                                depFlight = flight,
+                                search = search
                             )
                             findNavController().navigate(directions)
 //                            bundle.putString(Constants.ARRIVE_DATE, arrDate)

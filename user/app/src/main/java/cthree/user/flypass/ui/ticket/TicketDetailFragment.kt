@@ -32,8 +32,8 @@ class TicketDetailFragment(val ticket: Flight) : BottomSheetDialogFragment() {
     }
 
     private fun setViews() {
-        binding.aitaDepartAirport.text = ticket.departureAirport.iata
-        binding.aitaArriveAirport.text = ticket.arrivalAirport.iata
+        binding.iataDepartAirport.text = ticket.departureAirport.iata
+        binding.iataArriveAirport.text = ticket.arrivalAirport.iata
         binding.tvFlightCode.text = ticket.flightCode
         binding.tvAirplaneName.text = ticket.airline.name
         binding.seatClass.text = ticket.flightClass.name

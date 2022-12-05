@@ -172,6 +172,14 @@
                 android:visibility="gone"
                 android:id="@+id/flightShowDetails"
                 layout="@layout/flight_show_details"/>
+            <include
+                android:visibility="gone"
+                android:id="@+id/roundFlightDetails"
+                layout="@layout/flight_details"/>
+            <include
+                android:visibility="gone"
+                android:id="@+id/roundFlightShowDetails"
+                layout="@layout/flight_show_details"/>
 
             <TextView
                 android:text="Passenger"

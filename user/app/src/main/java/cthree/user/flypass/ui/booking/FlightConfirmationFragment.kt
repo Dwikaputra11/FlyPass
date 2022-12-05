@@ -9,11 +9,15 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentFilghtConfirmationBinding
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.utils.Utils
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "FlightConfirmationFragment"
+@AndroidEntryPoint
 class FlightConfirmationFragment : Fragment() {
 
     private lateinit var binding: FragmentFilghtConfirmationBinding
@@ -36,16 +40,108 @@ class FlightConfirmationFragment : Fragment() {
         setupToolbar()
         getArgs()
         setViews()
-        binding.flightDetails.cbShowMore.setOnClickListener {
-            binding.flightDetails.cbShowMore.text = if(binding.flightDetails.cbShowMore.isChecked) "Show Less" else "Show More"
-            binding.flightShowDetails.root.isVisible = binding.flightDetails.cbShowMore.isChecked
-        }
+
         binding.confirmLayout.btnConfirm.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_flightConfirmationFragment_to_bookingFragment)
+            navigateToBooking()
         }
     }
 
+    private fun navigateToBooking() {
+        val directions = FlightConfirmationFragmentDirections.actionFlightConfirmationFragmentToBookingFragment(depFlight, arrFlight)
+        findNavController().navigate(directions)
+    }
+
     private fun setViews() {
+        // change visibility if booking is round trip
+        binding.rvArriveTitle.isVisible = arrFlight != null
+        binding.roundFlightDesc.root.isVisible= arrFlight != null
+        binding.roundFlightDetails.root.isVisible = arrFlight != null
+
+        // set Small Description Flight
+        with(binding.flightDesc){
+            tvFlightCode.text = depFlight.flightCode
+            tvSeatClass.text = "Economy"
+            tvFlightDirect.text = "Direct"
+            tvArriveCity.text = depFlight.arrivalAirport.city
+            tvDepartCity.text = depFlight.departureAirport.city
+            tvAirplaneName.text = depFlight.airline.name
+        }
+
+        // set Details Description Flights
+        with(binding.flightDetails){
+            tvFlightCode.text = depFlight.flightCode
+            tvAirplaneName.text = depFlight.airline.name
+            tvArriveCity.text = depFlight.arrivalAirport.city
+            tvDepartCity.text = depFlight.departureAirport.city
+            tvArrivalDate.text = Utils.convertDateToDayDate(depFlight.arrivalDate)
+            tvDepartDate.text = Utils.convertDateToDayDate(depFlight.departureDate)
+            tvFlightCode.text = depFlight.flightCode
+            tvArriveTime.text = Utils.formattedTime(depFlight.arrivalTime)
+            tvDepartTime.text = Utils.formattedTime(depFlight.departureTime)
+            tvArrivalAirportName.text = depFlight.arrivalAirport.name
+            tvDepartAirportName.text = depFlight.departureAirport.name
+        }
+
+        // set show Details Flight
+        with(binding.flightDetails.cbShowMore){
+            setOnClickListener {
+                binding.flightShowDetails.root.isVisible = isChecked
+            }
+        }
+        with(binding.flightShowDetails){
+            tvFlightType.text = depFlight.airplane.model
+            tvBaggage.text = depFlight.baggage.toString()
+        }
+
+
+        if(arrFlight != null){
+            // set Small Description Flight
+            with(binding.roundFlightDesc){
+                tvFlightCode.text = arrFlight!!.flightCode
+                tvSeatClass.text = "Economy"
+                tvFlightDirect.text = "Direct"
+                tvArriveCity.text = arrFlight!!.arrivalAirport.city
+                tvDepartCity.text = arrFlight!!.departureAirport.city
+                tvAirplaneName.text = arrFlight!!.airline.name
+            }
+
+            // set Details Description Flights
+            with(binding.roundFlightDetails){
+                tvFlightCode.text = arrFlight!!.flightCode
+                tvAirplaneName.text = arrFlight!!.airline.name
+                tvArriveCity.text = arrFlight!!.arrivalAirport.city
+                tvDepartCity.text = arrFlight!!.departureAirport.city
+                tvArrivalDate.text = Utils.convertDateToDayDate(arrFlight!!.arrivalDate)
+                tvDepartDate.text = Utils.convertDateToDayDate(arrFlight!!.departureDate)
+                tvFlightCode.text = arrFlight!!.flightCode
+                tvArriveTime.text = Utils.formattedTime(arrFlight!!.arrivalTime)
+                tvDepartTime.text = Utils.formattedTime(arrFlight!!.departureTime)
+                tvArrivalAirportName.text = arrFlight!!.arrivalAirport.name
+                tvDepartAirportName.text = arrFlight!!.departureAirport.name
+            }
+
+            // set show Details Flight
+            with(binding.flightDetails.cbShowMore){
+                setOnClickListener {
+                    binding.flightShowDetails.root.isVisible = isChecked
+                    binding.flightDetails.cbShowMore.text = if(isChecked) "Show Less" else "Show More"
+                }
+            }
+            with(binding.roundFlightDetails.cbShowMore){
+                setOnClickListener {
+                    binding.roundFlightShowDetails.root.isVisible = isChecked
+                    binding.roundFlightDetails.cbShowMore.text = if(isChecked) "Show Less" else "Show More"
+                }
+            }
+            with(binding.roundFlightShowDetails){
+                tvFlightType.text = arrFlight!!.airplane.model
+                tvBaggage.text = arrFlight!!.baggage.toString()
+            }
+        }
+
+        val arrPrice = arrFlight?.price ?: 0
+        val totalPrice = depFlight.price + arrPrice
+        binding.confirmLayout.tvPrice.text = Utils.formattedMoney(totalPrice)
 
     }
 

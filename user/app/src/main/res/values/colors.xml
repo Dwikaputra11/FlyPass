@@ -11,6 +11,7 @@
     <color name="screen_background">#EFEFEF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <color name="sky_200">#48A5FF</color>
     <color name="sky_500">#30A8FF</color>

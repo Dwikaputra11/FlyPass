@@ -238,7 +238,9 @@
                                 android:textSize="16sp"
                                 android:text="Passangers" />
                             <EditText
+                                android:id="@+id/etPassengers"
                                 android:inputType="number"
+                                android:focusable="false"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_round_people_24"
@@ -257,9 +259,11 @@
                                 android:textSize="16sp"
                                 android:text="Seat Class" />
                             <EditText
+                                android:focusable="false"
+                                android:id="@+id/etSeatClass"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_round_event_seat_24"
+                                android:drawableStart="@drawable/ic_round_event_seat_24"
                                 android:hint="Seat class"
                                 android:drawablePadding="15dp"/>
                         </LinearLayout>
@@ -268,48 +272,44 @@
                         android:id="@+id/btnSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="search"
+                        android:text="Search"
+                        android:layout_marginBottom="30dp"
                         android:textColor="@color/white"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="40dp"/>
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/layoutRecentSearch"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp">
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_round_youtube_searched_for_24"
-                                android:layout_marginEnd="10dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Recent Search"
-                                android:textSize="14sp"
-                                android:textColor="@color/black"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="0dp"
+                            android:src="@drawable/ic_round_youtube_searched_for_24"
+                            android:layout_marginEnd="10dp"/>
+                        <TextView
+                            android:layout_toEndOf="@id/imageView"
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/smokey_700"
-                                android:textSize="14sp"
-                                android:text="Clear All" />
-                        </LinearLayout>
-                    </LinearLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginBottom="?actionBarSize"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                            android:text="Recent Search"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/tvClearAll"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/smokey_700"
+                            android:textSize="14sp"
+                            android:text="Clear All" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_below="@id/textView"
+                            android:id="@+id/rvRecentSearch"
+                            android:layout_marginBottom="?actionBarSize"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

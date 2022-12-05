@@ -73,7 +73,7 @@
         app:layout_constraintTop_toTopOf="@+id/dotOne" />
 
     <TextView
-        android:id="@+id/aitaDepartAirport"
+        android:id="@+id/iataDepartAirport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -97,7 +97,7 @@
         app:layout_constraintTop_toBottomOf="@+id/verticalLine" />
 
     <TextView
-        android:id="@+id/aitaArriveAirport"
+        android:id="@+id/iataArriveAirport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"

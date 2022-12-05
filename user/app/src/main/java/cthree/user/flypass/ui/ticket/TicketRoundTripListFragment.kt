@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidbolts.topsheet.TopSheetBehavior
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.TicketListAdapter
+import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.databinding.FragmentTicketRoundTripListBinding
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.Constants
@@ -29,14 +30,12 @@ class TicketRoundTripListFragment : Fragment() {
     private lateinit var binding: FragmentTicketRoundTripListBinding
     private lateinit var topSheetBehavior: TopSheetBehavior<View>
     private val flightViewModel: FlightViewModel by viewModels()
-    private var seatClass = "Economy"
     private lateinit var arrDateTv:String
-    private lateinit var depCity: String
-    private lateinit var arrCity: String
     private lateinit var arrDate: String
     private lateinit var arrAirport: String
     private lateinit var depAirport: String
     private lateinit var depFlight: Flight
+    private lateinit var search: RecentSearch
     private val adapter: TicketListAdapter = TicketListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +51,6 @@ class TicketRoundTripListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        depCity         = arguments?.getString(Constants.DEPART_AIRPORT_CITY).toString()
-        depAirport      = arguments?.getString(Constants.DEP_AIRPORT).toString()
-        arrDate         = arguments?.getString(Constants.ARRIVE_DATE).toString()
-        arrAirport      = arguments?.getString(Constants.ARR_AIRPORT).toString()
-        arrDateTv       = arguments?.getString(Constants.ARRIVE_DATE_TV).toString()
-        arrCity         = arguments?.getString(Constants.ARRIVE_AIRPORT_CITY).toString()
-        depFlight       = arguments?.getParcelable<Flight>(Constants.DEP_FLIGHT) as Flight
         getArgs()
         setToolbar()
         setTopSheetDialog()
@@ -73,12 +65,8 @@ class TicketRoundTripListFragment : Fragment() {
             return
         }
         val args = TicketRoundTripListFragmentArgs.fromBundle(bundle)
-        depCity         = args.depCity
-        depAirport      = args.depAirport
-        arrDate         = args.arrDate
-        arrAirport      = args.arrAirport
+        search          = args.search
         arrDateTv       = args.arrDateTv
-        arrCity         = args.arrCity
         depFlight       = args.depFlight
     }
 
@@ -126,7 +114,7 @@ class TicketRoundTripListFragment : Fragment() {
     private fun setAdapter(){
         binding.rvTicketList.adapter = adapter
         binding.rvTicketList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        flightViewModel.callSearchFlight(arrDate, depAirport, arrAirport)
+        flightViewModel.callSearchFlight(search.arriveDate!!, search.iataArriveAirport, search.iataDepartAirport)
         flightViewModel.getSearchFlights().observe(viewLifecycleOwner){
             if(it != null){
                 adapter.submitList(it.flights)
@@ -152,9 +140,10 @@ class TicketRoundTripListFragment : Fragment() {
     }
 
     private fun roundTrip(){
-        binding.toolbarLayout.tvFrom.text           = depCity
-        binding.toolbarLayout.tvTo.text             = arrCity
-        binding.toolbarLayout.tvDate.text           = arrDateTv
-        binding.toolbarLayout.tvSeatClass.text      = seatClass
+        binding.toolbarLayout.tvFrom.text           = search.arriveCity
+        binding.toolbarLayout.tvTo.text             = search.departCity
+        binding.toolbarLayout.tvDate.text           = search.arriveDate
+        binding.toolbarLayout.tvSeatClass.text      = search.seatClass
+        binding.toolbarLayout.tvPassengger.text     = search.passengerAmount.toString()
     }
 }

@@ -47,7 +47,7 @@ class SessionManager(
         editor.apply()
     }
 
-    fun getSelectedAirport(type: String): Airport{
+    fun getSelectedAirport(type: String): Airport {
         return if(type == Constants.DEPART_AIRPORT){
             val city = prefs.getString(Constants.DEPART_AIRPORT_CITY, Constants.DEPART_DEFAULT_VAL)
             val country = prefs.getString(Constants.DEPART_AIRPORT_COUNTRY, Constants.DEPART_DEFAULT_VAL)

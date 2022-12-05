@@ -5,14 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import cthree.user.flypass.dao.AirportDao
+import cthree.user.flypass.dao.RecentSearchDao
+import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.models.airport.Airport
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-@Database(entities = [Airport::class], version = 1 )
+@Database(entities = [Airport::class, RecentSearch::class], version = 1 )
 abstract class MyDatabase : RoomDatabase() {
 
     abstract fun airportDao() : AirportDao
+    abstract fun recentSearchDao(): RecentSearchDao
 
     companion object {
 

@@ -257,7 +257,7 @@
                         android:text="CGK"
                         android:textColor="@color/smokey_1000"
                         android:textSize="12sp"
-                        android:id="@+id/aitaDepartAirport"
+                        android:id="@+id/iataDepartAirport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
@@ -266,11 +266,11 @@
                         android:paddingHorizontal="8dp"
                         android:layout_below="@id/textView8"
                         android:text="-"
-                        android:layout_toEndOf="@id/aitaDepartAirport"
+                        android:layout_toEndOf="@id/iataDepartAirport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <TextView
-                        android:id="@+id/aitaArriveAirport"
+                        android:id="@+id/iataArriveAirport"
                         android:text="DPS"
                         android:layout_toEndOf="@id/textView9"
                         android:textColor="@color/smokey_1000"

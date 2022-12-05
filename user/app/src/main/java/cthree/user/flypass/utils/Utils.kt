@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import cthree.user.flypass.R
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,7 +29,7 @@ object Utils {
         Log.d("Date", "convertISOTime: $isoTime")
 
         val sdf = SimpleDateFormat(context.getString(R.string.default_time_format), Locale.US)
-        var convertedDate: Date? = null
+        val convertedDate: Date?
         var formattedDate: String? = null
         var formattedTime = "10:00 AM"
         try {
@@ -87,9 +89,85 @@ object Utils {
         return "$formattedDate"
     }
 
+    fun convertDateSearch(date:String): String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val convertedDate: Date
+        val formattedDate: String?
+        try{
+            convertedDate = date.let { sdf.parse(it) } as Date
+            formattedDate = convertedDate.let {
+                SimpleDateFormat("EEE, dd MMM", Locale.US).format(it)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.e("Date", "convertDateToDay: ", )
+            return ""
+        }
+        return "$formattedDate"
+    }
+
+
+
     fun reverseDateFormat(cal:Calendar): String{
         val myFormat = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         return sdf.format(cal.time)
+    }
+
+    fun convertDateToDayDate(date: String): String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val convertedDate: Date
+        val formattedDate: String?
+        try{
+            convertedDate = date.let { sdf.parse(it) } as Date
+            formattedDate = convertedDate.let {
+                SimpleDateFormat("E, dd MMM yyyy", Locale.US).format(it)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.e("Date", "convertDateToDay: ", )
+            return ""
+        }
+        return "$formattedDate"
+    }
+
+    fun formattedTime(time: String): String{
+        return time.subSequence(0..4).toString()
+    }
+
+    fun formattedDateOnly(date: String): String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val convertedDate: Date
+        val formattedDate: String?
+        try{
+            convertedDate = date.let { sdf.parse(it) } as Date
+            formattedDate = convertedDate.let {
+                SimpleDateFormat("dd MMM yyyy", Locale.US).format(it)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.e("Date", "convertDateToDay: ", )
+            return ""
+        }
+        return "$formattedDate"
+    }
+
+    fun formattedMoney(money: Int): String{
+        var formattedString: String? = null
+        try {
+            val unusualSymbols = DecimalFormatSymbols()
+            unusualSymbols.decimalSeparator = ','
+            unusualSymbols.groupingSeparator = '.'
+            val doubleVal: Double = money.toDouble()
+
+            val formatter = DecimalFormat("#,##0.##", unusualSymbols)
+            formatter.groupingSize = 3
+            formattedString = formatter.format(doubleVal)
+        }catch (nfe: NumberFormatException) {
+            nfe.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return "$formattedString"
     }
 }

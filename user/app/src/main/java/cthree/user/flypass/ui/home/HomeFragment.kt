@@ -14,19 +14,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.work.WorkInfo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.HighlightTopicAdapter
+import cthree.user.flypass.adapter.RecentSearchAdapter
 import cthree.user.flypass.data.DummyData
+import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.databinding.FragmentHomeBinding
 import cthree.user.flypass.models.airport.Airport
 import cthree.user.flypass.utils.Constants
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.AirportViewModel
+import cthree.user.flypass.viewmodels.RecentSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,12 +43,15 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var sessionManager: SessionManager
     private val airportViewModel: AirportViewModel by viewModels()
+    private val recentSearchViewModel: RecentSearchViewModel by viewModels()
     private val calDep: Calendar = Calendar.getInstance()
     private val calArr: Calendar = Calendar.getInstance()
     private lateinit var departValue: Airport
     private lateinit var arriveValue: Airport
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var dateField: String
+    private val seatClassFragment = SeatClassFragment()
+    private val passengerAmountFragment = PassengerAmountFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate: Started")
@@ -147,23 +154,53 @@ class HomeFragment : Fragment() {
             bundle.putString(Constants.FLIGHT_DIR, Constants.ARRIVE_AIRPORT)
             Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_searchAirportFragment, bundle)
         }
+
+        binding.etSeatClass.setOnClickListener {
+            seatClassFragment.show(requireActivity().supportFragmentManager, seatClassFragment.tag)
+        }
+
+        seatClassFragment.setOnCLickListener(object : SeatClassFragment.OnClickListener{
+            override fun onClick(seatClass: String) {
+                binding.etSeatClass.setText(seatClass)
+            }
+        })
+
+        binding.etPassengers.setOnClickListener {
+            passengerAmountFragment.show(requireActivity().supportFragmentManager, passengerAmountFragment.tag)
+        }
+        passengerAmountFragment.setOnClickListener(object : PassengerAmountFragment.OnClickListener{
+            override fun onClick(passenger: String) {
+                binding.etPassengers.setText(passenger)
+            }
+        })
+
+        binding.tvClearAll.setOnClickListener {
+            recentSearchViewModel.deleteAllSearch()
+        }
     }
 
     private fun navigateToTicketList() {
         val dateDep = Utils.reverseDateFormat(calDep)
         val dateArr = if(binding.etArriveDate.isVisible) Utils.reverseDateFormat(calArr) else null
         val arriveDateTv = if(binding.swRoundTrip.isChecked) binding.etArriveDate.text.toString() else null
-        val directions = HomeFragmentDirections.actionHomeFragmentToTicketListFragment(
+        val recentSearch = RecentSearch(
             departDate = dateDep,
             arriveDate = dateArr,
+            iataArriveAirport = arriveValue.iata,
+            iataDepartAirport = departValue.iata,
+            arriveCity = arriveValue.city ?: "City",
+            departCity = departValue.city ?: "City",
+            id = 0,
+            seatClass = binding.etSeatClass.text.toString(),
+            passengerAmount = binding.etPassengers.text.toString().toInt()
+        )
+        val directions = HomeFragmentDirections.actionHomeFragmentToTicketListFragment(
+            search = recentSearch,
             arrDateTv = arriveDateTv,
-            arrAiport = arriveValue.iata,
-            depAriport = departValue.iata,
-            depCity = departValue.city ?: "City",
-            arrCity = arriveValue.city ?: "City",
             depDateTv = binding.etDepartureDate.text.toString(),
             isRoundtrip = binding.swRoundTrip.isChecked
         )
+        recentSearchViewModel.insertSearch(recentSearch)
         findNavController().navigate(directions)
     }
 
@@ -181,14 +218,35 @@ class HomeFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        binding.vpHighlight.adapter = HighlightTopicAdapter(DummyData.highlightTopicItem)
-        binding.vpHighlight.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        binding.vpHighlight.offscreenPageLimit = 3
-        binding.vpHighlight.setPageTransformer(MarginPageTransformer(50))
-        binding.vpHighlight.beginFakeDrag()
-        binding.wormDot.attachTo(binding.vpHighlight)
-        binding.vpHighlight.clipToPadding = false
-        binding.vpHighlight.setPadding(10, 10, 10 ,0)
+        with(binding.vpHighlight){
+            adapter = HighlightTopicAdapter(DummyData.highlightTopicItem)
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            offscreenPageLimit = 3
+            setPageTransformer(MarginPageTransformer(50))
+            beginFakeDrag()
+            binding.wormDot.attachTo(binding.vpHighlight)
+            clipToPadding = false
+            setPadding(10, 10, 10 ,0)
+        }
+        val recentAdapter = RecentSearchAdapter()
+        recentSearchViewModel.getAllSearch().observe(viewLifecycleOwner){
+            if(it.isEmpty()){
+                recentAdapter.submitList(emptyList())
+                binding.layoutRecentSearch.isVisible = false
+            }else{
+                recentAdapter.submitList(it)
+                binding.layoutRecentSearch.isVisible = true
+            }
+        }
+        with(binding.rvRecentSearch){
+            adapter = recentAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            recentAdapter.setOnItemClickListener(object : RecentSearchAdapter.SetOnItemClickListener{
+                override fun onItemClick(search: RecentSearch) {
+                    Log.d(TAG, "recentSearch: Clicked")
+                }
+            })
+        }
     }
 
     private fun updateDate() {

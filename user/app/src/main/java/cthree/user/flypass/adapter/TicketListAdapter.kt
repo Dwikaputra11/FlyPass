@@ -56,8 +56,8 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
 //        val dateDepart = Utils.convertISOTime(holder.binding.root.context, isoTimeDepart, Constants.DATE_TYPE)
         val timeArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.TIME_TYPE)
 //        val dateArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.DATE_TYPE)
-        holder.binding.aitaArriveAirport.text = ticket.arrivalAirport.iata
-        holder.binding.aitaDepartAirport.text = ticket.departureAirport.iata
+        holder.binding.iataArriveAirport.text = ticket.arrivalAirport.iata
+        holder.binding.iataDepartAirport.text = ticket.departureAirport.iata
         holder.binding.tvAirplaneName.text = ticket.airline.name
         holder.binding.tvArriveTime.text = timeArrive
         holder.binding.tvDepartTime.text = timeDepart

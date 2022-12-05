@@ -2,12 +2,15 @@ package cthree.user.flypass.ui.booking
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingBaggageAdapter
@@ -16,8 +19,14 @@ import cthree.user.flypass.data.Baggage
 import cthree.user.flypass.data.Contact
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.FragmentBookingBinding
+import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.utils.Utils
+import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "BookingFragment"
+
+@AndroidEntryPoint
 class BookingFragment : Fragment() {
 
     private lateinit var binding: FragmentBookingBinding
@@ -28,6 +37,8 @@ class BookingFragment : Fragment() {
     private val travelerList = arrayListOf<Traveler>()
     private var travelerItemPos = 0
     private var isEdit = false
+    private lateinit var depFlight: Flight
+    private var arrFlight: Flight? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +54,51 @@ class BookingFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        getArgs()
         setupToolbar()
+        setInputConfig()
+        setFlightInfo()
 
         binding.confirmLayout.btnConfirm.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_bookingFragment_to_paymentFragment)
+            val directions = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(depFlight, arrFlight)
+            findNavController().navigate(directions)
         }
 
+    }
+
+    private fun setFlightInfo() {
+        binding.selectedArriveFlight.root.isVisible = arrFlight != null
+
+        // set Flight Info
+        with(binding.selectedDepartFlight){
+            tvDate.text = Utils.formattedDateOnly(depFlight.departureDate)
+            tvPaxCount.text = "1"
+            tvFlightDirect.text = "Direct"
+            tvArriveCity.text = depFlight.arrivalAirport.city
+            tvDepartCity.text = depFlight.departureAirport.city
+            iataDepartAirport.text = depFlight.departureAirport.iata
+            iataArriveAirport.text= depFlight.arrivalAirport.iata
+        }
+
+        if(arrFlight != null){
+            with(binding.selectedArriveFlight){
+                tvDate.text = Utils.formattedDateOnly(arrFlight!!.departureDate)
+                tvDepArr.text = "Arrive"
+                tvPaxCount.text = "1"
+                tvFlightDirect.text = "Direct"
+                tvArriveCity.text = arrFlight!!.arrivalAirport.city
+                tvDepartCity.text = arrFlight!!.departureAirport.city
+                iataDepartAirport.text = arrFlight!!.departureAirport.iata
+                iataArriveAirport.text= arrFlight!!.arrivalAirport.iata
+            }
+        }
+
+        val arrPrice = arrFlight?.price ?: 0
+        val totalPrice = depFlight.price + arrPrice
+        binding.confirmLayout.tvPrice.text = Utils.formattedMoney(totalPrice)
+    }
+
+    private fun setInputConfig(){
         binding.tvEdit.setOnClickListener {
             contactDetailsFragment.show(requireActivity().supportFragmentManager, contactDetailsFragment.tag)
         }
@@ -98,7 +148,18 @@ class BookingFragment : Fragment() {
 
             }
         })
+    }
 
+    private fun getArgs(){
+        val bundle = arguments
+        if(bundle == null){
+            Log.e(TAG, "onViewCreated: Args Failed")
+            return
+        }
+        val args = BookingFragmentArgs.fromBundle(bundle)
+        depFlight = args.depFlight
+        arrFlight = args.arrFlight
+        Log.d(TAG, "getArgs: Flight ${args.depFlight}")
     }
 
     private fun setupToolbar(){

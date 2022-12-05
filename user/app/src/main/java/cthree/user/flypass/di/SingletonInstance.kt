@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.dao.AirportDao
+import cthree.user.flypass.dao.RecentSearchDao
 import cthree.user.flypass.db.MyDatabase
 import cthree.user.flypass.utils.Constants
 import dagger.Module
@@ -56,6 +57,11 @@ object SingletonInstance {
     @Singleton
     fun providesAirportDao(myDatabase: MyDatabase): AirportDao =
         myDatabase.airportDao()
+
+    @Provides
+    @Singleton
+    fun providesRecentSearch(myDatabase: MyDatabase): RecentSearchDao =
+        myDatabase.recentSearchDao()
 
     @Provides
     @Singleton

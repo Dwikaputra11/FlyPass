@@ -20,26 +20,6 @@
             android:id="@+id/action_ticketListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <argument
-            android:name="departDate"
-            app:argType="string" />
-        <argument
-            android:name="arriveDate"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="depAriport"
-            app:argType="string" />
-        <argument
-            android:name="arrAiport"
-            app:argType="string" />
-        <argument
-            android:name="arrCity"
-            app:argType="string" />
-        <argument
-            android:name="depCity"
-            app:argType="string" />
-        <argument
             android:name="isRoundtrip"
             app:argType="boolean" />
         <argument
@@ -50,6 +30,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="search"
+            app:argType="cthree.user.flypass.data.RecentSearch" />
     </fragment>
     <fragment
         android:id="@+id/flightConfirmationFragment"
@@ -76,6 +59,14 @@
         <action
             android:id="@+id/action_bookingFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -85,6 +76,14 @@
         <action
             android:id="@+id/action_paymentFragment_to_bookingCompleteFragment"
             app:destination="@id/bookingCompleteFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/bookingCompleteFragment"
@@ -110,22 +109,11 @@
             android:name="depFlight"
             app:argType="cthree.user.flypass.models.flight.Flight" />
         <argument
-            android:name="arrDate"
-            app:argType="string" />
-        <argument android:name="arrAirport"
-            app:argType="string" />
-        <argument
-            android:name="depAirport"
-            app:argType="string" />
-        <argument
-            android:name="arrCity"
-            app:argType="string" />
-        <argument
-            android:name="depCity"
-            app:argType="string" />
-        <argument
             android:name="arrDateTv"
             app:argType="string" />
+        <argument
+            android:name="search"
+            app:argType="cthree.user.flypass.data.RecentSearch" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"

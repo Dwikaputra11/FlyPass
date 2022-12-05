@@ -60,11 +60,6 @@ class AirportWorker @AssistedInject constructor(
     }
 
     fun syncAirportDB(list: List<Airport>){
-        list.forEach {
-            if(it.iata == null){
-                Log.d(TAG, "syncAirportDB iata: ${it.country}, ${it.name}, ${it.id}")
-            }
-        }
         MyDatabase.databaseWriteExecutor.execute {
             airportDao.insertAirport(list)
         }

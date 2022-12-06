@@ -116,7 +116,7 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch { prefRepo.saveDataUser(profile) }
     }
 
-    fun saveDataId(id : Int){
-        viewModelScope.launch { prefRepo.saveDataUserId(id) }
-    }
+//    fun saveDataId(id : Int){
+//        viewModelScope.launch { prefRepo.saveDataUserId(id) }
+//    }
 }

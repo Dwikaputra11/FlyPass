@@ -1,7 +1,6 @@
 package cthree.user.flypass.models.user
 
-
-data class ProfileDataClass(
+data class UpdateProfile(
     val email: String,
     val image: String,
     val name: String,

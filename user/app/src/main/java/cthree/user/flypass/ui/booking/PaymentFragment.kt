@@ -14,8 +14,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.databinding.FragmentPaymentBinding
-import cthree.user.flypass.databinding.NotEnoughBalanceDialogBinding
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -141,7 +141,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun notEnoughBalanceDialog(){
-        val notEnoughBinding = NotEnoughBalanceDialogBinding.inflate(layoutInflater, null, false)
+        val notEnoughBinding = DialogTwoButtonAlertBinding.inflate(layoutInflater, null, false)
         val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
 
         materialAlertDialogBuilder.setView(notEnoughBinding.root)
@@ -151,11 +151,11 @@ class PaymentFragment : Fragment() {
         materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         materAlertDialog.show()
 
-        notEnoughBinding.btnToTopUp.setOnClickListener {
+        notEnoughBinding.btnYes.setOnClickListener {
             Log.d(TAG, "notEnoughBalanceDialog: Btn TopUp Clicked")
             materAlertDialog.dismiss()
         }
-        notEnoughBinding.tvMaybeLater.setOnClickListener {
+        notEnoughBinding.tvNo.setOnClickListener {
             Log.d(TAG, "notEnoughBalanceDialog: Maybe Later")
             materAlertDialog.dismiss()
         }

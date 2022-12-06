@@ -42,4 +42,6 @@ object Constants {
     // TIME CONVERT
     const val TIME_TYPE = "time_type"
     const val DATE_TYPE = "date_type"
+
+    const val USER_TOKEN = "user_token"
 }

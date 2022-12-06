@@ -3,7 +3,9 @@ package cthree.user.flypass.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import com.auth0.android.jwt.JWT
 import cthree.user.flypass.R
+import cthree.user.flypass.models.user.Profile
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.ParseException
@@ -169,5 +171,19 @@ object Utils {
             e.printStackTrace()
         }
         return "$formattedString"
+    }
+
+    fun decodeAccountToken(token: String): Profile {
+        val user = JWT(token)
+        return Profile(
+            id = user.getClaim("id").asInt()!!,
+            email = user.getClaim("email").asString()!!,
+            birthDate = user.getClaim("birthDate").asString(),
+            gender = user.getClaim("gender").asString(),
+            image = user.getClaim("image").asString(),
+            phone = user.getClaim("phone").asString(),
+            roleId = user.getClaim("roleId").asInt()!!,
+            name = user.getClaim("name").asString()!!
+        )
     }
 }

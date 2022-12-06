@@ -45,6 +45,7 @@ dependencies {
 
     implementation 'com.github.nawinkhatiwada:TopSheet:1.0.0-alpha2'
 
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }

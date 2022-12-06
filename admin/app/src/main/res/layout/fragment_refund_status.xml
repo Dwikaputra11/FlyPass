@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FCFCFC"
-    tools:context=".RefundStatusFragment">
+    tools:context=".ui.RefundStatusFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"

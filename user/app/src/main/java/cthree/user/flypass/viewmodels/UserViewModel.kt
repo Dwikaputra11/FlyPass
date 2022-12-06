@@ -7,12 +7,11 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cthree.user.flypass.api.APIClient
 import cthree.user.flypass.models.user.Profile
-import cthree.user.flypass.models.user.ProfileDataClass
+import cthree.user.flypass.models.user.UpdateProfile
 import cthree.user.flypass.models.user.RegisterResponse
 import cthree.user.flypass.models.user.User
 import cthree.user.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -56,7 +55,7 @@ class UserViewModel @Inject constructor(application: Application) : ViewModel() 
             })
     }
 
-    fun callPostApiUser(profile : ProfileDataClass){
+    fun callPostApiUser(profile : UpdateProfile){
         APIClient.instance.registerUser(profile)
             .enqueue(object : Callback<RegisterResponse>{
                 override fun onResponse(
@@ -81,7 +80,11 @@ class UserViewModel @Inject constructor(application: Application) : ViewModel() 
         viewModelScope.launch { prefRepo.saveDataUser(profile) }
     }
 
-    fun saveDataId(id : Int){
-        viewModelScope.launch { prefRepo.saveDataUserId(id) }
+//    fun saveDataId(id : Int){
+//        viewModelScope.launch { prefRepo.saveDataUserId(id) }
+//    }
+
+    fun saveLoginStatus(status : Boolean){
+        viewModelScope.launch { prefRepo.saveLoginStatus(status) }
     }
 }

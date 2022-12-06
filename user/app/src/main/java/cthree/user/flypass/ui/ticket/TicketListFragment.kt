@@ -35,13 +35,6 @@ class TicketListFragment : Fragment() {
     private var isRoundTrip : Boolean = false
     private lateinit var depDateTv: String
     private var arrDateTv:String? = null
-//    private var singleDepart = "Jakarta"
-//    private var singleArrive = "Bali"
-//    private var singleDepartDate = "Wed, 30 Nov"
-//    private var roundDepart = "Bali"
-//    private var roundArrive = "Jakarta"
-//    private var roundDepartDate = "Sat, 3 Dec"
-//    private var seatClass = "Economy"
     private lateinit var search: RecentSearch
     private val adapter: TicketListAdapter = TicketListAdapter()
 

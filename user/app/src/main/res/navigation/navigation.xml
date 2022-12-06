@@ -84,6 +84,9 @@
             app:argType="cthree.user.flypass.models.flight.Flight"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_paymentFragment_to_transferBankConfirmFragment"
+            app:destination="@id/transferBankConfirmFragment" />
     </fragment>
     <fragment
         android:id="@+id/bookingCompleteFragment"
@@ -307,4 +310,13 @@
         android:name="cthree.user.flypass.ui.wishlist.WishlistFragment"
         android:label="fragment_wishlist"
         tools:layout="@layout/fragment_wishlist" />
+    <fragment
+        android:id="@+id/transferBankConfirmFragment"
+        android:name="cthree.user.flypass.ui.booking.TransferBankConfirmFragment"
+        android:label="fragment_transfer_bank_confirm"
+        tools:layout="@layout/fragment_transfer_bank_confirm" >
+        <action
+            android:id="@+id/action_transferBankConfirmFragment_to_bookingCompleteFragment"
+            app:destination="@id/bookingCompleteFragment" />
+    </fragment>
 </navigation>

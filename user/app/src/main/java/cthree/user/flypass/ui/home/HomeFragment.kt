@@ -223,7 +223,6 @@ class HomeFragment : Fragment() {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             offscreenPageLimit = 3
             setPageTransformer(MarginPageTransformer(50))
-            beginFakeDrag()
             binding.wormDot.attachTo(binding.vpHighlight)
             clipToPadding = false
             setPadding(10, 10, 10 ,0)

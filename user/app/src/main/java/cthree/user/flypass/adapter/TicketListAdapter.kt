@@ -50,11 +50,11 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ticket = differ.currentList[position]
-        val isoTimeDepart = "${ticket.departureDate}T${ticket.departureTime}Z"
-        val isoTimeArrive = "${ticket.arrivalDate}T${ticket.arrivalTime}Z"
-        val timeDepart = Utils.convertISOTime(holder.binding.root.context, isoTimeDepart, Constants.TIME_TYPE)
+//        val isoTimeDepart = "${ticket.departureDate}T${ticket.departureTime}Z"
+//        val isoTimeArrive = "${ticket.arrivalDate}T${ticket.arrivalTime}Z"
+        val timeDepart = Utils.formattedTime(ticket.departureTime)
 //        val dateDepart = Utils.convertISOTime(holder.binding.root.context, isoTimeDepart, Constants.DATE_TYPE)
-        val timeArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.TIME_TYPE)
+        val timeArrive = Utils.formattedTime(ticket.arrivalTime)
 //        val dateArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.DATE_TYPE)
         holder.binding.iataArriveAirport.text = ticket.arrivalAirport.iata
         holder.binding.iataDepartAirport.text = ticket.departureAirport.iata

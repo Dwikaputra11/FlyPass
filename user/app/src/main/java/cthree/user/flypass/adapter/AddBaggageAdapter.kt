@@ -71,7 +71,6 @@ class AddBaggageAdapter:RecyclerView.Adapter<AddBaggageAdapter.ViewHolder>() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
-
         }
     }
 

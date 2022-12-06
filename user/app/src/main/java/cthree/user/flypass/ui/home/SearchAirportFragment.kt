@@ -64,6 +64,7 @@ class SearchAirportFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbar()
+        setBottomNav()
         args = requireArguments().getString(Constants.FLIGHT_DIR).toString()
 
         setAirportList()

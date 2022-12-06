@@ -129,6 +129,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:textColor="@color/smokey_900"
+                    android:paddingHorizontal="10dp"
                     android:text="FlyPass Code"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -136,29 +137,8 @@
                 <TextView
                     android:id="@+id/tvFlypassCode"
                     android:textColor="@color/smokey_500"
+                    android:paddingHorizontal="10dp"
                     android:text="9309837"
-                    android:textStyle="bold"
-                    android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_marginBottom="20dp"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="5dp"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textColor="@color/smokey_900"
-                    android:text="Price"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tvPrice"
-                    android:textColor="@color/smokey_500"
-                    android:text="Rp 288.992"
                     android:textStyle="bold"
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
@@ -235,6 +215,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
+            <TextView
+                android:text="Payment"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            
+            <include
+                android:id="@+id/paymentDetails"
+                layout="@layout/payment_details"/>
+
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPayment"

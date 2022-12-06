@@ -11,6 +11,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentPaymentBinding
@@ -27,8 +28,10 @@ class PaymentFragment : Fragment() {
     private lateinit var binding: FragmentPaymentBinding
     private lateinit var depFlight: Flight
     private var arrFlight: Flight? = null
+    private lateinit var paymentMethodFragment: PaymentMethodFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        paymentMethodFragment = PaymentMethodFragment()
         super.onCreate(savedInstanceState)
     }
 
@@ -46,7 +49,11 @@ class PaymentFragment : Fragment() {
         setViews()
         binding.btnPayment.setOnClickListener {
 //            notEnoughBalanceDialog()
-            Navigation.findNavController(binding.root).navigate(R.id.action_paymentFragment_to_bookingCompleteFragment)
+            if(binding.paymentDetails.tvPaymentMethod.text == "Balance"){
+                findNavController().navigate(R.id.action_paymentFragment_to_bookingCompleteFragment)
+            }else{
+                findNavController().navigate(R.id.action_paymentFragment_to_transferBankConfirmFragment)
+            }
         }
     }
 
@@ -119,9 +126,18 @@ class PaymentFragment : Fragment() {
             }
         }
 
+        binding.paymentDetails.llPaymentMethod.setOnClickListener {
+            paymentMethodFragment.show(requireActivity().supportFragmentManager, paymentMethodFragment.tag)
+        }
+        paymentMethodFragment.setOnClickListener(object : PaymentMethodFragment.OnClickListener{
+            override fun onClick(method: String) {
+                binding.paymentDetails.tvPaymentMethod.text = method
+            }
+        })
+
         val arrPrice = arrFlight?.price ?: 0
         val totalPrice = depFlight.price + arrPrice
-        binding.tvPrice.text = Utils.formattedMoney(totalPrice)
+//        binding.tvPrice.text = Utils.formattedMoney(totalPrice)
     }
 
     private fun notEnoughBalanceDialog(){
@@ -137,6 +153,7 @@ class PaymentFragment : Fragment() {
 
         notEnoughBinding.btnToTopUp.setOnClickListener {
             Log.d(TAG, "notEnoughBalanceDialog: Btn TopUp Clicked")
+            materAlertDialog.dismiss()
         }
         notEnoughBinding.tvMaybeLater.setOnClickListener {
             Log.d(TAG, "notEnoughBalanceDialog: Maybe Later")

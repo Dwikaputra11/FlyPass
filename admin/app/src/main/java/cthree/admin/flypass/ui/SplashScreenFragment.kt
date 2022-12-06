@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentSplashScreenBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SplashScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashScreenBinding

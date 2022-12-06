@@ -1,33 +1,40 @@
 package cthree.admin.flypass.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIClient
+import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.admin.AdminDataClass
 import cthree.admin.flypass.models.admin.LoginAdminResponse
 import cthree.admin.flypass.models.admin.User
 import cthree.admin.flypass.preferences.UserPreferenceRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class AdminViewModel constructor(application: Application): ViewModel() {
+@HiltViewModel
+class AdminViewModel @Inject constructor(private val apiService: APIService, application: Application): ViewModel() {
 
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataAdmin = prefRepo.readData.asLiveData()
 
     private val postDataAdmin : MutableLiveData<User?> = MutableLiveData()
+    private val tokenUser: MutableLiveData<String?> = MutableLiveData()
+    private val errorMsg: MutableLiveData<String?> = MutableLiveData()
+
+    fun getLoginToken(): LiveData<String?> = tokenUser
+
+    fun getErrorMessage(): LiveData<String?> = errorMsg
 
     fun postDataAdmin() : MutableLiveData<User?>{
         return postDataAdmin
     }
 
     fun callPostApiAdmin(email : String, password : String){
-        APIClient.instance.loginAdmin(AdminDataClass(email, password))
+        apiService.loginAdmin(AdminDataClass(email, password))
             .enqueue(object : Callback<User> {
                 override fun onResponse(
                     call: Call<User>,

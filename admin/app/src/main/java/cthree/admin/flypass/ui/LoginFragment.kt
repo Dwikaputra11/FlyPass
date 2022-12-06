@@ -1,6 +1,7 @@
 package cthree.admin.flypass.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,9 @@ import androidx.navigation.Navigation
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentLoginBinding
 import cthree.admin.flypass.viewmodels.AdminViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     lateinit var binding : FragmentLoginBinding
@@ -30,6 +33,12 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userVM = ViewModelProvider(requireActivity()).get(AdminViewModel::class.java)
+
+        userVM.getLoginToken().observe(viewLifecycleOwner) {
+            if(it != null){
+
+            }
+        }
 
         binding.btnLogin.setOnClickListener {
             val email = binding.loginEmail.text.toString()

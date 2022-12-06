@@ -34,20 +34,11 @@ class SearchAirportFragment : Fragment() {
     private lateinit var binding: FragmentSearchAirportBinding
     private val airportViewModel : AirportViewModel by viewModels()
     private lateinit var sessionManager: SessionManager
-    private lateinit var listener: OnItemClickListener
     private lateinit var args: String
     private val recentSearchAdapter = AirportSearchAdapter()
     private val indoAirportAdapter = AirportSearchAdapter()
     private val japanAirportAdapter = AirportSearchAdapter()
     private val chinaAirportAdapter = AirportSearchAdapter()
-
-    interface OnItemClickListener{
-        fun onItemClick(airport: Airport)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener){
-        this.listener = listener
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -135,9 +135,9 @@ class SearchAirportFragment : Fragment() {
 
     fun setNavigation(airport: Airport){
         if(args == Constants.DEPART_AIRPORT){
-            sessionManager.setSelectAirport(airport, Constants.DEPART_AIRPORT)
+            airportViewModel.addAirportDepartPrefs(airport)
         }else{
-            sessionManager.setSelectAirport(airport, Constants.ARRIVE_AIRPORT)
+            airportViewModel.addAirportArrivePrefs(airport)
         }
         Navigation.findNavController(binding.root).navigate(R.id.action_searchAirportFragment_to_homeFragment)
     }

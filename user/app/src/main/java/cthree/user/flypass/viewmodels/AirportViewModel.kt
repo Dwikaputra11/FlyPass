@@ -82,8 +82,12 @@ class AirportViewModel @Inject constructor(
         }
     }
 
-    fun addToUserPref(airport: Airport){
-        viewModelScope.launch { prefRepo.saveDataAirportDepartArrive(airport) }
+    fun addAirportDepartPrefs(airport: Airport){
+        viewModelScope.launch { prefRepo.saveDataAirportDepart(airport) }
+    }
+
+    fun addAirportArrivePrefs(airport: Airport){
+        viewModelScope.launch { prefRepo.saveDataAirportArrive(airport) }
     }
 
     fun clearUserPref(){

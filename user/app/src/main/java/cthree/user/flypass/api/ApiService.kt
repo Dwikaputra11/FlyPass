@@ -5,6 +5,7 @@ import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.user.RegisterResponse
+import cthree.user.flypass.models.user.RegisterUser
 import cthree.user.flypass.models.user.UpdateProfile
 import cthree.user.flypass.models.user.User
 import retrofit2.Call
@@ -30,7 +31,7 @@ interface ApiService {
     fun apiServiceUser() : Call<User>
 
     @POST("v1/register")
-    fun registerUser(@Body request : UpdateProfile) : Call<RegisterResponse>
+    fun registerUser(@Body request : RegisterUser) : Call<RegisterResponse>
 
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>

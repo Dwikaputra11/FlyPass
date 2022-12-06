@@ -35,6 +35,7 @@ object Constants {
     const val ARRIVE_AIRPORT_NAME = "arriveAirportName"
     const val DEPART_DEFAULT_VAL = "departDefaultVal"
     const val ARRIVE_DEFAULT_VAL = "arriveDefaultVal"
+    const val SEAT_CLASS = "seatClass"
 
     // WORK MANAGER
     const val AIRPORT_WORKER = "airport_worker"

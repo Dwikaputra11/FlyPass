@@ -14,6 +14,7 @@ import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentLoginBinding
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,6 +52,8 @@ class LoginFragment : Fragment() {
                 Log.d(TAG, "onViewCreated: $it")
                 progressAlertDialog.dismiss()
                 sessionManager.setToken(it)
+                // save data profile to proto
+                userVM.saveData(Utils.decodeAccountToken(it))
             }
         }
         
@@ -92,17 +95,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun errorMessageDialog(title: String, subtitle: String, btnMsg: String){
-        val errorMessageDialog = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
+        val errorMessageDialog  = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
 
         errorMsgAlertBuilder.setView(errorMessageDialog.root)
 
-        val materAlertDialog = errorMsgAlertBuilder.create()
+        val materAlertDialog    = errorMsgAlertBuilder.create()
         materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-        errorMessageDialog.tvTitle.text = title
-        errorMessageDialog.tvSubtitle.text = subtitle
-        errorMessageDialog.btnYes.text = btnMsg
+        errorMessageDialog.tvTitle.text         = title
+        errorMessageDialog.tvSubtitle.text      = subtitle
+        errorMessageDialog.btnYes.text          = btnMsg
 
         materAlertDialog.show()
         errorMessageDialog.btnYes.setOnClickListener {

@@ -11,10 +11,7 @@ import com.google.gson.JsonObject
 import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
-import cthree.user.flypass.models.user.Profile
-import cthree.user.flypass.models.user.RegisterResponse
-import cthree.user.flypass.models.user.UpdateProfile
-import cthree.user.flypass.models.user.User
+import cthree.user.flypass.models.user.*
 import cthree.user.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -75,6 +72,26 @@ class UserViewModel @Inject constructor(
         })
     }
 
+    fun registerUser(user: RegisterUser){
+        apiService.registerUser(user).enqueue(object : Callback<RegisterResponse>{
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                if(response.isSuccessful){
+                    registerDataUser.postValue(response.body())
+                }else{
+
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
     fun callApiUser(){
         apiService.apiServiceUser()
             .enqueue(object : Callback<User> {
@@ -92,27 +109,6 @@ class UserViewModel @Inject constructor(
                 override fun onFailure(call: Call<User>, t: Throwable) {
                     liveDataUser.postValue(null)
                 }
-            })
-    }
-
-    fun callPostApiUser(profile : UpdateProfile){
-        apiService.registerUser(profile)
-            .enqueue(object : Callback<RegisterResponse>{
-                override fun onResponse(
-                    call: Call<RegisterResponse>,
-                    response: Response<RegisterResponse>
-                ) {
-                    if (response.isSuccessful){
-                        registerDataUser.postValue(response.body())
-                    }else{
-                        registerDataUser.postValue(null)
-                    }
-                }
-
-                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                    registerDataUser.postValue(null)
-                }
-
             })
     }
 

@@ -15,6 +15,13 @@ class SessionManager(
         editor.putInt(Constants.PASSENGER_AMOUNT, amount)
         editor.apply()
     }
+    fun getPassenger(): Int = prefs.getInt(Constants.PASSENGER_AMOUNT, 0)
+
+    fun setSeatClass(seatClass: String){
+        editor.putString(Constants.SEAT_CLASS, seatClass)
+        editor.apply()
+    }
+    fun getSeatClass(): String? = prefs.getString(Constants.SEAT_CLASS, "")
 
     fun setIsFirstInstall(set: Boolean){
         editor.putBoolean(Constants.IS_FIRST_INSTALL, set)
@@ -30,7 +37,6 @@ class SessionManager(
 
     fun getIsFirstInstall(): Boolean = prefs.getBoolean(Constants.IS_FIRST_INSTALL, true)
 
-    fun getPassenger(): Int = prefs.getInt(Constants.PASSENGER_AMOUNT, 2)
 
     fun setIsAirportDBExist(){
         editor.putBoolean(Constants.IS_AIRPORT_DB_EXIST, true)

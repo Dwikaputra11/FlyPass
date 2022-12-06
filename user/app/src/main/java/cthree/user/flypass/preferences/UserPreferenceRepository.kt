@@ -52,7 +52,7 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-    suspend fun saveDataAirportDepartArrive(airport: Airport) {
+    suspend fun saveDataAirportDepart(airport: Airport) {
         //Depart
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setDepartAirportCity(airport.city).build()
@@ -64,12 +64,14 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().setDepartAirportIata(airport.iata).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setDepartAirportId(airport.id.toInt()).build()
+            preferences.toBuilder().setDepartAirportId(airport.id).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setDepartAirportName(airport.name).build()
         }
+    }
 
+    suspend fun saveDataAirportArrive(airport: Airport){
         //Arrive
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setArriveAirportCity(airport.city).build()
@@ -81,7 +83,7 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().setArriveAirportIata(airport.iata).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setArriveAirportId(airport.id.toInt()).build()
+            preferences.toBuilder().setArriveAirportId(airport.id).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setArriveAirportName(airport.name).build()

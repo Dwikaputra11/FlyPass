@@ -31,6 +31,7 @@ import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.AirportViewModel
 import cthree.user.flypass.viewmodels.RecentSearchViewModel
+import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,10 +45,13 @@ class HomeFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private val airportViewModel: AirportViewModel by viewModels()
     private val recentSearchViewModel: RecentSearchViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private val calDep: Calendar = Calendar.getInstance()
     private val calArr: Calendar = Calendar.getInstance()
-    private lateinit var departValue: Airport
-    private lateinit var arriveValue: Airport
+    private lateinit var departIata: String
+    private lateinit var arriveIata: String
+    private var departCity: String? = null
+    private var arriveCity: String? = null
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     private lateinit var dateField: String
     private val seatClassFragment = SeatClassFragment()
@@ -186,10 +190,10 @@ class HomeFragment : Fragment() {
         val recentSearch = RecentSearch(
             departDate = dateDep,
             arriveDate = dateArr,
-            iataArriveAirport = arriveValue.iata,
-            iataDepartAirport = departValue.iata,
-            arriveCity = arriveValue.city ?: "City",
-            departCity = departValue.city ?: "City",
+            iataArriveAirport = arriveIata,
+            iataDepartAirport = departIata,
+            arriveCity = arriveCity ?: "City",
+            departCity = departCity ?: "City",
             id = 0,
             seatClass = binding.etSeatClass.text.toString(),
             passengerAmount = binding.etPassengers.text.toString().toInt()
@@ -206,15 +210,27 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setViews() {
-        departValue = sessionManager.getSelectedAirport(Constants.DEPART_AIRPORT)
-        arriveValue = sessionManager.getSelectedAirport(Constants.ARRIVE_AIRPORT)
-        if(departValue.city != Constants.DEPART_DEFAULT_VAL){
-            binding.etFromAirport.setText("${departValue.city}, ${departValue.country}")
+        userViewModel.dataUser.observe(viewLifecycleOwner){
+            if(it.arriveAirportCity.isNotEmpty()){
+                arriveIata = it.arriveAirportIata
+                arriveCity = it.arriveAirportCity
+                binding.etToAirport.setText("${it.arriveAirportCity}, ${it.arriveAirportCountry}")
+            }
+            if(it.departAirportCity.isNotEmpty()){
+                departIata = it.departAirportIata
+                departCity = it.departAirportCity
+                binding.etFromAirport.setText("${it.departAirportCity}, ${it.departAirportCountry}")
+            }
         }
-
-        if(arriveValue.city != Constants.ARRIVE_DEFAULT_VAL){
-            binding.etToAirport.setText("${arriveValue.city}, ${arriveValue.country}")
-        }
+//        departValue = sessionManager.getSelectedAirport(Constants.DEPART_AIRPORT)
+//        arriveValue = sessionManager.getSelectedAirport(Constants.ARRIVE_AIRPORT)
+//        if(departValue.city != Constants.DEPART_DEFAULT_VAL){
+//            binding.etFromAirport.setText("${departValue.city}, ${departValue.country}")
+//        }
+//
+//        if(arriveValue.city != Constants.ARRIVE_DEFAULT_VAL){
+//            binding.etToAirport.setText("${arriveValue.city}, ${arriveValue.country}")
+//        }
     }
 
     private fun setAdapter() {

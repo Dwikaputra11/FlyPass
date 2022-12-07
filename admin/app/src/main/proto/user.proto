@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "cthree.admin.flypass";
+option java_multiple_files = true;
+
+message UserProto {
+  // filter for showing / hiding completed tasks
+  int32 id = 1;
+  int32 roleId = 2;
+  string email = 3;
+  string password = 4;
+  string accesstToken = 5;
+  bool saveLoginStatus = 6;
+}

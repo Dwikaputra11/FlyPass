@@ -1,10 +1,11 @@
-package cthree.admin.flypass
+package cthree.admin.flypass.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import cthree.admin.flypass.R
 
 class HomeFragment : Fragment() {
     override fun onCreateView(

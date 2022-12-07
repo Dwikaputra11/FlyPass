@@ -46,9 +46,15 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-    suspend fun saveDataUserId(id: Int){
+//    suspend fun saveDataUserId(id: Int){
+//        context.userPreferencesStore.updateData { preferences ->
+//            preferences.toBuilder().setId(id).build()
+//        }
+//    }
+
+    suspend fun saveLoginStatus(paramIsLogin: Boolean){
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setId(id).build()
+            preferences.toBuilder().setSaveLoginStatus(paramIsLogin).build()
         }
     }
 

@@ -20,4 +20,16 @@
     <string name="wrong_email_subtitle">Silahkan masukkan email yang benar.</string>
     <string name="confirm_one_btn_dialog">OK, I got it!</string>
 
+<!--   Register -->
+    <string name="empty_field_title">Input Kosong!</string>
+    <string name="empty_field_subtitle">Pastikan input tidak kosong.</string>
+    <string name="conf_password_not_match_title">Konfirmasi Password Salah!</string>
+    <string name="conf_password_not_match_subtitle">Masukkan konfirmasi password sesuai dengan password.</string>
+    <string name="email_already_exist_title">Email sudah pernah terdaftar!</string>
+    <string name="email_already_exist_subtitle">Silahkan gunakan email yang lain.</string>
+    <string name="register_success_title">Register Berhasil!</string>
+    <string name="register_success_subtitle">Silahkan login terlebih dahulu.</string>
+    <string name="register_success_btn">Login</string>
+
+
 </resources>

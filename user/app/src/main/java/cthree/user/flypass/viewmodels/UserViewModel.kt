@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.JsonObject
 import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
@@ -32,14 +31,17 @@ class UserViewModel @Inject constructor(
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataUser = prefRepo.readData.asLiveData()
 
-    private val tokenUser: MutableLiveData<String?> = MutableLiveData()
-    private val liveDataUser : MutableLiveData<User?> = MutableLiveData()
-    private val registerDataUser : MutableLiveData<RegisterResponse?> = MutableLiveData()
-    private val errorMsg: MutableLiveData<String?> = MutableLiveData()
+    private val tokenUser: MutableLiveData<String?>                     = MutableLiveData()
+    private val liveDataUser : MutableLiveData<User?>                   = MutableLiveData()
+    private val registerDataUser : MutableLiveData<RegisterResponse?>   = MutableLiveData()
+    private val loginErrorMsg: MutableLiveData<String?>                 = MutableLiveData()
+    private val registErrorMsg: MutableLiveData<String?>                = MutableLiveData()
 
     fun getLoginToken(): LiveData<String?> = tokenUser
 
-    fun getErrorMessage(): LiveData<String?> = errorMsg
+    fun getLoginErrorMessage(): LiveData<String?> = loginErrorMsg
+
+    fun getRegisterErrorMessage(): LiveData<String?> = registErrorMsg
 
     fun getLiveDataUser() : MutableLiveData<User?>{
         return liveDataUser
@@ -59,7 +61,7 @@ class UserViewModel @Inject constructor(
                 }else{
                     tokenUser.postValue(null)
                     val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
-                    errorMsg.postValue(jsonObject.getString("message"))
+                    loginErrorMsg.postValue(jsonObject.getString("message"))
                     Log.d(TAG, "onResponse Call Login: ${jsonObject.getString("message")}")
                 }
             }
@@ -81,12 +83,15 @@ class UserViewModel @Inject constructor(
                 if(response.isSuccessful){
                     registerDataUser.postValue(response.body())
                 }else{
-
+                    tokenUser.postValue(null)
+                    val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
+                    registErrorMsg.postValue(jsonObject.getString("message"))
+                    Log.d(TAG, "onResponse Call Login: ${jsonObject.getString("message")}")
                 }
             }
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                registErrorMsg.postValue(null)
             }
         })
     }
@@ -121,5 +126,9 @@ class UserViewModel @Inject constructor(
 
     fun saveDataId(id : Int){
         viewModelScope.launch { prefRepo.saveDataUserId(id) }
+    }
+
+    fun saveLoginData(profile: Profile){
+        viewModelScope.launch { prefRepo.saveLoginData(profile) }
     }
 }

@@ -33,6 +33,7 @@
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:id="@+id/btnGetStarted"
+        android:textColor="@color/white"
         android:layout_marginBottom="20dp"
         android:background="@drawable/radius_10dp"
         app:backgroundTint="@color/color_primary"

@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
@@ -18,15 +18,15 @@ private const val TAG = "RegisterFragment"
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
-    private lateinit var binding: FragmentRegisterBinding
-    private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
-    private lateinit var errorMsgAlertBuilder: MaterialAlertDialogBuilder
-    private lateinit var progressAlertDialog: AlertDialog
+    private lateinit var binding                    : FragmentRegisterBinding
+    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
+    private lateinit var errorMsgAlertBuilder       : MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog        : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
-        errorMsgAlertBuilder = MaterialAlertDialogBuilder(requireContext())
+        progressAlertDialogBuilder      = MaterialAlertDialogBuilder(requireContext())
+        errorMsgAlertBuilder            = MaterialAlertDialogBuilder(requireContext())
     }
 
     override fun onCreateView(
@@ -38,21 +38,49 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initProgressDialog()
-        binding.btnRegister.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_registerFragment_to_accountInformationFragment)
+        binding.btnNext.setOnClickListener {
+            if(isValid()){
+                val direction = RegisterFragmentDirections.actionRegisterFragmentToAccountInformationFragment(
+                    email = binding.registerEmail.text.toString(),
+                    password = binding.registerPassword.text.toString(),
+                    confPassword = binding.registerPassword.text.toString()
+                )
+                findNavController().navigate(direction)
+            }
         }
         binding.tvtoLogin.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_registerFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
     }
 
+    private fun isValid(): Boolean {
+        if(binding.registerEmail.text.toString().isEmpty()&&
+            binding.registerConfirm.text.toString().isEmpty() &&
+            binding.registerPassword.text.toString().isEmpty()
+        ){
+            errorMessageDialog(
+                title = requireContext().getString(R.string.empty_field_title),
+                subtitle = requireContext().getString(R.string.empty_field_subtitle),
+                btnMsg = requireContext().getString(R.string.confirm_one_btn_dialog)
+            )
+            return false
+        }else if(binding.registerPassword.text.toString() != binding.registerConfirm.text.toString()){
+            errorMessageDialog(
+                title = requireContext().getString(R.string.conf_password_not_match_title),
+                subtitle = requireContext().getString(R.string.conf_password_not_match_subtitle),
+                btnMsg = requireContext().getString(R.string.confirm_one_btn_dialog)
+            )
+            return false
+        }
+        return  true
+    }
+
     private fun errorMessageDialog(title: String, subtitle: String, btnMsg: String){
-        val errorMessageDialog = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
+        val errorMessageDialog  = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
+        val materAlertDialog    = errorMsgAlertBuilder.create()
 
         errorMsgAlertBuilder.setView(errorMessageDialog.root)
 
-        val materAlertDialog = errorMsgAlertBuilder.create()
         materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
@@ -68,10 +96,10 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initProgressDialog(){
-        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        val progressBarBinding  = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialog     = progressAlertDialogBuilder.create()
         progressAlertDialogBuilder.setView(progressBarBinding.root)
 
-        progressAlertDialog = progressAlertDialogBuilder.create()
         progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
     }

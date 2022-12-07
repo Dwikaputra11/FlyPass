@@ -200,6 +200,14 @@
         <action
             android:id="@+id/action_accountInformationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument android:name="confPassword"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

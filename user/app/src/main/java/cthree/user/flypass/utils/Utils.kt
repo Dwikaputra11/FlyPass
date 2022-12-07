@@ -73,6 +73,19 @@ object Utils {
         return "$formattedDate"
     }
 
+    fun covertYearMonDay(time: Date): String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val formattedDate: String?
+        return try {
+            formattedDate = sdf.format(time)
+            formattedDate
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.e("Date", "convertDateToDay: ")
+            ""
+        }
+    }
+
     @SuppressLint("SimpleDateFormat")
     fun convertDateToDay(date:String): String{
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)

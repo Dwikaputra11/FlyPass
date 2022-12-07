@@ -24,6 +24,21 @@ class UserPreferenceRepository(private val context: Context) {
         )
     }
 
+    suspend fun saveLoginData(profile: Profile){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setEmail(profile.email).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setId(profile.id).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setRoleId(profile.roleId).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setName(profile.name).build()
+        }
+    }
+
     // save data to data store proto
     suspend fun saveDataUser(profile: Profile){
         context.userPreferencesStore.updateData { preferences ->
@@ -46,11 +61,11 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-//    suspend fun saveDataUserId(id: Int){
-//        context.userPreferencesStore.updateData { preferences ->
-//            preferences.toBuilder().setId(id).build()
-//        }
-//    }
+    suspend fun saveDataUserId(id: Int){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setId(id).build()
+        }
+    }
 
     suspend fun saveLoginStatus(paramIsLogin: Boolean){
         context.userPreferencesStore.updateData { preferences ->

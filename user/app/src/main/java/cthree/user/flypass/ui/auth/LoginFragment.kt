@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
@@ -53,11 +54,12 @@ class LoginFragment : Fragment() {
                 progressAlertDialog.dismiss()
                 sessionManager.setToken(it)
                 // save data profile to proto
-                userVM.saveData(Utils.decodeAccountToken(it))
+                userVM.saveLoginData(Utils.decodeAccountToken(it))
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
         
-        userVM.getErrorMessage().observe(viewLifecycleOwner){
+        userVM.getLoginErrorMessage().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
                 if(it.contains("Email")){

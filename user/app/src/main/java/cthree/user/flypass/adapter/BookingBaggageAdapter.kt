@@ -48,8 +48,10 @@ class BookingBaggageAdapter(private val passengerAmount: Int): RecyclerView.Adap
 
     @SuppressLint("NotifyDataSetChanged")
     fun submitList(list: List<Baggage?>){
-        differ.submitList(list)
         Log.d(TAG, "submitList: $list")
+        differ.submitList(null)
         notifyDataSetChanged()
+        differ.submitList(list)
+        notifyItemRangeInserted(0, list.size)
     }
 }

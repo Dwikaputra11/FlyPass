@@ -1,104 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.auth.AccountInformationFragment"
-    android:orientation="vertical"
-    android:padding="50dp">
-    <TextView
-        android:layout_marginBottom="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:text="Account Infomation"
-        android:gravity="center"
-        android:textStyle="bold" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:text="Full Name"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:text="Birthdate"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:text="NIK"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:text="Telephone Number"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="By signing up, you’re agree to our Terms and Conditions and Privacy Policy."/>
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:textColor="@color/white"/>
+    android:orientation="vertical">
     <LinearLayout
+        android:padding="30dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="#C4C4C4"/>
+        android:layout_height="wrap_content">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OR"
-            android:textColor="#AEAEAE"
-            android:textSize="12sp"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="#C4C4C4"/>
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:text="Account Infomation"
+            android:gravity="center"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Full Name"/>
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Birthdate"/>
+        <EditText
+            android:id="@+id/etBirthDate"
+            android:focusable="false"
+            android:drawableEnd="@drawable/ic_round_calendar_today_24"
+            android:drawableTint="@color/smokey_700"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Telephone Number"/>
+        <EditText
+            android:id="@+id/etPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Gender"/>
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:text="Male"
+                android:checked="true"
+                android:layout_weight="1"
+                app:buttonTint="@color/color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:text="Female"
+                android:layout_weight="1"
+                app:buttonTint="@color/color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:text="By signing up, you’re agree to our Terms and Conditions and Privacy Policy."/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Joined us  before?"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000AFF"
-            android:text=" login"/>
-    </LinearLayout>
-</LinearLayout>
+
+
+   <LinearLayout
+       android:layout_marginHorizontal="20dp"
+       android:layout_marginBottom="50dp"
+       android:layout_alignParentBottom="true"
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <Button
+           android:id="@+id/btnRegister"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Register"
+           android:textColor="@color/white"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center_vertical">
+           <View
+               android:layout_width="0dp"
+               android:layout_height="1dp"
+               android:layout_weight="1"
+               android:background="#C4C4C4"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="OR"
+               android:textColor="#AEAEAE"
+               android:textSize="12sp"/>
+           <View
+               android:layout_width="0dp"
+               android:layout_height="1dp"
+               android:layout_weight="1"
+               android:background="#C4C4C4"/>
+       </LinearLayout>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Joined us  before?"/>
+           <TextView
+               android:id="@+id/tvLogin"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="#000AFF"
+               android:textStyle="bold"
+               android:text=" Login"/>
+       </LinearLayout>
+   </LinearLayout>
+</RelativeLayout>

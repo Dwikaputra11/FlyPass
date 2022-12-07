@@ -166,19 +166,20 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRegister"
+                android:id="@+id/btnNext"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="150dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
                 android:text="Next"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:backgroundTint="@color/color_primary"
-                app:cornerRadius="10dp"
                 app:elevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fieldConfirm"
                 app:rippleColor="@color/color_primary" />
@@ -192,7 +193,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnRegister">
+                app:layout_constraintTop_toBottomOf="@+id/btnNext">
 
                 <View
                     android:layout_width="150dp"

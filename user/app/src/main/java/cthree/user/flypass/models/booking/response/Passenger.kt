@@ -1,11 +1,11 @@
-package cthree.user.flypass.models.booking
+package cthree.user.flypass.models.booking.response
 
 
 import com.google.gson.annotations.SerializedName
 
 data class Passenger(
     @SerializedName("age")
-    val age: Any,
+    val age: Int,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("firstName")
@@ -18,8 +18,6 @@ data class Passenger(
     val identityType: String,
     @SerializedName("lastName")
     val lastName: String,
-    @SerializedName("PassengerBooking")
-    val passengerBooking: PassengerBooking,
     @SerializedName("updatedAt")
     val updatedAt: String
 )

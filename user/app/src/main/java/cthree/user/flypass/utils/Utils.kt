@@ -175,6 +175,7 @@ object Utils {
 
     fun decodeAccountToken(token: String): Profile {
         val user = JWT(token)
+        Log.d("User", "decodeAccountToken: ${user.claims}")
         return Profile(
             id = user.getClaim("id").asInt()!!,
             email = user.getClaim("email").asString()!!,

@@ -1,4 +1,4 @@
-package cthree.user.flypass.models.booking
+package cthree.user.flypass.models.booking.searchbook
 
 
 import com.google.gson.annotations.SerializedName

@@ -1,9 +1,9 @@
-package cthree.user.flypass.models.booking
+package cthree.user.flypass.models.booking.searchbook
 
 
 import com.google.gson.annotations.SerializedName
 
-data class FlightBooking(
+data class Flight1(
     @SerializedName("airlineId")
     val airlineId: Int,
     @SerializedName("airplaneId")

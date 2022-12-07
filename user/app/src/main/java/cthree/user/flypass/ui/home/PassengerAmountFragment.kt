@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentPassengerAmoutBinding
-import cthree.user.flypass.models.booking.Passenger
 
 class PassengerAmountFragment : BottomSheetDialogFragment() {
 

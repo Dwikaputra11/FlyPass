@@ -71,31 +71,31 @@ class BookingFragment : Fragment() {
 
         // set Flight Info
         with(binding.selectedDepartFlight){
-            tvDate.text = Utils.formattedDateOnly(depFlight.departureDate)
-            tvPaxCount.text = "1"
-            tvFlightDirect.text = "Direct"
-            tvArriveCity.text = depFlight.arrivalAirport.city
-            tvDepartCity.text = depFlight.departureAirport.city
-            iataDepartAirport.text = depFlight.departureAirport.iata
-            iataArriveAirport.text= depFlight.arrivalAirport.iata
+            tvDate.text                 = Utils.formattedDateOnly(depFlight.departureDate)
+            tvPaxCount.text             = "1"
+            tvFlightDirect.text         = "Direct"
+            tvArriveCity.text           = depFlight.arrivalAirport.city
+            tvDepartCity.text           = depFlight.departureAirport.city
+            iataDepartAirport.text      = depFlight.departureAirport.iata
+            iataArriveAirport.text      = depFlight.arrivalAirport.iata
         }
 
         if(arrFlight != null){
             with(binding.selectedArriveFlight){
-                tvDate.text = Utils.formattedDateOnly(arrFlight!!.departureDate)
-                tvDepArr.text = "Arrive"
-                tvPaxCount.text = "1"
-                tvFlightDirect.text = "Direct"
-                tvArriveCity.text = arrFlight!!.arrivalAirport.city
-                tvDepartCity.text = arrFlight!!.departureAirport.city
-                iataDepartAirport.text = arrFlight!!.departureAirport.iata
-                iataArriveAirport.text= arrFlight!!.arrivalAirport.iata
+                tvDate.text             = Utils.formattedDateOnly(arrFlight!!.departureDate)
+                tvDepArr.text           = "Arrive"
+                tvPaxCount.text         = "1"
+                tvFlightDirect.text     = "Direct"
+                tvArriveCity.text       = arrFlight!!.arrivalAirport.city
+                tvDepartCity.text       = arrFlight!!.departureAirport.city
+                iataDepartAirport.text  = arrFlight!!.departureAirport.iata
+                iataArriveAirport.text  = arrFlight!!.arrivalAirport.iata
             }
         }
 
-        val arrPrice = arrFlight?.price ?: 0
-        val totalPrice = depFlight.price + arrPrice
-        binding.confirmLayout.tvPrice.text = Utils.formattedMoney(totalPrice)
+        val arrPrice                        = arrFlight?.price ?: 0
+        val totalPrice                      = depFlight.price + arrPrice
+        binding.confirmLayout.tvPrice.text  = Utils.formattedMoney(totalPrice)
     }
 
     private fun setInputConfig(){
@@ -105,16 +105,16 @@ class BookingFragment : Fragment() {
         contactDetailsFragment.setOnClickListener(object : ContactDetailsFragment.OnClickListener{
             @SuppressLint("SetTextI18n")
             override fun onClick(contact: Contact) {
-                binding.tvEmail.text = contact.email
-                binding.tvFullName.text = "${contact.name}, ${contact.surname}"
-                binding.tvPhoneNumber.text = contact.phoneNumber
+                binding.tvEmail.text        = contact.email
+                binding.tvFullName.text     = "${contact.name}, ${contact.surname}"
+                binding.tvPhoneNumber.text  = contact.phoneNumber
             }
         })
 
-        val travelerAdapter = TravelerDetailsAdapter(sessionManager.getPassenger())
-        binding.rvTravelersDetail.adapter = travelerAdapter
+        val travelerAdapter                         = TravelerDetailsAdapter(sessionManager.getPassenger())
+        binding.rvTravelersDetail.adapter           = travelerAdapter
+        binding.rvTravelersDetail.layoutManager     = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         travelerAdapter.submitList(travelerList)
-        binding.rvTravelersDetail.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         travelerAdapter.setOnItemClickListener(object : TravelerDetailsAdapter.OnItemClickListener{
             override fun onItemClick(traveler: Traveler?,position: Int) {
                 isEdit = false
@@ -137,15 +137,16 @@ class BookingFragment : Fragment() {
             }
         })
 
-        val bookingBaggageAdapter = BookingBaggageAdapter()
-        binding.rvPassengerBaggage.adapter = bookingBaggageAdapter
-        binding.rvPassengerBaggage.layoutManager = LinearLayoutManager(requireContext())
+        val bookingBaggageAdapter                   = BookingBaggageAdapter(sessionManager.getPassenger())
+        binding.rvPassengerBaggage.adapter          = bookingBaggageAdapter
+        binding.rvPassengerBaggage.layoutManager    = LinearLayoutManager(requireContext())
         binding.btnAddBaggage.setOnClickListener {
             baggageFragment.show(requireActivity().supportFragmentManager, baggageFragment.tag)
         }
+        bookingBaggageAdapter.submitList(emptyList())
         baggageFragment.setOnClickListener(object : BaggageFragment.OnClickListener{
-            override fun onClick(baggageList: List<Baggage>) {
-
+            override fun onClick(baggageList: List<Baggage?>) {
+                bookingBaggageAdapter.submitList(baggageList)
             }
         })
     }
@@ -156,9 +157,9 @@ class BookingFragment : Fragment() {
             Log.e(TAG, "onViewCreated: Args Failed")
             return
         }
-        val args = BookingFragmentArgs.fromBundle(bundle)
-        depFlight = args.depFlight
-        arrFlight = args.arrFlight
+        val args    = BookingFragmentArgs.fromBundle(bundle)
+        depFlight   = args.depFlight
+        arrFlight   = args.arrFlight
         Log.d(TAG, "getArgs: Flight ${args.depFlight}")
     }
 

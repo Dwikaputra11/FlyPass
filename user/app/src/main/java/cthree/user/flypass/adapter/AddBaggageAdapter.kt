@@ -10,18 +10,20 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import cthree.user.flypass.R
 import cthree.user.flypass.data.Baggage
 import cthree.user.flypass.databinding.AddBaggageItemBinding
 
 private const val TAG = "AddBaggageAdapter"
-class AddBaggageAdapter:RecyclerView.Adapter<AddBaggageAdapter.ViewHolder>() {
+class AddBaggageAdapter(private val passengerAmount: Int):RecyclerView.Adapter<AddBaggageAdapter.ViewHolder>() {
 
-    private val travelerBaggage = listOf(
-        Baggage(20,0),
-        Baggage(20,0)
-    )
+//    private val travelerBaggage = listOf(
+//        Baggage(1, 20,0),
+//        Baggage(2, 20,0)
+//    )
+    private val travelerBaggage: MutableList<Baggage?> = mutableListOf()
     private var baggageWeight = 0
     private var baggagePrice = 0
 
@@ -43,6 +45,7 @@ class AddBaggageAdapter:RecyclerView.Adapter<AddBaggageAdapter.ViewHolder>() {
         holder.binding.spBaggage.adapter = adapter
         adapter.setDropDownViewResource(layout.simple_spinner_dropdown_item)
         holder.binding.tvNameTraveler.text = "Adult ${position + 1}"
+
         holder.binding.spBaggage.onItemSelectedListener = object : OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 Log.d(TAG, "onItemSelected: $pos")
@@ -64,8 +67,15 @@ class AddBaggageAdapter:RecyclerView.Adapter<AddBaggageAdapter.ViewHolder>() {
                         baggageWeight = 40
                     }
                 }
-                travelerBaggage[itemPosition].weight = baggageWeight
-                travelerBaggage[itemPosition].price = baggagePrice
+                if(travelerBaggage.isEmpty()){
+                    travelerBaggage.add(itemPosition,Baggage(itemPosition, baggageWeight, baggagePrice))
+                }else{
+                    if(travelerBaggage.indices.contains(itemPosition)){
+                        travelerBaggage[itemPosition] = Baggage(itemPosition, baggageWeight, baggagePrice)
+                    }else{
+                        travelerBaggage.add(itemPosition,Baggage(itemPosition, baggageWeight, baggagePrice))
+                    }
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -75,8 +85,8 @@ class AddBaggageAdapter:RecyclerView.Adapter<AddBaggageAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return passengerAmount
     }
 
-    fun getTravelerBaggage(): List<Baggage> = travelerBaggage
+    fun getTravelerBaggage(): List<Baggage?> = travelerBaggage
 }

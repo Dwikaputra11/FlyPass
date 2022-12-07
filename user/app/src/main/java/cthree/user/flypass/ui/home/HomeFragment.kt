@@ -144,7 +144,9 @@ class HomeFragment : Fragment() {
 
         binding.btnSearch.setOnClickListener {
             navigateToTicketList()
-            sessionManager.clearAirport()
+            userViewModel.clearAirportSearch()
+            sessionManager.setSeatClass(binding.etSeatClass.text.toString())
+            sessionManager.setPassengerAmount(binding.etPassengers.text.toString().toInt())
         }
 
         binding.etFromAirport.setOnClickListener {
@@ -222,15 +224,6 @@ class HomeFragment : Fragment() {
                 binding.etFromAirport.setText("${it.departAirportCity}, ${it.departAirportCountry}")
             }
         }
-//        departValue = sessionManager.getSelectedAirport(Constants.DEPART_AIRPORT)
-//        arriveValue = sessionManager.getSelectedAirport(Constants.ARRIVE_AIRPORT)
-//        if(departValue.city != Constants.DEPART_DEFAULT_VAL){
-//            binding.etFromAirport.setText("${departValue.city}, ${departValue.country}")
-//        }
-//
-//        if(arriveValue.city != Constants.ARRIVE_DEFAULT_VAL){
-//            binding.etToAirport.setText("${arriveValue.city}, ${arriveValue.country}")
-//        }
     }
 
     private fun setAdapter() {

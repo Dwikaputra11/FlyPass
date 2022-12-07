@@ -1,5 +1,6 @@
 package cthree.user.flypass.dao
 
+import android.provider.SimPhonebookContract.SimRecords
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import cthree.user.flypass.models.airport.Airport
@@ -13,7 +14,10 @@ interface AirportDao {
     @Query("SELECT * FROM airports")
     fun getAllAirport() : LiveData<List<Airport>>
 
-    @Query("SELECT * FROM airports WHERE city LIKE :query OR name LIKE :query OR country LIKE :query LIMIT 4")
+    @Query("SELECT * FROM airports WHERE iata LIKE :query OR city LIKE :query OR name LIKE :query OR country LIKE :query LIMIT 4")
+    fun existingSearchAirport(query: String): LiveData<List<Airport>>
+
+    @Query("SELECT * FROM airports WHERE iata LIKE '%' || :query || '%' OR city LIKE '%' || :query || '%' OR name LIKE '%' || :query || '%' OR country LIKE '%' || :query || '%'")
     fun searchAirport(query: String): LiveData<List<Airport>>
 
     @Query("DELETE FROM airports")

@@ -52,6 +52,7 @@ class AirportViewModel @Inject constructor(
         )
     }
 
+    fun existingSearchAirport(query: String): LiveData<List<Airport>> = airportRepository.existingSearchAirport(query)
     fun searchAirport(query: String): LiveData<List<Airport>> = airportRepository.searchAirport(query)
 
     fun getAllAirportFromDB(): LiveData<List<Airport>> {

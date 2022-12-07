@@ -6,15 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.work.WorkInfo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.AirportSearchAdapter
@@ -23,6 +20,7 @@ import cthree.user.flypass.databinding.FragmentSearchAirportBinding
 import cthree.user.flypass.models.airport.Airport
 import cthree.user.flypass.utils.Constants
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.AirportViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +37,7 @@ class SearchAirportFragment : Fragment() {
     private val indoAirportAdapter = AirportSearchAdapter()
     private val japanAirportAdapter = AirportSearchAdapter()
     private val chinaAirportAdapter = AirportSearchAdapter()
+    private val searchAdapter = AirportSearchAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,21 +61,61 @@ class SearchAirportFragment : Fragment() {
 
         binding.toolbarLayout.searchView.setOnQueryTextListener(object : OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.progressBar.isVisible                           = true
+                if(query != null) {
+                    val searchQuery = Utils.getCountryCode(query) ?: query
+                    airportViewModel.searchAirport(searchQuery).observe(viewLifecycleOwner) {
+                        Log.d(TAG, "onQueryTextSubmit: $it")
+                        binding.existAirportList.root.isVisible = false
+                        binding.progressBar.isVisible = false
+                        if (it != null) {
+                            binding.rvSearchResult.isVisible = true
+                            searchAdapter.submitList(it)
+                        }
+                    }
+                }
                 Log.d(TAG, "onQueryTextSubmit: $query")
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+                binding.progressBar.isVisible                   = true
+                binding.existAirportList.root.isVisible         = false
+                binding.rvSearchResult.isVisible                = false
+                if(newText == null || newText.isEmpty()){
+                    binding.existAirportList.root.isVisible     = true
+                    binding.rvSearchResult.isVisible            = false
+                    binding.progressBar.isVisible               = false
+                }else{
+//                    val searchQuery = Utils.getCountryCode(newText) ?: newText
+//                    airportViewModel.searchAirport(searchQuery).observe(viewLifecycleOwner) {
+//                        Log.d(TAG, "onQueryTextSubmit: $it")
+//                        binding.progressBar.isVisible = false
+//                        if (it != null) {
+//                            binding.rvSearchResult.isVisible = true
+//                            searchAdapter.submitList(it)
+//                        }
+//                    }
+                }
+                return true
             }
 
         })
     }
 
     private fun setAirportList() {
+        binding.rvSearchResult.adapter                  = searchAdapter
+        binding.rvSearchResult.layoutManager            = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        searchAdapter.senOnItemClickListener(object : AirportSearchAdapter.OnItemClickListener{
+            override fun onItemClick(airport: Airport) {
+                setNavigation(airport)
+            }
+        })
+
+
         recentSearchAdapter.submitList(DummyData.frequentSearch)
-        binding.existAirportList.rvRecentSearch.adapter = recentSearchAdapter
-        binding.existAirportList.rvRecentSearch.layoutManager = object : LinearLayoutManager(requireContext()){
+        binding.existAirportList.rvRecentSearch.adapter         = recentSearchAdapter
+        binding.existAirportList.rvRecentSearch.layoutManager   = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
                 return false
             }
@@ -87,11 +126,11 @@ class SearchAirportFragment : Fragment() {
             }
         })
 
-        airportViewModel.searchAirport("ID").observe(viewLifecycleOwner){
+        airportViewModel.existingSearchAirport("ID").observe(viewLifecycleOwner){
             indoAirportAdapter.submitList(it)
         }
-        binding.existAirportList.rvIndonesia.adapter = indoAirportAdapter
-        binding.existAirportList.rvIndonesia.layoutManager = object : LinearLayoutManager(requireContext()){
+        binding.existAirportList.rvIndonesia.adapter        = indoAirportAdapter
+        binding.existAirportList.rvIndonesia.layoutManager  = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
                 return false
             }
@@ -102,11 +141,11 @@ class SearchAirportFragment : Fragment() {
             }
         })
 
-        airportViewModel.searchAirport("JP").observe(viewLifecycleOwner){
+        airportViewModel.existingSearchAirport("JP").observe(viewLifecycleOwner){
             japanAirportAdapter.submitList(it)
         }
-        binding.existAirportList.rvJapan.adapter = japanAirportAdapter
-        binding.existAirportList.rvJapan.layoutManager = object : LinearLayoutManager(requireContext()){
+        binding.existAirportList.rvJapan.adapter        = japanAirportAdapter
+        binding.existAirportList.rvJapan.layoutManager  = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
                 return false
             }
@@ -117,11 +156,11 @@ class SearchAirportFragment : Fragment() {
             }
         })
 
-        airportViewModel.searchAirport("CN").observe(viewLifecycleOwner){
+        airportViewModel.existingSearchAirport("CN").observe(viewLifecycleOwner){
             chinaAirportAdapter.submitList(it)
         }
-        binding.existAirportList.rvChina.adapter = chinaAirportAdapter
-        binding.existAirportList.rvChina.layoutManager = object : LinearLayoutManager(requireContext()){
+        binding.existAirportList.rvChina.adapter        = chinaAirportAdapter
+        binding.existAirportList.rvChina.layoutManager  = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
                 return false
             }

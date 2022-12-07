@@ -10,6 +10,8 @@ class AirportRepository @Inject constructor(private val airportDao: AirportDao) 
 
     fun getAllAirport(): LiveData<List<Airport>> = airportDao.getAllAirport()
 
+    fun existingSearchAirport(query: String): LiveData<List<Airport>> = airportDao.existingSearchAirport(query)
+
     fun searchAirport(query: String): LiveData<List<Airport>> = airportDao.searchAirport(query)
 
     fun insertAirport(airport: List<Airport>){

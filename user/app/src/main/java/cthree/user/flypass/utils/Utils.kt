@@ -14,15 +14,15 @@ import java.util.*
 
 object Utils {
 
-    fun getCountryCode(countryName: String): String {
-        val isoCountryCodes: Array<String> = Locale.getISOCountries()
+    fun getCountryCode(countryName: String): String? {
+        val isoCountryCodes = Locale.getISOCountries()
         for (code in isoCountryCodes) {
             val locale = Locale("", code)
             if (countryName.equals(locale.displayCountry, ignoreCase = true)) {
                 return code
             }
         }
-        return ""
+        return null
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -85,7 +85,7 @@ object Utils {
             }
         }catch (e: Exception){
             e.printStackTrace()
-            Log.e("Date", "convertDateToDay: ", )
+            Log.e("Date", "convertDateToDay: ")
             return ""
         }
         return "$formattedDate"
@@ -102,7 +102,7 @@ object Utils {
             }
         }catch (e: Exception){
             e.printStackTrace()
-            Log.e("Date", "convertDateToDay: ", )
+            Log.e("Date", "convertDateToDay: ")
             return ""
         }
         return "$formattedDate"
@@ -127,7 +127,7 @@ object Utils {
             }
         }catch (e: Exception){
             e.printStackTrace()
-            Log.e("Date", "convertDateToDay: ", )
+            Log.e("Date", "convertDateToDay: ")
             return ""
         }
         return "$formattedDate"
@@ -148,7 +148,7 @@ object Utils {
             }
         }catch (e: Exception){
             e.printStackTrace()
-            Log.e("Date", "convertDateToDay: ", )
+            Log.e("Date", "convertDateToDay: ")
             return ""
         }
         return "$formattedDate"

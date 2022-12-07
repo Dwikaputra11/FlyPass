@@ -88,7 +88,6 @@ class UserViewModel @Inject constructor(
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
-
         })
     }
 
@@ -114,6 +113,10 @@ class UserViewModel @Inject constructor(
 
     fun saveData(profile: Profile){
         viewModelScope.launch { prefRepo.saveDataUser(profile) }
+    }
+
+    fun clearAirportSearch(){
+        viewModelScope.launch { prefRepo.clearDataDepartArrive() }
     }
 
     fun saveDataId(id : Int){

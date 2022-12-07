@@ -2,10 +2,8 @@ package cthree.admin.flypass.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import cthree.admin.flypass.api.APIClient
 import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.admin.AdminDataClass
-import cthree.admin.flypass.models.admin.LoginAdminResponse
 import cthree.admin.flypass.models.admin.User
 import cthree.admin.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,10 +20,10 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
     val dataAdmin = prefRepo.readData.asLiveData()
 
     private val postDataAdmin : MutableLiveData<User?> = MutableLiveData()
-    private val tokenUser: MutableLiveData<String?> = MutableLiveData()
+    private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val errorMsg: MutableLiveData<String?> = MutableLiveData()
 
-    fun getLoginToken(): LiveData<String?> = tokenUser
+    fun getLoginToken(): LiveData<String?> = tokenAdmin
 
     fun getErrorMessage(): LiveData<String?> = errorMsg
 
@@ -33,7 +31,7 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
         return postDataAdmin
     }
 
-    fun callPostApiAdmin(email : String, password : String){
+    fun loginAdmin(email : String, password : String){
         apiService.loginAdmin(AdminDataClass(email, password))
             .enqueue(object : Callback<User> {
                 override fun onResponse(
@@ -41,14 +39,16 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
                     response: Response<User>
                 ) {
                     if (response.isSuccessful){
-                        postDataAdmin.postValue(response.body())
+                        response.body()?.let {
+                            tokenAdmin.postValue(it.accesstToken)
+                        }
                     }else{
-                        postDataAdmin.postValue(null)
+                        tokenAdmin.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    postDataAdmin.postValue(null)
+                    tokenAdmin.postValue(null)
                 }
 
             })

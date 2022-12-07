@@ -6,11 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentLoginBinding
+import cthree.admin.flypass.utils.SessionManager
+import cthree.admin.flypass.utils.Utils
 import cthree.admin.flypass.viewmodels.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +19,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     lateinit var binding : FragmentLoginBinding
-    private lateinit var userVM: AdminViewModel
+    private val adminVM: AdminViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +40,12 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userVM = ViewModelProvider(requireActivity()).get(AdminViewModel::class.java)
-
-        userVM.getLoginToken().observe(viewLifecycleOwner) {
+        adminVM.getLoginToken().observe(viewLifecycleOwner) {
             if(it != null){
-
+                Log.d("string token", "onViewCreated: $it")
+                sessionManager.setToken(it)
+                adminVM.saveData(Utils.decodeAccountToken(it))
+                Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
 
@@ -48,14 +57,14 @@ class LoginFragment : Fragment() {
                 binding.loginEmail.error = "Field Masih Kosong"
                 binding.loginPassword.error = "Field Masih Kosong"
             }else{
-                userVM.callPostApiAdmin(email, password)
-                userVM.saveLoginStatus(true)
-                userVM.postDataAdmin().observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        Toast.makeText(requireActivity(), "Login Berhasil", Toast.LENGTH_SHORT).show()
-                        Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_homeFragment)
-                    }
-                }
+                adminVM.loginAdmin(email, password)
+                adminVM.saveLoginStatus(true)
+//                adminVM.postDataAdmin().observe(viewLifecycleOwner) {
+//                    if (it != null) {
+//                        Toast.makeText(requireActivity(), "Login Berhasil", Toast.LENGTH_SHORT).show()
+//                        Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_homeFragment)
+//                    }
+//                }
             }
         }
     }

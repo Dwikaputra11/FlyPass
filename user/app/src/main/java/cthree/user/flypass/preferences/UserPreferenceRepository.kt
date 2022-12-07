@@ -58,12 +58,6 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-    suspend fun saveLoginStatus(paramIsLogin: Boolean){
-        context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setSaveLoginStatus(paramIsLogin).build()
-        }
-    }
-
     suspend fun saveDataAirportDepart(airport: Airport) {
         //Depart
         context.userPreferencesStore.updateData { preferences ->

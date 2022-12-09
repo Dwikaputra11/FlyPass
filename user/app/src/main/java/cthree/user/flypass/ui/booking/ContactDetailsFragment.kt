@@ -47,9 +47,9 @@ class ContactDetailsFragment : BottomSheetDialogFragment() {
                 val rbChecked           = binding.root.findViewById<RadioButton>(binding.rgTitle.checkedRadioButtonId)
                 val title               = rbChecked.text.toString()
                 val email               = binding.etEmail.text.toString()
-                val surname             = binding.etSurname.text.toString()
+                val surname             = binding.etLastName.text.toString()
                 val phoneNumber         = binding.etPhoneNumber.text.toString()
-                val name                = binding.etName.text.toString()
+                val name                = binding.etFirstName.text.toString()
                 val contact             = Contact(name, email, phoneNumber, title, surname)
                 listener.onClick(contact)
                 dismiss()
@@ -61,17 +61,17 @@ class ContactDetailsFragment : BottomSheetDialogFragment() {
     private fun isValid() : Boolean{
         val rbChecked       = binding.root.findViewById<RadioButton>(binding.rgTitle.checkedRadioButtonId)
         val title           = rbChecked.text.toString()
-        if(title.isNotEmpty() && binding.etEmail.text.isNotEmpty() && binding.etName.text.isNotEmpty() && binding.etPhoneNumber.text.isNotEmpty()
-            && binding.etSurname.text.isNotEmpty()) return true
+        if(title.isNotEmpty() && binding.etEmail.text.isNotEmpty() && binding.etFirstName.text.isNotEmpty() && binding.etPhoneNumber.text.isNotEmpty()
+            && binding.etLastName.text.isNotEmpty()) return true
         else{
             if(binding.etEmail.text.isEmpty()){
                 binding.etEmail.error = "Fill The Blank"
             }
-            if(binding.etSurname.text.isEmpty()){
-                binding.etSurname.error = "Fill The Blank"
+            if(binding.etLastName.text.isEmpty()){
+                binding.etLastName.error = "Fill The Blank"
             }
-            if(binding.etName.text.isEmpty()){
-                binding.etName.error = "Fill The Blank"
+            if(binding.etFirstName.text.isEmpty()){
+                binding.etFirstName.error = "Fill The Blank"
             }
             if(binding.etPhoneNumber.text.isEmpty()){
                 binding.etPhoneNumber.error = "Fill The Blank"
@@ -86,11 +86,11 @@ class ContactDetailsFragment : BottomSheetDialogFragment() {
         binding.etPhoneNumber.setOnClickListener {
             binding.etPhoneNumber.error = null
         }
-        binding.etSurname.setOnClickListener {
-            binding.etSurname.error = null
+        binding.etLastName.setOnClickListener {
+            binding.etLastName.error = null
         }
-        binding.etName.setOnClickListener {
-            binding.etName.error = null
+        binding.etFirstName.setOnClickListener {
+            binding.etFirstName.error = null
         }
     }
 

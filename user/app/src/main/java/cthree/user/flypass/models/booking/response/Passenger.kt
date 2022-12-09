@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Passenger(
     @SerializedName("age")
-    val age: Int,
+    val age: Int?,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("firstName")

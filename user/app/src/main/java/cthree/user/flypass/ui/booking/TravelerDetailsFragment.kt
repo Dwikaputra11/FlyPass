@@ -16,6 +16,7 @@ import cthree.user.flypass.R
 import cthree.user.flypass.data.Contact
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.FragmentTravelerDetailsBinding
+import cthree.user.flypass.models.booking.request.Passenger
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,7 +29,7 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
     private var traveler: Traveler? = null
 
     interface OnClickListener{
-        fun onClick(traveler: Traveler)
+        fun onClick(traveler: Traveler, passenger: Passenger)
     }
 
     fun setOnClickListener(listener: OnClickListener){
@@ -75,12 +76,14 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
                 val rbChecked           = binding.root.findViewById<RadioButton>(binding.rgTitle.checkedRadioButtonId)
                 val title               = rbChecked.text.toString()
                 val dateBirth           = binding.etBirthDate.text.toString()
-                val surname             = binding.etSurname.text.toString()
+                val lastName            = binding.etLastName.text.toString()
                 val idCard              = binding.etIdCard.text.toString()
-                val name                = binding.etName.text.toString()
-                val traveler            = Traveler(title, name, surname, dateBirth, idCard)
+                val firstName           = binding.etFirstName.text.toString()
+                val docType             = view.findViewById<RadioButton>(binding.rgDocumentType.checkedRadioButtonId).text.toString()
+                val traveler            = Traveler(title, firstName, lastName, dateBirth, idCard)
+                val passenger           = Passenger(firstName, idCard, docType, lastName)
 
-                listener.onClick(traveler)
+                listener.onClick(traveler, passenger)
                 dismiss()
             }
             removeSetError()
@@ -105,10 +108,10 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
 
     private fun setInput() {
         with(traveler!!){
-            binding.etName.setText(name)
+            binding.etFirstName.setText(name)
             binding.etBirthDate.setText(dateBirth)
             binding.etIdCard.setText(idCard)
-            binding.etSurname.setText(surname)
+            binding.etLastName.setText(surname)
         }
     }
 
@@ -122,17 +125,17 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
     private fun isValid() : Boolean{
         val rbChecked       = binding.root.findViewById<RadioButton>(binding.rgTitle.checkedRadioButtonId)
         val title           = rbChecked.text.toString()
-        if(title.isNotEmpty() && binding.etBirthDate.text.isNotEmpty() && binding.etName.text.isNotEmpty() && binding.etIdCard.text.isNotEmpty()
-            && binding.etSurname.text.isNotEmpty()) return true
+        if(title.isNotEmpty() && binding.etBirthDate.text.isNotEmpty() && binding.etFirstName.text.isNotEmpty() && binding.etIdCard.text.isNotEmpty()
+            && binding.etLastName.text.isNotEmpty()) return true
         else{
             if(binding.etBirthDate.text.isEmpty()){
                 binding.etBirthDate.error = "Fill The Blank"
             }
-            if(binding.etSurname.text.isEmpty()){
-                binding.etSurname.error = "Fill The Blank"
+            if(binding.etLastName.text.isEmpty()){
+                binding.etLastName.error = "Fill The Blank"
             }
-            if(binding.etName.text.isEmpty()){
-                binding.etName.error = "Fill The Blank"
+            if(binding.etFirstName.text.isEmpty()){
+                binding.etFirstName.error = "Fill The Blank"
             }
             if(binding.etIdCard.text.isEmpty()){
                 binding.etIdCard.error = "Fill The Blank"
@@ -149,11 +152,11 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
         binding.etIdCard.setOnClickListener {
             binding.etIdCard.error = null
         }
-        binding.etSurname.setOnClickListener {
-            binding.etSurname.error = null
+        binding.etLastName.setOnClickListener {
+            binding.etLastName.error = null
         }
-        binding.etName.setOnClickListener {
-            binding.etName.error = null
+        binding.etFirstName.setOnClickListener {
+            binding.etFirstName.error = null
         }
     }
 
@@ -164,9 +167,9 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         with(binding){
             etBirthDate.text.clear()
-            etName.text.clear()
+            etFirstName.text.clear()
             etIdCard.text.clear()
-            etSurname.text.clear()
+            etLastName.text.clear()
         }
         super.onDismiss(dialog)
     }

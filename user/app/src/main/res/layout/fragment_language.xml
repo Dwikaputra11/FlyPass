@@ -5,12 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.LanguageFragment"
-    android:padding="25dp"
     android:orientation="vertical">
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:paddingHorizontal="15sp"
         android:textColor="#007AFF"
         android:text="Choose the language"
         android:layout_marginTop="15dp"/>

@@ -54,7 +54,10 @@ class LoginFragment : Fragment() {
                 progressAlertDialog.dismiss()
                 sessionManager.setToken(it)
                 // save data profile to proto
-                userVM.saveLoginData(Utils.decodeAccountToken(it))
+                val profile = Utils.decodeAccountToken(it)
+                sessionManager.setUserId(profile.id)
+                userVM.saveToken(it)
+                userVM.saveLoginData(profile)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }

@@ -5,8 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.HowToBookFragment"
     android:orientation="vertical"
-    android:padding="15dp">
+    >
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
     <TextView
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -15,6 +19,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"/>
     <ListView
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/row_text"/>

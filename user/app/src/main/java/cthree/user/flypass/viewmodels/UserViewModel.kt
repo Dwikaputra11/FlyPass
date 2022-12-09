@@ -31,25 +31,17 @@ class UserViewModel @Inject constructor(
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataUser = prefRepo.readData.asLiveData()
 
-    private val tokenUser: MutableLiveData<String?>                     = MutableLiveData()
-    private val liveDataUser : MutableLiveData<User?>                   = MutableLiveData()
-    private val registerDataUser : MutableLiveData<RegisterResponse?>   = MutableLiveData()
-    private val loginErrorMsg: MutableLiveData<String?>                 = MutableLiveData()
-    private val registErrorMsg: MutableLiveData<String?>                = MutableLiveData()
+    private val tokenUser           : MutableLiveData<String?>              = MutableLiveData()
+    private val liveDataUser        : MutableLiveData<User?>                = MutableLiveData()
+    private val registerDataUser    : MutableLiveData<RegisterResponse?>    = MutableLiveData()
+    private val loginErrorMsg       : MutableLiveData<String?>              = MutableLiveData()
+    private val registErrorMsg      : MutableLiveData<String?>              = MutableLiveData()
 
-    fun getLoginToken(): LiveData<String?> = tokenUser
-
-    fun getLoginErrorMessage(): LiveData<String?> = loginErrorMsg
-
-    fun getRegisterErrorMessage(): LiveData<String?> = registErrorMsg
-
-    fun getLiveDataUser() : MutableLiveData<User?>{
-        return liveDataUser
-    }
-
-    fun registerDataUser() : MutableLiveData<RegisterResponse?>{
-        return registerDataUser
-    }
+    fun getLoginToken()             : LiveData<String?>             = tokenUser
+    fun getLoginErrorMessage()      : LiveData<String?>             = loginErrorMsg
+    fun getRegisterErrorMessage()   : LiveData<String?>             = registErrorMsg
+    fun getLiveDataUser()           : LiveData<User?>               = liveDataUser
+    fun registerDataUser()          : LiveData<RegisterResponse?>   = registerDataUser
 
     fun callLoginUser(loginData: LoginData){
         apiService.loginUser(loginData).enqueue(object : Callback<Login>{
@@ -118,6 +110,10 @@ class UserViewModel @Inject constructor(
 
     fun saveData(profile: Profile){
         viewModelScope.launch { prefRepo.saveDataUser(profile) }
+    }
+
+    fun saveToken(token: String){
+        viewModelScope.launch { prefRepo.saveToken(token) }
     }
 
     fun clearAirportSearch(){

@@ -87,6 +87,15 @@
         <action
             android:id="@+id/action_paymentFragment_to_transferBankConfirmFragment"
             app:destination="@id/transferBankConfirmFragment" />
+        <argument
+            android:name="flyPassCode"
+            app:argType="string" />
+        <argument
+            android:name="contactData"
+            app:argType="cthree.user.flypass.data.Contact" />
+        <argument
+            android:name="passengerList"
+            app:argType="cthree.user.flypass.data.Traveler[]" />
     </fragment>
     <fragment
         android:id="@+id/bookingCompleteFragment"
@@ -183,14 +192,23 @@
             android:id="@+id/action_profileFragment_to_callCenterFragment"
             app:destination="@id/callCenterFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_profileAccountInfoFragment"
-            app:destination="@id/profileAccountInfoFragment" />
-        <action
             android:id="@+id/action_profileFragment_to_faqFragment"
             app:destination="@id/faqFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_privacyPolicyFragment"
-            app:destination="@id/privacyPolicyFragment" />
+            android:id="@+id/action_profileFragment_to_howToBookFragment"
+            app:destination="@id/howToBookFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_historyProfileFragment"
+            app:destination="@id/historyProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountInformationFragment"
@@ -217,6 +235,15 @@
         <action
             android:id="@+id/action_settingsFragment_to_termsConditionsFragment"
             app:destination="@id/termsConditionsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_languageFragment"
+            app:destination="@id/languageFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profileAccountInfoFragment"
+            app:destination="@id/profileAccountInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/termsConditionsFragment"
@@ -236,32 +263,11 @@
     <fragment
         android:id="@+id/profileAccountInfoFragment"
         android:name="cthree.user.flypass.ui.profile.ProfileAccountInfoFragment"
-        android:label="ProfileAccountInfoFragment" >
-        <action
-            android:id="@+id/action_profileAccountInfoFragment_to_usernameEditFragment"
-            app:destination="@id/usernameEditFragment" />
-    </fragment>
+        android:label="ProfileAccountInfoFragment" />
     <fragment
         android:id="@+id/faqFragment"
         android:name="cthree.user.flypass.ui.profile.FaqFragment"
         android:label="FaqFragment" />
-    <fragment
-        android:id="@+id/profileUnregistFragment"
-        android:name="cthree.user.flypass.ui.profile.ProfileUnregistFragment"
-        android:label="ProfileUnregistFragment" >
-        <action
-            android:id="@+id/action_profileUnregistFragment_to_callCenterFragment"
-            app:destination="@id/callCenterFragment" />
-        <action
-            android:id="@+id/action_profileUnregistFragment_to_faqFragment"
-            app:destination="@id/faqFragment" />
-        <action
-            android:id="@+id/action_profileUnregistFragment_to_privacyPolicyFragment"
-            app:destination="@id/privacyPolicyFragment" />
-        <action
-            android:id="@+id/action_profileUnregistFragment_to_historyProfileFragment"
-            app:destination="@id/historyProfileFragment" />
-    </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
         android:name="cthree.user.flypass.ui.profile.PrivacyPolicyFragment"
@@ -312,7 +318,11 @@
         android:id="@+id/myBookingFragment"
         android:name="cthree.user.flypass.ui.mybooking.MyBookingFragment"
         android:label="fragment_my_booking"
-        tools:layout="@layout/fragment_my_booking" />
+        tools:layout="@layout/fragment_my_booking" >
+        <action
+            android:id="@+id/action_myBookingFragment_to_historyDetailFragment"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
         android:name="cthree.user.flypass.ui.wishlist.WishlistFragment"
@@ -326,5 +336,29 @@
         <action
             android:id="@+id/action_transferBankConfirmFragment_to_bookingCompleteFragment"
             app:destination="@id/bookingCompleteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="cthree.user.flypass.ui.mybooking.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/howToBookFragment"
+        android:name="cthree.user.flypass.ui.profile.HowToBookFragment"
+        android:label="fragment_faq"
+        tools:layout="@layout/fragment_faq" />
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="cthree.user.flypass.ui.profile.LanguageFragment"
+        android:label="fragment_language"
+        tools:layout="@layout/fragment_language" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="cthree.user.flypass.ui.profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_usernameEditFragment"
+            app:destination="@id/usernameEditFragment" />
     </fragment>
 </navigation>

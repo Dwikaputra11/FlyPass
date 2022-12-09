@@ -71,6 +71,7 @@ class TransferBankConfirmFragment : Fragment() {
         binding.paymentDetails.tvPaymentMethod.text = "Transfer Bank"
         binding.llTakePhoto.setOnClickListener {
             Log.d(TAG, "onViewCreated: Clicked")
+            checkPermission()
         }
         binding.btnConfirm.setOnClickListener {
             findNavController().navigate(R.id.action_transferBankConfirmFragment_to_bookingCompleteFragment)

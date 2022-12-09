@@ -200,4 +200,14 @@ object Utils {
             name = user.getClaim("name").asString()!!
         )
     }
+
+    fun isTokenExpired(token: String): Boolean{
+        val user = JWT(token)
+        val expire = user.expiresAt
+        val calendar = Calendar.getInstance()
+        val isExpired = calendar.time.after(expire)
+        Log.d("Token", "expired at: $expire")
+        Log.d("Token", "isTokenExpired: $isExpired")
+        return isExpired
+    }
 }

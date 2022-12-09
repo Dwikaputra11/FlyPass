@@ -39,6 +39,12 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
+    suspend fun saveToken(token: String){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setToken(token).build()
+        }
+    }
+
     // save data to data store proto
     suspend fun saveDataUser(profile: Profile){
         context.userPreferencesStore.updateData { preferences ->

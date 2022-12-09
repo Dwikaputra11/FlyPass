@@ -3,7 +3,7 @@ package cthree.user.flypass.models.booking.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Booking(
+data class BookingDetail(
     @SerializedName("bookingCode")
     val bookingCode: String,
     @SerializedName("bookingStatusId")
@@ -27,5 +27,5 @@ data class Booking(
     @SerializedName("updatedAt")
     val updatedAt: String,
     @SerializedName("userId")
-    val userId: Any
+    val userId: Int?
 )

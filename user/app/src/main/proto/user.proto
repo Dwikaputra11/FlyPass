@@ -24,4 +24,6 @@ message UserProto {
   string phone = 15;
   int32 roleId = 16;
   bool saveLoginStatus = 17;
+
+  string token = 18;
 }

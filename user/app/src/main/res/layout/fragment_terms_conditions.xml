@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.profile.TermsConditionsFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
-        <TextView
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="#555050"
-            android:text="1. About Conditions &amp; Terms"/>
-        <TextView
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="16sp"
-            android:textColor="#7A000000"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit"/>
-        <TextView
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="#555050"
-            android:text="2. About Our Services"/>
-        <TextView
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textSize="16sp"
-            android:textColor="#7A000000"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit"/>
-    </LinearLayout>
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general" />
 
-</ScrollView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#555050"
+                android:text="1. About Conditions &amp; Terms"/>
+            <TextView
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="16sp"
+                android:textColor="#7A000000"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit"/>
+            <TextView
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#555050"
+                android:text="2. About Our Services"/>
+            <TextView
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textSize="16sp"
+                android:textColor="#7A000000"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

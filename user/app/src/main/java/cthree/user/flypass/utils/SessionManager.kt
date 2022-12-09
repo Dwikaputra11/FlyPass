@@ -28,12 +28,19 @@ class SessionManager(
         editor.apply()
     }
 
-    fun getToken(): String? = prefs.getString(Constants.USER_TOKEN, "")
+    fun getToken(): String? = prefs.getString(Constants.USER_TOKEN, null)
 
     fun setToken(token: String){
         editor.putString(Constants.USER_TOKEN, token)
         editor.apply()
     }
+
+    fun setUserId(id: Int){
+        editor.putInt(Constants.USER_ID, id)
+        editor.apply()
+    }
+
+    fun getUserId(): Int = prefs.getInt(Constants.USER_ID,-1)
 
     fun getIsFirstInstall(): Boolean = prefs.getBoolean(Constants.IS_FIRST_INSTALL, true)
 

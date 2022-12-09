@@ -13,13 +13,13 @@ data class Booking(
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("flight1")
-    val flight1: Flight1,
+    val flightBook: FlightBook,
     @SerializedName("flight1Id")
     val flight1Id: Int,
     @SerializedName("flight2")
-    val flight2: Flight1,
+    val flight2: FlightBook?,
     @SerializedName("flight2Id")
-    val flight2Id: Int,
+    val flight2Id: Int?,
     @SerializedName("id")
     val id: Int,
     @SerializedName("PassengerContact")
@@ -37,5 +37,5 @@ data class Booking(
     @SerializedName("updatedAt")
     val updatedAt: String,
     @SerializedName("userId")
-    val userId: Any
+    val userId: Int?
 )

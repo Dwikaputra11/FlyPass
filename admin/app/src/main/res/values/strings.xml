@@ -2,4 +2,11 @@
     <string name="app_name">AdminFlyPass</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Login   -->
+    <string name="wrong_password_title">Password Anda Salah!</string>
+    <string name="wrong_password_subtitle">Silahkan masukkan password yang benar.</string>
+    <string name="wrong_email_title">Email Anda Salah!</string>
+    <string name="wrong_email_subtitle">Silahkan masukkan email yang benar.</string>
+    <string name="confirm_one_btn_dialog">OK, I got it!</string>
 </resources>

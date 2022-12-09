@@ -1,7 +1,9 @@
 package cthree.admin.flypass.api
 
 import cthree.admin.flypass.models.admin.AdminDataClass
+import cthree.admin.flypass.models.admin.LoginAdminResponse
 import cthree.admin.flypass.models.admin.User
+import cthree.admin.flypass.models.user.GetUserResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -11,8 +13,8 @@ import retrofit2.http.POST
 interface APIService {
 
     @POST("v1/login")
-    fun loginAdmin(@Body request : AdminDataClass) : Call<User>
+    fun loginAdmin(@Body request : AdminDataClass) : Call<LoginAdminResponse>
 
-//    @GET("v1/whoami")
-//    fun loginAdmin(@Header("Authorization") token: String) : Call<>
+    @GET("v1/getalluser")
+    fun loginAdmin(@Header("Authorization") token: String) : Call<GetUserResponse>
 }

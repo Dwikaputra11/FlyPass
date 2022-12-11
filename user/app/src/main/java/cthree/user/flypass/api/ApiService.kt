@@ -4,7 +4,7 @@ import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
-import cthree.user.flypass.models.booking.searchbook.SearchBook
+import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
@@ -67,7 +67,7 @@ interface ApiService {
     fun postBooking(@Header("Authorization") token: String?,@Body booking: BookingRequest): Call<BookingResponse>
 
     @GET("v1/bookings/search")
-    fun searchBookingByCode(@Query("bookingcode") bookingCode: String): Call<SearchBook>
+    fun searchBookingByCode(@Query("bookingcode") bookingCode: String): Call<BookingListResponse>
 
     @POST("v1/whistlist/{idFlight}")
     fun addWishlist(@Header("Authorization") token: String, @Path("idFlight") id: Int): Call<WishlistResponse>

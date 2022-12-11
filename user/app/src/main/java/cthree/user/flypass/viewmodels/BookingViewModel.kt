@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModel
 import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
-import cthree.user.flypass.models.booking.searchbook.Booking
-import cthree.user.flypass.models.booking.searchbook.SearchBook
+import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,11 +17,11 @@ import javax.inject.Inject
 class BookingViewModel @Inject constructor(private val apiService: ApiService): ViewModel(){
 
     private val bookingResp: MutableLiveData<BookingResponse?>  = MutableLiveData()
-    private val searchBooking: MutableLiveData<SearchBook?>     = MutableLiveData()
+    private val searchBooking: MutableLiveData<BookingListResponse?>     = MutableLiveData()
     private val errorSearchBookMsg: MutableLiveData<String?>    = MutableLiveData()
 
     fun getBookingResp(): LiveData<BookingResponse?> = bookingResp
-    fun getSearchBooking(): LiveData<SearchBook?> = searchBooking
+    fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking
 
     fun postBookingRequest(token: String?,bookingRequest: BookingRequest){
         apiService.postBooking(token,bookingRequest).enqueue(object : Callback<BookingResponse>{
@@ -45,8 +44,8 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
     }
 
     fun searchBookingCode(bookingCode: String){
-        apiService.searchBookingByCode(bookingCode).enqueue(object : Callback<SearchBook>{
-            override fun onResponse(call: Call<SearchBook>, response: Response<SearchBook>) {
+        apiService.searchBookingByCode(bookingCode).enqueue(object : Callback<BookingListResponse>{
+            override fun onResponse(call: Call<BookingListResponse>, response: Response<BookingListResponse>) {
                 if(response.isSuccessful){
                     searchBooking.postValue(response.body())
                 }else{
@@ -54,7 +53,7 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
                 }
             }
 
-            override fun onFailure(call: Call<SearchBook>, t: Throwable) {
+            override fun onFailure(call: Call<BookingListResponse>, t: Throwable) {
                 searchBooking.postValue(null)
             }
 

@@ -14,6 +14,8 @@ import cthree.user.flypass.models.user.*
 import cthree.user.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,17 +33,19 @@ class UserViewModel @Inject constructor(
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataUser = prefRepo.readData.asLiveData()
 
-    private val tokenUser           : MutableLiveData<String?>              = MutableLiveData()
-    private val liveDataUser        : MutableLiveData<User?>                = MutableLiveData()
-    private val registerDataUser    : MutableLiveData<RegisterResponse?>    = MutableLiveData()
-    private val loginErrorMsg       : MutableLiveData<String?>              = MutableLiveData()
-    private val registErrorMsg      : MutableLiveData<String?>              = MutableLiveData()
+    private val tokenUser           : MutableLiveData<String?>                  = MutableLiveData()
+    private val liveDataUser        : MutableLiveData<User?>                    = MutableLiveData()
+    private val registerDataUser    : MutableLiveData<RegisterResponse?>        = MutableLiveData()
+    private val loginErrorMsg       : MutableLiveData<String?>                  = MutableLiveData()
+    private val registErrorMsg      : MutableLiveData<String?>                  = MutableLiveData()
+    private val updateProfile       : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
 
-    fun getLoginToken()             : LiveData<String?>             = tokenUser
-    fun getLoginErrorMessage()      : LiveData<String?>             = loginErrorMsg
-    fun getRegisterErrorMessage()   : LiveData<String?>             = registErrorMsg
-    fun getLiveDataUser()           : LiveData<User?>               = liveDataUser
-    fun registerDataUser()          : LiveData<RegisterResponse?>   = registerDataUser
+    fun getLoginToken()             : LiveData<String?>                 = tokenUser
+    fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
+    fun getRegisterErrorMessage()   : LiveData<String?>                 = registErrorMsg
+    fun getLiveDataUser()           : LiveData<User?>                   = liveDataUser
+    fun registerDataUser()          : LiveData<RegisterResponse?>       = registerDataUser
+    fun getUpdateProfile()          : LiveData<UpdateProfileResponse?>  = updateProfile
 
     fun callLoginUser(loginData: LoginData){
         apiService.loginUser(loginData).enqueue(object : Callback<Login>{
@@ -88,6 +92,35 @@ class UserViewModel @Inject constructor(
         })
     }
 
+    fun updateProfile(
+        name: RequestBody,
+        email: RequestBody,
+        phone: RequestBody,
+        image: MultipartBody.Part,
+        gender: RequestBody,
+        birthDate: RequestBody
+    ){
+        apiService.updateProfile(name,email, phone, image, gender, birthDate).enqueue(object : Callback<UpdateProfileResponse>{
+            override fun onResponse(
+                call: Call<UpdateProfileResponse>,
+                response: Response<UpdateProfileResponse>
+            ) {
+                if(response.isSuccessful){
+                    updateProfile.postValue(response.body())
+                }else{
+                    updateProfile.postValue(null)
+                    Log.d(TAG, "Update Profile: Unsuccessfully")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
+                updateProfile.postValue(null)
+                Log.d(TAG, "Update Profile: ${t.localizedMessage}")
+            }
+
+        })
+    }
+
     fun callApiUser(){
         apiService.apiServiceUser()
             .enqueue(object : Callback<User> {
@@ -112,16 +145,16 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch { prefRepo.saveDataUser(profile) }
     }
 
+    fun clearProfileData(){
+        viewModelScope.launch { prefRepo.clearDataUser()}
+    }
+
     fun saveToken(token: String){
         viewModelScope.launch { prefRepo.saveToken(token) }
     }
 
     fun clearAirportSearch(){
         viewModelScope.launch { prefRepo.clearDataDepartArrive() }
-    }
-
-    fun saveDataId(id : Int){
-        viewModelScope.launch { prefRepo.saveDataUserId(id) }
     }
 
     fun saveLoginData(profile: Profile){

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
@@ -47,6 +49,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
+        setBottomNav()
 
         userVM.getLoginToken().observe(viewLifecycleOwner) {
             if(it != null){
@@ -57,7 +60,7 @@ class LoginFragment : Fragment() {
                 val profile = Utils.decodeAccountToken(it)
                 sessionManager.setUserId(profile.id)
                 userVM.saveToken(it)
-                userVM.saveLoginData(profile)
+                userVM.saveData(profile)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
@@ -126,6 +129,10 @@ class LoginFragment : Fragment() {
         progressAlertDialog = progressAlertDialogBuilder.create()
         progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
     }
 
 

@@ -1,6 +1,7 @@
 package cthree.admin.flypass.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.admin.AdminDataClass
@@ -18,6 +19,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+private const val TAG = "AdminViewModel"
+
 @HiltViewModel
 class AdminViewModel @Inject constructor(private val apiService: APIService, application: Application): ViewModel() {
 
@@ -28,12 +31,12 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
 
     private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val loginErrorMsg: MutableLiveData<String?> = MutableLiveData()
-    private val liveDataUser: MutableLiveData<GetUserResponse> = MutableLiveData()
+    private val liveDataUser: MutableLiveData<GetUserResponse?> = MutableLiveData()
 
     fun getLoginToken(): LiveData<String?> = tokenAdmin
     fun getLoginErrorMessage(): LiveData<String?> = loginErrorMsg
 
-    fun getLiveDataUsers() : MutableLiveData<GetUserResponse> {
+    fun getLiveDataUsers() : MutableLiveData<GetUserResponse?> {
         return liveDataUser
     }
 
@@ -63,6 +66,7 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
     }
 
     fun callApiUser(token : String){
+        Log.d(TAG, "callApiUser: $token")
         apiService.getAllUser(token)
             .enqueue(object : Callback<GetUserResponse> {
                 override fun onResponse(

@@ -1,6 +1,7 @@
 package cthree.admin.flypass.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import cthree.admin.flypass.databinding.FragmentUserAccountBinding
 import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val TAG = "UserAccountFragment"
 
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
@@ -42,9 +45,10 @@ class UserAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val token = sessionManager.getToken().toString()
+        val token = sessionManager.getToken()
+        Log.d(TAG, "onViewCreated Token: $token ")
 
-        adminVM.callApiUser(token)
+        adminVM.callApiUser("Bearer ${token!!.trim()}")
         adminVM.getLiveDataUsers().observe(viewLifecycleOwner) {
             if (it != null){
                 binding.rvListUser.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

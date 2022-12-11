@@ -6,9 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.flightpay.FlightPayFragment"
     android:orientation="vertical">
-    <include
-        android:id="@+id/toolbarLayout"
-        layout="@layout/toolbar_general"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,8 +66,8 @@
         android:text="@string/latest_transaction"
         android:textSize="14sp"
         android:textColor="@color/black"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLatestTransaction"
+    <ListView
+        android:id="@+id/lv_latest_transaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/row_latest_transaction"/>

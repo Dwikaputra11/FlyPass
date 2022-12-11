@@ -9,13 +9,13 @@
 
     <include
         android:id="@+id/toolbarLayout"
-        layout="@layout/toolbar_home_no_elevation"/>
+        layout="@layout/toolbar_home"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:background="@color/color_primary"
         android:layout_width="match_parent"
-        app:tabIndicatorColor="@color/white"
+        app:tabIndicator="@color/white"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="#CCFFFFFF"
         android:layout_height="wrap_content"/>

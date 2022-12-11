@@ -80,7 +80,7 @@
             <TextView
                 android:id="@+id/iataDepartAirport"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="8dp"
                 android:layout_gravity="center"
                 android:text="YIA"
                 android:textColor="@color/white" />

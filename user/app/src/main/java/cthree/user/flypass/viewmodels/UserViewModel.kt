@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cthree.user.flypass.api.ApiService
+import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.user.*
@@ -34,17 +35,19 @@ class UserViewModel @Inject constructor(
     val dataUser = prefRepo.readData.asLiveData()
 
     private val tokenUser           : MutableLiveData<String?>                  = MutableLiveData()
-    private val userProfile        : MutableLiveData<User?>                    = MutableLiveData()
+    private val userProfile         : MutableLiveData<User?>                    = MutableLiveData()
     private val registerDataUser    : MutableLiveData<RegisterResponse?>        = MutableLiveData()
     private val loginErrorMsg       : MutableLiveData<String?>                  = MutableLiveData()
     private val registErrorMsg      : MutableLiveData<String?>                  = MutableLiveData()
+    private val updatePhotoProfile  : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
     private val updateProfile       : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
 
     fun getLoginToken()             : LiveData<String?>                 = tokenUser
     fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
     fun getRegisterErrorMessage()   : LiveData<String?>                 = registErrorMsg
-    fun getUserProfile()           : LiveData<User?>                    = userProfile
+    fun getUserProfile()            : LiveData<User?>                   = userProfile
     fun registerDataUser()          : LiveData<RegisterResponse?>       = registerDataUser
+    fun getUpdatePhotoProfile()     : LiveData<UpdateProfileResponse?>  = updatePhotoProfile
     fun getUpdateProfile()          : LiveData<UpdateProfileResponse?>  = updateProfile
 
     fun callLoginUser(loginData: LoginData){
@@ -92,7 +95,7 @@ class UserViewModel @Inject constructor(
         })
     }
 
-    fun updateProfile(
+    fun updatePhotoProfile(
         token: String,
         name: RequestBody,
         email: RequestBody,
@@ -101,7 +104,29 @@ class UserViewModel @Inject constructor(
         gender: RequestBody,
         birthDate: RequestBody
     ){
-        apiService.updateProfile("Bearer $token",name,email, phone, image, gender, birthDate).enqueue(object : Callback<UpdateProfileResponse>{
+        apiService.updatePhotoProfile("Bearer $token",name,email, phone, image, gender, birthDate).enqueue(object : Callback<UpdateProfileResponse>{
+            override fun onResponse(
+                call: Call<UpdateProfileResponse>,
+                response: Response<UpdateProfileResponse>
+            ) {
+                if(response.isSuccessful){
+                    updatePhotoProfile.postValue(response.body())
+                }else{
+                    updatePhotoProfile.postValue(null)
+                    Log.d(TAG, "Update Photo Profile: Unsuccessfully")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
+                updatePhotoProfile.postValue(null)
+                Log.d(TAG, "Update Photo Profile: ${t.localizedMessage}")
+            }
+
+        })
+    }
+
+    fun updateProfile(token:String,profile: UpdateProfile){
+        apiService.updateProfile("Bearer $token", profile).enqueue(object : Callback<UpdateProfileResponse>{
             override fun onResponse(
                 call: Call<UpdateProfileResponse>,
                 response: Response<UpdateProfileResponse>

@@ -1,5 +1,6 @@
 package cthree.user.flypass.api
 
+import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
@@ -49,7 +50,7 @@ interface ApiService {
 
     @PUT("v1/user")
     @Multipart
-    fun updateProfile(
+    fun updatePhotoProfile(
         @Header("Authorization") token: String,
         @Part("name") name: RequestBody,
         @Part("email") email: RequestBody,
@@ -58,6 +59,9 @@ interface ApiService {
         @Part("gender") gender: RequestBody,
         @Part("birthDate") birthDate: RequestBody
     ): Call<UpdateProfileResponse>
+
+    @PUT("v1/user")
+    fun updateProfile(@Header("Authorization")token: String, @Body profile: UpdateProfile): Call<UpdateProfileResponse>
 
     @POST("v1/flights/books")
     fun postBooking(@Header("Authorization") token: String?,@Body booking: BookingRequest): Call<BookingResponse>

@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -125,7 +124,7 @@ class EditProfileFragment : Fragment() {
                     .into(binding.ivImageProfile)
             }
         }
-        userViewModel.getUpdateProfile().observe(viewLifecycleOwner){
+        userViewModel.getUpdatePhotoProfile().observe(viewLifecycleOwner){
             if(it != null){
                 sessionManager.getToken()?.let { token -> userViewModel.callUserProfile(token) }
             }
@@ -191,7 +190,7 @@ class EditProfileFragment : Fragment() {
             )
             progressAlertDialog.show()
             sessionManager.getToken()?.let {
-                userViewModel.updateProfile(
+                userViewModel.updatePhotoProfile(
                     token = it,
                     name = profile.name.toRequestBody("text/plain".toMediaTypeOrNull()),
                     phone = profile.phone.toRequestBody("text/plain".toMediaTypeOrNull()),

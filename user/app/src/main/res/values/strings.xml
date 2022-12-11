@@ -31,5 +31,23 @@
     <string name="register_success_subtitle">Silahkan login terlebih dahulu.</string>
     <string name="register_success_btn">Login</string>
 
+    <string name="currency">Rp </string>
+    <string name="latest_transaction">Transaksi Terakhir</string>
+    <string name="topup">Jumlah Top Up (Rp)</string>
+    <string name="top20">20.000</string>
+    <string name="top50">50.000</string>
+    <string name="top100">100.000</string>
+    <string name="top200">200.000</string>
+    <string name="top300">300.000</string>
+    <string name="top500">500.000</string>
+    <string name="topup_input">Masukkan Jumlah (Rp)</string>
+    <string name="payment">Pembayaran</string>
+    <string name="topup_nominal">Top Up</string>
+    <string name="total_topup">Total Pembayaran</string>
+    <string name="pay_now">Bayar Sekarang</string>
+    <string name="success">Behasil</string>
+    <string name="flight_pay">Flight Pay</string>
+    <string name="home">Home</string>
+
 
 </resources>

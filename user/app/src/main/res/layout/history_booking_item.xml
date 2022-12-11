@@ -80,7 +80,7 @@
             <TextView
                 android:id="@+id/iataDepartAirport"
                 android:layout_width="wrap_content"
-                android:layout_height="8dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="YIA"
                 android:textColor="@color/white" />
@@ -143,7 +143,7 @@
             android:id="@+id/ivAirplaneLogo"
             android:layout_width="30dp"
             android:layout_height="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
@@ -157,6 +157,7 @@
             android:layout_marginStart="8dp"
             android:text="Garuda Indonesia"
             android:textColor="@color/black"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/ivAirplaneLogo"
             app:layout_constraintStart_toEndOf="@+id/ivAirplaneLogo"
             app:layout_constraintTop_toTopOf="@+id/ivAirplaneLogo" />
@@ -165,18 +166,39 @@
             android:id="@+id/btnDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radius_10dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:paddingHorizontal="5dp"
             android:paddingVertical="0dp"
-            android:text="Details"
+            android:text="Waiting"
             android:textAllCaps="false"
-            android:background="@drawable/radius_10dp"
             android:textColor="@color/white"
-            android:textSize="10dp"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvAirplaneName"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBookingCode"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvAirplaneName" />
+            app:layout_constraintTop_toTopOf="@+id/tvBookingCode" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Booking Code:"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/ivAirplaneLogo"
+            app:layout_constraintTop_toBottomOf="@+id/ivAirplaneLogo" />
+
+        <TextView
+            android:id="@+id/tvBookingCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="ka912JK2ks"
+            app:layout_constraintBottom_toBottomOf="@+id/textView14"
+            app:layout_constraintStart_toEndOf="@+id/textView14"
+            app:layout_constraintTop_toTopOf="@+id/textView14" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

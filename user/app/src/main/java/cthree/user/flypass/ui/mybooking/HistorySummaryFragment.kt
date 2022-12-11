@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import cthree.user.flypass.R
 
-class HistoryDetailFragment : Fragment() {
+class HistorySummaryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +18,7 @@ class HistoryDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_detail, container, false)
+        return inflater.inflate(R.layout.fragment_history_summary, container, false)
     }
+
 }

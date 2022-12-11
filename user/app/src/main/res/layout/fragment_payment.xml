@@ -179,74 +179,9 @@
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-            <LinearLayout
-                android:background="@color/white"
-                android:padding="5dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tvContactTitle"
-                        android:text="Mr."
-                        android:textStyle="bold"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:text="."
-                        android:textStyle="bold"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/tvContactFirstName"
-                        android:text="Dwika"
-                        android:padding="5dp"
-                        android:textStyle="bold"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/tvContactLastName"
-                        android:text="Putra"
-                        android:textStyle="bold"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvContactEmail"
-                    android:text="abc@flypass.com"
-                    android:textColor="@color/smokey_900"
-                    android:drawableStart="@drawable/ic_outline_email_24"
-                    android:drawablePadding="10dp"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tvContactNumber"
-                    android:text="0897937929"
-                    android:textColor="@color/smokey_900"
-                    android:drawableStart="@drawable/ic_round_phone_24"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:drawablePadding="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+            <include
+                android:id="@+id/contactDetails"
+                layout="@layout/filled_contact_details"/>
 
             <TextView
                 android:text="Payment"

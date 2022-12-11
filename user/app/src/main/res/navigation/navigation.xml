@@ -168,6 +168,12 @@
         <action
             android:id="@+id/action_homeFragment_to_searchAirportFragment"
             app:destination="@id/searchAirportFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_topUpFragment"
+            app:destination="@id/topUpFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_flightPayFragment"
+            app:destination="@id/flightPayFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -274,17 +280,12 @@
         android:label="fragment_privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
     <fragment
-        android:id="@+id/historyDetailFragment"
-        android:name="cthree.user.flypass.ui.mybooking.HistoryDetailFragment"
-        android:label="fragment_history_detail"
-        tools:layout="@layout/fragment_history_detail" />
-    <fragment
         android:id="@+id/historyProfileFragment"
         android:name="cthree.user.flypass.ui.profile.HistoryProfileFragment"
         android:label="HistoryProfileFragment" >
         <action
-            android:id="@+id/action_historyProfileFragment_to_historyDetailFragment"
-            app:destination="@id/historyDetailFragment" />
+            android:id="@+id/action_historyProfileFragment_to_historySummaryFragment"
+            app:destination="@id/historySummaryFragment" />
     </fragment>
     <fragment
         android:id="@+id/joinMemberFragment"
@@ -320,8 +321,8 @@
         android:label="fragment_my_booking"
         tools:layout="@layout/fragment_my_booking" >
         <action
-            android:id="@+id/action_myBookingFragment_to_historyDetailFragment"
-            app:destination="@id/historyDetailFragment" />
+            android:id="@+id/action_myBookingFragment_to_historySummaryFragment"
+            app:destination="@id/historySummaryFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"
@@ -360,5 +361,49 @@
         <action
             android:id="@+id/action_editProfileFragment_to_usernameEditFragment"
             app:destination="@id/usernameEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historySummaryFragment"
+        android:name="cthree.user.flypass.ui.mybooking.HistorySummaryFragment"
+        android:label="fragment_history_summary"
+        tools:layout="@layout/fragment_history_summary" >
+        <action
+            android:id="@+id/action_historySummaryFragment_to_historyDetailFragment"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyDetailFragment"
+        android:name="cthree.user.flypass.ui.mybooking.HistoryDetailFragment"
+        android:label="fragment_history_detail"
+        tools:layout="@layout/fragment_history_detail" />
+    <fragment
+        android:id="@+id/flightPayFragment"
+        android:name="cthree.user.flypass.ui.flightpay.FlightPayFragment"
+        android:label="fragment_flight_pay"
+        tools:layout="@layout/fragment_flight_pay" >
+        <action
+            android:id="@+id/action_flightPayFragment_to_topUpFragment"
+            app:destination="@id/topUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topUpFragment"
+        android:name="cthree.user.flypass.ui.flightpay.TopUpFragment"
+        android:label="fragment_top_up"
+        tools:layout="@layout/fragment_top_up" >
+        <action
+            android:id="@+id/action_topUpFragment_to_topUpSuccessFragment"
+            app:destination="@id/topUpSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topUpSuccessFragment"
+        android:name="cthree.user.flypass.ui.flightpay.TopUpSuccessFragment"
+        android:label="fragment_top_up_success"
+        tools:layout="@layout/fragment_top_up_success" >
+        <action
+            android:id="@+id/action_topUpSuccessFragment_to_flightPayFragment"
+            app:destination="@id/flightPayFragment" />
+        <action
+            android:id="@+id/action_topUpSuccessFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

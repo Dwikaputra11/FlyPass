@@ -18,20 +18,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toFile
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.databinding.FragmentEditProfileBinding
+import cthree.user.flypass.models.user.Profile
 import cthree.user.flypass.utils.ImageConfig
+import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 
@@ -41,23 +44,30 @@ private const val TAG = "EditProfileFragment"
 @AndroidEntryPoint
 class EditProfileFragment : Fragment() {
 
-    private lateinit var binding: FragmentEditProfileBinding
-    private lateinit var imgUri: Uri
-    private lateinit var downloadUri: Uri
-    private var imgFile: File? = null
-    private lateinit var confirmAlertBuilder: MaterialAlertDialogBuilder
-    private lateinit var progressAlertDialog: AlertDialog
-    private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
-    private val userViewModel: UserViewModel by viewModels()
+    private lateinit var binding                    : FragmentEditProfileBinding
+    private lateinit var imgUri                     : Uri
+    private lateinit var downloadUri                : Uri
+    private var imgFile                             : File? = null
+    private lateinit var confirmAlertBuilder        : MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog        : AlertDialog
+    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
+    private val userViewModel                       : UserViewModel by viewModels()
+    private lateinit var profile                    : Profile
+    private lateinit var sessionManager             : SessionManager
 
     private val cameraResult =
-        registerForActivityResult(ActivityResultContracts.TakePicture()) { result ->
-            if (result) {
-                binding.ivImageProfile.setImageURI(imgUri)
-//                handleCameraImage(result)
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if(result){
+//                postProfile(imgFile)
+//                Log.d(TAG, "Camera result File: ${imgFile?.absoluteFile}")
+//                Log.d(TAG, "Camera result Uri: $imgUri")
+//            }
+            if (result.resultCode == Activity.RESULT_OK) {
+//                binding.ivImageProfile.setImageURI(imgUri)
+                handleCameraImage(result.data)
                 Log.d(TAG, "Camera result File: ${imgFile?.absoluteFile}")
                 Log.d(TAG, "Camera result Uri: $imgUri")
-                postProfile(imgFile)
+//                postProfile(imgFile)
             }
         }
 
@@ -66,7 +76,7 @@ class EditProfileFragment : Fragment() {
             if(result != null) {
                 imgUri = result
                 imgFile = ImageConfig.uriToFile(result, requireContext())
-                binding.ivImageProfile.setImageURI(imgUri)
+//                binding.ivImageProfile.setImageURI(imgUri)
                 postProfile(imgFile)
             }
             Log.d(TAG, "Gallery result Uri: $imgUri")
@@ -77,6 +87,7 @@ class EditProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -93,7 +104,43 @@ class EditProfileFragment : Fragment() {
         binding.ivImageProfile.setOnClickListener {
             changePicProfile()
         }
-        userViewModel.callApiUser()
+        userViewModel.dataUser.observe(viewLifecycleOwner){
+            if(it.email.isNotEmpty()){
+                profile = Profile(
+                    name = it.name,
+                    roleId = it.roleId,
+                    id = it.id,
+                    email = it.email,
+                    phone = it.phone,
+                    gender = it.gender,
+                    birthDate = it.birthDate,
+                    image = it.image.ifEmpty { null }
+                )
+                Log.d(TAG, "onViewCreated: $profile")
+            }
+            if(it.image.isNotEmpty()){
+                Glide.with(binding.root)
+                    .load(it.image)
+                    .circleCrop()
+                    .into(binding.ivImageProfile)
+            }
+        }
+        userViewModel.getUpdateProfile().observe(viewLifecycleOwner){
+            if(it != null){
+                sessionManager.getToken()?.let { token -> userViewModel.callUserProfile(token) }
+            }
+        }
+        userViewModel.getUserProfile().observe(viewLifecycleOwner){
+            if(it != null){
+                profile.image = it.profile.image
+                Glide.with(binding.root)
+                    .load(it.profile.image)
+                    .circleCrop()
+                    .into(binding.ivImageProfile)
+                userViewModel.saveData(profile)
+                progressAlertDialog.dismiss()
+            }
+        }
     }
 
     private fun setupToolbar(){
@@ -142,7 +189,18 @@ class EditProfileFragment : Fragment() {
                 file.name,
                 currentImageFile
             )
-
+            progressAlertDialog.show()
+            sessionManager.getToken()?.let {
+                userViewModel.updateProfile(
+                    token = it,
+                    name = profile.name.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    phone = profile.phone.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    birthDate = profile.birthDate.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    gender = profile.gender.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    email = profile.email.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    image = imageMultipart
+                )
+            }
         }
     }
 
@@ -216,10 +274,12 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun openCamera() {
-//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imgUri = FileProvider.getUriForFile(requireContext(),"${requireActivity().packageName}.provider",ImageConfig.createFile(requireContext()))
-        imgFile = ImageConfig.uriToFile(imgUri,requireContext())
-        cameraResult.launch(imgUri)
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        imgUri = FileProvider.getUriForFile(requireActivity(),"${requireActivity().packageName}.provider",ImageConfig.createFile(requireContext()))
+//        Log.d(TAG, "openCamera: $imgUri")
+//        imgFile = ImageConfig.uriToFile(imgUri,requireContext())
+//        Log.d(TAG, "openCamera: $imgFile")
+        cameraResult.launch(cameraIntent)
     }
 
     private fun openGallery() {
@@ -230,7 +290,8 @@ class EditProfileFragment : Fragment() {
     private fun handleCameraImage(intent: Intent?) {
         val bitmap = intent?.extras?.get("data") as Bitmap
         imgUri = getImageUri(requireContext(), bitmap)
-        imgFile = imgUri.path?.let { File(it) }
+        imgFile = ImageConfig.uriToFile(imgUri,requireContext())
+        postProfile(imgFile)
 
 //        saveToFirebase()
         Log.d(TAG, "handleCameraImage Uri: $imgUri")

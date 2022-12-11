@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentProfileBinding
@@ -61,6 +62,14 @@ class ProfileFragment : Fragment() {
 
     private fun setUserPrefView(isRegist: Boolean){
         if(isRegist){
+            userViewModel.dataUser.observe(viewLifecycleOwner){
+                if(it.image.isNotEmpty()){
+                    Glide.with(binding.root)
+                        .load(it.image)
+                        .circleCrop()
+                        .into(binding.userProfileLayout.ivUserProfile)
+                }
+            }
             binding.userProfileLayout.cvHistory.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_historyProfileFragment)
             }
@@ -73,9 +82,11 @@ class ProfileFragment : Fragment() {
         }else{
             binding.unregistProfileLayout.btnLogin.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+                findNavController().popBackStack(R.id.profileFragment, true)
             }
             binding.unregistProfileLayout.btnRegister.setOnClickListener {
                 findNavController().navigate(R.id.action_profileFragment_to_registerFragment)
+                findNavController().popBackStack(R.id.profileFragment, true)
             }
         }
     }

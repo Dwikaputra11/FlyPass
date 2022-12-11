@@ -10,7 +10,7 @@ import java.io.*
 
 object ImageConfig {
     fun reduceFileImage(file: File): File {
-        val bitmap = BitmapFactory.decodeFile(file.path)
+        val bitmap = BitmapFactory.decodeFile(file.absolutePath)
         var compressQuality = 100
         var streamLength: Int
 

@@ -192,10 +192,10 @@ object Utils {
         return Profile(
             id = user.getClaim("id").asInt()!!,
             email = user.getClaim("email").asString()!!,
-            birthDate = user.getClaim("birthDate").asString(),
-            gender = user.getClaim("gender").asString(),
+            birthDate = user.getClaim("birthDate").asString()!!,
+            gender = user.getClaim("gender").asString()!!,
             image = user.getClaim("image").asString(),
-            phone = user.getClaim("phone").asString(),
+            phone = user.getClaim("phone").asString()!!,
             roleId = user.getClaim("roleId").asInt()!!,
             name = user.getClaim("name").asString()!!
         )

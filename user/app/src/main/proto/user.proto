@@ -23,6 +23,8 @@ message UserProto {
   string name = 14;
   string phone = 15;
   int32 roleId = 16;
+  string birthDate = 19;
+  string gender = 20;
   bool saveLoginStatus = 17;
 
   string token = 18;

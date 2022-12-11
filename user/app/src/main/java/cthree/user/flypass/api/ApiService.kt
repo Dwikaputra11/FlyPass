@@ -1,10 +1,8 @@
 package cthree.user.flypass.api
 
-import androidx.room.Update
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
-import cthree.user.flypass.models.booking.searchbook.Booking
 import cthree.user.flypass.models.booking.searchbook.SearchBook
 import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
@@ -41,7 +39,7 @@ interface ApiService {
     fun apiServiceAirport() : Call<AirportList>
 
     @GET("v1/user")
-    fun apiServiceUser() : Call<User>
+    fun getUserProfile(@Header("Authorization") token: String) : Call<User>
 
     @POST("v1/register")
     fun registerUser(@Body request : RegisterUser) : Call<RegisterResponse>
@@ -52,12 +50,13 @@ interface ApiService {
     @PUT("v1/user")
     @Multipart
     fun updateProfile(
+        @Header("Authorization") token: String,
         @Part("name") name: RequestBody,
-        @Part("name") email: RequestBody,
-        @Part("name") phone: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("phone") phone: RequestBody,
         @Part image: MultipartBody.Part,
         @Part("gender") gender: RequestBody,
-        birthDate: RequestBody
+        @Part("birthDate") birthDate: RequestBody
     ): Call<UpdateProfileResponse>
 
     @POST("v1/flights/books")

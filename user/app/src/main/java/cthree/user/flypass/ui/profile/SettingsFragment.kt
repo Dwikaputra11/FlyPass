@@ -99,7 +99,9 @@ class SettingsFragment : Fragment() {
                 if(it.email.isEmpty()){
                     Log.d(TAG, "logoutConfirmation: Observe")
                     progressAlertDialog.dismiss()
-                    findNavController().navigate(R.id.action_settingsFragment_to_homeFragment)
+                    val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+                    findNavController().popBackStack()
+                    bottomNav.selectedItemId = R.id.homeFragment
                 }
             }
         }

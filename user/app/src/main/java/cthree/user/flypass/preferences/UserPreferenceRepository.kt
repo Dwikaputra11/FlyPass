@@ -51,10 +51,13 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().setEmail(profile.email).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setId(profile.id).build()
+            preferences.toBuilder().setBirthDate(profile.birthDate).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setImage(profile.image).build()
+            preferences.toBuilder().setGender(profile.gender).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setId(profile.id).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setName(profile.name).build()
@@ -64,6 +67,11 @@ class UserPreferenceRepository(private val context: Context) {
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setRoleId(profile.roleId).build()
+        }
+        if(profile.image != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setImage(profile.image).build()
+            }
         }
     }
 

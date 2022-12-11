@@ -34,7 +34,7 @@ class UserViewModel @Inject constructor(
     val dataUser = prefRepo.readData.asLiveData()
 
     private val tokenUser           : MutableLiveData<String?>                  = MutableLiveData()
-    private val liveDataUser        : MutableLiveData<User?>                    = MutableLiveData()
+    private val userProfile        : MutableLiveData<User?>                    = MutableLiveData()
     private val registerDataUser    : MutableLiveData<RegisterResponse?>        = MutableLiveData()
     private val loginErrorMsg       : MutableLiveData<String?>                  = MutableLiveData()
     private val registErrorMsg      : MutableLiveData<String?>                  = MutableLiveData()
@@ -43,7 +43,7 @@ class UserViewModel @Inject constructor(
     fun getLoginToken()             : LiveData<String?>                 = tokenUser
     fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
     fun getRegisterErrorMessage()   : LiveData<String?>                 = registErrorMsg
-    fun getLiveDataUser()           : LiveData<User?>                   = liveDataUser
+    fun getUserProfile()           : LiveData<User?>                    = userProfile
     fun registerDataUser()          : LiveData<RegisterResponse?>       = registerDataUser
     fun getUpdateProfile()          : LiveData<UpdateProfileResponse?>  = updateProfile
 
@@ -93,6 +93,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun updateProfile(
+        token: String,
         name: RequestBody,
         email: RequestBody,
         phone: RequestBody,
@@ -100,7 +101,7 @@ class UserViewModel @Inject constructor(
         gender: RequestBody,
         birthDate: RequestBody
     ){
-        apiService.updateProfile(name,email, phone, image, gender, birthDate).enqueue(object : Callback<UpdateProfileResponse>{
+        apiService.updateProfile("Bearer $token",name,email, phone, image, gender, birthDate).enqueue(object : Callback<UpdateProfileResponse>{
             override fun onResponse(
                 call: Call<UpdateProfileResponse>,
                 response: Response<UpdateProfileResponse>
@@ -121,22 +122,22 @@ class UserViewModel @Inject constructor(
         })
     }
 
-    fun callApiUser(){
-        apiService.apiServiceUser()
+    fun callUserProfile(token: String){
+        apiService.getUserProfile("Bearer $token")
             .enqueue(object : Callback<User> {
                 override fun onResponse(
                     call: Call<User>,
                     response: Response<User>
                 ) {
                     if (response.isSuccessful){
-                        liveDataUser.postValue(response.body())
+                        userProfile.postValue(response.body())
                     } else{
-                        liveDataUser.postValue(null)
+                        userProfile.postValue(null)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    liveDataUser.postValue(null)
+                    userProfile.postValue(null)
                 }
             })
     }

@@ -67,9 +67,27 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-    suspend fun saveDataUserId(id: Int){
+    suspend fun clearDataUser(){
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setId(id).build()
+            preferences.toBuilder().clearEmail().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearId().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearImage().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearName().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearPhone().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearRoleId().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearToken().build()
         }
     }
 

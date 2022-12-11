@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentProfileBinding
 import cthree.user.flypass.viewmodels.UserViewModel
@@ -37,13 +38,13 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         userViewModel.dataUser.observe(viewLifecycleOwner){
-            Log.d(TAG, "onViewCreated: ${it.email == null}")
-            binding.unregistProfileLayout.root.isVisible    = it.email == null
-            binding.userProfileLayout.root.isVisible        = it.email != null
-            setUserPrefView(it.email != null)
+            Log.d(TAG, "onViewCreated: ${it.email.isEmpty()}")
+            binding.unregistProfileLayout.root.isVisible    = it.email.isEmpty()
+            binding.userProfileLayout.root.isVisible        = it.email.isNotEmpty()
+            setUserPrefView(it.email.isNotEmpty())
         }
-        setupToolbar()
         setViews()
+        setBottomNav()
     }
 
     private fun setViews() {
@@ -79,14 +80,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun setupToolbar(){
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
-        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        binding.toolbarLayout.toolbar.title = "Booking"
-        binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
-        binding.toolbarLayout.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = true
     }
 }

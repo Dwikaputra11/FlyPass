@@ -49,9 +49,10 @@
                         android:layout_height="match_parent">
                         <ImageView
                             android:id="@+id/ivImageProfile"
+                            android:src="@drawable/ic_round_account_circle_70"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:src="@tools:sample/avatars"/>
+                            />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <ImageView

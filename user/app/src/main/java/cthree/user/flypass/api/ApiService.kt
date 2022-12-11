@@ -1,5 +1,6 @@
 package cthree.user.flypass.api
 
+import androidx.room.Update
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
@@ -8,18 +9,21 @@ import cthree.user.flypass.models.booking.searchbook.SearchBook
 import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
-import cthree.user.flypass.models.user.RegisterResponse
-import cthree.user.flypass.models.user.RegisterUser
-import cthree.user.flypass.models.user.User
+import cthree.user.flypass.models.user.*
 import cthree.user.flypass.models.wishlist.delete.DeleteWishlist
 import cthree.user.flypass.models.wishlist.get.WishList
 import cthree.user.flypass.models.wishlist.post.WishlistResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -44,6 +48,17 @@ interface ApiService {
 
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>
+
+    @PUT("v1/user")
+    @Multipart
+    fun updateProfile(
+        @Part("name") name: RequestBody,
+        @Part("name") email: RequestBody,
+        @Part("name") phone: RequestBody,
+        @Part image: MultipartBody.Part,
+        @Part("gender") gender: RequestBody,
+        birthDate: RequestBody
+    ): Call<UpdateProfileResponse>
 
     @POST("v1/flights/books")
     fun postBooking(@Header("Authorization") token: String?,@Body booking: BookingRequest): Call<BookingResponse>

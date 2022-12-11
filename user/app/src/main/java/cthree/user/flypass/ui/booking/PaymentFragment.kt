@@ -77,11 +77,12 @@ class PaymentFragment : Fragment() {
         binding.rvPassenger.layoutManager   = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter.submitList(passengerList)
 
-        binding.tvContactEmail.text         = contactData.email
-        binding.tvContactNumber.text        = contactData.phoneNumber
-        binding.tvContactTitle.text         = contactData.title
-        binding.tvContactFirstName.text     = contactData.firstName
-        binding.tvContactLastName.text      = contactData.lastName
+        binding.contactDetails.tvContactEmail.text         = contactData.email
+        binding.contactDetails.tvContactNumber.text        = contactData.phoneNumber
+        binding.contactDetails.tvContactTitle.text         = contactData.title
+        binding.contactDetails.tvContactFirstName.text     = contactData.firstName
+        binding.contactDetails.tvContactLastName.text      = contactData.lastName
+        binding.contactDetails.tvContactLastName.text      = contactData.lastName
 
         // set Details Description Flights
         with(binding.flightDetails){

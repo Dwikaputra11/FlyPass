@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/screen_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.mybooking.SearchFragment">
@@ -23,6 +24,12 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"/>
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="16dp"
+        android:id="@+id/rvFlights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
 

@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import cthree.admin.flypass.R
+import cthree.admin.flypass.adapter.UserAccountAdapter
 import cthree.admin.flypass.databinding.FragmentUserAccountBinding
+import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,9 +21,13 @@ class UserAccountFragment : Fragment() {
 
     lateinit var binding : FragmentUserAccountBinding
     private val adminVM: AdminViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
+    private lateinit var userAccountAdapter : UserAccountAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -36,30 +42,15 @@ class UserAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        showDataUser()
-    }
+        val token = sessionManager.getToken().toString()
 
-//    private fun showDataUser(){
-//        viewModel.getLiveDataFilem().observe(this, Observer {
-//            if (it != null){
-//                binding.rvListFilm.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//                val adapter = FilmAdapter(it)
-//                binding.rvListFilm.adapter = adapter
-//                adapter.onDeleteClick = {
-//                    deleteFilm(it.id.toInt())
-//                }
-//                adapter.notifyDataSetChanged()
-//                adapter.onFavoriteClick = {
-//                    viewModelFavorite.callPostApiFilm(it.name, it.image, it.director, it.description)
-//                    viewModelFavorite.postLiveDataFilm().observe(this,{
-//                        if(it != null){
-//                            Toast.makeText(this,"Tambah Favorit Berhasil", Toast.LENGTH_SHORT).show()
-//                        }
-//                    })
-//                }
-//                adapter.notifyDataSetChanged()
-//            }
-//        })
-//        viewModel.callApiFilm()
-//    }
+        adminVM.callApiUser(token)
+        adminVM.getLiveDataUsers().observe(viewLifecycleOwner) {
+            if (it != null){
+                binding.rvListUser.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                userAccountAdapter = UserAccountAdapter(it.users)
+                binding.rvListUser.adapter = userAccountAdapter
+            }
+        }
+    }
 }

@@ -7,5 +7,5 @@ data class LoginAdminResponse(
     @SerializedName("message")
     val message: String,
     @SerializedName("user")
-    val user: User
+    val userAdmin: UserAdmin
 )

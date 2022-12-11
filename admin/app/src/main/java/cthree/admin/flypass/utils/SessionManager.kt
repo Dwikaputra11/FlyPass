@@ -13,4 +13,8 @@ class SessionManager(val context: Context) {
         editor.apply()
     }
 
+    fun getToken() : String?{
+        return prefs.getString("user_token", null)
+    }
+
 }

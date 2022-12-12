@@ -64,6 +64,12 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
+
+        userVM.getRefreshToken().observe(viewLifecycleOwner){
+            if(it != null){
+                userVM.saveRefreshToken(it)
+            }
+        }
         
         userVM.getLoginErrorMessage().observe(viewLifecycleOwner){
             if(it != null){

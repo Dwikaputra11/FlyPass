@@ -41,6 +41,8 @@ class UserViewModel @Inject constructor(
     private val registErrorMsg      : MutableLiveData<String?>                  = MutableLiveData()
     private val updatePhotoProfile  : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
     private val updateProfile       : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
+    private val refreshToken        : MutableLiveData<String?>                  = MutableLiveData()
+    private val logoutUser          : MutableLiveData<Int?>                      = MutableLiveData()
 
     fun getLoginToken()             : LiveData<String?>                 = tokenUser
     fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
@@ -49,6 +51,8 @@ class UserViewModel @Inject constructor(
     fun registerDataUser()          : LiveData<RegisterResponse?>       = registerDataUser
     fun getUpdatePhotoProfile()     : LiveData<UpdateProfileResponse?>  = updatePhotoProfile
     fun getUpdateProfile()          : LiveData<UpdateProfileResponse?>  = updateProfile
+    fun getRefreshToken()           : LiveData<String?>                 = refreshToken
+    fun getLogoutStatus()           : LiveData<Int?>                    = logoutUser
 
     fun callLoginUser(loginData: LoginData){
         apiService.loginUser(loginData).enqueue(object : Callback<Login>{
@@ -56,7 +60,9 @@ class UserViewModel @Inject constructor(
                 if(response.isSuccessful){
                     response.body()?.let {
                         tokenUser.postValue(it.userLogin.accesstToken)
+                        Log.d(TAG, "Cookies: ${response.headers()["Set-Cookie"]?.split(";")?.get(0)?.substringAfter("=")}")
                     }
+                    refreshToken.postValue(response.headers()["Set-Cookie"]?.split(";")?.get(0)?.substringAfter("="))
                 }else{
                     tokenUser.postValue(null)
                     val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
@@ -92,6 +98,20 @@ class UserViewModel @Inject constructor(
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 registErrorMsg.postValue(null)
             }
+        })
+    }
+
+    fun logoutUser(token: String){
+        apiService.logout("Bearer $token").enqueue(object : Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                logoutUser.postValue(response.code())
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                logoutUser.postValue(null)
+                Log.d(TAG, "logoutUser: ${t.localizedMessage}")
+            }
+
         })
     }
 
@@ -177,6 +197,18 @@ class UserViewModel @Inject constructor(
 
     fun saveToken(token: String){
         viewModelScope.launch { prefRepo.saveToken(token) }
+    }
+
+    fun clearToken(){
+        viewModelScope.launch { prefRepo.clearToken() }
+    }
+
+    fun saveRefreshToken(token: String){
+        viewModelScope.launch { prefRepo.saveRefreshToken(token) }
+    }
+
+    fun clearRefreshToken(){
+        viewModelScope.launch { prefRepo.clearRefreshToken() }
     }
 
     fun clearAirportSearch(){

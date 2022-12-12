@@ -48,6 +48,8 @@ interface ApiService {
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>
 
+    @GET("v1/logout")
+    fun logout(@Header("Authorization") token: String): Call<String>
     @PUT("v1/user")
     @Multipart
     fun updatePhotoProfile(

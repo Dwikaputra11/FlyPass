@@ -15,6 +15,10 @@ import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.databinding.FragmentSettingsBinding
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
+import cthree.user.flypass.utils.AuthOption
+import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,14 +28,15 @@ private const val TAG = "SettingsFragment"
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
-    private lateinit var confirmAlertBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var sessionManager: SessionManager
     private val userViewModel : UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -46,7 +51,15 @@ class SettingsFragment : Fragment() {
         setupToolbar()
         setBottomNav()
         initProgressDialog()
-
+        userViewModel.getLogoutStatus().observe(viewLifecycleOwner){
+            if(it == 200){
+                Log.d(TAG, "logoutConfirmation: Observe")
+                progressAlertDialog.dismiss()
+                val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+                findNavController().popBackStack()
+                bottomNav.selectedItemId = R.id.homeFragment
+            }
+        }
         binding.cvAccountInfo.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_profileAccountInfoFragment)
         }
@@ -61,7 +74,26 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            logoutConfirmation()
+            DialogCaller(requireActivity())
+                .setTitle(R.string.logout_confirm_title)
+                .setMessage(R.string.logout_confirm_subtitle)
+                .setPrimaryButton(R.string.logout_confirm_btn_yes){ dialog, _ ->
+                    run {
+                        userViewModel.clearProfileData()
+                        userViewModel.clearRefreshToken()
+                        userViewModel.clearToken()
+                        userViewModel.logoutUser(sessionManager.getToken()!!)
+                        progressAlertDialog.show()
+                        dialog.dismiss()
+                    }
+                }
+                .setSecondaryButton(R.string.logout_confirm_btn_no){ dialog, _ ->
+                    run {
+                        dialog.dismiss()
+                    }
+                }
+                .create(layoutInflater, AlertButton.TWO)
+                .show()
         }
     }
 
@@ -75,42 +107,6 @@ class SettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-    private fun logoutConfirmation(){
-        val alertDialogBinding = DialogTwoButtonAlertBinding.inflate(layoutInflater, null, false)
-        confirmAlertBuilder = MaterialAlertDialogBuilder(requireContext())
-
-        confirmAlertBuilder.setView(alertDialogBinding.root)
-
-        val materAlertDialog = confirmAlertBuilder.create()
-        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        materAlertDialog.show()
-
-        alertDialogBinding.tvTitle.text = "Anda Yakin Logout?"
-        alertDialogBinding.tvSubtitle.text = "Pastikan sesuatu lorem ipsum dolor sit amet."
-        alertDialogBinding.btnYes.text = "Logout"
-        alertDialogBinding.tvNo.text = "Nanti Saja"
-
-        alertDialogBinding.btnYes.setOnClickListener {
-            userViewModel.clearProfileData()
-            progressAlertDialog.show()
-            materAlertDialog.dismiss()
-            userViewModel.dataUser.observe(viewLifecycleOwner){
-                if(it.email.isEmpty()){
-                    Log.d(TAG, "logoutConfirmation: Observe")
-                    progressAlertDialog.dismiss()
-                    val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
-                    findNavController().popBackStack()
-                    bottomNav.selectedItemId = R.id.homeFragment
-                }
-            }
-        }
-        alertDialogBinding.tvNo.setOnClickListener {
-            Log.d(TAG, "notEnoughBalanceDialog: Maybe Later")
-            materAlertDialog.dismiss()
-        }
-    }
-
     private fun initProgressDialog(){
         val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
         progressAlertDialogBuilder.setView(progressBarBinding.root)

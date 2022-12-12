@@ -28,4 +28,5 @@ message UserProto {
   bool saveLoginStatus = 17;
 
   string token = 18;
+  string refreshToken = 21;
 }

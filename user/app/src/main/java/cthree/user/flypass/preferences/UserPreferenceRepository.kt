@@ -44,6 +44,21 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().setToken(token).build()
         }
     }
+    suspend fun clearToken(){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearToken().build()
+        }
+    }
+    suspend fun saveRefreshToken(token: String){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setRefreshToken(token).build()
+        }
+    }
+    suspend fun clearRefreshToken(){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearRefreshToken().build()
+        }
+    }
 
     // save data to data store proto
     suspend fun saveDataUser(profile: Profile){
@@ -93,9 +108,6 @@ class UserPreferenceRepository(private val context: Context) {
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().clearRoleId().build()
-        }
-        context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().clearToken().build()
         }
     }
 

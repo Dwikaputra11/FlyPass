@@ -16,6 +16,8 @@ import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentLoginBinding
 import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.UserViewModel
@@ -29,14 +31,12 @@ class LoginFragment : Fragment() {
     private val userVM: UserViewModel by viewModels()
     private lateinit var sessionManager: SessionManager
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
-    private lateinit var errorMsgAlertBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager(requireContext())
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
-        errorMsgAlertBuilder = MaterialAlertDialogBuilder(requireContext())
     }
 
     override fun onCreateView(
@@ -69,17 +69,29 @@ class LoginFragment : Fragment() {
             if(it != null){
                 progressAlertDialog.dismiss()
                 if(it.contains("Email")){
-                    errorMessageDialog(
-                        resources.getString(R.string.wrong_email_title),
-                        resources.getString(R.string.wrong_email_subtitle),
-                        resources.getString(R.string.confirm_one_btn_dialog)
-                    )
+                    DialogCaller(requireActivity())
+                        .setTitle(R.string.wrong_email_title)
+                        .setMessage(R.string.wrong_email_subtitle)
+                        .setPrimaryButton(R.string.confirm_one_btn_dialog
+                        ) { dialog, _ ->
+                            run {
+                                Log.d(TAG, "PrimaryButton: Clicked")
+                                dialog.dismiss()
+                            }
+                        }
+                        .create(layoutInflater, AlertButton.ONE).show()
                 }else{
-                    errorMessageDialog(
-                        resources.getString(R.string.wrong_password_title),
-                        resources.getString(R.string.wrong_password_subtitle),
-                        resources.getString(R.string.confirm_one_btn_dialog)
-                    )
+                    DialogCaller(requireActivity())
+                        .setTitle(R.string.wrong_password_title)
+                        .setMessage(R.string.wrong_password_subtitle)
+                        .setPrimaryButton(R.string.confirm_one_btn_dialog
+                        ) { dialog, _ ->
+                            run {
+                                Log.d(TAG, "PrimaryButton: Clicked")
+                                dialog.dismiss()
+                            }
+                        }
+                        .create(layoutInflater, AlertButton.ONE).show()
                 }
             }
         }
@@ -99,26 +111,6 @@ class LoginFragment : Fragment() {
 
         binding.tvtoRegister.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_registerFragment)
-        }
-    }
-
-    private fun errorMessageDialog(title: String, subtitle: String, btnMsg: String){
-        val errorMessageDialog  = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
-
-        errorMsgAlertBuilder.setView(errorMessageDialog.root)
-
-        val materAlertDialog    = errorMsgAlertBuilder.create()
-        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-
-        errorMessageDialog.tvTitle.text         = title
-        errorMessageDialog.tvSubtitle.text      = subtitle
-        errorMessageDialog.btnYes.text          = btnMsg
-
-        materAlertDialog.show()
-        errorMessageDialog.btnYes.setOnClickListener {
-            Log.d(TAG, "errorMessageDialog: Clicked")
-            materAlertDialog.dismiss()
         }
     }
 

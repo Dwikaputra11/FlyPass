@@ -13,6 +13,8 @@ import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentRegisterBinding
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "RegisterFragment"
@@ -58,41 +60,33 @@ class RegisterFragment : Fragment() {
             binding.registerConfirm.text.toString().isEmpty() &&
             binding.registerPassword.text.toString().isEmpty()
         ){
-            errorMessageDialog(
-                title = requireContext().getString(R.string.empty_field_title),
-                subtitle = requireContext().getString(R.string.empty_field_subtitle),
-                btnMsg = requireContext().getString(R.string.confirm_one_btn_dialog)
-            )
+            DialogCaller(requireActivity())
+                .setTitle(R.string.empty_field_title)
+                .setMessage(R.string.empty_field_subtitle)
+                .setPrimaryButton(R.string.confirm_one_btn_dialog
+                ) { dialog, _ ->
+                    run {
+                        Log.d(TAG, "PrimaryButton: Clicked")
+                        dialog.dismiss()
+                    }
+                }
+                .create(layoutInflater, AlertButton.ONE).show()
             return false
         }else if(binding.registerPassword.text.toString() != binding.registerConfirm.text.toString()){
-            errorMessageDialog(
-                title = requireContext().getString(R.string.conf_password_not_match_title),
-                subtitle = requireContext().getString(R.string.conf_password_not_match_subtitle),
-                btnMsg = requireContext().getString(R.string.confirm_one_btn_dialog)
-            )
+            DialogCaller(requireActivity())
+                .setTitle(R.string.conf_password_not_match_title)
+                .setMessage(R.string.conf_password_not_match_subtitle)
+                .setPrimaryButton(R.string.confirm_one_btn_dialog
+                ) { dialog, _ ->
+                    run {
+                        Log.d(TAG, "PrimaryButton: Clicked")
+                        dialog.dismiss()
+                    }
+                }
+                .create(layoutInflater, AlertButton.ONE).show()
             return false
         }
         return  true
-    }
-
-    private fun errorMessageDialog(title: String, subtitle: String, btnMsg: String){
-        val errorMessageDialog  = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
-        val materAlertDialog    = errorMsgAlertBuilder.create()
-
-        errorMsgAlertBuilder.setView(errorMessageDialog.root)
-
-        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-
-        errorMessageDialog.tvTitle.text = title
-        errorMessageDialog.tvSubtitle.text = subtitle
-        errorMessageDialog.btnYes.text = btnMsg
-
-        materAlertDialog.show()
-        errorMessageDialog.btnYes.setOnClickListener {
-            Log.d(TAG, "errorMessageDialog: Clicked")
-            materAlertDialog.dismiss()
-        }
     }
 
     private fun setBottomNav(){

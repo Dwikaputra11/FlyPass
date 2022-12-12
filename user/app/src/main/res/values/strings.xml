@@ -31,6 +31,14 @@
     <string name="register_success_subtitle">Silahkan login terlebih dahulu.</string>
     <string name="register_success_btn">Login</string>
 
+    <!--   Token Expired -->
+    <string name="token_expired_title">Login Terlebih Dahulu!</string>
+    <string name="token_expired_subtitle">Sesi saat ini sudah berakhir. Silahkan lanjutkan proses login terlebih dahulu.</string>
+    <string name="token_expired_login">Login</string>
+    <string name="token_expired_register">Register</string>
+    <string name="token_expired_later">Maybe Later</string>
+
+
     <string name="currency">Rp </string>
     <string name="latest_transaction">Transaksi Terakhir</string>
     <string name="topup">Jumlah Top Up (Rp)</string>

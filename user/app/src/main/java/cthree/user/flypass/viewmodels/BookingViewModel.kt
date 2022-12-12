@@ -24,7 +24,8 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
     fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking
 
     fun postBookingRequest(token: String?,bookingRequest: BookingRequest){
-        apiService.postBooking(token,bookingRequest).enqueue(object : Callback<BookingResponse>{
+        val tokens = if(token?.isNotEmpty() == true) "Bearer $token" else null
+        apiService.postBooking(tokens,bookingRequest).enqueue(object : Callback<BookingResponse>{
             override fun onResponse(
                 call: Call<BookingResponse>,
                 response: Response<BookingResponse>

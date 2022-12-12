@@ -1,6 +1,8 @@
 package cthree.user.flypass.ui.booking
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -24,6 +26,8 @@ import cthree.user.flypass.databinding.FragmentBookingBinding
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.request.Passenger
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.BookingViewModel
@@ -78,7 +82,7 @@ class BookingFragment : Fragment() {
         initProgressDialog()
 
         userViewModel.dataUser.observe(viewLifecycleOwner){
-            if(it.token != null){
+            if(it.token.isNotEmpty()){
                 isExpired = Utils.isTokenExpired(it.token)
                 userToken = it.token
             }
@@ -100,7 +104,43 @@ class BookingFragment : Fragment() {
 
         binding.confirmLayout.btnConfirm.setOnClickListener {
             if(isValid()){
-                if(!isExpired){
+                if(userToken != null){
+                    if(!isExpired){
+                        val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
+                        val booking = BookingRequest(
+                            contactEmail = binding.tvEmail.text.toString(),
+                            contactFirstName = contactData.firstName,
+                            contactLastName = contactData.lastName,
+                            contactPhone = contactData.phoneNumber,
+                            contactTitle = contactData.title,
+                            flight1Id = depFlight.id.toString(),
+                            flight2Id = arrFlightId,
+                            passenger = passengerList,
+                        )
+                        bookingViewModel.postBookingRequest(userToken,booking)
+                    }else {
+                        // handle token expired
+                        DialogCaller(requireActivity())
+                            .setTitle(R.string.token_expired_title)
+                            .setMessage(R.string.token_expired_subtitle)
+                            .setPrimaryButton(R.string.token_expired_login
+                            ) { dialog, _ -> run{
+                                Log.d(TAG, "PrimaryButton: Clicked")
+                                dialog.dismiss()
+                            }}
+                            .setSecondaryButton(R.string.token_expired_register
+                            ) { dialog, _ -> run{
+                                Log.d(TAG, "SecondaryButton: Clicked")
+                                dialog.dismiss()
+                            }}
+                            .setThirdButton(R.string.token_expired_later
+                            ){dialog,_ -> run{
+                                Log.d(TAG, "ThirdButton: Clicked")
+                                dialog.dismiss()
+                            }}
+                            .create(layoutInflater, AlertButton.THREE).show()
+                    }
+                }else{
                     val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
                     val booking = BookingRequest(
                         contactEmail = binding.tvEmail.text.toString(),
@@ -112,9 +152,7 @@ class BookingFragment : Fragment() {
                         flight2Id = arrFlightId,
                         passenger = passengerList,
                     )
-                    bookingViewModel.postBookingRequest(userToken,booking)
-                }else{
-                    // handle token expired
+                    bookingViewModel.postBookingRequest(null,booking)
                 }
             }
 

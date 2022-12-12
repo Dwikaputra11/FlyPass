@@ -38,6 +38,9 @@
     <string name="token_expired_register">Register</string>
     <string name="token_expired_later">Maybe Later</string>
 
+    <!--    Booking -->
+    <string name="booking_empty_field_title">Data Belum Lengkap!</string>
+    <string name="booking_empty_field_subtitle">Lengkapi semua data yang ada untuk lenajutkan proses.</string>
 
     <string name="currency">Rp </string>
     <string name="latest_transaction">Transaksi Terakhir</string>

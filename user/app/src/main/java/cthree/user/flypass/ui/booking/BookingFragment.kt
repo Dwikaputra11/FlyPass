@@ -104,19 +104,19 @@ class BookingFragment : Fragment() {
 
         binding.confirmLayout.btnConfirm.setOnClickListener {
             if(isValid()){
+                val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
+                val booking = BookingRequest(
+                    contactEmail = binding.tvEmail.text.toString(),
+                    contactFirstName = contactData.firstName,
+                    contactLastName = contactData.lastName,
+                    contactPhone = contactData.phoneNumber,
+                    contactTitle = contactData.title,
+                    flight1Id = depFlight.id.toString(),
+                    flight2Id = arrFlightId,
+                    passenger = passengerList,
+                )
                 if(userToken != null){
                     if(!isExpired){
-                        val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
-                        val booking = BookingRequest(
-                            contactEmail = binding.tvEmail.text.toString(),
-                            contactFirstName = contactData.firstName,
-                            contactLastName = contactData.lastName,
-                            contactPhone = contactData.phoneNumber,
-                            contactTitle = contactData.title,
-                            flight1Id = depFlight.id.toString(),
-                            flight2Id = arrFlightId,
-                            passenger = passengerList,
-                        )
                         bookingViewModel.postBookingRequest(userToken,booking)
                     }else {
                         // handle token expired
@@ -141,19 +141,17 @@ class BookingFragment : Fragment() {
                             .create(layoutInflater, AlertButton.THREE).show()
                     }
                 }else{
-                    val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
-                    val booking = BookingRequest(
-                        contactEmail = binding.tvEmail.text.toString(),
-                        contactFirstName = contactData.firstName,
-                        contactLastName = contactData.lastName,
-                        contactPhone = contactData.phoneNumber,
-                        contactTitle = contactData.title,
-                        flight1Id = depFlight.id.toString(),
-                        flight2Id = arrFlightId,
-                        passenger = passengerList,
-                    )
                     bookingViewModel.postBookingRequest(null,booking)
                 }
+            }else{
+                DialogCaller(requireActivity())
+                    .setTitle(R.string.booking_empty_field_title)
+                    .setMessage(R.string.booking_empty_field_subtitle)
+                    .setPrimaryButton(R.string.confirm_one_btn_dialog) { dialog, _ ->
+                        run {
+                            dialog.dismiss()
+                        }
+                    }
             }
 
         }

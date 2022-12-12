@@ -1,27 +1,37 @@
 package cthree.user.flypass.ui.booking
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingBaggageAdapter
 import cthree.user.flypass.adapter.TravelerDetailsAdapter
 import cthree.user.flypass.data.Baggage
 import cthree.user.flypass.data.Contact
 import cthree.user.flypass.data.Traveler
+import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentBookingBinding
+import cthree.user.flypass.models.booking.request.BookingRequest
+import cthree.user.flypass.models.booking.request.Passenger
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
+import cthree.user.flypass.viewmodels.BookingViewModel
+import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "BookingFragment"
@@ -29,19 +39,29 @@ private const val TAG = "BookingFragment"
 @AndroidEntryPoint
 class BookingFragment : Fragment() {
 
-    private lateinit var binding: FragmentBookingBinding
-    private val contactDetailsFragment: ContactDetailsFragment = ContactDetailsFragment()
-    private val travelerDetailsFragment: TravelerDetailsFragment = TravelerDetailsFragment()
-    private val baggageFragment: BaggageFragment = BaggageFragment()
-    private lateinit var sessionManager: SessionManager
-    private val travelerList = arrayListOf<Traveler>()
-    private var travelerItemPos = 0
-    private var isEdit = false
-    private lateinit var depFlight: Flight
-    private var arrFlight: Flight? = null
+    private lateinit var binding                    : FragmentBookingBinding
+    private val contactDetailsFragment              : ContactDetailsFragment = ContactDetailsFragment()
+    private val travelerDetailsFragment             : TravelerDetailsFragment = TravelerDetailsFragment()
+    private val baggageFragment                     : BaggageFragment = BaggageFragment()
+    private lateinit var sessionManager             : SessionManager
+    private lateinit var depFlight                  : Flight
+    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog        : AlertDialog
+    private val bookingViewModel                    : BookingViewModel by viewModels()
+    private val userViewModel                       : UserViewModel by viewModels()
+    private lateinit var contactData                : Contact
+    private val travelerList        = arrayListOf<Traveler>()
+    private val passengerList       = arrayListOf<Passenger>()
+    private var travelerItemPos     = 0
+    private var passengerAmount     = 0
+    private var isEdit              = false
+    private var arrFlight: Flight?  = null
+    private var isExpired           = false
+    private var userToken: String?  = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         sessionManager = SessionManager(requireActivity())
     }
 
@@ -54,16 +74,98 @@ class BookingFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        passengerAmount = sessionManager.getPassenger()
         getArgs()
         setupToolbar()
         setInputConfig()
         setFlightInfo()
+        initProgressDialog()
 
-        binding.confirmLayout.btnConfirm.setOnClickListener {
-            val directions = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(depFlight, arrFlight)
-            findNavController().navigate(directions)
+        userViewModel.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isNotEmpty()){
+                isExpired = Utils.isTokenExpired(it.token)
+                userToken = it.token
+            }
         }
 
+        bookingViewModel.getBookingResp().observe(viewLifecycleOwner){
+            if(it != null){
+                Log.d(TAG, "onViewCreated: Booking Success")
+                val directions = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(
+                    depFlight = depFlight,
+                    arrFlight = arrFlight,
+                    flyPassCode = it.bookingDetail.bookingCode,
+                    contactData = contactData,
+                    passengerList = travelerList.toTypedArray()
+                )
+                findNavController().navigate(directions)
+            }
+        }
+
+        binding.confirmLayout.btnConfirm.setOnClickListener {
+            if(isValid()){
+                val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
+                val booking = BookingRequest(
+                    contactEmail = binding.tvEmail.text.toString(),
+                    contactFirstName = contactData.firstName,
+                    contactLastName = contactData.lastName,
+                    contactPhone = contactData.phoneNumber,
+                    contactTitle = contactData.title,
+                    flight1Id = depFlight.id.toString(),
+                    flight2Id = arrFlightId,
+                    passenger = passengerList,
+                )
+                if(userToken != null){
+                    if(!isExpired){
+                        bookingViewModel.postBookingRequest(userToken,booking)
+                    }else {
+                        // handle token expired
+                        DialogCaller(requireActivity())
+                            .setTitle(R.string.token_expired_title)
+                            .setMessage(R.string.token_expired_subtitle)
+                            .setPrimaryButton(R.string.token_expired_login
+                            ) { dialog, _ -> run{
+                                Log.d(TAG, "PrimaryButton: Clicked")
+                                dialog.dismiss()
+                            }}
+                            .setSecondaryButton(R.string.token_expired_register
+                            ) { dialog, _ -> run{
+                                Log.d(TAG, "SecondaryButton: Clicked")
+                                dialog.dismiss()
+                            }}
+                            .setThirdButton(R.string.token_expired_later
+                            ){dialog,_ -> run{
+                                Log.d(TAG, "ThirdButton: Clicked")
+                                dialog.dismiss()
+                            }}
+                            .create(layoutInflater, AlertButton.THREE).show()
+                    }
+                }else{
+                    bookingViewModel.postBookingRequest(null,booking)
+                }
+            }else{
+                DialogCaller(requireActivity())
+                    .setTitle(R.string.booking_empty_field_title)
+                    .setMessage(R.string.booking_empty_field_subtitle)
+                    .setPrimaryButton(R.string.confirm_one_btn_dialog) { dialog, _ ->
+                        run {
+                            dialog.dismiss()
+                        }
+                    }
+            }
+
+        }
+
+    }
+
+    private fun isValid(): Boolean {
+        if(binding.tvPhoneNumber.text.isNotEmpty()
+            && binding.tvEmail.text.isNotEmpty()
+            && binding.tvFullName.text.isNotEmpty()
+            && passengerList.size == passengerAmount
+        ) return true
+
+        return false
     }
 
     private fun setFlightInfo() {
@@ -105,13 +207,14 @@ class BookingFragment : Fragment() {
         contactDetailsFragment.setOnClickListener(object : ContactDetailsFragment.OnClickListener{
             @SuppressLint("SetTextI18n")
             override fun onClick(contact: Contact) {
+                contactData = contact
                 binding.tvEmail.text        = contact.email
-                binding.tvFullName.text     = "${contact.name}, ${contact.surname}"
+                binding.tvFullName.text     = "${contact.firstName}, ${contact.lastName}"
                 binding.tvPhoneNumber.text  = contact.phoneNumber
             }
         })
 
-        val travelerAdapter                         = TravelerDetailsAdapter(sessionManager.getPassenger())
+        val travelerAdapter                         = TravelerDetailsAdapter(passengerAmount)
         binding.rvTravelersDetail.adapter           = travelerAdapter
         binding.rvTravelersDetail.layoutManager     = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         travelerAdapter.submitList(travelerList)
@@ -128,16 +231,20 @@ class BookingFragment : Fragment() {
         })
 
         travelerDetailsFragment.setOnClickListener(object : TravelerDetailsFragment.OnClickListener{
-            override fun onClick(traveler: Traveler) {
-                if(!isEdit)
+            override fun onClick(traveler: Traveler, passenger: Passenger) {
+                if(!isEdit){
                     travelerList.add(traveler)
-                else
+                    passengerList.add(passenger)
+                }
+                else{
                     travelerList[travelerItemPos] = traveler
+                    passengerList[travelerItemPos] = passenger
+                }
                 travelerAdapter.modifyItemList(travelerList, travelerItemPos)
             }
         })
 
-        val bookingBaggageAdapter                   = BookingBaggageAdapter(sessionManager.getPassenger())
+        val bookingBaggageAdapter                   = BookingBaggageAdapter(passengerAmount)
         binding.rvPassengerBaggage.adapter          = bookingBaggageAdapter
         binding.rvPassengerBaggage.layoutManager    = LinearLayoutManager(requireContext())
         binding.btnAddBaggage.setOnClickListener {
@@ -172,6 +279,15 @@ class BookingFragment : Fragment() {
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
         }
+    }
+
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
     }
 
 

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login Terlebih Dahulu!"
+            android:textStyle="bold"
+            android:textColor="@color/color_primary"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Sesi saat ini sudah berakhir. Silahkan lanjutkan proses login terlebih dahulu."
+            android:textColor="@color/smokey_500"
+            android:layout_below="@id/tvTitle"
+            />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_marginTop="60dp"
+            android:layout_below="@id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textAllCaps="false"
+                />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="2dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegister"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textAllCaps="false"
+                />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLater"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_below="@id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nanti Saja"
+            android:textColor="@color/color_primary"
+            app:backgroundTint="@color/white"
+            app:cornerRadius="8dp"
+            app:elevation="5dp"
+            app:strokeColor="@color/smokey_500"
+            app:strokeWidth="1dp" />
+
+    </RelativeLayout>
+
+</FrameLayout>

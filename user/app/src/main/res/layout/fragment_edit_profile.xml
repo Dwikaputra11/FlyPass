@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.profile.EditProfileFragment">
+
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,15 +48,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <ImageView
+                            android:id="@+id/ivImageProfile"
+                            android:src="@drawable/ic_round_account_circle_70"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:src="@tools:sample/avatars"/>
+                            />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <ImageView
+                    android:id="@+id/ivEditImage"
+                    android:padding="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/camera"
+                    android:src="@drawable/ic_outline_camera_alt_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -88,6 +98,7 @@
                 android:layout_height="match_parent"
                 android:gravity="end">
                 <TextView
+                    android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="I Made Dwika Putra "
@@ -121,17 +132,19 @@
                 android:layout_height="match_parent"
                 android:gravity="end|center_vertical">
                 <TextView
+                    android:id="@+id/tvUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="\@Dwikkputra11"
                     android:textSize="12sp"
                     android:textColor="#A8A8A8"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="5dp"/>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/next"/>
+                    android:src="@drawable/ic_round_keyboard_arrow_right_24"/>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>

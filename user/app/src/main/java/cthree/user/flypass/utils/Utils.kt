@@ -3,8 +3,14 @@ package cthree.user.flypass.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.Window
+import android.view.WindowManager
 import com.auth0.android.jwt.JWT
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.DialogTokenExpiredBinding
+import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.models.user.Profile
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -192,12 +198,47 @@ object Utils {
         return Profile(
             id = user.getClaim("id").asInt()!!,
             email = user.getClaim("email").asString()!!,
-            birthDate = user.getClaim("birthDate").asString(),
-            gender = user.getClaim("gender").asString(),
+            birthDate = user.getClaim("birthDate").asString()!!,
+            gender = user.getClaim("gender").asString()!!,
             image = user.getClaim("image").asString(),
-            phone = user.getClaim("phone").asString(),
+            phone = user.getClaim("phone").asString()!!,
             roleId = user.getClaim("roleId").asInt()!!,
             name = user.getClaim("name").asString()!!
         )
     }
+
+    fun isTokenExpired(token: String): Boolean{
+        val user = JWT(token)
+        val expire = user.expiresAt
+        val calendar = Calendar.getInstance()
+        val isExpired = calendar.time.after(expire)
+        Log.d("Token", "expired at: $expire")
+        Log.d("Token", "isTokenExpired: $isExpired")
+        return isExpired
+    }
+
+//    fun expiredTokenDialog(layoutInflater: LayoutInflater, context: Context): AuthOption{
+//        val notEnoughBinding = DialogTokenExpiredBinding.inflate(layoutInflater, null, false)
+//        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
+//
+//        materialAlertDialogBuilder.setView(notEnoughBinding.root)
+//
+//        val materAlertDialog = materialAlertDialogBuilder.create()
+//        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+//        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+//        materAlertDialog.show()
+//
+//        notEnoughBinding.btnLogin.setOnClickListener {
+//            Log.d("Alert Dialog", "expiredTokenDialog: ")
+//            materAlertDialog.dismiss()
+//        }
+//        notEnoughBinding.btnRegister.setOnClickListener {
+//            Log.d("Alert Dialog", "expiredTokenDialog: ")
+//            materAlertDialog.dismiss()
+//        }
+//        notEnoughBinding.btnNanti.setOnClickListener {
+//            Log.d("Alert Dialog", "expiredTokenDialog: ")
+//            materAlertDialog.dismiss()
+//        }
+//    }
 }

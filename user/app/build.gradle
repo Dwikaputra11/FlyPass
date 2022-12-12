@@ -68,6 +68,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.zeugmasolutions.localehelper:locale-helper-android:1.5.1'
 
+    // Google Sign In
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+
     //Safe args
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"

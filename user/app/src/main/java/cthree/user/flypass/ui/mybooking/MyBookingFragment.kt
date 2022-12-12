@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.tabs.TabLayoutMediator
 import cthree.user.flypass.R
+import cthree.user.flypass.adapter.MyBookingPageAdapter
+import cthree.user.flypass.databinding.FragmentMyBookingBinding
 
 class MyBookingFragment : Fragment() {
+
+    private lateinit var binding: FragmentMyBookingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,7 +21,23 @@ class MyBookingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_my_booking, container, false)
+    ): View {
+        binding = FragmentMyBookingBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = MyBookingPageAdapter(requireActivity())
+        adapter.addFragment(SearchFragment(), "Search")
+        adapter.addFragment(HistoryFragment(), "History")
+        adapter.addFragment(RefundFragment(), "Refund")
+
+        binding.viewPager.adapter = adapter
+        binding.viewPager.currentItem = 1
+        TabLayoutMediator(binding.tabLayout, binding.viewPager){ tab, pos ->
+            tab.text =  adapter.getTabTitle(pos)
+        }.attach()
+
+        binding.toolbarLayout.toolbar.elevation = 0F
     }
 }

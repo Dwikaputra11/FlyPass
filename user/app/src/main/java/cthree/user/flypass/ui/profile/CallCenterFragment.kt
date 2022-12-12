@@ -5,9 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.FragmentCallCenterBinding
 
 class CallCenterFragment : Fragment() {
+
+    private lateinit var binding: FragmentCallCenterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,8 +24,28 @@ class CallCenterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_call_center, container, false)
+    ): View {
+        binding = FragmentCallCenterBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupToolbar()
+        setBottomNav()
+    }
+
+    private fun setupToolbar(){
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbarLayout.toolbar.title = "Booking"
+        binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
+        binding.toolbarLayout.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
     }
 }

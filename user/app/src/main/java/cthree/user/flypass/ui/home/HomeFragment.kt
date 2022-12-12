@@ -84,6 +84,14 @@ class HomeFragment : Fragment() {
         setBottomNav()
         requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
+        binding.flightPay.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_flightPayFragment)
+        }
+
+        binding.topup.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_topUpFragment)
+        }
+
         binding.swRoundTrip.setOnClickListener {
             binding.etArriveDate.isVisible = binding.swRoundTrip.isChecked
             binding.tvArrivalDate.isVisible = binding.swRoundTrip.isChecked

@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentRegisterBinding
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "RegisterFragment"
@@ -19,13 +23,10 @@ private const val TAG = "RegisterFragment"
 class RegisterFragment : Fragment() {
 
     private lateinit var binding                    : FragmentRegisterBinding
-    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var errorMsgAlertBuilder       : MaterialAlertDialogBuilder
-    private lateinit var progressAlertDialog        : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progressAlertDialogBuilder      = MaterialAlertDialogBuilder(requireContext())
         errorMsgAlertBuilder            = MaterialAlertDialogBuilder(requireContext())
     }
 
@@ -38,6 +39,7 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setBottomNav()
         binding.btnNext.setOnClickListener {
             if(isValid()){
                 val direction = RegisterFragmentDirections.actionRegisterFragmentToAccountInformationFragment(
@@ -58,49 +60,37 @@ class RegisterFragment : Fragment() {
             binding.registerConfirm.text.toString().isEmpty() &&
             binding.registerPassword.text.toString().isEmpty()
         ){
-            errorMessageDialog(
-                title = requireContext().getString(R.string.empty_field_title),
-                subtitle = requireContext().getString(R.string.empty_field_subtitle),
-                btnMsg = requireContext().getString(R.string.confirm_one_btn_dialog)
-            )
+            DialogCaller(requireActivity())
+                .setTitle(R.string.empty_field_title)
+                .setMessage(R.string.empty_field_subtitle)
+                .setPrimaryButton(R.string.confirm_one_btn_dialog
+                ) { dialog, _ ->
+                    run {
+                        Log.d(TAG, "PrimaryButton: Clicked")
+                        dialog.dismiss()
+                    }
+                }
+                .create(layoutInflater, AlertButton.ONE).show()
             return false
         }else if(binding.registerPassword.text.toString() != binding.registerConfirm.text.toString()){
-            errorMessageDialog(
-                title = requireContext().getString(R.string.conf_password_not_match_title),
-                subtitle = requireContext().getString(R.string.conf_password_not_match_subtitle),
-                btnMsg = requireContext().getString(R.string.confirm_one_btn_dialog)
-            )
+            DialogCaller(requireActivity())
+                .setTitle(R.string.conf_password_not_match_title)
+                .setMessage(R.string.conf_password_not_match_subtitle)
+                .setPrimaryButton(R.string.confirm_one_btn_dialog
+                ) { dialog, _ ->
+                    run {
+                        Log.d(TAG, "PrimaryButton: Clicked")
+                        dialog.dismiss()
+                    }
+                }
+                .create(layoutInflater, AlertButton.ONE).show()
             return false
         }
         return  true
     }
 
-    private fun errorMessageDialog(title: String, subtitle: String, btnMsg: String){
-        val errorMessageDialog  = DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
-        val materAlertDialog    = errorMsgAlertBuilder.create()
-
-        errorMsgAlertBuilder.setView(errorMessageDialog.root)
-
-        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-
-        errorMessageDialog.tvTitle.text = title
-        errorMessageDialog.tvSubtitle.text = subtitle
-        errorMessageDialog.btnYes.text = btnMsg
-
-        materAlertDialog.show()
-        errorMessageDialog.btnYes.setOnClickListener {
-            Log.d(TAG, "errorMessageDialog: Clicked")
-            materAlertDialog.dismiss()
-        }
-    }
-
-    private fun initProgressDialog(){
-        val progressBarBinding  = DialogProgressBarBinding.inflate(layoutInflater, null, false)
-        progressAlertDialog     = progressAlertDialogBuilder.create()
-        progressAlertDialogBuilder.setView(progressBarBinding.root)
-
-        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = true
     }
 }

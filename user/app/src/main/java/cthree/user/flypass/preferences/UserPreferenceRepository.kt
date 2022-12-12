@@ -39,16 +39,25 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
+    suspend fun saveToken(token: String){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setToken(token).build()
+        }
+    }
+
     // save data to data store proto
     suspend fun saveDataUser(profile: Profile){
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setEmail(profile.email).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setId(profile.id).build()
+            preferences.toBuilder().setBirthDate(profile.birthDate).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setImage(profile.image).build()
+            preferences.toBuilder().setGender(profile.gender).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setId(profile.id).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setName(profile.name).build()
@@ -59,11 +68,34 @@ class UserPreferenceRepository(private val context: Context) {
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setRoleId(profile.roleId).build()
         }
+        if(profile.image != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setImage(profile.image).build()
+            }
+        }
     }
 
-    suspend fun saveDataUserId(id: Int){
+    suspend fun clearDataUser(){
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setId(id).build()
+            preferences.toBuilder().clearEmail().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearId().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearImage().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearName().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearPhone().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearRoleId().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearToken().build()
         }
     }
 

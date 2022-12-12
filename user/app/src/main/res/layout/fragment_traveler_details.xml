@@ -1,14 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".ui.booking.TravelerDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_input_booking"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView"
+            android:text="Title"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RadioGroup
+            android:id="@+id/rgTitle"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rbMr"
+                android:layout_weight="1"
+                android:checked="true"
+                android:buttonTint="@color/color_primary"
+                android:text="Tuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/rbMrs"
+                android:layout_weight="1"
+                android:text="Nyonya"
+                android:buttonTint="@color/color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/rbMiss"
+                android:layout_weight="1"
+                android:text="Nona"
+                android:buttonTint="@color/color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/textView2"
+            android:text="First Name"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etFirstName"
+            android:hint="ex. Rangga Laksana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/textView3"
+            android:text="Last Name"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etLastName"
+            android:hint="ex. Haryanto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/textView4"
+            android:text="Date Birth"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etBirthDate"
+            android:hint="DD MMM YYYY"
+            android:drawableEnd="@drawable/ic_round_calendar_today_24"
+            android:drawableTint="@color/smokey_500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/textView6"
+            android:text="Document Type"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RadioGroup
+            android:id="@+id/rgDocumentType"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rbIdCard"
+                android:text="ID Card"
+                android:buttonTint="@color/color_primary"
+                android:checked="true"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/rbVisa"
+                android:layout_weight="1"
+                android:buttonTint="@color/color_primary"
+                android:text="Visa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+<!--        <EditText-->
+<!--            android:id="@+id/etDocumentType"-->
+<!--            android:text="ID Card"-->
+<!--            android:focusable="false"-->
+<!--            android:drawableEnd="@drawable/ic_round_keyboard_arrow_down_24"-->
+<!--            android:textColor="@color/smokey_700"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/textView5"
+            android:text="ID Card Number"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etIdCard"
+            android:inputType="number"
+            android:hint="ex. 8398209381746352"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSave"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/radius_10dp"
+        app:backgroundTint="@color/color_primary"
+        android:textSize="16sp"
+        app:elevation="4dp"
+        android:drawablePadding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

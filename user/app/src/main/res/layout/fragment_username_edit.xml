@@ -4,15 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.profile.UsernameEditFragment"
-    android:padding="20dp"
     android:orientation="vertical">
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general" />
     <TextView
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Username"
         android:textSize="14sp"
         android:textColor="#555050"/>
     <EditText
+        android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

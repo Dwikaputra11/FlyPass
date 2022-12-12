@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/screen_background"
+    android:orientation="vertical"
+    tools:context=".ui.booking.PaymentMethodFragment">
+
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_input_booking"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_below="@id/toolbarLayout"
+        android:paddingHorizontal="10dp"
+        android:textAllCaps="true"
+        android:paddingVertical="10dp"
+        android:text="FlyPass Guarantee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_below="@id/textView"
+        android:id="@+id/rlFlightPay"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView"
+            android:src="@drawable/ic_baseline_account_balance_wallet_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/color_primary" />
+        <TextView
+            android:layout_toEndOf="@id/imageView"
+            android:layout_centerVertical="true"
+            android:text="FlightPay"
+            android:id="@+id/tvBalance"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/ivCheckFlightPay"
+            android:src="@drawable/ic_round_check_circle_20"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@id/rlFlightPay"
+        android:background="@color/smokey_300"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:layout_below="@id/view"
+        android:id="@+id/rlTransferBank"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView1"
+            android:src="@drawable/ic_baseline_account_balance_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:tint="@color/color_primary" />
+        <TextView
+            android:layout_toEndOf="@id/imageView1"
+            android:layout_centerVertical="true"
+            android:id="@+id/tvTransfer"
+            android:text="Transfer Bank"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/ivCheckTransfer"
+            android:src="@drawable/ic_round_check_circle_20"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_below="@id/rlTransferBank"
+        android:id="@+id/btnSave"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginHorizontal="30dp"
+        app:backgroundTint="@color/color_primary"
+        android:background="@drawable/radius_10dp"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        app:elevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

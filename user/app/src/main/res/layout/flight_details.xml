@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    android:background="@color/white"
+    android:paddingBottom="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tvDepartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="17:30"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/verticalLine"
+        app:layout_constraintEnd_toStartOf="@+id/dotOne"
+        app:layout_constraintTop_toTopOf="@+id/dotOne" />
+
+    <TextView
+        android:id="@+id/tvArriveTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="17:30"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/dotTwo"
+        app:layout_constraintEnd_toStartOf="@+id/dotTwo"
+        app:layout_constraintTop_toBottomOf="@+id/verticalLine" />
+
+    <View
+        android:id="@+id/dotOne"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/circle_shape"
+        android:backgroundTint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/verticalLine"
+        app:layout_constraintEnd_toEndOf="@+id/verticalLine"
+        app:layout_constraintStart_toStartOf="@+id/verticalLine" />
+
+    <View
+        android:id="@+id/dotTwo"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/circle_shape"
+        android:backgroundTint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/verticalLine"
+        app:layout_constraintStart_toStartOf="@+id/verticalLine"
+        app:layout_constraintTop_toBottomOf="@+id/verticalLine" />
+
+    <View
+        android:id="@+id/verticalLine"
+        android:layout_width="1dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="64dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDepartCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Jakarta"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/verticalLine"
+        app:layout_constraintStart_toEndOf="@+id/dotOne"
+        app:layout_constraintTop_toTopOf="@+id/dotOne" />
+
+    <TextView
+        android:id="@+id/iataDepartAirport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="(CGK)"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDepartCity"
+        app:layout_constraintStart_toEndOf="@+id/tvDepartCity"
+        app:layout_constraintTop_toTopOf="@+id/tvDepartCity" />
+
+    <TextView
+        android:id="@+id/tvArriveCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Jakarta"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dotTwo"
+        app:layout_constraintStart_toEndOf="@+id/dotTwo"
+        app:layout_constraintTop_toBottomOf="@+id/verticalLine" />
+
+    <TextView
+        android:id="@+id/iataArriveAirport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="(CGK)"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvArriveCity"
+        app:layout_constraintStart_toEndOf="@+id/tvArriveCity"
+        app:layout_constraintTop_toTopOf="@+id/tvArriveCity" />
+
+    <TextView
+        android:id="@+id/tvDepartAirportName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Soekarno-Hatta International Airport"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/tvDepartCity"
+        app:layout_constraintTop_toBottomOf="@+id/tvDepartCity" />
+
+    <TextView
+        android:id="@+id/tvDepartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sun, 12 Nov 2022"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvDepartAirportName"
+        app:layout_constraintTop_toBottomOf="@+id/tvDepartAirportName" />
+
+    <TextView
+        android:id="@+id/tvArrivalAirportName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Soekarno-Hatta International Airport"
+        android:textColor="@color/black"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/tvArriveCity"
+        app:layout_constraintTop_toBottomOf="@+id/tvArriveCity" />
+
+    <TextView
+        android:id="@+id/tvArrivalDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sun, 12 Nov 2022"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvArrivalAirportName"
+        app:layout_constraintTop_toBottomOf="@+id/tvArrivalAirportName" />
+
+    <ImageView
+        android:id="@+id/airplaneLogo"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toTopOf="@+id/tvArriveCity"
+        app:layout_constraintStart_toEndOf="@+id/verticalLine"
+        app:layout_constraintTop_toBottomOf="@+id/tvDepartDate" />
+
+    <TextView
+        android:id="@+id/tvAirplaneName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Garuda Indonesia"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/airplaneLogo"
+        app:layout_constraintStart_toEndOf="@+id/airplaneLogo"
+        app:layout_constraintTop_toTopOf="@+id/airplaneLogo" />
+
+    <TextView
+        android:id="@+id/tvFlightCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GIA-4643"
+        android:textColor="@color/black"
+        android:textSize="10dp"
+        app:layout_constraintStart_toStartOf="@+id/tvAirplaneName"
+        app:layout_constraintTop_toBottomOf="@+id/tvAirplaneName" />
+
+    <TextView
+        android:id="@+id/seatClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Economy"
+        android:textColor="@color/black"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFlightCode"
+        app:layout_constraintStart_toEndOf="@+id/tvFlightCode"
+        app:layout_constraintTop_toTopOf="@+id/tvFlightCode" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbShowMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:button="@drawable/show_more_arrow_state"
+        android:buttonTint="@color/color_primary"
+        android:layoutDirection="rtl"
+        android:text="Show More"
+        android:textColor="@color/color_primary"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvArriveCity"
+        app:layout_constraintTop_toBottomOf="@+id/tvArrivalDate" />
+</androidx.constraintlayout.widget.ConstraintLayout>

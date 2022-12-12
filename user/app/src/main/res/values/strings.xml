@@ -1,4 +1,35 @@
 <resources>
     <string name="app_name">FlyPass</string>
     <string name="hello_blank_fragment">Hello Blank Fragment</string>
+    <string-array name="baggage_list">
+        <item>20kg - Free</item>
+        <item>20kg + 5kg - Rp 150.000</item>
+        <item>20kg + 10kg - Rp 250.000</item>
+        <item>20kg + 20kg - Rp 300.000</item>
+    </string-array>
+    <string name="title_on_boarding_1">"Anytime &amp; Anywhere"</string>
+
+    <string name="default_time_format" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+    <string name="date_format" translatable="false">MMM d, yyyy</string>
+    <string name="time_format" translatable="false">HH:mm a</string>
+
+<!--    Login   -->
+    <string name="wrong_password_title">Password Anda Salah!</string>
+    <string name="wrong_password_subtitle">Silahkan masukkan password yang benar.</string>
+    <string name="wrong_email_title">Email Anda Salah!</string>
+    <string name="wrong_email_subtitle">Silahkan masukkan email yang benar.</string>
+    <string name="confirm_one_btn_dialog">OK, I got it!</string>
+
+<!--   Register -->
+    <string name="empty_field_title">Input Kosong!</string>
+    <string name="empty_field_subtitle">Pastikan input tidak kosong.</string>
+    <string name="conf_password_not_match_title">Konfirmasi Password Salah!</string>
+    <string name="conf_password_not_match_subtitle">Masukkan konfirmasi password sesuai dengan password.</string>
+    <string name="email_already_exist_title">Email sudah pernah terdaftar!</string>
+    <string name="email_already_exist_subtitle">Silahkan gunakan email yang lain.</string>
+    <string name="register_success_title">Register Berhasil!</string>
+    <string name="register_success_subtitle">Silahkan login terlebih dahulu.</string>
+    <string name="register_success_btn">Login</string>
+
+
 </resources>

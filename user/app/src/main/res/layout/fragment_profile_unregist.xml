@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -76,7 +77,8 @@
                         android:id="@+id/iv_next_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/next"
+                        app:tint="@color/color_primary"
+                        android:src="@drawable/ic_round_keyboard_arrow_right_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -88,8 +90,9 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/call"
-                            android:layout_marginEnd="60dp"/>
+                            android:src="@drawable/ic_round_phone_24"
+                            android:layout_marginEnd="60dp"
+                            app:tint="@color/color_primary" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -116,7 +119,8 @@
                         android:id="@+id/iv_next_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/next"
+                        app:tint="@color/color_primary"
+                        android:src="@drawable/ic_round_keyboard_arrow_right_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -128,7 +132,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/faq"
+                            android:src="@drawable/ic_outline_quiz_24"
                             android:layout_marginEnd="60dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -156,10 +160,11 @@
                         android:id="@+id/iv_next_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/next"
+                        android:src="@drawable/ic_round_keyboard_arrow_right_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:tint="@color/color_primary" />
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

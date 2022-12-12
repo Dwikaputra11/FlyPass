@@ -1,14 +1,316 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/screen_background"
     tools:context=".ui.booking.BookingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
 
-</FrameLayout>
+    <ScrollView
+        android:layout_above="@id/confirmLayout"
+        android:layout_below="@id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:padding="10dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:id="@+id/ivOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/blue_one"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/textView2"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Booking"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_primary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivOne" />
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="70dp"
+                    android:layout_height="3dp"
+                    android:background="@color/color_primary"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivOne"
+                    app:layout_constraintStart_toEndOf="@+id/ivOne"
+                    app:layout_constraintTop_toTopOf="@+id/ivOne" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="70dp"
+                    android:layout_height="3dp"
+                    android:background="@color/smokey_300"
+                    app:layout_constraintBottom_toBottomOf="@+id/line1"
+                    app:layout_constraintStart_toEndOf="@+id/line1"
+                    app:layout_constraintTop_toTopOf="@+id/line1" />
+
+                <ImageView
+                    android:id="@+id/ivTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/two"
+                    app:layout_constraintBottom_toBottomOf="@+id/line2"
+                    app:layout_constraintStart_toEndOf="@+id/line2"
+                    app:layout_constraintTop_toTopOf="@+id/line2" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payment"
+                    android:textColor="@color/smokey_700"
+                    app:layout_constraintEnd_toEndOf="@+id/ivTwo"
+                    app:layout_constraintStart_toEndOf="@+id/line2"
+                    app:layout_constraintTop_toBottomOf="@+id/ivTwo" />
+
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="70dp"
+                    android:layout_height="3dp"
+                    android:background="@color/smokey_300"
+                    app:layout_constraintBottom_toTopOf="@+id/textView3"
+                    app:layout_constraintStart_toEndOf="@+id/ivTwo"
+                    app:layout_constraintTop_toTopOf="@+id/ivTwo" />
+
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="70dp"
+                    android:layout_height="3dp"
+                    android:background="@color/smokey_300"
+                    app:layout_constraintBottom_toBottomOf="@+id/line3"
+                    app:layout_constraintStart_toEndOf="@+id/line3"
+                    app:layout_constraintTop_toTopOf="@+id/line3" />
+
+                <ImageView
+                    android:id="@+id/ivThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/three"
+                    app:layout_constraintBottom_toBottomOf="@+id/line4"
+                    app:layout_constraintStart_toEndOf="@+id/line4"
+                    app:layout_constraintTop_toTopOf="@+id/line4" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Completed"
+                    android:textColor="@color/smokey_700"
+                    app:layout_constraintEnd_toEndOf="@+id/ivThree"
+                    app:layout_constraintStart_toEndOf="@+id/line4"
+                    app:layout_constraintTop_toBottomOf="@+id/ivThree" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:padding="10dp"
+                android:text="Selected Flight"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <include
+                android:id="@+id/selectedDepartFlight"
+                layout="@layout/selected_flight"/>
+            <include
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectedArriveFlight"
+                layout="@layout/selected_flight"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:padding="10dp"
+                    android:text="Contact Details"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_alignParentEnd="true"
+                    android:padding="10dp"
+                    android:text="Edit"
+                    android:textSize="16sp"
+                    android:id="@+id/tvEdit"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView5"
+                    android:text="Full Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:text="Full Name"
+                    android:textColor="@color/smokey_500"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/textView6"
+                    android:text="Mobile Number"
+                    android:layout_below="@id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvPhoneNumber"
+                    android:text="Phone Number"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/smokey_500"
+                    android:layout_below="@id/tvFullName"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/textView7"
+                    android:text="Email"
+                    android:layout_below="@id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:text="Email"
+                    android:layout_below="@id/tvPhoneNumber"
+                    android:textColor="@color/smokey_500"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <TextView
+                android:padding="10dp"
+                android:text="Traveler Details"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTravelersDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:text="Add Ons"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:padding="15sp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:background="@drawable/radius_10dp_border"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:text="Departure"
+                        android:textStyle="bold"
+                        android:textColor="@color/smokey_1000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_below="@id/textView8"
+                        android:text="CGK"
+                        android:textColor="@color/smokey_1000"
+                        android:textSize="12sp"
+                        android:id="@+id/iataDepartAirport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:textColor="@color/smokey_1000"
+                        android:paddingHorizontal="8dp"
+                        android:layout_below="@id/textView8"
+                        android:text="-"
+                        android:layout_toEndOf="@id/iataDepartAirport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/iataArriveAirport"
+                        android:text="DPS"
+                        android:layout_toEndOf="@id/textView9"
+                        android:textColor="@color/smokey_1000"
+                        android:layout_below="@id/textView8"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tvFlightCode"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/textView8"
+                        android:text="GIA-4598"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPassengerBaggage"
+                        android:layout_below="@id/tvFlightCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddBaggage"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/radius_10dp_blue_border"
+                    app:backgroundTintMode="screen"
+                    app:strokeColor="@color/color_primary"
+                    android:text="Change/Add Baggage"
+                    android:textAllCaps="false"
+                    android:textColor="@color/color_primary"
+                    android:backgroundTint="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/confirmLayout"
+        layout="@layout/confirm_ticket"
+        android:layout_width="match_parent" />
+</RelativeLayout>

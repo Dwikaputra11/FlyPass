@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saldo Tidak Cukup !"
+            android:textStyle="bold"
+            android:textColor="@color/color_primary"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Silahkan isi saldo anda terlebih dahulu"
+            android:textColor="@color/smokey_500"
+            android:layout_below="@id/tvTitle"
+            />
+
+        <LinearLayout
+            android:layout_marginTop="60dp"
+            android:layout_below="@id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnYes"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ke Menu Top Up"
+                android:textAllCaps="false"
+                />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="2dp"/>
+
+            <TextView
+                android:id="@+id/tvNo"
+                style="@style/TextAppearance.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:text="Nanti Saja"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

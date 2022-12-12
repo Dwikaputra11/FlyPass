@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,10 +8,10 @@
     android:background="?android:colorPrimary"
     android:orientation="vertical">
     <include
-    android:layout_width="match_parent"
-    android:layout_height="?android:attr/actionBarSize"
-    layout="@layout/toolbar" />
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_home" />
     <ScrollView
+        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -20,16 +19,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpHighlight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:layout_marginVertical="15dp"/>
             <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/wormDot"
+                app:dotsColor="@color/white"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="16dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="10dp"
-                />
+                app:dotsSpacing="6dp"
+                android:layout_marginVertical="10dp"
+                app:dotsStrokeColor="@color/white"
+                app:dotsStrokeWidth="2dp"
+                app:dotsWidthFactor="3.0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,75 +49,67 @@
                     android:layout_height="wrap_content"
                     android:paddingVertical="4dp">
                     <LinearLayout
+                        android:id="@+id/flightPay"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center">
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:src="@drawable/ic_baseline_account_balance_wallet_24"
-                            app:tint="?android:colorPrimary"
-                            android:layout_marginEnd="5dp"/>
                         <TextView
+                            android:drawablePadding="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:text="FlightPay"/>
+                            android:text="FlightPay"
+                            app:drawableTint="@color/color_primary"
+                            app:drawableStartCompat="@drawable/ic_baseline_account_balance_wallet_24" />
                     </LinearLayout>
                     <View
                         android:layout_width="1dp"
                         android:layout_height="42dp"
                         android:background="#D4D4D4"/>
                     <LinearLayout
+                        android:id="@+id/topup"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center">
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:src="@drawable/ic_baseline_add_box_24"
-                            app:tint="?android:colorPrimary"
-                            android:layout_marginEnd="5dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
                             android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:text="Top Up"/>
+                            android:text="Top Up"
+                            app:drawableStartCompat="@drawable/ic_baseline_add_box_24"
+                            app:drawableTint="@color/color_primary" />
                     </LinearLayout>
                     <View
                         android:layout_width="1dp"
                         android:layout_height="42dp"
                         android:background="#D4D4D4"/>
                     <LinearLayout
+                        android:id="@+id/explore"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center">
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:src="@drawable/ic_baseline_explore_24"
-                            app:tint="?android:colorPrimary"
-                            android:layout_marginEnd="5dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
                             android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:text="Explore"/>
+                            android:text="Explore"
+                            app:drawableTint="@color/color_primary"
+                            app:drawableStartCompat="@drawable/ic_baseline_explore_24" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:background="@drawable/radius_30dp"
                 app:cardCornerRadius="30dp"
-                android:layout_marginBottom="-30dp">
+                android:layout_marginBottom="?actionBarSize">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,7 +120,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
                         android:text="From" />
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,14 +130,16 @@
                             android:id="@+id/iv_updown"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:src="@drawable/updown"
+                            android:src="@drawable/ic_round_swap_vertical_circle_24"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
                         <EditText
+                            android:focusable="false"
+                            android:id="@+id/etFromAirport"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/from"
+                            android:drawableStart="@drawable/ic_round_flight_takeoff_24"
                             android:hint="Pilih Kota"
                             android:drawablePadding="15dp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -148,22 +149,24 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
                         android:text="To"
                         android:layout_marginTop="15dp"/>
                     <EditText
+                        android:focusable="false"
+                        android:id="@+id/etToAirport"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/to"
+                        android:drawableStart="@drawable/ic_round_flight_takeoff_24"
                         android:hint="Pilih Kota"
                         android:drawablePadding="15dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
-                        android:text="To"
+                        android:text="Depart Date"
                         android:layout_marginTop="15dp"/>
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -179,19 +182,23 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="10sp"
                                 android:text="Round Trip?"/>
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:layout_width="wrap_content"
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/swRoundTrip"
+                                android:layout_width="50dp"
+                                app:thumbTint="@color/color_primary"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
 
                         <EditText
+                           android:id="@+id/etDepartureDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/from"
-                            android:hint="Pilih Kota"
+                            android:focusable="false"
+                            android:drawableStart="@drawable/ic_round_calendar_today_24"
+                            android:hint="Tanggal Keberangkatan"
                             android:drawablePadding="15dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -199,17 +206,22 @@
                             app:layout_constraintEnd_toStartOf="@id/rr"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                     <TextView
+                        android:id="@+id/tvArrivalDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#858585"
+                        android:textColor="@color/smokey_700"
                         android:textSize="16sp"
+                        android:visibility="gone"
                         android:text="Return Date"
                         android:layout_marginTop="15dp"/>
                     <EditText
+                        android:id="@+id/etArriveDate"
+                        android:visibility="gone"
+                        android:focusable="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/date"
-                        android:hint="Pilih Tanggal Kepulangan"
+                        android:drawableStart="@drawable/ic_round_calendar_today_24"
+                        android:hint="Tanggal Kepulangan"
                         android:drawablePadding="15dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -223,13 +235,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="16sp"
                                 android:text="Passangers" />
                             <EditText
+                                android:id="@+id/etPassengers"
+                                android:inputType="number"
+                                android:focusable="false"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/passanger"
+                                android:drawableLeft="@drawable/ic_round_people_24"
                                 android:hint="Passenggers"
                                 android:drawablePadding="15dp"/>
                         </LinearLayout>
@@ -241,65 +256,63 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#858585"
+                                android:textColor="@color/smokey_700"
                                 android:textSize="16sp"
                                 android:text="Seat Class" />
                             <EditText
+                                android:focusable="false"
+                                android:id="@+id/etSeatClass"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/seat"
+                                android:drawableStart="@drawable/ic_round_event_seat_24"
                                 android:hint="Seat class"
                                 android:drawablePadding="15dp"/>
                         </LinearLayout>
                     </LinearLayout>
                     <Button
+                        android:id="@+id/btnSearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="search"
+                        android:text="Search"
+                        android:layout_marginBottom="30dp"
                         android:textColor="@color/white"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="40dp"/>
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/layoutRecentSearch"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp">
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/recent"
-                                android:layout_marginEnd="10dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Recent Search"
-                                android:textSize="14sp"
-                                android:textColor="@color/black"/>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="0dp"
+                            android:src="@drawable/ic_round_youtube_searched_for_24"
+                            android:layout_marginEnd="10dp"/>
+                        <TextView
+                            android:layout_toEndOf="@id/imageView"
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#858585"
-                                android:textSize="14sp"
-                                android:text="Clear All" />
-                        </LinearLayout>
-                    </LinearLayout>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvRecentSearch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                            android:text="Recent Search"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/tvClearAll"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/smokey_700"
+                            android:textSize="14sp"
+                            android:text="Clear All" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_below="@id/textView"
+                            android:id="@+id/rvRecentSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

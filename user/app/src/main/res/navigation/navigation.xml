@@ -1,6 +1,330 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/splashScreenFragment">
 
+    <fragment
+        android:id="@+id/ticketListFragment"
+        android:name="cthree.user.flypass.ui.ticket.TicketListFragment"
+        android:label="fragment_ticket_list"
+        tools:layout="@layout/fragment_ticket_list" >
+        <action
+            android:id="@+id/action_ticketListFragment_to_flightConfirmationFragment"
+            app:destination="@id/flightConfirmationFragment" />
+        <action
+            android:id="@+id/action_ticketListFragment_to_ticketRoundTripListFragment"
+            app:destination="@id/ticketRoundTripListFragment" />
+        <action
+            android:id="@+id/action_ticketListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="isRoundtrip"
+            app:argType="boolean" />
+        <argument
+            android:name="depDateTv"
+            app:argType="string" />
+        <argument
+            android:name="arrDateTv"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="search"
+            app:argType="cthree.user.flypass.data.RecentSearch" />
+    </fragment>
+    <fragment
+        android:id="@+id/flightConfirmationFragment"
+        android:name="cthree.user.flypass.ui.booking.FlightConfirmationFragment"
+        android:label="fragment_filght_confirmation"
+        tools:layout="@layout/fragment_filght_confirmation" >
+        <action
+            android:id="@+id/action_flightConfirmationFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="cthree.user.flypass.ui.booking.BookingFragment"
+        android:label="fragment_booking"
+        tools:layout="@layout/fragment_booking" >
+        <action
+            android:id="@+id/action_bookingFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="cthree.user.flypass.ui.booking.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_bookingCompleteFragment"
+            app:destination="@id/bookingCompleteFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_paymentFragment_to_transferBankConfirmFragment"
+            app:destination="@id/transferBankConfirmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingCompleteFragment"
+        android:name="cthree.user.flypass.ui.booking.BookingCompleteFragment"
+        android:label="fragment_booking_complete"
+        tools:layout="@layout/fragment_booking_complete" >
+        <action
+            android:id="@+id/action_bookingCompleteFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketRoundTripListFragment"
+        android:name="cthree.user.flypass.ui.ticket.TicketRoundTripListFragment"
+        android:label="fragment_ticket_round_trip_list"
+        tools:layout="@layout/fragment_ticket_round_trip_list" >
+        <action
+            android:id="@+id/action_ticketRoundTripListFragment_to_flightConfirmationFragment"
+            app:destination="@id/flightConfirmationFragment" />
+        <action
+            android:id="@+id/action_ticketRoundTripListFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment" />
+        <argument
+            android:name="depFlight"
+            app:argType="cthree.user.flypass.models.flight.Flight" />
+        <argument
+            android:name="arrDateTv"
+            app:argType="string" />
+        <argument
+            android:name="search"
+            app:argType="cthree.user.flypass.data.RecentSearch" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="cthree.user.flypass.ui.intro.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="cthree.user.flypass.ui.intro.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_joinMemberFragment"
+            app:destination="@id/joinMemberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="cthree.user.flypass.ui.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="cthree.user.flypass.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchAirportFragment"
+            app:destination="@id/searchAirportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="cthree.user.flypass.ui.auth.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_accountInformationFragment"
+            app:destination="@id/accountInformationFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="cthree.user.flypass.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_callCenterFragment"
+            app:destination="@id/callCenterFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_profileAccountInfoFragment"
+            app:destination="@id/profileAccountInfoFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_faqFragment"
+            app:destination="@id/faqFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountInformationFragment"
+        android:name="cthree.user.flypass.ui.auth.AccountInformationFragment"
+        android:label="fragment_account_information"
+        tools:layout="@layout/fragment_account_information" >
+        <action
+            android:id="@+id/action_accountInformationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+        <argument android:name="confPassword"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="cthree.user.flypass.ui.profile.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_termsConditionsFragment"
+            app:destination="@id/termsConditionsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsConditionsFragment"
+        android:name="cthree.user.flypass.ui.profile.TermsConditionsFragment"
+        android:label="fragment_terms_conditions"
+        tools:layout="@layout/fragment_terms_conditions" />
+    <fragment
+        android:id="@+id/callCenterFragment"
+        android:name="cthree.user.flypass.ui.profile.CallCenterFragment"
+        android:label="fragment_call_center"
+        tools:layout="@layout/fragment_call_center" />
+    <fragment
+        android:id="@+id/usernameEditFragment"
+        android:name="cthree.user.flypass.ui.profile.UsernameEditFragment"
+        android:label="fragment_username_edit"
+        tools:layout="@layout/fragment_username_edit" />
+    <fragment
+        android:id="@+id/profileAccountInfoFragment"
+        android:name="cthree.user.flypass.ui.profile.ProfileAccountInfoFragment"
+        android:label="ProfileAccountInfoFragment" >
+        <action
+            android:id="@+id/action_profileAccountInfoFragment_to_usernameEditFragment"
+            app:destination="@id/usernameEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/faqFragment"
+        android:name="cthree.user.flypass.ui.profile.FaqFragment"
+        android:label="FaqFragment" />
+    <fragment
+        android:id="@+id/profileUnregistFragment"
+        android:name="cthree.user.flypass.ui.profile.ProfileUnregistFragment"
+        android:label="ProfileUnregistFragment" >
+        <action
+            android:id="@+id/action_profileUnregistFragment_to_callCenterFragment"
+            app:destination="@id/callCenterFragment" />
+        <action
+            android:id="@+id/action_profileUnregistFragment_to_faqFragment"
+            app:destination="@id/faqFragment" />
+        <action
+            android:id="@+id/action_profileUnregistFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+        <action
+            android:id="@+id/action_profileUnregistFragment_to_historyProfileFragment"
+            app:destination="@id/historyProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="cthree.user.flypass.ui.profile.PrivacyPolicyFragment"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+    <fragment
+        android:id="@+id/historyDetailFragment"
+        android:name="cthree.user.flypass.ui.mybooking.HistoryDetailFragment"
+        android:label="fragment_history_detail"
+        tools:layout="@layout/fragment_history_detail" />
+    <fragment
+        android:id="@+id/historyProfileFragment"
+        android:name="cthree.user.flypass.ui.profile.HistoryProfileFragment"
+        android:label="HistoryProfileFragment" >
+        <action
+            android:id="@+id/action_historyProfileFragment_to_historyDetailFragment"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinMemberFragment"
+        android:name="cthree.user.flypass.ui.intro.JoinMemberFragment"
+        android:label="fragment_join_member"
+        tools:layout="@layout/fragment_join_member" >
+        <action
+            android:id="@+id/action_joinMemberFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_joinMemberFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_joinMemberFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/searchAirportFragment"
+        android:name="cthree.user.flypass.ui.home.SearchAirportFragment"
+        android:label="fragment_search_airport"
+        tools:layout="@layout/fragment_search_airport" >
+        <action
+            android:id="@+id/action_searchAirportFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="flight_dir"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/myBookingFragment"
+        android:name="cthree.user.flypass.ui.mybooking.MyBookingFragment"
+        android:label="fragment_my_booking"
+        tools:layout="@layout/fragment_my_booking" />
+    <fragment
+        android:id="@+id/wishlistFragment"
+        android:name="cthree.user.flypass.ui.wishlist.WishlistFragment"
+        android:label="fragment_wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+    <fragment
+        android:id="@+id/transferBankConfirmFragment"
+        android:name="cthree.user.flypass.ui.booking.TransferBankConfirmFragment"
+        android:label="fragment_transfer_bank_confirm"
+        tools:layout="@layout/fragment_transfer_bank_confirm" >
+        <action
+            android:id="@+id/action_transferBankConfirmFragment_to_bookingCompleteFragment"
+            app:destination="@id/bookingCompleteFragment" />
+    </fragment>
 </navigation>

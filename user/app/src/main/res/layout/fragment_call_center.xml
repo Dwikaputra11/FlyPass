@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="75dp"
-            android:src="@drawable/ic_logo"/>
+            android:src="@drawable/ic_logo_big"/>
     </LinearLayout>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/email"
+                    android:src="@drawable/ic_outline_email_24"
                     android:layout_marginEnd="15dp"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/call"
+                    android:src="@drawable/ic_round_phone_24"
                     android:layout_marginEnd="15dp"/>
                 <TextView
                     android:layout_width="match_parent"

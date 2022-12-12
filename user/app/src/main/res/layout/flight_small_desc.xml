@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/tvDepartCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jakarta"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_round_arrow_forward_20"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDepartCity"
+        app:layout_constraintStart_toEndOf="@+id/tvDepartCity"
+        app:layout_constraintTop_toTopOf="@+id/tvDepartCity" />
+
+    <TextView
+        android:id="@+id/tvArriveCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bali, Denpasar"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDepartCity"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/tvDepartCity" />
+
+    <TextView
+        android:id="@+id/tvFlightDirect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Direct"
+        android:textSize="12sp"
+        android:textColor="@color/smokey_700"
+        app:layout_constraintStart_toStartOf="@+id/tvDepartCity"
+        app:layout_constraintTop_toBottomOf="@+id/tvDepartCity" />
+
+    <ImageView
+        android:id="@+id/ivAirplaneLogo"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="@+id/tvAirplaneName"
+        app:layout_constraintEnd_toStartOf="@+id/tvAirplaneName"
+        app:layout_constraintTop_toTopOf="@+id/tvAirplaneName" />
+
+    <TextView
+        android:id="@+id/tvAirplaneName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Garuda Indonesia"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvFlightCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="GIA-8378"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvSeatClass"
+        app:layout_constraintTop_toBottomOf="@+id/tvAirplaneName" />
+
+    <TextView
+        android:id="@+id/tvSeatClass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Economy"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAirplaneName" />
+</androidx.constraintlayout.widget.ConstraintLayout>

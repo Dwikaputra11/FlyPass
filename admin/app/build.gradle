@@ -44,6 +44,11 @@ dependencies {
 
     implementation 'com.github.nawinkhatiwada:TopSheet:1.0.0-alpha2'
 
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -61,6 +66,11 @@ dependencies {
     testImplementation "io.mockk:mockk:1.13.1"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.zeugmasolutions.localehelper:locale-helper-android:1.5.1'
+    implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4.2'
+
+    //Safe args
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
 
     // Testing
     androidTestImplementation 'androidx.test:core:1.5.0'
@@ -126,4 +136,22 @@ dependencies {
     implementation "androidx.hilt:hilt-work:1.0.0"
     // When using Kotlin.
     kapt("androidx.hilt:hilt-compiler:1.0.0")
+}
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.14.0"
+    }
+
+    // Generates the java Protobuf-lite code for the Protobuf in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
 }

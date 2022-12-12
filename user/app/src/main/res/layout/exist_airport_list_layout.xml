@@ -1,0 +1,85 @@
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="?actionBarSize"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvRecentSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="Recent Search"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecentSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tvDestination1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Indonesia"
+            android:paddingHorizontal="10dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="18dp"
+            tools:layout_editor_absoluteY="393dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIndonesia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tvDestination2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="10dp"
+            android:text="Japan"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="18dp"
+            tools:layout_editor_absoluteY="393dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvJapan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tvDestination3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="10dp"
+            android:text="China"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="18dp"
+            tools:layout_editor_absoluteY="393dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+</ScrollView>

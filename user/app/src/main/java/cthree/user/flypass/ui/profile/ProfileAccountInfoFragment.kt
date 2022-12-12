@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import cthree.user.flypass.R
 
 class ProfileAccountInfoFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -15,8 +16,9 @@ class ProfileAccountInfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_account_info, container, false)
     }
+
 }

@@ -1,36 +1,45 @@
 package cthree.user.flypass
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.androidbolts.topsheet.TopSheetBehavior
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.databinding.ActivityMainBinding
+import cthree.user.flypass.ui.home.HomeFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 
 private const val TAG = "MainActivity"
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var topSheetBehavior: TopSheetBehavior<View>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbarLayout.toolbar)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_round_arrow_back_ios_24)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        topSheetBehavior = TopSheetBehavior.from(binding.topSheetContainer.topSheet)
-        topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
-        binding.toolbarLayout.ivDropDown.setOnClickListener {
-            if(binding.toolbarLayout.ivDropDown.isChecked)
-                topSheetBehavior.state = TopSheetBehavior.STATE_EXPANDED
-            else
-                topSheetBehavior.state = TopSheetBehavior.STATE_COLLAPSED
-
-        }
+        bottomNavigationView.setupWithNavController(navController)
 
     }
+
+//    override fun onBackPressed() {
+//        val fragmentList = supportFragmentManager.fragments
+//
+//        var handle = false;
+//        for(f in fragmentList){
+//            if(f is HomeFragment){
+//                handle = f.onBackPressed()
+//            }
+//            if(handle) break
+//        }
+//        if(!handle){
+//            super.onBackPressed()
+//        }
+//    }
 }

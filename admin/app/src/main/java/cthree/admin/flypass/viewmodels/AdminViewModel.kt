@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.admin.AdminDataClass
 import cthree.admin.flypass.models.admin.LoginAdminResponse
+import cthree.admin.flypass.models.admin.RegisterAdminDataClass
 import cthree.admin.flypass.models.admin.UserAdmin
 import cthree.admin.flypass.models.user.GetUserResponse
 import cthree.admin.flypass.models.user.User
@@ -32,6 +33,7 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
     private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val loginErrorMsg: MutableLiveData<String?> = MutableLiveData()
     private val liveDataUser: MutableLiveData<GetUserResponse?> = MutableLiveData()
+    private val postRegisterAdmin: MutableLiveData<RegisterAdminDataClass?> = MutableLiveData()
 
     fun getLoginToken(): LiveData<String?> = tokenAdmin
     fun getLoginErrorMessage(): LiveData<String?> = loginErrorMsg
@@ -40,8 +42,37 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
         return liveDataUser
     }
 
+    fun postRegisterAdmin(): MutableLiveData<RegisterAdminDataClass?> {
+        return postRegisterAdmin
+    }
+
     fun loginAdmin(loginData: AdminDataClass){
         apiService.loginAdmin(loginData)
+            .enqueue(object : Callback<LoginAdminResponse> {
+                override fun onResponse(
+                    call: Call<LoginAdminResponse>,
+                    response: Response<LoginAdminResponse>
+                ) {
+                    if (response.isSuccessful){
+                        response.body()?.let {
+                            tokenAdmin.postValue(it.userAdmin.accesstToken)
+                        }
+                    }else{
+                        tokenAdmin.postValue(null)
+                        val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
+                        loginErrorMsg.postValue(jsonObject.getString("message"))
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginAdminResponse>, t: Throwable) {
+                    tokenAdmin.postValue(null)
+                }
+
+            })
+    }
+
+    fun registerAdmin(registerData: RegisterAdminDataClass){
+        apiService.registerAdmin(registerData)
             .enqueue(object : Callback<LoginAdminResponse> {
                 override fun onResponse(
                     call: Call<LoginAdminResponse>,

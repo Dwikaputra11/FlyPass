@@ -28,5 +28,9 @@ class HomeFragment : Fragment() {
         binding.btnUserAccount.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_userAccountFragment)
         }
+
+        binding.btnAddAdmin.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_registerAdminFragment)
+        }
     }
 }

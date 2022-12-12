@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_register"
     tools:context=".ui.RegisterAdminFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/bg_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -228,13 +228,13 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNext"
+                android:id="@+id/btnRegister"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Next"
+                android:text="Register"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -255,7 +255,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnNext">
+                app:layout_constraintTop_toBottomOf="@+id/btnRegister">
 
                 <View
                     android:layout_width="150dp"

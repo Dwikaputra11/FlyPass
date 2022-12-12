@@ -84,6 +84,30 @@ class BookingFragment : Fragment() {
             }
         }
 
+        binding.confirmLayout.btnConfirm.setOnClickListener {
+            if(isValid()){
+                if(!isExpired){
+                    val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
+                    val booking = BookingRequest(
+                        contactEmail = binding.tvEmail.text.toString(),
+                        contactFirstName = contactData.firstName,
+                        contactLastName = contactData.lastName,
+                        contactPhone = contactData.phoneNumber,
+                        contactTitle = contactData.title,
+                        flight1Id = depFlight.id.toString(),
+                        flight2Id = arrFlightId,
+                        passenger = passengerList,
+                    )
+                    bookingViewModel.postBookingRequest(userToken,booking)
+                }else{
+                    // handle token expired
+                }
+            }
+
+        }
+
+    }
+
         bookingViewModel.getBookingResp().observe(viewLifecycleOwner){
             if(it != null){
                 Log.d(TAG, "onViewCreated: Booking Success")

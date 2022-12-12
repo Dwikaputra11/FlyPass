@@ -64,6 +64,10 @@ class UserAccountFragment : Fragment() {
                 progressAlertDialog.dismiss()
             }
         }
+
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun initProgressDialog(){

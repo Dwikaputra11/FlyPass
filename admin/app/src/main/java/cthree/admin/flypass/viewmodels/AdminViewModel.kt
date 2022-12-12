@@ -4,9 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIService
-import cthree.admin.flypass.models.admin.*
-import cthree.admin.flypass.models.ticketflight.Flight
-import cthree.admin.flypass.models.ticketflight.GetTicketResponse
+import cthree.admin.flypass.models.admin.AdminDataClass
+import cthree.admin.flypass.models.admin.LoginAdminResponse
+import cthree.admin.flypass.models.admin.RegisterAdminDataClass
+import cthree.admin.flypass.models.admin.UserAdmin
 import cthree.admin.flypass.models.user.GetUserResponse
 import cthree.admin.flypass.models.user.User
 import cthree.admin.flypass.preferences.UserPreferenceRepository
@@ -27,21 +28,21 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataAdmin = prefRepo.readData.asLiveData()
 
+    private lateinit var sessionManager: SessionManager
+
     private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val loginErrorMsg: MutableLiveData<String?> = MutableLiveData()
-    private val registerErrorMsg: MutableLiveData<String?> = MutableLiveData()
     private val liveDataUser: MutableLiveData<GetUserResponse?> = MutableLiveData()
-    private val postRegisterAdmin: MutableLiveData<RegisterAdminResponse?> = MutableLiveData()
+    private val postRegisterAdmin: MutableLiveData<RegisterAdminDataClass?> = MutableLiveData()
 
     fun getLoginToken(): LiveData<String?> = tokenAdmin
     fun getLoginErrorMessage(): LiveData<String?> = loginErrorMsg
-    fun getRegisterErrorMessage(): LiveData<String?> = registerErrorMsg
 
     fun getLiveDataUsers() : MutableLiveData<GetUserResponse?> {
         return liveDataUser
     }
 
-    fun postRegisterAdmin(): MutableLiveData<RegisterAdminResponse?> {
+    fun postRegisterAdmin(): MutableLiveData<RegisterAdminDataClass?> {
         return postRegisterAdmin
     }
 
@@ -70,24 +71,26 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
             })
     }
 
-    fun registerAdmin(token: String, registerData: RegisterAdminDataClass){
-        apiService.registerAdmin(token, registerData)
-            .enqueue(object : Callback<RegisterAdminResponse> {
+    fun registerAdmin(registerData: RegisterAdminDataClass){
+        apiService.registerAdmin(registerData)
+            .enqueue(object : Callback<LoginAdminResponse> {
                 override fun onResponse(
-                    call: Call<RegisterAdminResponse>,
-                    response: Response<RegisterAdminResponse>
+                    call: Call<LoginAdminResponse>,
+                    response: Response<LoginAdminResponse>
                 ) {
                     if (response.isSuccessful){
-                        postRegisterAdmin.postValue(response.body())
+                        response.body()?.let {
+                            tokenAdmin.postValue(it.userAdmin.accesstToken)
+                        }
                     }else{
-                        postRegisterAdmin.postValue(null)
+                        tokenAdmin.postValue(null)
                         val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
-                        registerErrorMsg.postValue(jsonObject.getString("message"))
+                        loginErrorMsg.postValue(jsonObject.getString("message"))
                     }
                 }
 
-                override fun onFailure(call: Call<RegisterAdminResponse>, t: Throwable) {
-                    postRegisterAdmin.postValue(null)
+                override fun onFailure(call: Call<LoginAdminResponse>, t: Throwable) {
+                    tokenAdmin.postValue(null)
                 }
 
             })

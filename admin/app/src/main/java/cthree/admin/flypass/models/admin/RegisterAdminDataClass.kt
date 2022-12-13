@@ -4,6 +4,6 @@ data class RegisterAdminDataClass(
     val name: String,
     val email: String,
     val password: String,
-    val confirmPassword: String,
+    val confirmationPassword: String,
     val birthDate: String
 )

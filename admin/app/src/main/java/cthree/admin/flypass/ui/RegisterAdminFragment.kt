@@ -13,6 +13,7 @@ import cthree.admin.flypass.databinding.DialogProgressBarBinding
 import cthree.admin.flypass.databinding.FragmentRegisterAdminBinding
 import cthree.admin.flypass.models.admin.AdminDataClass
 import cthree.admin.flypass.models.admin.RegisterAdminDataClass
+import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +22,7 @@ class RegisterAdminFragment : Fragment() {
 
     lateinit var binding : FragmentRegisterAdminBinding
     private val adminVM: AdminViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var errorMsgAlertBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
@@ -28,6 +30,7 @@ class RegisterAdminFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         errorMsgAlertBuilder = MaterialAlertDialogBuilder(requireContext())
     }
@@ -46,6 +49,8 @@ class RegisterAdminFragment : Fragment() {
 
         initProgressDialog()
 
+        val token = sessionManager.getToken()
+
         adminVM.postRegisterAdmin().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
@@ -57,7 +62,7 @@ class RegisterAdminFragment : Fragment() {
         adminVM.getRegisterErrorMessage().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
-                if(it.contains("Email")){
+                if(it.contains("email")){
                     errorMessageDialog(
                         resources.getString(R.string.email_exist_title),
                         resources.getString(R.string.email_exist_subtitle),
@@ -77,10 +82,10 @@ class RegisterAdminFragment : Fragment() {
             val name = binding.registerName.text.toString()
             val email = binding.registerEmail.text.toString()
             val password = binding.registerPassword.text.toString()
-            val confirmPassword = binding.registerConfirm.text.toString()
+            val confirmationPassword = binding.registerConfirm.text.toString()
             val birthdate = binding.registerBirthdate.text.toString()
 
-            if(name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || birthdate.isEmpty()) {
+            if(name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmationPassword.isEmpty() || birthdate.isEmpty()) {
                 binding.registerName.error = "Field Masih Kosong"
                 binding.registerEmail.error = "Field Masih Kosong"
                 binding.registerPassword.error = "Field Masih Kosong"
@@ -88,7 +93,7 @@ class RegisterAdminFragment : Fragment() {
                 binding.registerBirthdate.error = "Field Masih Kosong"
             }else{
                 progressAlertDialog.show()
-                adminVM.registerAdmin(RegisterAdminDataClass(name, email, password, confirmPassword, birthdate))
+                adminVM.registerAdmin("Bearer ${token!!.trim()}", RegisterAdminDataClass(name, email, password, confirmationPassword, birthdate))
             }
         }
     }

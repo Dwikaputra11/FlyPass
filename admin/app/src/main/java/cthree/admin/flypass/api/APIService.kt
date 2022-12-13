@@ -21,5 +21,5 @@ interface APIService {
     fun getAllUser(@Header("Authorization") token: String) : Call<GetUserResponse>
 
     @POST("v1/register/admin")
-    fun registerAdmin(@Body request : RegisterAdminDataClass) : Call<RegisterAdminResponse>
+    fun registerAdmin(@Header("Authorization") token: String, @Body request : RegisterAdminDataClass) : Call<RegisterAdminResponse>
 }

@@ -70,8 +70,8 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
             })
     }
 
-    fun registerAdmin(registerData: RegisterAdminDataClass){
-        apiService.registerAdmin(registerData)
+    fun registerAdmin(token: String, registerData: RegisterAdminDataClass){
+        apiService.registerAdmin(token, registerData)
             .enqueue(object : Callback<RegisterAdminResponse> {
                 override fun onResponse(
                     call: Call<RegisterAdminResponse>,

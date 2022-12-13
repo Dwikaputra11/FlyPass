@@ -9,12 +9,14 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.persistableBundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingBaggageAdapter
 import cthree.user.flypass.adapter.TravelerDetailsAdapter
@@ -26,11 +28,15 @@ import cthree.user.flypass.databinding.FragmentBookingBinding
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.request.Passenger
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.ui.auth.LoginFragment
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.utils.TokenNav
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.BookingViewModel
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,16 +54,19 @@ class BookingFragment : Fragment() {
     private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog        : AlertDialog
     private val bookingViewModel                    : BookingViewModel by viewModels()
-    private val userViewModel                       : UserViewModel by viewModels()
+    private val prefViewModel                       : PreferencesViewModel by viewModels()
+    private val userVM                              : UserViewModel by viewModels()
     private lateinit var contactData                : Contact
     private val travelerList        = arrayListOf<Traveler>()
     private val passengerList       = arrayListOf<Passenger>()
+    private val baggagePassList     = mutableListOf<Baggage?>()
     private var travelerItemPos     = 0
     private var passengerAmount     = 0
     private var isEdit              = false
     private var arrFlight: Flight?  = null
     private var isExpired           = false
     private var userToken: String?  = null
+    private var token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kaXhscnVsZW4vaW1hZ2UvdXBsb2FkL3YxNjY5NjkwMjQ2L3Byb2ZpbGUveDBzdnZ0ZnViamc3dWxwZzBpbTMuanBnIiwiZW1haWwiOiJqb2huZG9lQG1haWwuY29tIiwiYmlydGhEYXRlIjpudWxsLCJnZW5kZXIiOm51bGwsInBob25lIjpudWxsLCJyb2xlSWQiOjEsImNyZWF0ZWRBdCI6IjIwMjItMTItMDFUMTA6MjQ6NTEuNDYwWiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMTFUMjA6NDY6NDkuOTE1WiIsImlhdCI6MTY3MDc5NTM1MSwiZXhwIjoxNjcwODE2OTUxfQ.YZoTufde4f6DMHpWi6QwTC0Q5oPPGMUTuBOYykJ4ED4"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,12 +90,36 @@ class BookingFragment : Fragment() {
         setFlightInfo()
         initProgressDialog()
 
-        userViewModel.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isNotEmpty()){
-                isExpired = Utils.isTokenExpired(it.token)
-                userToken = it.token
+        userVM.getLoginToken().observe(viewLifecycleOwner){
+            if(it != null){
+                progressAlertDialog.dismiss()
+                sessionManager.setToken(it)
+                // save data profile to proto
+                val profile = Utils.decodeAccountToken(it)
+                sessionManager.setUserId(profile.id)
+                userToken = it
+                prefViewModel.saveToken(it)
+                prefViewModel.saveData(profile)
             }
         }
+
+        prefViewModel.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isNotEmpty() && it.refreshToken.isNotEmpty()){
+                userToken = if(Utils.isTokenExpired(it.token) && Utils.isTokenExpired(it.refreshToken)){
+                    null
+                }else if(!Utils.isTokenExpired(it.token)){
+                    Log.d(TAG, "From Access Token")
+                    it.token
+                }else{
+                    Log.d(TAG, "From Refresh Token")
+                    it.refreshToken
+                }
+                Log.d(TAG, "User Token: $userToken")
+            }
+        }
+
+        // test token expired
+//        userToken = if(Utils.isTokenExpired(token)) null else ""
 
         bookingViewModel.getBookingResp().observe(viewLifecycleOwner){
             if(it != null){
@@ -115,33 +148,30 @@ class BookingFragment : Fragment() {
                     flight2Id = arrFlightId,
                     passenger = passengerList,
                 )
-                if(userToken != null){
-                    if(!isExpired){
-                        bookingViewModel.postBookingRequest(userToken,booking)
-                    }else {
-                        // handle token expired
-                        DialogCaller(requireActivity())
-                            .setTitle(R.string.token_expired_title)
-                            .setMessage(R.string.token_expired_subtitle)
-                            .setPrimaryButton(R.string.token_expired_login
-                            ) { dialog, _ -> run{
-                                Log.d(TAG, "PrimaryButton: Clicked")
+                if(userToken == null){
+                    DialogCaller(requireActivity())
+                        .setTitle(R.string.token_expired_title)
+                        .setMessage(R.string.token_expired_subtitle)
+                        .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
+                            run{
+                                // handle data
+                                prefViewModel.clearToken()
+                                prefViewModel.clearRefreshToken()
                                 dialog.dismiss()
-                            }}
-                            .setSecondaryButton(R.string.token_expired_register
-                            ) { dialog, _ -> run{
-                                Log.d(TAG, "SecondaryButton: Clicked")
+                                callLoginDialog()
+                            }
+                        }
+                        .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
+                            run{
+                                // post the booking without token
+                                bookingViewModel.postBookingRequest(null,booking)
                                 dialog.dismiss()
-                            }}
-                            .setThirdButton(R.string.token_expired_later
-                            ){dialog,_ -> run{
-                                Log.d(TAG, "ThirdButton: Clicked")
-                                dialog.dismiss()
-                            }}
-                            .create(layoutInflater, AlertButton.THREE).show()
-                    }
+                            }
+                        }
+                        .create(layoutInflater, AlertButton.TOKEN)
+                        .show()
                 }else{
-                    bookingViewModel.postBookingRequest(null,booking)
+                    bookingViewModel.postBookingRequest(userToken, booking)
                 }
             }else{
                 DialogCaller(requireActivity())
@@ -152,10 +182,48 @@ class BookingFragment : Fragment() {
                             dialog.dismiss()
                         }
                     }
+                    .create(layoutInflater, AlertButton.ONE)
+                    .show()
             }
 
         }
 
+    }
+
+    private fun callLoginDialog() {
+        DialogCaller(requireActivity())
+            .setTitle(R.string.login_dialog_title)
+            .setLoginButton(R.string.login_dialog_login_btn, object : DialogCaller.OnClickLoginListener{
+                override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
+                    if(email != null && password != null){
+                        userVM.callLoginUser(LoginData(email, password))
+                        dialog.dismiss()
+                        progressAlertDialog.show()
+                    }
+                }
+            })
+            .setGoogleButton(R.string.login_dialog_google_btn, object : DialogCaller.OnClickGoogleListener{
+                override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
+                    Log.d(TAG, "onClick Google: $email, $password")
+                    dialog.dismiss()
+                }
+            })
+            .create(layoutInflater, AlertButton.LOGIN)
+            .show()
+    }
+
+    private fun saveDataToPref() {
+        val gson = Gson()
+        val depFlightJson = gson.toJson(depFlight)
+        val arrFlightJson = if(arrFlight != null) gson.toJson(arrFlight) else null
+        val passengerListJson = gson.toJson(passengerList)
+        val contactJson = gson.toJson(contactData)
+        val baggageListJson = gson.toJson(baggagePassList)
+        Log.d(TAG, "saveDataToPref: $depFlightJson")
+        Log.d(TAG, "saveDataToPref: $arrFlightJson")
+        Log.d(TAG, "saveDataToPref: $passengerListJson")
+        Log.d(TAG, "saveDataToPref: $contactJson")
+        prefViewModel.saveBookingData(depFlightJson, arrFlightJson, passengerListJson, contactJson, baggageListJson)
     }
 
     private fun isValid(): Boolean {
@@ -253,6 +321,7 @@ class BookingFragment : Fragment() {
         bookingBaggageAdapter.submitList(emptyList())
         baggageFragment.setOnClickListener(object : BaggageFragment.OnClickListener{
             override fun onClick(baggageList: List<Baggage?>) {
+                baggagePassList.addAll(baggageList)
                 bookingBaggageAdapter.submitList(baggageList)
             }
         })

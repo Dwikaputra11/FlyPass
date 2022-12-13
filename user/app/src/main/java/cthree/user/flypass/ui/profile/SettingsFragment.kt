@@ -52,7 +52,7 @@ class SettingsFragment : Fragment() {
         setBottomNav()
         initProgressDialog()
         userViewModel.getLogoutStatus().observe(viewLifecycleOwner){
-            if(it == 200){
+            if(it != null && it == 200){
                 Log.d(TAG, "logoutConfirmation: Observe")
                 progressAlertDialog.dismiss()
                 val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)

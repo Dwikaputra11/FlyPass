@@ -10,16 +10,21 @@ import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import cthree.user.flypass.databinding.DialogLoginBinding
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
 import cthree.user.flypass.databinding.DialogTokenExpiredBinding
 import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
+import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.utils.AlertButton
+import kotlin.math.log
 
 
 class DialogCaller(val context: Activity) {
     private lateinit var firstBtnListener: OnClickListener
     private lateinit var secondBtnListener: OnClickListener
     private lateinit var thirdBtnListener: OnClickListener
+    private lateinit var loginListener: OnClickLoginListener
+    private lateinit var googleListener: OnClickGoogleListener
     private var title: String? = null
     private var message: String? = null
     private var firstButtonTitle: String? = null
@@ -27,6 +32,24 @@ class DialogCaller(val context: Activity) {
     private var thirdButtonTitle: String? = null
     private var showIcon = false
     private var cancellable = false
+
+    interface OnClickLoginListener{
+        fun onClick(dialog: DialogInterface,email: String?, password: String?)
+    }
+    interface OnClickGoogleListener{
+        fun onClick(dialog: DialogInterface,email: String?, password: String?)
+    }
+
+    fun setLoginButton(@StringRes title: Int,listener: OnClickLoginListener) : DialogCaller{
+        this.title = context.getString(title)
+        this.loginListener = listener
+        return this
+    }
+    fun setGoogleButton(@StringRes title: Int,listener: OnClickGoogleListener) : DialogCaller{
+        this.title = context.getString(title)
+        this.googleListener = listener
+        return this
+    }
 
 
     fun expiredTokenDialog(
@@ -98,6 +121,7 @@ class DialogCaller(val context: Activity) {
             when (alertButton) {
                 AlertButton.ONE -> DialogOneButtonAlertBinding.inflate(layoutInflater, null, false)
                 AlertButton.TWO -> DialogTwoButtonAlertBinding.inflate(layoutInflater, null, false)
+                AlertButton.LOGIN -> DialogLoginBinding.inflate(layoutInflater, null, false)
                 else -> DialogTokenExpiredBinding.inflate(layoutInflater, null, false)
             }
         val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
@@ -108,7 +132,7 @@ class DialogCaller(val context: Activity) {
         when (alertButton) {
             AlertButton.ONE -> {
                 (binding as DialogOneButtonAlertBinding).tvTitle.text = title
-                binding.tvSubtitle.text = title
+                binding.tvSubtitle.text = message
                 binding.btnYes.text = firstButtonTitle
                 binding.btnYes.setOnClickListener {
                     firstBtnListener.onClick(materAlertDialog, 1)
@@ -116,7 +140,7 @@ class DialogCaller(val context: Activity) {
             }
             AlertButton.TWO -> {
                 (binding as DialogTwoButtonAlertBinding).tvTitle.text = title
-                binding.tvSubtitle.text = title
+                binding.tvSubtitle.text = message
                 binding.btnYes.text = firstButtonTitle
                 binding.tvNo.text = secondButtonTitle
                 binding.btnYes.setOnClickListener {
@@ -126,20 +150,42 @@ class DialogCaller(val context: Activity) {
                     secondBtnListener.onClick(materAlertDialog, 2)
                 }
             }
-            else -> {
+            AlertButton.TOKEN -> {
                 (binding as DialogTokenExpiredBinding).tvTitle.text = title
-                binding.tvSubtitle.text = title
+                binding.tvSubtitle.text = message
                 binding.btnLogin.text = firstButtonTitle
-                binding.btnRegister.text = secondButtonTitle
-                binding.btnLater.text = thirdButtonTitle
+                binding.btnLater.text = secondButtonTitle
                 binding.btnLogin.setOnClickListener {
                     firstBtnListener.onClick(materAlertDialog, 1)
                 }
-                binding.btnRegister.setOnClickListener {
+                binding.btnLater.setOnClickListener {
                     secondBtnListener.onClick(materAlertDialog, 2)
                 }
-                binding.btnLater.setOnClickListener {
-                    thirdBtnListener.onClick(materAlertDialog, 3)
+            }
+            else -> {
+                materAlertDialog.setCanceledOnTouchOutside(false)
+                (binding as DialogLoginBinding).btnLogin.setOnClickListener {
+                    val email = binding.loginEmail.text.toString()
+                    val password = binding.loginPassword.text.toString()
+                    if(email.isEmpty() || password.isEmpty()) {
+                        binding.loginEmail.error = "Field Masih Kosong"
+                        binding.loginPassword.error = "Field Masih Kosong"
+                        loginListener.onClick(materAlertDialog, null, null)
+                    }else{
+                        loginListener.onClick(materAlertDialog, email, password)
+                    }
+                }
+                binding.btnGoogle.setOnClickListener {
+                    val email = binding.loginEmail.text.toString()
+                    val password = binding.loginPassword.text.toString()
+
+                    if(email.isEmpty() || password.isEmpty()) {
+                        binding.loginEmail.error = "Field Masih Kosong"
+                        binding.loginPassword.error = "Field Masih Kosong"
+                        googleListener.onClick(materAlertDialog, null, null)
+                    }else{
+                        googleListener.onClick(materAlertDialog, email, password)
+                    }
                 }
             }
         }

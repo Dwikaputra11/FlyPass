@@ -19,7 +19,9 @@ import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.utils.TokenNav
 import cthree.user.flypass.utils.Utils
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,9 +31,11 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val userVM: UserViewModel by viewModels()
+    private val prefVM: PreferencesViewModel by viewModels()
     private lateinit var sessionManager: SessionManager
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
+    private lateinit var fromDestination : TokenNav
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +54,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
         setBottomNav()
+        getArgs()
 
         userVM.getLoginToken().observe(viewLifecycleOwner) {
             if(it != null){
@@ -59,9 +64,9 @@ class LoginFragment : Fragment() {
                 // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
                 sessionManager.setUserId(profile.id)
-                userVM.saveToken(it)
-                userVM.saveData(profile)
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                prefVM.saveToken(it)
+                prefVM.saveData(profile)
+                navigateConfig()
             }
         }
 
@@ -117,6 +122,25 @@ class LoginFragment : Fragment() {
 
         binding.tvtoRegister.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
+
+    private fun getArgs(){
+        val bundle = arguments ?: return
+        val args = LoginFragmentArgs.fromBundle(bundle)
+        fromDestination = args.fromDestination
+    }
+
+    private fun navigateConfig(){
+        when(fromDestination){
+            TokenNav.BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_bookingFragment)
+            TokenNav.TOP_UP -> findNavController().navigate(R.id.action_loginFragment_to_topUpFragment)
+            TokenNav.MY_BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_myBookingFragment)
+            TokenNav.PAYMENT -> findNavController().navigate(R.id.action_loginFragment_to_paymentFragment)
+            TokenNav.FLIGHT_PAY -> findNavController().navigate(R.id.action_loginFragment_to_flightPayFragment)
+            TokenNav.PROFILE_INFO -> findNavController().navigate(R.id.action_loginFragment_to_profileAccountInfoFragment)
+            TokenNav.WISHLIST -> findNavController().navigate(R.id.action_loginFragment_to_wishlistFragment)
+            else -> findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
 

@@ -4,4 +4,6 @@ enum class AlertButton {
     ONE,
     TWO,
     THREE,
+    TOKEN,
+    LOGIN,
 }

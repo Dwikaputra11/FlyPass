@@ -29,4 +29,15 @@ message UserProto {
 
   string token = 18;
   string refreshToken = 21;
+
+  string depFlight = 22;
+  string arrFlight = 23;
+  string passengerList = 24;
+  string contactDetail = 25;
+  string baggageList = 26;
+  int32 depFlightPrice = 27;
+  int32 arrFlightPrice = 31;
+  int32 totalPrice = 28;
+  int32 addOnsPrice = 29;
+  string bookingCode = 30;
 }

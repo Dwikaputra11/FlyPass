@@ -7,14 +7,25 @@
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/book_1"
+            android:layout_centerHorizontal="true"
+            />
         <TextView
             android:id="@+id/tvTitle"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login Terlebih Dahulu!"
+            android:text="Masa Sesi Sudah Berakhir!"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             android:textStyle="bold"
-            android:textColor="@color/color_primary"
-            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
             />
 
         <TextView
@@ -22,6 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             android:text="Sesi saat ini sudah berakhir. Silahkan lanjutkan proses login terlebih dahulu."
             android:textColor="@color/smokey_500"
             android:layout_below="@id/tvTitle"
@@ -29,7 +42,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/tvSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -47,29 +60,23 @@
                 android:layout_height="2dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRegister"
-                android:layout_weight="1"
+                android:id="@+id/btnLater"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_below="@id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Register"
+                android:text="Nanti Saja"
                 android:textAllCaps="false"
-                />
+                android:layout_weight="1"
+                android:textColor="@color/color_primary"
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:elevation="5dp"
+                app:strokeColor="@color/smokey_500"
+                app:strokeWidth="1dp" />
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLater"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_below="@id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Nanti Saja"
-            android:textColor="@color/color_primary"
-            app:backgroundTint="@color/white"
-            app:cornerRadius="8dp"
-            app:elevation="5dp"
-            app:strokeColor="@color/smokey_500"
-            app:strokeWidth="1dp" />
+
 
     </RelativeLayout>
 

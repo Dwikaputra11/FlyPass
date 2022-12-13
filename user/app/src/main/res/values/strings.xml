@@ -32,11 +32,11 @@
     <string name="register_success_btn">Login</string>
 
     <!--   Token Expired -->
-    <string name="token_expired_title">Login Terlebih Dahulu!</string>
+    <string name="token_expired_title">Sesi Sudah Berakhir!</string>
     <string name="token_expired_subtitle">Sesi saat ini sudah berakhir. Silahkan lanjutkan proses login terlebih dahulu.</string>
     <string name="token_expired_login">Login</string>
     <string name="token_expired_register">Register</string>
-    <string name="token_expired_later">Maybe Later</string>
+    <string name="token_expired_later">Lanjutkan</string>
 
     <!--    Booking -->
     <string name="booking_empty_field_title">Data Belum Lengkap!</string>
@@ -65,6 +65,10 @@
     <string name="success">Behasil</string>
     <string name="flight_pay">Flight Pay</string>
     <string name="home">Home</string>
+
+    <string name="login_dialog_title">Login Account</string>
+    <string name="login_dialog_login_btn">Login</string>
+    <string name="login_dialog_google_btn">Login with Google</string>
 
 
 </resources>

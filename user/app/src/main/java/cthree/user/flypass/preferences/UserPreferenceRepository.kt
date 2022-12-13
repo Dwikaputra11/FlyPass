@@ -6,7 +6,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import cthree.user.flypass.UserProto
 import cthree.user.flypass.models.airport.Airport
+import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.models.user.Profile
+import cthree.user.flypass.preferences.UserPreferenceRepository.Companion.userPreferencesStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import java.io.IOException
@@ -36,6 +38,82 @@ class UserPreferenceRepository(private val context: Context) {
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setName(profile.name).build()
+        }
+    }
+
+    suspend fun saveBookingData(depFlight: String, arrFlight: String?, passList: String, contactDetail: String, baggageList: String){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepFlight(depFlight).build()
+        }
+        if(arrFlight != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setArrFlight(arrFlight).build()
+            }
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setPassengerList(passList).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setContactDetail(contactDetail).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setBaggageList(contactDetail).build()
+        }
+    }
+
+    suspend fun savePaymentData(bookingCode: String,addOnsPrice: Int, depFlightPrice: Int,arrFlightPrice: Int?, totalPrice: Int){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setBookingCode(bookingCode).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAddOnsPrice(addOnsPrice).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepFlightPrice(depFlightPrice).build()
+        }
+        if(arrFlightPrice != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setArrFlightPrice(arrFlightPrice).build()
+            }
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setTotalPrice(totalPrice).build()
+        }
+    }
+
+    suspend fun clearBookingData(){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearBookingCode().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearPassengerList().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearAddOnsPrice().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearDepFlight().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearArrFlight().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearContactDetail().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearTotalPrice().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearDepFlightPrice().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearArrFlightPrice().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearContactDetail().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearBaggageList().build()
         }
     }
 

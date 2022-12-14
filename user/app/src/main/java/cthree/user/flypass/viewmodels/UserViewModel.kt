@@ -68,11 +68,13 @@ class UserViewModel @Inject constructor(
                     val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
                     loginErrorMsg.postValue(jsonObject.getString("message"))
                     Log.d(TAG, "onResponse Call Login: ${jsonObject.getString("message")}")
+                    refreshToken.postValue(null)
                 }
             }
 
             override fun onFailure(call: Call<Login>, t: Throwable) {
                 tokenUser.postValue(null)
+                refreshToken.postValue(null)
                 Log.e(TAG, "onFailure Call Login: ${t.localizedMessage}")
             }
 

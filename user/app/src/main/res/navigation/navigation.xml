@@ -420,7 +420,11 @@
         android:id="@+id/historyFragment"
         android:name="cthree.user.flypass.ui.mybooking.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_historySummaryFragment"
+            app:destination="@id/historySummaryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/howToBookFragment"
         android:name="cthree.user.flypass.ui.profile.HowToBookFragment"
@@ -448,12 +452,19 @@
         <action
             android:id="@+id/action_historySummaryFragment_to_historyDetailFragment"
             app:destination="@id/historyDetailFragment" />
+        <argument
+            android:name="booking"
+            app:argType="cthree.user.flypass.models.booking.bookings.Booking" />
     </fragment>
     <fragment
         android:id="@+id/historyDetailFragment"
         android:name="cthree.user.flypass.ui.mybooking.HistoryDetailFragment"
         android:label="fragment_history_detail"
-        tools:layout="@layout/fragment_history_detail" />
+        tools:layout="@layout/fragment_history_detail" >
+        <argument
+            android:name="booking"
+            app:argType="cthree.user.flypass.models.booking.bookings.Booking" />
+    </fragment>
     <fragment
         android:id="@+id/flightPayFragment"
         android:name="cthree.user.flypass.ui.flightpay.FlightPayFragment"

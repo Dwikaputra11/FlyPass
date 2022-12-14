@@ -1,5 +1,6 @@
 package cthree.user.flypass.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,15 +14,19 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+private const val TAG = "BookingViewModel"
+
 @HiltViewModel
 class BookingViewModel @Inject constructor(private val apiService: ApiService): ViewModel(){
 
-    private val bookingResp: MutableLiveData<BookingResponse?>  = MutableLiveData()
-    private val searchBooking: MutableLiveData<BookingListResponse?>     = MutableLiveData()
-    private val errorSearchBookMsg: MutableLiveData<String?>    = MutableLiveData()
+    private val bookingResp: MutableLiveData<BookingResponse?>              = MutableLiveData()
+    private val searchBooking: MutableLiveData<BookingListResponse?>        = MutableLiveData()
+    private val errorSearchBookMsg: MutableLiveData<String?>                = MutableLiveData()
+    private val userBooking: MutableLiveData<BookingListResponse?>          = MutableLiveData()
 
     fun getBookingResp(): LiveData<BookingResponse?> = bookingResp
     fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking
+    fun userBookingResponse(): LiveData<BookingListResponse?> = userBooking
 
     fun postBookingRequest(token: String?,bookingRequest: BookingRequest){
         val tokens = if(token?.isNotEmpty() == true) "Bearer $token" else null
@@ -39,6 +44,26 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
 
             override fun onFailure(call: Call<BookingResponse>, t: Throwable) {
                 bookingResp.postValue(null)
+            }
+
+        })
+    }
+
+    fun getUserBooking(token: String){
+        apiService.userBookings("Bearer $token").enqueue(object : Callback<BookingListResponse>{
+            override fun onResponse(
+                call: Call<BookingListResponse>,
+                response: Response<BookingListResponse>
+            ) {
+                if(response.isSuccessful){
+                    userBooking.postValue(response.body())
+                }else{
+                    userBooking.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<BookingListResponse>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.localizedMessage}")
             }
 
         })

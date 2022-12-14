@@ -6,8 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.FragmentHistorySummaryBinding
+import cthree.user.flypass.models.booking.bookings.Booking
 
 class HistorySummaryFragment : Fragment() {
+
+    private lateinit var binding: FragmentHistorySummaryBinding
+    private lateinit var booking: Booking
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,9 +21,24 @@ class HistorySummaryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history_summary, container, false)
+    ): View {
+        binding = FragmentHistorySummaryBinding.inflate(layoutInflater, container ,false)
+        return binding.root
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        getArgs()
+        setViews()
+    }
+
+    private fun setViews() {
+        binding.tvDepartCity.text = booking.flightBook.duration
+    }
+
+    private fun getArgs(){
+        val bundle = arguments ?: return
+        val args = HistorySummaryFragmentArgs.fromBundle(bundle)
+        booking = args.booking
+    }
 }

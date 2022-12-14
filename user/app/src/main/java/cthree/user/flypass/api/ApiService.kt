@@ -71,6 +71,9 @@ interface ApiService {
     @GET("v1/bookings/search")
     fun searchBookingByCode(@Query("bookingcode") bookingCode: String): Call<BookingListResponse>
 
+    @GET("v1/bookings")
+    fun userBookings(@Header("Authorization") token :String): Call<BookingListResponse>
+
     @POST("v1/whistlist/{idFlight}")
     fun addWishlist(@Header("Authorization") token: String, @Path("idFlight") id: Int): Call<WishlistResponse>
 

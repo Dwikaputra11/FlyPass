@@ -58,7 +58,7 @@ class LoginFragment : Fragment() {
 
         userVM.getLoginToken().observe(viewLifecycleOwner) {
             if(it != null){
-                Log.d(TAG, "onViewCreated: $it")
+                Log.d(TAG, "Access Token: $it")
                 progressAlertDialog.dismiss()
                 sessionManager.setToken(it)
                 // save data profile to proto
@@ -72,6 +72,7 @@ class LoginFragment : Fragment() {
 
         userVM.getRefreshToken().observe(viewLifecycleOwner){
             if(it != null){
+                Log.d(TAG, "Refresh Token: $it")
                 userVM.saveRefreshToken(it)
             }
         }

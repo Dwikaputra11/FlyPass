@@ -1,13 +1,13 @@
 package cthree.admin.flypass.utils
 
 import com.auth0.android.jwt.JWT
-import cthree.admin.flypass.models.admin.User
+import cthree.admin.flypass.models.admin.UserAdmin
 
 object Utils {
 
-    fun decodeAccountToken(token: String): User {
+    fun decodeAccountToken(token: String): UserAdmin {
         val user = JWT(token)
-        return User(
+        return UserAdmin(
             id = user.getClaim("id").asInt()!!,
             email = user.getClaim("email").asString()!!,
             accesstToken = user.getClaim("accesstToken").asString()!!,

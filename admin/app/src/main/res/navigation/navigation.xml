@@ -31,10 +31,18 @@
         <action
             android:id="@+id/action_homeFragment_to_userAccountFragment"
             app:destination="@id/userAccountFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_registerAdminFragment"
+            app:destination="@id/registerAdminFragment" />
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
         android:name="cthree.admin.flypass.ui.UserAccountFragment"
         android:label="fragment_user_account"
         tools:layout="@layout/fragment_user_account" />
+    <fragment
+        android:id="@+id/registerAdminFragment"
+        android:name="cthree.admin.flypass.ui.RegisterAdminFragment"
+        android:label="fragment_register_admin"
+        tools:layout="@layout/fragment_register_admin" />
 </navigation>

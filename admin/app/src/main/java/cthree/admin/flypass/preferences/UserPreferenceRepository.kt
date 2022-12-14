@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import cthree.admin.flypass.UserProto
-import cthree.admin.flypass.models.admin.User
+import cthree.admin.flypass.models.admin.UserAdmin
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import java.io.IOException
@@ -24,15 +24,15 @@ class UserPreferenceRepository(private val context: Context) {
     }
 
     // save data to data store proto
-    suspend fun saveDataAdmin(user: User){
+    suspend fun saveDataAdmin(userAdmin: UserAdmin){
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setId(user.id).build()
+            preferences.toBuilder().setId(userAdmin.id).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setEmail(user.email).build()
+            preferences.toBuilder().setEmail(userAdmin.email).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setAccesstToken(user.accesstToken).build()
+            preferences.toBuilder().setAccesstToken(userAdmin.accesstToken).build()
         }
     }
 

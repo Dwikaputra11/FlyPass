@@ -175,6 +175,44 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_add_admin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_ticket">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="30dp"
+                android:src="@drawable/ic_admin_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="70dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Add Admin"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"

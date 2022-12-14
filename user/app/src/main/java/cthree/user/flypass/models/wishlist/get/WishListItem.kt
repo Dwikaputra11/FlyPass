@@ -3,6 +3,7 @@ package cthree.user.flypass.models.wishlist.get
 
 import com.google.gson.annotations.SerializedName
 
+<<<<<<<< HEAD:user/app/src/main/java/cthree/user/flypass/models/wishlist/get/WishListItem.kt
 data class WishListItem(
     @SerializedName("Airline")
     val airline: Airline,
@@ -10,6 +11,15 @@ data class WishListItem(
     val airplane: Airplane,
     @SerializedName("arrivalAirport")
     val arrivalAirport: ArrivalAirport,
+========
+data class FlightBook(
+    @SerializedName("airlineId")
+    val airlineId: Int,
+    @SerializedName("airplaneId")
+    val airplaneId: Int,
+    @SerializedName("arrivalAirportId")
+    val arrivalAirportId: Int,
+>>>>>>>> 8997074858f12554b1f331233198aae919a0cc89:user/app/src/main/java/cthree/user/flypass/models/wishlist/get/FlightBook.kt
     @SerializedName("arrivalDate")
     val arrivalDate: String,
     @SerializedName("arrivalTime")

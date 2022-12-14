@@ -3,9 +3,7 @@ package cthree.admin.flypass.models.admin
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginAdminResponse(
+data class RegisterAdminResponse(
     @SerializedName("message")
-    val message: String,
-    @SerializedName("user")
-    val userAdmin: UserAdmin
+    val message: String
 )

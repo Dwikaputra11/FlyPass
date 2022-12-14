@@ -1,27 +1,40 @@
 package cthree.admin.flypass.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.admin.flypass.R
+import cthree.admin.flypass.adapter.UserAccountAdapter
+import cthree.admin.flypass.databinding.DialogProgressBarBinding
 import cthree.admin.flypass.databinding.FragmentUserAccountBinding
+import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val TAG = "UserAccountFragment"
 
 @AndroidEntryPoint
 class UserAccountFragment : Fragment() {
 
     lateinit var binding : FragmentUserAccountBinding
     private val adminVM: AdminViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
+    private lateinit var userAccountAdapter : UserAccountAdapter
+    private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
+        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
     }
 
     override fun onCreateView(
@@ -36,30 +49,33 @@ class UserAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        showDataUser()
+        initProgressDialog()
+        progressAlertDialog.show()
+
+        val token = sessionManager.getToken()
+        Log.d(TAG, "onViewCreated Token: $token ")
+
+        adminVM.callApiUser("Bearer ${token!!.trim()}")
+        adminVM.getLiveDataUsers().observe(viewLifecycleOwner) {
+            if (it != null){
+                binding.rvListUser.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                userAccountAdapter = UserAccountAdapter(it.users)
+                binding.rvListUser.adapter = userAccountAdapter
+                progressAlertDialog.dismiss()
+            }
+        }
+
+        binding.btnBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
-//    private fun showDataUser(){
-//        viewModel.getLiveDataFilem().observe(this, Observer {
-//            if (it != null){
-//                binding.rvListFilm.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//                val adapter = FilmAdapter(it)
-//                binding.rvListFilm.adapter = adapter
-//                adapter.onDeleteClick = {
-//                    deleteFilm(it.id.toInt())
-//                }
-//                adapter.notifyDataSetChanged()
-//                adapter.onFavoriteClick = {
-//                    viewModelFavorite.callPostApiFilm(it.name, it.image, it.director, it.description)
-//                    viewModelFavorite.postLiveDataFilm().observe(this,{
-//                        if(it != null){
-//                            Toast.makeText(this,"Tambah Favorit Berhasil", Toast.LENGTH_SHORT).show()
-//                        }
-//                    })
-//                }
-//                adapter.notifyDataSetChanged()
-//            }
-//        })
-//        viewModel.callApiFilm()
-//    }
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    }
 }

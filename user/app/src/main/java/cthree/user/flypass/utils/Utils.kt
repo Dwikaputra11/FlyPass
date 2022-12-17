@@ -127,6 +127,23 @@ object Utils {
         return "$formattedDate"
     }
 
+    fun convertDateToDayMonYear(date:String): String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val convertedDate: Date
+        val formattedDate: String?
+        try{
+            convertedDate = date.let { sdf.parse(it) } as Date
+            formattedDate = convertedDate.let {
+                SimpleDateFormat("EEE, dd MMM yyyy", Locale.US).format(it)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.e("Date", "convertDateToDay: ")
+            return ""
+        }
+        return "$formattedDate"
+    }
+
 
 
     fun reverseDateFormat(cal:Calendar): String{

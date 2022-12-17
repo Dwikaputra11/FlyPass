@@ -1,8 +1,10 @@
 package cthree.user.flypass.ui.booking
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
@@ -12,10 +14,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentFilghtConfirmationBinding
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.Utils
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import cthree.user.flypass.viewmodels.WishlistViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +32,11 @@ private const val TAG = "FlightConfirmationFragment"
 @AndroidEntryPoint
 class FlightConfirmationFragment : Fragment(), MenuProvider{
 
+    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog        : AlertDialog
     private lateinit var binding: FragmentFilghtConfirmationBinding
     private val wishlistVM: WishlistViewModel by viewModels()
+    private val prefVM: PreferencesViewModel by viewModels()
     private lateinit var depFlight: Flight
     private var arrFlight: Flight? = null
     private val userVM: UserViewModel by viewModels()
@@ -33,6 +44,7 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
     }
 
     override fun onCreateView(
@@ -44,6 +56,7 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initProgressDialog()
         setupToolbar()
         getArgs()
         setViews()
@@ -53,6 +66,28 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
 
         binding.confirmLayout.btnConfirm.setOnClickListener {
             navigateToBooking()
+        }
+        wishlistVM.postWishlistResponse().observe(viewLifecycleOwner){
+            if(it != null){
+                progressAlertDialog.dismiss()
+                DialogCaller(requireActivity())
+                    .setTitle(R.string.wishlist_add_title)
+                    .setMessage(R.string.wishlist_add_subtitle)
+                    .setPrimaryButton(R.string.wishlist_add_btn){ dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    .create(layoutInflater, AlertButton.ONE)
+                    .show()
+            }
+        }
+        userVM.loginToken().observe(viewLifecycleOwner){
+            if(it != null){
+                prefVM.saveToken(it)
+                wishlistVM.postWishlist(it, depFlight.id)
+                progressAlertDialog.dismiss()
+            }
         }
     }
 
@@ -168,7 +203,39 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
         arrFlight = args.arrFlight
         Log.d(TAG, "getArgs: Flight ${args.depFlight}")
     }
-    
+
+    private fun callLoginDialog() {
+        DialogCaller(requireActivity())
+            .setTitle(R.string.login_dialog_title)
+            .setLoginButton(R.string.login_dialog_login_btn, object : DialogCaller.OnClickLoginListener{
+                override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
+                    if(email != null && password != null){
+                        userVM.callLoginUser(LoginData(email, password))
+                        dialog.dismiss()
+                        progressAlertDialog.show()
+                    }
+                }
+            })
+            .setGoogleButton(R.string.login_dialog_google_btn, object : DialogCaller.OnClickGoogleListener{
+                override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
+                    Log.d(TAG, "onClick Google: $email, $password")
+                    dialog.dismiss()
+                }
+            })
+            .create(layoutInflater, AlertButton.LOGIN)
+            .show()
+    }
+
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    }
+
+
     private fun setupToolbar(){
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
@@ -188,10 +255,44 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
         return when(menuItem.itemId){
             R.id.addWishlist ->{
                 Log.d(TAG, "onMenuItemSelected: Clicked")
-//                wishlistVM.getUserWishlist()
+                checkUserMember()
                 true
             }
             else -> false
+        }
+    }
+
+    private fun checkUserMember(){
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isNotEmpty()){
+                if(!Utils.isTokenExpired(it.token.toString())){
+                    progressAlertDialog.show()
+                    wishlistVM.postWishlist(it.token, depFlight.id)
+                }else{
+                    DialogCaller(requireActivity())
+                        .setTitle(R.string.token_expired_title)
+                        .setMessage(R.string.token_expired_subtitle)
+                        .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
+                            run{
+                                // handle data
+                                prefVM.clearToken()
+                                prefVM.clearRefreshToken()
+                                dialog.dismiss()
+                                callLoginDialog()
+                            }
+                        }
+                        .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
+                            run{
+                                dialog.dismiss()
+                            }
+                        }
+                        .create(layoutInflater, AlertButton.TOKEN)
+                        .show()
+                }
+            }else{
+                // unregistered user
+//                DialogCaller(requireActivity())
+            }
         }
     }
 }

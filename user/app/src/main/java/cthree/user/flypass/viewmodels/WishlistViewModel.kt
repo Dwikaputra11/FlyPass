@@ -19,22 +19,24 @@ private const val TAG = "WishlistViewModel"
 @HiltViewModel
 class WishlistViewModel @Inject constructor(private val apiService: ApiService): ViewModel() {
 
-    private val postWishlistResp    : MutableLiveData<WishlistResponse>     = MutableLiveData()
-    private val allWishlist         : MutableLiveData<WishList>             = MutableLiveData()
-    private val deleteWishlist      : MutableLiveData<DeleteWishlist>       = MutableLiveData()
+    private val postWishlistResp    : MutableLiveData<WishlistResponse?>     = MutableLiveData()
+    private val allWishlist         : MutableLiveData<WishList?>             = MutableLiveData()
+    private val deleteWishlist      : MutableLiveData<DeleteWishlist?>       = MutableLiveData()
 
-    fun postWishlistResponse()      : LiveData<WishlistResponse>    = postWishlistResp
-    fun getAllWishlist()            : LiveData<WishList>            = allWishlist
-    fun deleteWishlistResponse()    : LiveData<DeleteWishlist>      = deleteWishlist
+    fun postWishlistResponse()      : LiveData<WishlistResponse?>    = postWishlistResp
+    fun getAllWishlist()            : LiveData<WishList?>            = allWishlist
+    fun deleteWishlistResponse()    : LiveData<DeleteWishlist?>      = deleteWishlist
 
     fun postWishlist(token: String, idFlight: Int){
-        apiService.addWishlist(token, idFlight).enqueue(object : Callback<WishlistResponse>{
+        apiService.addWishlist("Bearer $token", idFlight).enqueue(object : Callback<WishlistResponse>{
             override fun onResponse(
                 call: Call<WishlistResponse>,
                 response: Response<WishlistResponse>
             ) {
                 if(response.isSuccessful){
                     postWishlistResp.postValue(response.body())
+                }else{
+                    postWishlistResp.postValue(null)
                 }
             }
 
@@ -45,10 +47,12 @@ class WishlistViewModel @Inject constructor(private val apiService: ApiService):
     }
 
     fun getUserWishlist(token: String){
-        apiService.getUserWishlist(token).enqueue(object : Callback<WishList>{
+        apiService.getUserWishlist("Bearer $token").enqueue(object : Callback<WishList>{
             override fun onResponse(call: Call<WishList>, response: Response<WishList>) {
                 if(response.isSuccessful){
                     allWishlist.postValue(response.body())
+                }else{
+                    allWishlist.postValue(null)
                 }
             }
 
@@ -59,13 +63,15 @@ class WishlistViewModel @Inject constructor(private val apiService: ApiService):
     }
 
     fun deleteWishlist(token: String, id: Int){
-        apiService.deleteWishlist(token, id).enqueue(object : Callback<DeleteWishlist>{
+        apiService.deleteWishlist("Bearer $token", id).enqueue(object : Callback<DeleteWishlist>{
             override fun onResponse(
                 call: Call<DeleteWishlist>,
                 response: Response<DeleteWishlist>
             ) {
                 if(response.isSuccessful){
                     deleteWishlist.postValue(response.body())
+                }else{
+                    deleteWishlist.postValue(null)
                 }
             }
 

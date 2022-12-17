@@ -354,7 +354,7 @@
                     android:id="@+id/tvHarga"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rp. 1.000.000"
+                    android:text="Rp 1.000.000"
                     android:textColor="#CD694A"
                     android:textStyle="bold"
                     android:textSize="14sp"

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">FlyPass</string>
     <string name="hello_blank_fragment">Hello Blank Fragment</string>
+    <string name="web_client_id">969352521893-enn7oi1nnsjm78fjpblqh7nq2ssp5knm.apps.googleusercontent.com</string>
     <string-array name="baggage_list">
         <item>20kg - Free</item>
         <item>20kg + 5kg - Rp 150.000</item>
@@ -47,6 +48,11 @@
     <string name="logout_confirm_subtitle">Pastikan sesuatu lorem ipsum dolor sit amet.</string>
     <string name="logout_confirm_btn_yes">Logout</string>
     <string name="logout_confirm_btn_no">Nanti Saja</string>
+
+    <!--    Wishlist -->
+    <string name="wishlist_add_title">Tiket Berhasil Tersimpan.</string>
+    <string name="wishlist_add_subtitle">Simpan tiket keinginanmu dan pesan kapan saja.</string>
+    <string name="wishlist_add_btn">Oke</string>
 
     <string name="currency">Rp </string>
     <string name="latest_transaction">Transaksi Terakhir</string>

@@ -1,14 +1,22 @@
 package cthree.user.flypass.ui.auth
 
+import android.content.Intent
+import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
@@ -25,6 +33,7 @@ import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "LoginFragment"
+private const val REQ_ONE_TAP = 100
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
@@ -35,9 +44,49 @@ class LoginFragment : Fragment() {
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
     private lateinit var fromDestination : TokenNav
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+
+    private val resolutionForResult = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { activityResult ->
+        run {
+            if(activityResult != null){
+                val credential = oneTapClient.getSignInCredentialFromIntent(activityResult.data)
+                val idToken = credential.googleIdToken
+                val username = credential.givenName
+                val password = credential.password
+                Log.d(TAG, "Got ID token -> $idToken")
+                Log.d(TAG, "Got password -> $password")
+                Log.d(TAG, "Got json -> $username")
+                when {
+                    idToken != null -> {
+                        // Got an ID token from Google. Use it to authenticate
+                        // with your backend.
+                        Log.d(TAG, "Got ID token -> $idToken")
+                    }
+                    password != null -> {
+                        // Got a saved username and password. Use them to authenticate
+                        // with your backend.
+                        Log.d(TAG, "Got password -> $password")
+                    }
+                    username != null ->{
+                        // Got a saved username and password. Use them to authenticate
+                        // with your backend.
+                        Log.d(TAG, "Got password -> $username")
+                    }
+                    else -> {
+                        // Shouldn't happen.
+                        Log.d(TAG, "No ID token or password!")
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        oneTapClient = Identity.getSignInClient(requireContext())
         sessionManager = SessionManager(requireContext())
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
     }
@@ -54,6 +103,7 @@ class LoginFragment : Fragment() {
         initProgressDialog()
         setBottomNav()
         getArgs()
+        configSignInGoogle()
 
         userVM.loginToken().observe(viewLifecycleOwner) {
             if(it != null){
@@ -120,9 +170,42 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.btnGoogle.setOnClickListener {
+            oneTapClient.beginSignIn(signInRequest)
+                .addOnCompleteListener(requireActivity()){ result ->
+                    try {
+                        Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
+                        val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
+                        resolutionForResult.launch(intentSenderRequest)
+                    }catch (e: IntentSender.SendIntentException) {
+                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                    }
+                }
+                .addOnFailureListener(requireActivity()) { e ->
+                    // No saved credentials found. Launch the One Tap sign-up flow, or
+                    // do nothing and continue presenting the signed-out UI.
+                    Log.d(TAG, e.localizedMessage)
+                }
+        }
+
         binding.tvtoRegister.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_registerFragment)
         }
+    }
+
+    private fun configSignInGoogle() {
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                .setSupported(true)
+                .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(requireContext().getString(R.string.web_client_id))
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            .setAutoSelectEnabled(true)
+            .build()
     }
 
     private fun getArgs(){

@@ -7,20 +7,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import cthree.user.flypass.data.Baggage
+import cthree.user.flypass.data.PassengerBaggage
 import cthree.user.flypass.databinding.BookingBaggageItemBinding
 
 private const val TAG = "BookingBaggageAdapter"
 class BookingBaggageAdapter(private val passengerAmount: Int): RecyclerView.Adapter<BookingBaggageAdapter.ViewHolder>() {
 
-    private lateinit var baggageList: List<String?>
+    private val baggageList: MutableList<PassengerBaggage> = mutableListOf()
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Baggage?>(){
-        override fun areItemsTheSame(oldItem: Baggage, newItem: Baggage): Boolean {
-            return oldItem.id == newItem.id
+    private val diffCallback = object : DiffUtil.ItemCallback<PassengerBaggage>(){
+        override fun areItemsTheSame(oldItem: PassengerBaggage, newItem: PassengerBaggage): Boolean {
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Baggage, newItem: Baggage): Boolean {
+        override fun areContentsTheSame(oldItem: PassengerBaggage, newItem: PassengerBaggage): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
@@ -38,16 +38,19 @@ class BookingBaggageAdapter(private val passengerAmount: Int): RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvTraveler.text = "Adult ${position + 1}"
         if(differ.currentList.isNotEmpty() && differ.currentList.size != holder.absoluteAdapterPosition){
-            holder.binding.baggageWeight.text = differ.currentList[position]?.weight.toString()
+            holder.binding.baggageWeight.text = differ.currentList[position].baggageList.first()
         }
+        baggageList.add(PassengerBaggage(mutableListOf(holder.binding.baggageWeight.toString())))
     }
+
+    fun getBaggageDefaultVal(): List<PassengerBaggage> = baggageList
 
     override fun getItemCount(): Int {
         return passengerAmount
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(list: List<Baggage?>){
+    fun submitList(list: List<PassengerBaggage>){
         Log.d(TAG, "submitList: $list")
         differ.submitList(null)
         notifyDataSetChanged()

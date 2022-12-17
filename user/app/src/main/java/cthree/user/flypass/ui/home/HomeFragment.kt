@@ -259,7 +259,14 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             recentAdapter.setOnItemClickListener(object : RecentSearchAdapter.SetOnItemClickListener{
                 override fun onItemClick(search: RecentSearch) {
-                    Log.d(TAG, "recentSearch: Clicked")
+                    Log.d(TAG, "search: $search")
+                    val directions = HomeFragmentDirections.actionHomeFragmentToTicketListFragment(
+                        search = search,
+                        arrDateTv = search.arriveDate,
+                        depDateTv = search.departDate,
+                        isRoundtrip = search.arriveDate != null
+                    )
+                    findNavController().navigate(directions)
                 }
             })
         }

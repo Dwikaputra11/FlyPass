@@ -11,6 +11,7 @@ import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.models.login.refreshtoken.RefreshToken
 import cthree.user.flypass.models.user.*
 import cthree.user.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,9 +43,10 @@ class UserViewModel @Inject constructor(
     private val updatePhotoProfile  : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
     private val updateProfile       : MutableLiveData<UpdateProfileResponse?>   = MutableLiveData()
     private val refreshToken        : MutableLiveData<String?>                  = MutableLiveData()
-    private val logoutUser          : MutableLiveData<Int?>                      = MutableLiveData()
+    private val logoutUser          : MutableLiveData<Int?>                     = MutableLiveData()
+    private val accessToken         : MutableLiveData<RefreshToken?>            = MutableLiveData()
 
-    fun getLoginToken()             : LiveData<String?>                 = tokenUser
+    fun loginToken()                : LiveData<String?>                 = tokenUser
     fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
     fun getRegisterErrorMessage()   : LiveData<String?>                 = registErrorMsg
     fun getUserProfile()            : LiveData<User?>                   = userProfile
@@ -53,6 +55,30 @@ class UserViewModel @Inject constructor(
     fun getUpdateProfile()          : LiveData<UpdateProfileResponse?>  = updateProfile
     fun getRefreshToken()           : LiveData<String?>                 = refreshToken
     fun getLogoutStatus()           : LiveData<Int?>                    = logoutUser
+    fun getAccessToken()            : LiveData<RefreshToken?>           = accessToken
+
+    fun refreshToken(token: String){
+        apiService.refreshToken("Bearer $token").enqueue(object : Callback<RefreshToken>{
+            override fun onResponse(call: Call<RefreshToken>, response: Response<RefreshToken>) {
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        accessToken.postValue(it)
+                    }
+                }else{
+                    accessToken.postValue(null)
+//                    val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
+//                    loginErrorMsg.postValue(jsonObject.getString("message"))
+//                    Log.d(TAG, "onResponse Call Login: ${jsonObject.getString("message")}")
+                }
+            }
+
+            override fun onFailure(call: Call<RefreshToken>, t: Throwable) {
+                accessToken.postValue(null)
+                Log.e(TAG, "onFailure Call Login: ${t.localizedMessage}")
+            }
+
+        })
+    }
 
     fun callLoginUser(loginData: LoginData){
         apiService.loginUser(loginData).enqueue(object : Callback<Login>{
@@ -61,8 +87,9 @@ class UserViewModel @Inject constructor(
                     response.body()?.let {
                         tokenUser.postValue(it.userLogin.accesstToken)
                         Log.d(TAG, "Cookies: ${response.headers()["Set-Cookie"]?.split(";")?.get(0)?.substringAfter("=")}")
+                        Log.d(TAG, "Cookies Value: ${response.headers().values("Set-Cookie")[0]}")
                     }
-                    refreshToken.postValue(response.headers()["Set-Cookie"]?.split(";")?.get(0)?.substringAfter("="))
+                    refreshToken.postValue(response.headers()["Set-Cookie"]?.split(";")?.get(0)?.substringAfter("=")?.trim())
                 }else{
                     tokenUser.postValue(null)
                     val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())

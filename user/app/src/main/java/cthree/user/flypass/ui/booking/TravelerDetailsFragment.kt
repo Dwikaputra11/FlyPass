@@ -1,19 +1,14 @@
 package cthree.user.flypass.ui.booking
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.RadioButton
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import cthree.user.flypass.R
-import cthree.user.flypass.data.Contact
+import cthree.user.flypass.data.PassengerBaggage
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.FragmentTravelerDetailsBinding
 import cthree.user.flypass.models.booking.request.Passenger
@@ -81,7 +76,7 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
                 val firstName           = binding.etFirstName.text.toString()
                 val docType             = view.findViewById<RadioButton>(binding.rgDocumentType.checkedRadioButtonId).text.toString()
                 val traveler            = Traveler(title, firstName, lastName, dateBirth, idCard)
-                val passenger           = Passenger(firstName, idCard, docType, lastName)
+                val passenger           = Passenger(mutableListOf(),firstName, idCard, docType, lastName)
 
                 listener.onClick(traveler, passenger)
                 dismiss()

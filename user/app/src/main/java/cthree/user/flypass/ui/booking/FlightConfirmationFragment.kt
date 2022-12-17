@@ -2,27 +2,34 @@ package cthree.user.flypass.ui.booking
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentFilghtConfirmationBinding
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.Utils
+import cthree.user.flypass.viewmodels.UserViewModel
+import cthree.user.flypass.viewmodels.WishlistViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "FlightConfirmationFragment"
 @AndroidEntryPoint
-class FlightConfirmationFragment : Fragment() {
+class FlightConfirmationFragment : Fragment(), MenuProvider{
 
     private lateinit var binding: FragmentFilghtConfirmationBinding
+    private val wishlistVM: WishlistViewModel by viewModels()
     private lateinit var depFlight: Flight
     private var arrFlight: Flight? = null
+    private val userVM: UserViewModel by viewModels()
+    private lateinit var userToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,9 @@ class FlightConfirmationFragment : Fragment() {
         setupToolbar()
         getArgs()
         setViews()
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.confirmLayout.btnConfirm.setOnClickListener {
             navigateToBooking()
@@ -145,6 +155,8 @@ class FlightConfirmationFragment : Fragment() {
 
     }
 
+
+
     private fun getArgs(){
         val bundle = arguments
         if(bundle == null){
@@ -165,6 +177,21 @@ class FlightConfirmationFragment : Fragment() {
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
+        }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.add_wishlist_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when(menuItem.itemId){
+            R.id.addWishlist ->{
+                Log.d(TAG, "onMenuItemSelected: Clicked")
+//                wishlistVM.getUserWishlist()
+                true
+            }
+            else -> false
         }
     }
 }

@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingAdapter
@@ -35,6 +37,7 @@ class HistoryFragment : Fragment() {
     private val bookingVM: BookingViewModel by viewModels()
     private val prefVM: PreferencesViewModel by viewModels()
     private val userVM: UserViewModel by viewModels()
+    private lateinit var userToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,18 +55,31 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
         progressAlertDialog.show()
+        userVM.getAccessToken().observe(viewLifecycleOwner){
+            // get new access token from refresh token
+            if(it != null){
+                userVM.saveToken(it.accessToken)
+                bookingVM.getUserBooking(it.accessToken)
+            }
+        }
+        userVM.loginToken().observe(viewLifecycleOwner){
+            if(it != null){
+                userVM.saveToken(it)
+                bookingVM.getUserBooking(it)
+            }
+        }
         prefVM.dataUser.observe(viewLifecycleOwner){
             if(it.token.isNotEmpty() && it.refreshToken.isNotEmpty()){
                 Log.d(TAG, "access token: ${it.token}")
                 Log.d(TAG, "refresh token: ${it.refreshToken}")
                 Log.d(TAG, "token status: ${Utils.isTokenExpired(it.token) && Utils.isTokenExpired(it.refreshToken)}")
-                if(Utils.isTokenExpired(it.token) && Utils.isTokenExpired(it.refreshToken)){
+                if(Utils.isTokenExpired(it.token)){
                     progressAlertDialog.dismiss()
                     showSessionExpiredDialog()
                 }else if(!Utils.isTokenExpired(it.token)){
                     bookingVM.getUserBooking(it.token)
                 }else{
-                    bookingVM.getUserBooking(it.refreshToken)
+                    userVM.refreshToken(it.refreshToken)
                 }
             }
         }
@@ -72,6 +88,8 @@ class HistoryFragment : Fragment() {
         binding.rvBookingHistory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         bookingVM.userBookingResponse().observe(viewLifecycleOwner){
             if(it != null){
+                binding.notFound.root.isVisible = false
+                binding.rvBookingHistory.isVisible = true
                 progressAlertDialog.dismiss()
                 adapter.submitList(it.booking)
             }
@@ -79,7 +97,7 @@ class HistoryFragment : Fragment() {
         adapter.setOnItemClickListener(object : BookingAdapter.OnItemClickListener{
             override fun onItemClick(booking: Booking) {
                 Log.d(TAG, "onItemClick: $booking")
-                findNavController().navigate(HistoryFragmentDirections.actionHistoryFragmentToHistorySummaryFragment(booking))
+                findNavController().navigate(MyBookingFragmentDirections.actionMyBookingFragmentToHistorySummaryFragment(booking))
             }
         })
     }

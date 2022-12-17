@@ -2,12 +2,13 @@ package cthree.user.flypass.api
 
 import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.airport.AirportList
+import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
-import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.models.login.refreshtoken.RefreshToken
 import cthree.user.flypass.models.user.*
 import cthree.user.flypass.models.wishlist.delete.DeleteWishlist
 import cthree.user.flypass.models.wishlist.get.WishList
@@ -48,8 +49,12 @@ interface ApiService {
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>
 
+    @GET("v1/refresh")
+    fun refreshToken(@Header("Authorization") token: String): Call<RefreshToken>
+
     @GET("v1/logout")
     fun logout(@Header("Authorization") token: String): Call<String>
+
     @PUT("v1/user")
     @Multipart
     fun updatePhotoProfile(
@@ -74,12 +79,12 @@ interface ApiService {
     @GET("v1/bookings")
     fun userBookings(@Header("Authorization") token :String): Call<BookingListResponse>
 
-    @POST("v1/whistlist/{idFlight}")
+    @POST("v1/wishlist/{idFlight}")
     fun addWishlist(@Header("Authorization") token: String, @Path("idFlight") id: Int): Call<WishlistResponse>
 
-    @GET("v1/whistlist")
+    @GET("v1/wishlist")
     fun getUserWishlist(@Header("Authorization") token: String): Call<WishList>
 
-    @DELETE("v1/whistlist/{id}")
+    @DELETE("v1/wishlist/{id}")
     fun deleteWishlist(@Header("Authorization") token: String, @Path("id") id: Int): Call<DeleteWishlist>
 }

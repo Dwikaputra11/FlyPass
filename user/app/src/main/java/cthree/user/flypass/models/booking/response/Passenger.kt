@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Passenger(
     @SerializedName("age")
-    val age: Int?,
+    val age: Any,
+    @SerializedName("baggage")
+    val baggage: List<Int>,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("firstName")

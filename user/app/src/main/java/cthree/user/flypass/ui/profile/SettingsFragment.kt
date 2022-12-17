@@ -51,15 +51,15 @@ class SettingsFragment : Fragment() {
         setupToolbar()
         setBottomNav()
         initProgressDialog()
-        userViewModel.getLogoutStatus().observe(viewLifecycleOwner){
-            if(it != null && it == 200){
-                Log.d(TAG, "logoutConfirmation: Observe")
-                progressAlertDialog.dismiss()
-                val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
-                findNavController().popBackStack()
-                bottomNav.selectedItemId = R.id.homeFragment
-            }
-        }
+//        userViewModel.getLogoutStatus().observe(viewLifecycleOwner){
+//            if(it != null && it == 200){
+//                Log.d(TAG, "logoutConfirmation: Observe")
+//                progressAlertDialog.dismiss()
+//                val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+//                findNavController().popBackStack()
+//                bottomNav.selectedItemId = R.id.homeFragment
+//            }
+//        }
         binding.cvAccountInfo.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_profileAccountInfoFragment)
         }
@@ -82,8 +82,11 @@ class SettingsFragment : Fragment() {
                         userViewModel.clearProfileData()
                         userViewModel.clearRefreshToken()
                         userViewModel.clearToken()
-                        userViewModel.logoutUser(sessionManager.getToken()!!)
-                        progressAlertDialog.show()
+                        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+                        findNavController().popBackStack()
+                        bottomNav.selectedItemId = R.id.homeFragment
+//                        userViewModel.logoutUser(sessionManager.getToken()!!)
+//                        progressAlertDialog.show()
                         dialog.dismiss()
                     }
                 }

@@ -2,15 +2,13 @@ package cthree.user.flypass.ui.booking
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
-import android.content.DialogInterface.OnClickListener
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.persistableBundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -20,8 +18,8 @@ import com.google.gson.Gson
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingBaggageAdapter
 import cthree.user.flypass.adapter.TravelerDetailsAdapter
-import cthree.user.flypass.data.Baggage
 import cthree.user.flypass.data.Contact
+import cthree.user.flypass.data.PassengerBaggage
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentBookingBinding
@@ -29,11 +27,9 @@ import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.request.Passenger
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.models.login.LoginData
-import cthree.user.flypass.ui.auth.LoginFragment
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
-import cthree.user.flypass.utils.TokenNav
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.BookingViewModel
 import cthree.user.flypass.viewmodels.PreferencesViewModel
@@ -58,8 +54,8 @@ class BookingFragment : Fragment() {
     private val userVM                              : UserViewModel by viewModels()
     private lateinit var contactData                : Contact
     private val travelerList        = arrayListOf<Traveler>()
-    private val passengerList       = arrayListOf<Passenger>()
-    private val baggagePassList     = mutableListOf<Baggage?>()
+    private var passengerList       = mutableListOf<Passenger>()
+    private val baggagePassList     = mutableListOf<PassengerBaggage>()
     private var travelerItemPos     = 0
     private var passengerAmount     = 0
     private var isEdit              = false
@@ -90,7 +86,13 @@ class BookingFragment : Fragment() {
         setFlightInfo()
         initProgressDialog()
 
-        userVM.getLoginToken().observe(viewLifecycleOwner){
+        userVM.getRefreshToken().observe(viewLifecycleOwner){
+            if(it != null){
+                prefViewModel.saveRefreshToken(it)
+            }
+        }
+
+        userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
                 sessionManager.setToken(it)
@@ -103,16 +105,24 @@ class BookingFragment : Fragment() {
             }
         }
 
+        userVM.getAccessToken().observe(viewLifecycleOwner){
+            // get new access token from refresh token
+            if(it != null){
+                prefViewModel.saveToken(it.accessToken)
+                userToken = it.accessToken
+            }
+        }
+
         prefViewModel.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isNotEmpty() && it.refreshToken.isNotEmpty()){
-                userToken = if(Utils.isTokenExpired(it.token) && Utils.isTokenExpired(it.refreshToken)){
-                    null
+            if(it.token.isNotEmpty()){
+                if(Utils.isTokenExpired(it.token)){
+                    userToken = null
                 }else if(!Utils.isTokenExpired(it.token)){
                     Log.d(TAG, "From Access Token")
-                    it.token
+                    userToken = it.token
                 }else{
                     Log.d(TAG, "From Refresh Token")
-                    it.refreshToken
+                    userVM.refreshToken(it.refreshToken)
                 }
                 Log.d(TAG, "User Token: $userToken")
             }
@@ -121,23 +131,29 @@ class BookingFragment : Fragment() {
         // test token expired
 //        userToken = if(Utils.isTokenExpired(token)) null else ""
 
-        bookingViewModel.getBookingResp().observe(viewLifecycleOwner){
+        bookingViewModel.bookingResp.observe(viewLifecycleOwner){
             if(it != null){
                 Log.d(TAG, "onViewCreated: Booking Success")
                 val directions = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(
                     depFlight = depFlight,
                     arrFlight = arrFlight,
-                    flyPassCode = it.bookingDetail.bookingCode,
+                    flyPassCode = it.booking.bookingCode,
                     contactData = contactData,
                     passengerList = travelerList.toTypedArray()
                 )
                 findNavController().navigate(directions)
+                // to make booking resp not navigate to payment again when payment click back button to pop backstack
+                bookingViewModel.bookingResp.postValue(null)
             }
         }
 
         binding.confirmLayout.btnConfirm.setOnClickListener {
+            Log.d(TAG, "Button clicked: ")
             if(isValid()){
                 val arrFlightId = if(arrFlight != null) arrFlight!!.id.toString() else null
+                for(i in 0 until passengerAmount){
+                    passengerList[i].baggage = baggagePassList[i].baggageList
+                }
                 val booking = BookingRequest(
                     contactEmail = binding.tvEmail.text.toString(),
                     contactFirstName = contactData.firstName,
@@ -318,9 +334,10 @@ class BookingFragment : Fragment() {
         binding.btnAddBaggage.setOnClickListener {
             baggageFragment.show(requireActivity().supportFragmentManager, baggageFragment.tag)
         }
+        baggagePassList.addAll(bookingBaggageAdapter.getBaggageDefaultVal())
         bookingBaggageAdapter.submitList(emptyList())
         baggageFragment.setOnClickListener(object : BaggageFragment.OnClickListener{
-            override fun onClick(baggageList: List<Baggage?>) {
+            override fun onClick(baggageList: List<PassengerBaggage>) {
                 baggagePassList.addAll(baggageList)
                 bookingBaggageAdapter.submitList(baggageList)
             }

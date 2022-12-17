@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.MyBookingPageAdapter
@@ -27,6 +29,7 @@ class MyBookingFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setBottomNav()
         val adapter = MyBookingPageAdapter(requireActivity())
         adapter.addFragment(SearchFragment(), "Search")
         adapter.addFragment(HistoryFragment(), "History")
@@ -39,5 +42,9 @@ class MyBookingFragment : Fragment() {
         }.attach()
 
         binding.toolbarLayout.toolbar.elevation = 0F
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = true
     }
 }

@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
-import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentLoginBinding
 import cthree.user.flypass.models.login.LoginData
@@ -56,7 +55,7 @@ class LoginFragment : Fragment() {
         setBottomNav()
         getArgs()
 
-        userVM.getLoginToken().observe(viewLifecycleOwner) {
+        userVM.loginToken().observe(viewLifecycleOwner) {
             if(it != null){
                 Log.d(TAG, "Access Token: $it")
                 progressAlertDialog.dismiss()

@@ -205,18 +205,18 @@ object DummyData {
     )
     val frequentSearch = listOf(
         Airport(
-            city = "Icy Bay",
-            country = "US",
-            iata = "ICY",
+            city = "Jakarta",
+            country = "ID",
+            iata = "CGK",
             id = 1,
-            name = "Icy Bay Airport"
+            name = "Soekarno-Hatta International Airport"
         ),
         Airport(
-            city = "Hogatza",
-            country = "US",
-            iata = "HGZ",
+            city = "Denpasar-Bali Island",
+            country = "ID",
+            iata = "DPS",
             id = 1,
-            name = "Hog River Airport"
+            name = "Ngurah Rai (Bali) International Airport"
         ),
         Airport(
             city = "Yogyakarta",

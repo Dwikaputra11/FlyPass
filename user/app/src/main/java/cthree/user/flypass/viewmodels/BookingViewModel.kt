@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cthree.user.flypass.api.ApiService
+import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
-import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,10 +19,10 @@ private const val TAG = "BookingViewModel"
 @HiltViewModel
 class BookingViewModel @Inject constructor(private val apiService: ApiService): ViewModel(){
 
-    private val bookingResp: MutableLiveData<BookingResponse?>              = MutableLiveData()
-    private val searchBooking: MutableLiveData<BookingListResponse?>        = MutableLiveData()
-    private val errorSearchBookMsg: MutableLiveData<String?>                = MutableLiveData()
-    private val userBooking: MutableLiveData<BookingListResponse?>          = MutableLiveData()
+    val bookingResp: MutableLiveData<BookingResponse?>                  = MutableLiveData()
+    private val searchBooking: MutableLiveData<BookingListResponse?>    = MutableLiveData()
+    private val errorSearchBookMsg: MutableLiveData<String?>            = MutableLiveData()
+    private val userBooking: MutableLiveData<BookingListResponse?>      = MutableLiveData()
 
     fun getBookingResp(): LiveData<BookingResponse?> = bookingResp
     fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking

@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class BookingStatus(
+data class FlightType(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
     val name: String
-): Parcelable
+) : Parcelable

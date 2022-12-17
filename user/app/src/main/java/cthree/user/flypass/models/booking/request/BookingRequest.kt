@@ -19,7 +19,5 @@ data class BookingRequest(
     @SerializedName("flight2Id")
     val flight2Id: String?,
     @SerializedName("passenger")
-    val passenger: List<Passenger>,
-//    @SerializedName("userId")
-//    val userId: Int?
+    val passenger: List<Passenger>
 )

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import cthree.user.flypass.adapter.AddBaggageAdapter
-import cthree.user.flypass.data.Baggage
+import cthree.user.flypass.data.PassengerBaggage
 import cthree.user.flypass.databinding.FragmentBaggageBinding
 import cthree.user.flypass.utils.SessionManager
 
@@ -18,7 +18,7 @@ class BaggageFragment : BottomSheetDialogFragment() {
     private lateinit var sessionManager: SessionManager
 
     interface OnClickListener{
-        fun onClick(baggageList: List<Baggage?>)
+        fun onClick(baggageList: List<PassengerBaggage>)
     }
 
     fun setOnClickListener(listener: OnClickListener){

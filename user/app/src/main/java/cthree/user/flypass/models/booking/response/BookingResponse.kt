@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class BookingResponse(
     @SerializedName("booking")
-    val bookingDetail: BookingDetail,
+    val booking: Booking,
     @SerializedName("passenger")
     val passenger: List<Passenger>,
     @SerializedName("passengerBooking")

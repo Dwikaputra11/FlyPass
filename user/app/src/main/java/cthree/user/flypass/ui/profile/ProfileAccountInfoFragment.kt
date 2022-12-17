@@ -19,6 +19,8 @@ import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.databinding.FragmentProfileAccountInfoBinding
 import cthree.user.flypass.models.user.Profile
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +41,7 @@ class ProfileAccountInfoFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private var roleId: Int = 0
     private var userId: Int = 0
+    private lateinit var userToken: String
     private val cal: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +78,7 @@ class ProfileAccountInfoFragment : Fragment() {
                 binding.etPhone.setText(it.phone)
                 userId = it.id
                 roleId = it.roleId
+                userToken = it.refreshToken
                 if(it.gender == "Male") binding.rgGender.check(R.id.rbMale) else binding.rgGender.check(R.id.rbFemale)
                 binding.etBirthDate.setText(it.birthDate)
             }
@@ -116,7 +120,16 @@ class ProfileAccountInfoFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
             if(isValid()){
-                updateProfileDialog()
+                DialogCaller(requireActivity())
+                    .setTitle("Update Berhasil!")
+                    ?.setMessage("Profile anda telah berhasil di update!")
+                    ?.setPrimaryButton(R.string.confirm_one_btn_dialog){ dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    ?.create(layoutInflater, AlertButton.ONE)
+                    ?.show()
             }
         }
     }
@@ -180,7 +193,7 @@ class ProfileAccountInfoFragment : Fragment() {
                 birthDate = binding.etBirthDate.text.toString(),
                 gender = gender.toString(),
             )
-            sessionManager.getToken()?.let { token -> userViewModel.updateProfile(token, profile) }
+            userViewModel.updateProfile(userToken, profile)
             materAlertDialog.dismiss()
         }
         alertDialogBinding.tvNo.setOnClickListener {

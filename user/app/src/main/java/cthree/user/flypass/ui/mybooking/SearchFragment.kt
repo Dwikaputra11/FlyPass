@@ -10,13 +10,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingAdapter
 import cthree.user.flypass.databinding.FragmentSearchBinding
 import cthree.user.flypass.models.booking.bookings.Booking
-import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.BookingViewModel
-import cthree.user.flypass.viewmodels.FlightViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "SearchFragment"

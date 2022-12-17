@@ -19,6 +19,7 @@ import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.databinding.FragmentTicketRoundTripListBinding
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.Constants
+import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.FlightViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,7 +67,7 @@ class TicketRoundTripListFragment : Fragment() {
         }
         val args = TicketRoundTripListFragmentArgs.fromBundle(bundle)
         search          = args.search
-        arrDateTv       = args.arrDateTv
+        arrDateTv       = Utils.convertDateSearch(args.arrDateTv)
         depFlight       = args.depFlight
     }
 
@@ -74,6 +75,11 @@ class TicketRoundTripListFragment : Fragment() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbarLayout.tvDate.text = arrDateTv
+        binding.toolbarLayout.tvFrom.text = search.departCity
+        binding.toolbarLayout.tvTo.text = search.arriveCity
+        binding.toolbarLayout.tvPassengger.text = search.passengerAmount.toString()
+        binding.toolbarLayout.tvSeatClass.text = search.seatClass
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()

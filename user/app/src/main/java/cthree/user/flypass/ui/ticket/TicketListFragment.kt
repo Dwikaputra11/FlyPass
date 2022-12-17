@@ -68,9 +68,9 @@ class TicketListFragment : Fragment() {
         val args = TicketListFragmentArgs.fromBundle(bundle)
         search          = args.search
         isRoundTrip     = args.isRoundtrip
-        depDateTv       = args.depDateTv // for text in toolbar
+        depDateTv       = Utils.convertDateSearch(search.departDate) // for text in toolbar
         // below will be pass to ticket round list
-        arrDateTv       = args.arrDateTv
+        arrDateTv       = search.arriveDate
     }
 
     private fun setToolbar(){
@@ -80,7 +80,7 @@ class TicketListFragment : Fragment() {
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
 
         // set text base on input user
-        binding.toolbarLayout.tvDate.text = Utils.convertDateToDay(depDateTv)
+        binding.toolbarLayout.tvDate.text = depDateTv
         binding.toolbarLayout.tvFrom.text = search.departCity
         binding.toolbarLayout.tvTo.text = search.arriveCity
         binding.toolbarLayout.tvPassengger.text = search.passengerAmount.toString()

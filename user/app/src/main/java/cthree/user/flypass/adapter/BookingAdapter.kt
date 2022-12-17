@@ -2,15 +2,11 @@ package cthree.user.flypass.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import cthree.user.flypass.R
 import cthree.user.flypass.databinding.HistoryBookingItemBinding
 import cthree.user.flypass.models.booking.bookings.Booking
-import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.utils.Utils
 
 class BookingAdapter: RecyclerView.Adapter<BookingAdapter.ViewHolder>() {
@@ -52,9 +48,9 @@ class BookingAdapter: RecyclerView.Adapter<BookingAdapter.ViewHolder>() {
         val booking = differ.currentList[position]
         holder.binding.apply {
             tvBookingCode.text = booking.bookingCode
-            tvDuration.text = Utils.formattedTime(booking.flightBook.duration)
-            tvArriveTime.text = Utils.formattedTime(booking.flightBook.arrivalTime)
-            tvDepartTime.text = Utils.formattedTime(booking.flightBook.departureTime)
+            tvDuration.text = Utils.formattedTime(booking.depFlight.duration)
+            tvArriveTime.text = Utils.formattedTime(booking.depFlight.arrivalTime)
+            tvDepartTime.text = Utils.formattedTime(booking.depFlight.departureTime)
             tvTicketPrice.text = Utils.formattedMoney(booking.totalPrice)
             tvSeatClass.text = "Economy"
             tvAirplaneName.text = "Garuda Indonesia"

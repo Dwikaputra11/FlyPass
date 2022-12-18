@@ -1,0 +1,516 @@
+Index: app/src/main/res/layout/row_notification.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<com.google.android.material.card.MaterialCardView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_marginHorizontal=\"24dp\"\r\n    android:layout_marginVertical=\"10dp\"\r\n    app:cardElevation=\"5dp\"\r\n    app:cardCornerRadius=\"10dp\">\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\">\r\n        <ImageView\r\n            android:id=\"@+id/iv_next\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"16dp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            android:src=\"@drawable/ic_baseline_navigate_next_24\"\r\n            app:tint=\"#DDDDDD\" />\r\n        <LinearLayout\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintEnd_toStartOf=\"@id/iv_next\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            android:orientation=\"vertical\"\r\n            android:padding=\"15dp\">\r\n            <TextView\r\n                android:id=\"@+id/tv_title\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                tools:text=\"Menangkan ratusan juta\"\r\n                android:textColor=\"@color/black\"\r\n                android:textStyle=\"bold\"\r\n                android:textSize=\"12sp\"/>\r\n            <TextView\r\n                android:id=\"@+id/tv_desc\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                tools:text=\"@tools:sample/lorem/random\"\r\n                android:textColor=\"#858585\"\r\n                android:textSize=\"10sp\"\r\n                android:maxLines=\"1\"\r\n                android:ellipsize=\"end\"/>\r\n        </LinearLayout>\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</com.google.android.material.card.MaterialCardView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/row_notification.xml b/app/src/main/res/layout/row_notification.xml
+--- a/app/src/main/res/layout/row_notification.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/app/src/main/res/layout/row_notification.xml	(date 1671181826000)
+@@ -14,7 +14,7 @@
+         <ImageView
+             android:id="@+id/iv_next"
+             android:layout_width="wrap_content"
+-            android:layout_height="16dp"
++            android:layout_height="24dp"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
+Index: app/src/main/res/layout/fragment_refund.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<FrameLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".ui.mybooking.RefundFragment\">\r\n\r\n    <!-- TODO: Update blank fragment layout -->\r\n    <TextView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:text=\"@string/hello_blank_fragment\" />\r\n\r\n</FrameLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_refund.xml b/app/src/main/res/layout/fragment_refund.xml
+--- a/app/src/main/res/layout/fragment_refund.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/app/src/main/res/layout/fragment_refund.xml	(date 1671363232332)
+@@ -1,14 +1,115 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context=".ui.mybooking.RefundFragment">
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:orientation="vertical"
++    android:background="@color/screen_background"
++    tools:context=".ui.booking.PaymentFragment">
+ 
+-    <!-- TODO: Update blank fragment layout -->
+-    <TextView
+-        android:layout_width="match_parent"
+-        android:layout_height="match_parent"
+-        android:text="@string/hello_blank_fragment" />
++    <include
++        android:id="@+id/toolbarLayout"
++        layout="@layout/toolbar_general"/>
++
++    <ScrollView
++        android:layout_marginTop="?actionBarSize"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content">
++        <LinearLayout
++            android:orientation="vertical"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content">
++            <RelativeLayout
++                android:layout_marginVertical="20dp"
++                android:paddingVertical="10dp"
++                android:paddingHorizontal="5dp"
++                android:background="@color/white"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content">
++                <TextView
++                    android:textColor="@color/smokey_900"
++                    android:paddingHorizontal="10dp"
++                    android:text="FlyPass Code"
++                    android:textStyle="bold"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"/>
++                <TextView
++                    android:id="@+id/tvFlypassCode"
++                    android:textColor="@color/smokey_500"
++                    android:paddingHorizontal="10dp"
++                    android:text="9309837"
++                    android:textStyle="bold"
++                    android:layout_alignParentEnd="true"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"/>
++            </RelativeLayout>
++
++            <include
++                android:id="@+id/flightDetails"
++                layout="@layout/flight_details"/>
++            <include
++                android:visibility="gone"
++                android:id="@+id/flightShowDetails"
++                layout="@layout/flight_show_details"/>
++            <include
++                android:visibility="gone"
++                android:id="@+id/roundFlightDetails"
++                layout="@layout/flight_details"/>
++            <include
++                android:visibility="gone"
++                android:id="@+id/roundFlightShowDetails"
++                layout="@layout/flight_show_details"/>
++
++            <TextView
++                android:text="Passenger"
++                android:textStyle="bold"
++                android:padding="10dp"
++                android:textSize="16sp"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"/>
++            <androidx.recyclerview.widget.RecyclerView
++                android:id="@+id/rvPassenger"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"/>
++            <TextView
++                android:text="Contact Details"
++                android:textStyle="bold"
++                android:padding="10dp"
++                android:textSize="16sp"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"/>
++            <include
++                android:id="@+id/contactDetails"
++                layout="@layout/filled_contact_details"/>
++
++            <TextView
++                android:text="Payment"
++                android:textStyle="bold"
++                android:padding="10dp"
++                android:textSize="16sp"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"/>
++
++            <include
++                android:id="@+id/paymentDetails"
++                layout="@layout/payment_details"/>
++
+ 
+-</FrameLayout>
+\ No newline at end of file
++
++            <com.google.android.material.button.MaterialButton
++                android:id="@+id/btnPayment"
++                android:text="Payment"
++                android:textColor="@color/white"
++                android:layout_marginVertical="20dp"
++                android:layout_marginHorizontal="30dp"
++                android:background="@drawable/radius_10dp"
++                android:textSize="16sp"
++                android:textAllCaps="false"
++                app:elevation="4dp"
++                android:drawablePadding="10dp"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"/>
++        </LinearLayout>
++    </ScrollView>
++</androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"11\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/.idea/gradle.xml	(date 1670847883464)
+@@ -1,5 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+Index: app/src/main/res/layout/flight_details.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_marginTop=\"10dp\"\r\n    android:background=\"@color/white\"\r\n    android:paddingBottom=\"20dp\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvDepartTime\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"5dp\"\r\n        android:text=\"17:30\"\r\n        android:textColor=\"@color/black\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/verticalLine\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/dotOne\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/dotOne\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvArriveTime\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginEnd=\"8dp\"\r\n        android:text=\"17:30\"\r\n        android:textColor=\"@color/black\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/dotTwo\"\r\n        app:layout_constraintEnd_toStartOf=\"@+id/dotTwo\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/verticalLine\" />\r\n\r\n    <View\r\n        android:id=\"@+id/dotOne\"\r\n        android:layout_width=\"10dp\"\r\n        android:layout_height=\"10dp\"\r\n        android:background=\"@drawable/circle_shape\"\r\n        android:backgroundTint=\"@color/black\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/verticalLine\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/verticalLine\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/verticalLine\" />\r\n\r\n    <View\r\n        android:id=\"@+id/dotTwo\"\r\n        android:layout_width=\"10dp\"\r\n        android:layout_height=\"10dp\"\r\n        android:background=\"@drawable/circle_shape\"\r\n        android:backgroundTint=\"@color/black\"\r\n        app:layout_constraintEnd_toEndOf=\"@+id/verticalLine\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/verticalLine\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/verticalLine\" />\r\n\r\n    <View\r\n        android:id=\"@+id/verticalLine\"\r\n        android:layout_width=\"1dp\"\r\n        android:layout_height=\"200dp\"\r\n        android:layout_marginStart=\"64dp\"\r\n        android:background=\"@color/black\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvDepartCity\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:text=\"Jakarta\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/verticalLine\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/dotOne\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/dotOne\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/iataDepartAirport\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"5dp\"\r\n        android:text=\"(CGK)\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/tvDepartCity\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/tvDepartCity\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/tvDepartCity\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvArriveCity\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:text=\"Jakarta\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/dotTwo\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/dotTwo\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/verticalLine\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/iataArriveAirport\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"5dp\"\r\n        android:text=\"(CGK)\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"16sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/tvArriveCity\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/tvArriveCity\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/tvArriveCity\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvDepartAirportName\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Soekarno-Hatta International Airport\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"12dp\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/tvDepartCity\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvDepartCity\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvDepartDate\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Sun, 12 Nov 2022\"\r\n        android:textSize=\"12sp\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/tvDepartAirportName\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvDepartAirportName\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvArrivalAirportName\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Soekarno-Hatta International Airport\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"12dp\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/tvArriveCity\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvArriveCity\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvArrivalDate\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Sun, 12 Nov 2022\"\r\n        android:textSize=\"12sp\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/tvArrivalAirportName\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvArrivalAirportName\" />\r\n\r\n    <ImageView\r\n        android:id=\"@+id/airplaneLogo\"\r\n        android:layout_width=\"30dp\"\r\n        android:layout_height=\"20dp\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:src=\"@drawable/ic_launcher_background\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/tvArriveCity\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/verticalLine\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvDepartDate\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvAirplaneName\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"16dp\"\r\n        android:text=\"Garuda Indonesia\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"10sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/airplaneLogo\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/airplaneLogo\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/airplaneLogo\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tvFlightCode\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"GIA-4643\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"10dp\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/tvAirplaneName\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvAirplaneName\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/seatClass\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginStart=\"5dp\"\r\n        android:text=\"Economy\"\r\n        android:textColor=\"@color/black\"\r\n        android:textSize=\"10dp\"\r\n        app:layout_constraintBottom_toBottomOf=\"@+id/tvFlightCode\"\r\n        app:layout_constraintStart_toEndOf=\"@+id/tvFlightCode\"\r\n        app:layout_constraintTop_toTopOf=\"@+id/tvFlightCode\" />\r\n\r\n    <com.google.android.material.checkbox.MaterialCheckBox\r\n        android:id=\"@+id/cbShowMore\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"16dp\"\r\n        android:button=\"@drawable/show_more_arrow_state\"\r\n        android:buttonTint=\"@color/color_primary\"\r\n        android:layoutDirection=\"rtl\"\r\n        android:text=\"Show More\"\r\n        android:textColor=\"@color/color_primary\"\r\n        android:textSize=\"12sp\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"@+id/tvArriveCity\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/tvArrivalDate\" />\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/flight_details.xml b/app/src/main/res/layout/flight_details.xml
+--- a/app/src/main/res/layout/flight_details.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/app/src/main/res/layout/flight_details.xml	(date 1670850169030)
+@@ -195,7 +195,7 @@
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="16dp"
+-        android:button="@drawable/show_more_arrow_state"
++
+         android:buttonTint="@color/color_primary"
+         android:layoutDirection="rtl"
+         android:text="Show More"
+Index: app/src/main/res/layout/fragment_filght_confirmation.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@color/screen_background\"\r\n    tools:context=\".ui.booking.FlightConfirmationFragment\">\r\n\r\n    <include\r\n        android:id=\"@+id/toolbarLayout\"\r\n        layout=\"@layout/toolbar_general\"/>\r\n\r\n    <ScrollView\r\n        android:layout_below=\"@id/toolbarLayout\"\r\n        android:layout_above=\"@id/confirmLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\">\r\n        <LinearLayout\r\n            android:orientation=\"vertical\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\">\r\n\r\n            <RelativeLayout\r\n                android:layout_marginVertical=\"8dp\"\r\n                android:layout_marginHorizontal=\"20dp\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\">\r\n                <TextView\r\n                    style=\"@style/boldGreyText\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Departure Flight\" />\r\n                <TextView\r\n                    android:id=\"@+id/tvChange\"\r\n                    android:textColor=\"@color/color_primary\"\r\n                    android:textStyle=\"bold\"\r\n                    android:layout_alignParentEnd=\"true\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Change\" />\r\n            </RelativeLayout>\r\n\r\n            <include\r\n                android:id=\"@+id/flightDesc\"\r\n                layout=\"@layout/flight_small_desc\"/>\r\n            <include\r\n                android:id=\"@+id/flightDetails\"\r\n                layout=\"@layout/flight_details\"/>\r\n            <include\r\n                android:visibility=\"gone\"\r\n                android:layout_marginBottom=\"20dp\"\r\n                android:id=\"@+id/flightShowDetails\"\r\n                layout=\"@layout/flight_show_details\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"/>\r\n\r\n            <RelativeLayout\r\n                android:id=\"@+id/rvArriveTitle\"\r\n                android:visibility=\"gone\"\r\n                android:layout_marginVertical=\"8dp\"\r\n                android:layout_marginHorizontal=\"20dp\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\">\r\n                <TextView\r\n                    style=\"@style/boldGreyText\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Arrival Flight\" />\r\n                <TextView\r\n                    android:id=\"@+id/tvChangeRoundTrip\"\r\n                    android:textColor=\"@color/color_primary\"\r\n                    android:textStyle=\"bold\"\r\n                    android:layout_alignParentEnd=\"true\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Change\" />\r\n            </RelativeLayout>\r\n            <include\r\n                android:visibility=\"gone\"\r\n                android:id=\"@+id/roundFlightDesc\"\r\n                layout=\"@layout/flight_small_desc\"/>\r\n            <include\r\n                android:visibility=\"gone\"\r\n                android:id=\"@+id/roundFlightDetails\"\r\n                layout=\"@layout/flight_details\"/>\r\n            <include\r\n                android:visibility=\"gone\"\r\n                android:id=\"@+id/roundFlightShowDetails\"\r\n                layout=\"@layout/flight_show_details\"/>\r\n        </LinearLayout>\r\n    </ScrollView>\r\n\r\n    <include\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:id=\"@+id/confirmLayout\"\r\n        layout=\"@layout/confirm_ticket\"/>\r\n\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_filght_confirmation.xml b/app/src/main/res/layout/fragment_filght_confirmation.xml
+--- a/app/src/main/res/layout/fragment_filght_confirmation.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/app/src/main/res/layout/fragment_filght_confirmation.xml	(date 1670850390041)
+@@ -12,7 +12,6 @@
+ 
+     <ScrollView
+         android:layout_below="@id/toolbarLayout"
+-        android:layout_above="@id/confirmLayout"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <LinearLayout
+@@ -90,12 +89,12 @@
+         </LinearLayout>
+     </ScrollView>
+ 
+-    <include
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:layout_alignParentBottom="true"
+-        android:id="@+id/confirmLayout"
+-        layout="@layout/confirm_ticket"/>
++<!--    <include-->
++<!--        android:layout_width="match_parent"-->
++<!--        android:layout_height="wrap_content"-->
++<!--        android:layout_alignParentBottom="true"-->
++<!--        android:id="@+id/confirmLayout"-->
++<!--        layout="@layout/confirm_ticket"/>-->
+ 
+ 
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <color name=\"color_primary\">#007AFF</color>\r\n    <color name=\"secondary_primary\">#47B5FF</color>\r\n    <color name=\"color_on_primary\">#FFFFFF</color>\r\n\r\n    <color name=\"text_grey_title\">#858585</color>\r\n    <color name=\"text_grey_desc\">#A8A8A8</color>\r\n    <color name=\"green_button\">#57C24E</color>\r\n    <color name=\"red_button\">#E31313</color>\r\n    <color name=\"screen_background\">#EFEFEF</color>\r\n    <color name=\"black\">#FF000000</color>\r\n    <color name=\"white\">#FFFFFFFF</color>\r\n    <color name=\"transparent\">#00FFFFFF</color>\r\n\r\n    <color name=\"purple_200\">#FFBB86FC</color>\r\n    <color name=\"purple_500\">#FF6200EE</color>\r\n    <color name=\"purple_700\">#FF3700B3</color>\r\n    <color name=\"teal_200\">#FF03DAC5</color>\r\n    <color name=\"teal_700\">#FF018786</color>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+--- a/app/src/main/res/values/colors.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/app/src/main/res/values/colors.xml	(date 1670849935978)
+@@ -6,13 +6,25 @@
+ 
+     <color name="text_grey_title">#858585</color>
+     <color name="text_grey_desc">#A8A8A8</color>
+-    <color name="green_button">#57C24E</color>
+-    <color name="red_button">#E31313</color>
++    <color name="green_500">#57C24E</color>
++    <color name="red_500">#E31313</color>
+     <color name="screen_background">#EFEFEF</color>
+     <color name="black">#FF000000</color>
+     <color name="white">#FFFFFFFF</color>
+     <color name="transparent">#00FFFFFF</color>
+ 
++    <color name="sky_200">#48A5FF</color>
++    <color name="sky_500">#30A8FF</color>
++    <color name="sky_700">#47B5FF</color>
++    <color name="sky_900">#0076CB</color>
++    <color name="smokey_100">#F4F4F4</color>
++    <color name="smokey_200">#F1F3FF</color>
++    <color name="smokey_300">#DADCE3</color>
++    <color name="smokey_500">#ACACAC</color>
++    <color name="smokey_700">#858585</color>
++    <color name="smokey_900">#676666</color>
++    <color name="smokey_1000">#545454</color>
++
+     <color name="purple_200">#FFBB86FC</color>
+     <color name="purple_500">#FF6200EE</color>
+     <color name="purple_700">#FF3700B3</color>
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">FlyPass</string>\r\n    <string name=\"hello_blank_fragment\">Hello Blank Fragment</string>\r\n    <string-array name=\"baggage_list\">\r\n        <item>20kg - Free</item>\r\n        <item>20kg + 5kg - Rp 150.000</item>\r\n        <item>20kg + 10kg - Rp 250.000</item>\r\n        <item>20kg + 20kg - Rp 300.000</item>\r\n    </string-array>\r\n    <string name=\"title_on_boarding_1\">\"Anytime &amp; Anywhere\"</string>\r\n\r\n    <string name=\"default_time_format\" translatable=\"false\">yyyy-MM-dd\\'T\\'HH:mm:ss.SSS\\'Z\\'</string>\r\n    <string name=\"date_format\" translatable=\"false\">MMM d, yyyy</string>\r\n    <string name=\"time_format\" translatable=\"false\">HH:mm a</string>\r\n\r\n    <!--    Login   -->\r\n    <string name=\"wrong_password_title\">Password Anda Salah!</string>\r\n    <string name=\"wrong_password_subtitle\">Silahkan masukkan password yang benar.</string>\r\n    <string name=\"wrong_email_title\">Email Anda Salah!</string>\r\n    <string name=\"wrong_email_subtitle\">Silahkan masukkan email yang benar.</string>\r\n    <string name=\"confirm_one_btn_dialog\">OK, I got it!</string>\r\n\r\n    <!--   Register -->\r\n    <string name=\"empty_field_title\">Input Kosong!</string>\r\n    <string name=\"empty_field_subtitle\">Pastikan input tidak kosong.</string>\r\n    <string name=\"conf_password_not_match_title\">Konfirmasi Password Salah!</string>\r\n    <string name=\"conf_password_not_match_subtitle\">Masukkan konfirmasi password sesuai dengan password.</string>\r\n    <string name=\"email_already_exist_title\">Email sudah pernah terdaftar!</string>\r\n    <string name=\"email_already_exist_subtitle\">Silahkan gunakan email yang lain.</string>\r\n    <string name=\"register_success_title\">Register Berhasil!</string>\r\n    <string name=\"register_success_subtitle\">Silahkan login terlebih dahulu.</string>\r\n    <string name=\"register_success_btn\">Login</string>\r\n\r\n    <!--   Token Expired -->\r\n    <string name=\"token_expired_title\">Login Terlebih Dahulu!</string>\r\n    <string name=\"token_expired_subtitle\">Sesi saat ini sudah berakhir. Silahkan lanjutkan proses login terlebih dahulu.</string>\r\n    <string name=\"token_expired_login\">Login</string>\r\n    <string name=\"token_expired_register\">Register</string>\r\n    <string name=\"token_expired_later\">Maybe Later</string>\r\n\r\n    <!--    Booking -->\r\n    <string name=\"booking_empty_field_title\">Data Belum Lengkap!</string>\r\n    <string name=\"booking_empty_field_subtitle\">Lengkapi semua data yang ada untuk lenajutkan proses.</string>\r\n\r\n    <string name=\"currency\">Rp </string>\r\n    <string name=\"latest_transaction\">Transaksi Terakhir</string>\r\n    <string name=\"topup\">Jumlah Top Up (Rp)</string>\r\n    <string name=\"top20\">20.000</string>\r\n    <string name=\"top50\">50.000</string>\r\n    <string name=\"top100\">100.000</string>\r\n    <string name=\"top200\">200.000</string>\r\n    <string name=\"top300\">300.000</string>\r\n    <string name=\"top500\">500.000</string>\r\n    <string name=\"topup_input\">Masukkan Jumlah (Rp)</string>\r\n    <string name=\"payment\">Pembayaran</string>\r\n    <string name=\"topup_nominal\">Top Up</string>\r\n    <string name=\"total_topup\">Total Pembayaran</string>\r\n    <string name=\"pay_now\">Bayar Sekarang</string>\r\n    <string name=\"success\">Behasil</string>\r\n    <string name=\"flight_pay\">Flight Pay</string>\r\n    <string name=\"home\">Home</string>\r\n\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/app/src/main/res/values/strings.xml	(date 1671195093423)
+@@ -60,5 +60,22 @@
+     <string name="flight_pay">Flight Pay</string>
+     <string name="home">Home</string>
+ 
++    <string name="payment_method">Metode Pembayaran</string>
++    <string name="any_bank">Pembayaran bisa lewat bank manapun.</string>
++    <string name="bca_oneklik">BCA OneKlik</string>
++    <string name="instan_debit">Debit Instan</string>
++    <string name="bni">Transfer Bank BNI</string>
++    <string name="bri">Transfer Bank BRI</string>
++    <string name="free_admin">Bebas Biaya Admin</string>
++    <string name="payment_proof">Kirim Bukti Pembayaran</string>
++    <string name="upload_payment">Bukti pembayaran bisa upload dibawah ini berupa foto </string>
++    <string name="payment_eng">Payment</string>
++    <string name="payment_method_eng">Payment Method</string>
++    <string name="price">Price</string>
++    <string name="adds_on">Adds On</string>
++    <string name="total_price">Total Price</string>
++    <string name="confirm">Confirm</string>
++
++
+ 
+ </resources>
+\ No newline at end of file
+Index: ../admin/app/src/main/res/drawable-v24/ic_baseline_arrow_back_ios_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/drawable-v24/ic_baseline_arrow_back_ios_24.xml b/../admin/app/src/main/res/drawable-v24/ic_baseline_arrow_back_ios_24.xml
+new file mode 100644
+--- /dev/null	(date 1671180280000)
++++ b/../admin/app/src/main/res/drawable-v24/ic_baseline_arrow_back_ios_24.xml	(date 1671180280000)
+@@ -0,0 +1,5 @@
++<vector android:autoMirrored="true" android:height="24dp"
++    android:tint="#000000" android:viewportHeight="24"
++    android:viewportWidth="24" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M11.67,3.87L9.9,2.1 0,12l9.9,9.9 1.77,-1.77L3.54,12z"/>
++</vector>
+Index: ../admin/app/src/main/res/drawable-v24/ic_baseline_search_24.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/drawable-v24/ic_baseline_search_24.xml b/../admin/app/src/main/res/drawable-v24/ic_baseline_search_24.xml
+new file mode 100644
+--- /dev/null	(date 1671180292000)
++++ b/../admin/app/src/main/res/drawable-v24/ic_baseline_search_24.xml	(date 1671180292000)
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="#000000"
++    android:viewportHeight="24" android:viewportWidth="24"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="@android:color/white" android:pathData="M15.5,14h-0.79l-0.28,-0.27C15.41,12.59 16,11.11 16,9.5 16,5.91 13.09,3 9.5,3S3,5.91 3,9.5 5.91,16 9.5,16c1.61,0 3.09,-0.59 4.23,-1.57l0.27,0.28v0.79l5,4.99L20.49,19l-4.99,-5zM9.5,14C7.01,14 5,11.99 5,9.5S7.01,5 9.5,5 14,7.01 14,9.5 11.99,14 9.5,14z"/>
++</vector>
+Index: ../admin/app/src/main/res/layout/row_airport.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/layout/row_airport.xml b/../admin/app/src/main/res/layout/row_airport.xml
+new file mode 100644
+--- /dev/null	(date 1671180152000)
++++ b/../admin/app/src/main/res/layout/row_airport.xml	(date 1671180152000)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:paddingVertical="4dp"
++    android:paddingHorizontal="9dp"
++    android:layout_marginBottom="5dp"
++    android:orientation="vertical"
++    android:background="@color/white">
++    <TextView
++        android:id="@+id/tv_nama"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:textSize="10sp"
++        android:textColor="@color/black"
++        tools:text="Yogyakarta Internation Airport (YIA)"/>
++    <TextView
++        android:id="@+id/tv_kota"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:textSize="10sp"
++        android:textColor="#858585"
++        tools:text="Yogyakarta, Daerah Istimewa Yogyakarta"/>
++</LinearLayout>
+\ No newline at end of file
+Index: ../admin/app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">AdminFlyPass</string>\r\n    <!-- TODO: Remove or change this placeholder text -->\r\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\r\n\r\n    <!--    Login   -->\r\n    <string name=\"wrong_password_title\">Password Anda Salah!</string>\r\n    <string name=\"wrong_password_subtitle\">Silahkan masukkan password yang benar.</string>\r\n    <string name=\"wrong_email_title\">Email Anda Salah!</string>\r\n    <string name=\"wrong_email_subtitle\">Silahkan masukkan email yang benar.</string>\r\n    <string name=\"confirm_one_btn_dialog\">OK, I got it!</string>\r\n    <string name=\"flight_number\">Flight Number</string>\r\n    <string name=\"airplane_name\">Airplane Name</string>\r\n    <string name=\"airplane_type\">Airplane Type</string>\r\n    <string name=\"departure\">Departure</string>\r\n    <string name=\"from\">From</string>\r\n    <string name=\"date\">Date</string>\r\n    <string name=\"time\">Time</string>\r\n    <string name=\"arrival\">Arrival</string>\r\n    <string name=\"to\">To</string>\r\n    <string name=\"seat_class\">Seat Class</string>\r\n    <string name=\"price\">Price</string>\r\n    <string name=\"add_ticket\">Add Ticket</string>\r\n    <string name=\"update_ticket\">Update Ticket</string>\r\n    <string name=\"confirmation_update_ticket_tittle\">Yakin Ubah Tiket ?</string>\r\n    <string name=\"confirmation_update_ticket\">Tiket akan terubah permanen. Pastikan informasi penerbangan sudah benar! </string>\r\n    <string name=\"confirmation_delete_ticket_tittle\">Yakin Hapus Tiket ?</string>\r\n    <string name=\"confirmation_delete_ticket\">Tiket akan terhapus permanen. Pastikan riwayat anda tidak diperlukan lagi!</string>\r\n    <string name=\"depature_flight\">Depature Flight</string>\r\n    <string name=\"direct\">Direct</string>\r\n    <string name=\"show_less_detail\">Show Less Detail</string>\r\n    <string name=\"refundable\">Refundable</string>\r\n    <string name=\"reschedule\">Reschedule</string>\r\n    <string name=\"total_price\">Total Price</string>\r\n    <string name=\"edit\">Edit</string>\r\n    <string name=\"remove\">Remove</string>\r\n    <string name=\"including_tax_fee\">including tax fee</string>\r\n    <string name=\"change\">Change</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/values/strings.xml b/../admin/app/src/main/res/values/strings.xml
+--- a/../admin/app/src/main/res/values/strings.xml	(revision 696dbb89032eb60206d91c540edc51fa501ce18e)
++++ b/../admin/app/src/main/res/values/strings.xml	(date 1671195925839)
+@@ -36,4 +36,13 @@
+     <string name="remove">Remove</string>
+     <string name="including_tax_fee">including tax fee</string>
+     <string name="change">Change</string>
+-</resources>
+\ No newline at end of file
++
++    <!--    airlane search   -->
++
++
++
++
++
++        <string name="search">Kota, negara, airport, kode airport</string>
++    </resources>
++
+Index: ../admin/app/src/main/res/layout/toolbar_search.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/layout/toolbar_search.xml b/../admin/app/src/main/res/layout/toolbar_search.xml
+new file mode 100644
+--- /dev/null	(date 1671180756000)
++++ b/../admin/app/src/main/res/layout/toolbar_search.xml	(date 1671180756000)
+@@ -0,0 +1,42 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="?actionBarSize"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:background="?colorPrimary"
++    android:padding="18dp">
++    <ImageView
++        android:id="@+id/iv_back"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        android:src="@drawable/ic_baseline_arrow_back_ios_24"
++        app:tint="@color/white" />
++    <ImageView
++        android:id="@+id/iv_search"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        android:src="@drawable/ic_baseline_search_24"
++        app:tint="@color/white" />
++   <com.google.android.material.card.MaterialCardView
++       android:layout_width="0dp"
++       android:layout_height="0dp"
++       app:layout_constraintTop_toTopOf="parent"
++       app:layout_constraintBottom_toBottomOf="parent"
++       app:layout_constraintStart_toEndOf="@id/iv_back"
++       app:layout_constraintEnd_toStartOf="@id/iv_search"
++       android:layout_marginHorizontal="17dp">
++       <EditText
++           android:layout_width="match_parent"
++           android:layout_height="match_parent"
++           android:background="@null"
++           android:hint="@string/search"
++           android:paddingHorizontal="16dp"
++           android:textSize="10sp"/>
++   </com.google.android.material.card.MaterialCardView>
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: ../admin/app/src/main/res/layout/row_airline.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/layout/row_airline.xml b/../admin/app/src/main/res/layout/row_airline.xml
+new file mode 100644
+--- /dev/null	(date 1671180084000)
++++ b/../admin/app/src/main/res/layout/row_airline.xml	(date 1671180084000)
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:paddingVertical="11dp"
++    android:paddingHorizontal="12dp"
++    android:layout_marginBottom="5dp"
++    android:background="@color/white">
++    <ImageView
++        android:id="@+id/iv_logo"
++        android:layout_width="36dp"
++        android:layout_height="16dp"
++        android:src="@drawable/logo_garuda"
++        android:layout_marginEnd="13dp"/>
++    <TextView
++        android:id="@+id/tv_kode"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:textSize="10sp"
++        android:textColor="@color/black"
++        tools:text="Garuda Indonesia (GA)"/>
++</LinearLayout>
+\ No newline at end of file
+Index: ../admin/app/src/main/res/layout/row_airplane.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../admin/app/src/main/res/layout/row_airplane.xml b/../admin/app/src/main/res/layout/row_airplane.xml
+new file mode 100644
+--- /dev/null	(date 1671179968000)
++++ b/../admin/app/src/main/res/layout/row_airplane.xml	(date 1671179968000)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:paddingVertical="4dp"
++    android:paddingHorizontal="9dp"
++    android:layout_marginBottom="5dp"
++    android:orientation="vertical"
++    android:background="@color/white">
++    <TextView
++        android:id="@+id/tv_kode"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:textSize="10sp"
++        android:textColor="@color/black"
++        tools:text="A35K"/>
++    <TextView
++        android:id="@+id/tv_kode_pesawat"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:textSize="10sp"
++        android:textColor="#858585"
++        tools:text="Airbus A350-1000"/>
++</LinearLayout>
+\ No newline at end of file

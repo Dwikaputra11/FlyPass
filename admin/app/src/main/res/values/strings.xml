@@ -40,4 +40,6 @@
     <string name="remove">Remove</string>
     <string name="including_tax_fee">including tax fee</string>
     <string name="change">Change</string>
+    <string name="search">Kota, negara, airport, kode airport</string>
+
 </resources>

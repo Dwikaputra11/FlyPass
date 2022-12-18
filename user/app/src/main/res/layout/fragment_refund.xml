@@ -1,14 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mybooking.RefundFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/screen_background"
+    tools:context=".ui.booking.PaymentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
+
+    <ScrollView
+        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginVertical="20dp"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="5dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/smokey_900"
+                    android:paddingHorizontal="10dp"
+                    android:text="FlyPass Code"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvFlypassCode"
+                    android:textColor="@color/smokey_500"
+                    android:paddingHorizontal="10dp"
+                    android:text="9309837"
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
 
-</FrameLayout>
+            <include
+                android:id="@+id/flightDetails"
+                layout="@layout/flight_details"/>
+            <include
+                android:visibility="gone"
+                android:id="@+id/flightShowDetails"
+                layout="@layout/flight_show_details"/>
+            <include
+                android:visibility="gone"
+                android:id="@+id/roundFlightDetails"
+                layout="@layout/flight_details"/>
+            <include
+                android:visibility="gone"
+                android:id="@+id/roundFlightShowDetails"
+                layout="@layout/flight_show_details"/>
+
+            <TextView
+                android:text="Passenger"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPassenger"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Contact Details"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <include
+                android:id="@+id/contactDetails"
+                layout="@layout/filled_contact_details"/>
+
+            <TextView
+                android:text="Payment"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <include
+                android:id="@+id/paymentDetails"
+                layout="@layout/payment_details"/>
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPayment"
+                android:text="Payment"
+                android:textColor="@color/white"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/radius_10dp"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                app:elevation="4dp"
+                android:drawablePadding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

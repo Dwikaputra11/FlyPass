@@ -195,7 +195,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:button="@drawable/show_more_arrow_state"
+
         android:buttonTint="@color/color_primary"
         android:layoutDirection="rtl"
         android:text="Show More"

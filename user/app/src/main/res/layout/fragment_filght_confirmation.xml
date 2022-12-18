@@ -12,7 +12,6 @@
 
     <ScrollView
         android:layout_below="@id/toolbarLayout"
-        android:layout_above="@id/confirmLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -90,12 +89,12 @@
         </LinearLayout>
     </ScrollView>
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/confirmLayout"
-        layout="@layout/confirm_ticket"/>
+<!--    <include-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:id="@+id/confirmLayout"-->
+<!--        layout="@layout/confirm_ticket"/>-->
 
 
 </RelativeLayout>

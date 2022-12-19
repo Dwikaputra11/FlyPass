@@ -1,5 +1,7 @@
 package cthree.user.flypass.adapter
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -10,6 +12,7 @@ import cthree.user.flypass.models.wishlist.get.WishList
 import cthree.user.flypass.models.wishlist.get.WishListItem
 import cthree.user.flypass.utils.Utils
 
+private const val TAG = "WishlistAdapter"
 class WishlistAdapter: RecyclerView.Adapter<WishlistAdapter.ViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<WishListItem>(){
@@ -56,5 +59,11 @@ class WishlistAdapter: RecyclerView.Adapter<WishlistAdapter.ViewHolder>() {
         return differ.currentList.size
     }
 
-    fun submitList(list: List<WishListItem>) = differ.submitList(list)
+    fun getList(): List<WishListItem> = differ.currentList
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitList(list: List<WishListItem>){
+        differ.submitList(list)
+        notifyDataSetChanged()
+    }
 }

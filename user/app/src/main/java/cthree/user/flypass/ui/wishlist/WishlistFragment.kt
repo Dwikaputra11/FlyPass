@@ -35,10 +35,21 @@ class WishlistFragment : Fragment() {
     private val wishlistVM: WishlistViewModel by viewModels()
     private val prefVM: PreferencesViewModel by viewModels()
     private val userVM: UserViewModel by viewModels()
+    private var isFirstFetch = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: Started")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: Started")
     }
 
     override fun onCreateView(
@@ -62,11 +73,12 @@ class WishlistFragment : Fragment() {
             }
         }
         prefVM.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isNotEmpty()){
+            if(it.token.isNotEmpty() && isFirstFetch){
                 if(!Utils.isTokenExpired(it.token.toString())){
                     binding.rvMovie.isVisible = false
                     binding.progressBar.isVisible = true
-                    wishlistVM.getUserWishlist(it.token)
+                    Log.d(TAG, "Adapter count: ${adapter.getList().isEmpty()}")
+                    if(adapter.getList().isEmpty()) wishlistVM.getUserWishlist(it.token)
                 }else{
                     DialogCaller(requireActivity())
                         .setTitle(R.string.token_expired_title)

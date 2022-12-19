@@ -1,6 +1,5 @@
 package cthree.user.flypass.ui.auth
 
-import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
@@ -16,9 +15,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.gson.GsonFactory
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentLoginBinding
@@ -31,6 +33,12 @@ import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Boolean
+import java.util.*
+import kotlin.String
+import kotlin.getValue
+import kotlin.run
+import kotlin.toString
 
 private const val TAG = "LoginFragment"
 private const val REQ_ONE_TAP = 100
@@ -45,6 +53,7 @@ class LoginFragment : Fragment() {
     private lateinit var progressAlertDialog: AlertDialog
     private lateinit var fromDestination : TokenNav
     private lateinit var oneTapClient: SignInClient
+    private lateinit var verifier: GoogleIdTokenVerifier
     private lateinit var signInRequest: BeginSignInRequest
 
     private val resolutionForResult = registerForActivityResult(
@@ -59,6 +68,35 @@ class LoginFragment : Fragment() {
                 Log.d(TAG, "Got ID token -> $idToken")
                 Log.d(TAG, "Got password -> $password")
                 Log.d(TAG, "Got json -> $username")
+                verifier = GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory())
+                    .setAudience(Collections.singletonList(requireContext().getString(R.string.mobile_client_id)))
+                    .setIssuer("accounts.google.com")
+                    .build()
+//                val userToken = JWT(idToken!!)
+                val userToken = verifier.verify(credential.googleIdToken)
+//                Log.d(TAG, "userToken: ${userToken.claims}")
+                Log.d(TAG, "userToken: $userToken")
+                if (userToken != null) {
+                    val payload: Payload = userToken.payload
+
+                    // Print user identifier
+                    val userId = payload.subject
+                    println("User ID: $userId")
+
+                    // Get profile information from payload
+                    val email = payload.email
+                    val emailVerified = Boolean.valueOf(payload.emailVerified)
+                    val name = payload["name"] as String?
+                    val pictureUrl = payload["picture"] as String?
+                    val locale = payload["locale"] as String?
+                    val familyName = payload["family_name"] as String?
+                    val givenName = payload["given_name"] as String?
+
+                    // Use or store profile information
+                    // ...
+                } else {
+                    println("Invalid ID token.")
+                }
                 when {
                     idToken != null -> {
                         // Got an ID token from Google. Use it to authenticate

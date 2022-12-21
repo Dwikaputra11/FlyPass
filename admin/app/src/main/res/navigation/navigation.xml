@@ -34,15 +34,62 @@
         <action
             android:id="@+id/action_homeFragment_to_registerAdminFragment"
             app:destination="@id/registerAdminFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addTicketFragment"
+            app:destination="@id/addTicketFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment" />
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
         android:name="cthree.admin.flypass.ui.UserAccountFragment"
         android:label="fragment_user_account"
-        tools:layout="@layout/fragment_user_account" />
+        tools:layout="@layout/fragment_user_account" >
+        <action
+            android:id="@+id/action_userAccountFragment_to_userAccountDetailFragment"
+            app:destination="@id/userAccountDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerAdminFragment"
         android:name="cthree.admin.flypass.ui.RegisterAdminFragment"
         android:label="fragment_register_admin"
         tools:layout="@layout/fragment_register_admin" />
+    <fragment
+        android:id="@+id/addTicketFragment"
+        android:name="cthree.admin.flypass.ui.AddTicketFragment"
+        android:label="fragment_add_ticket"
+        tools:layout="@layout/fragment_add_ticket" />
+    <fragment
+        android:id="@+id/updateTicketFragment"
+        android:name="cthree.admin.flypass.ui.UpdateTicketFragment"
+        android:label="fragment_update_ticket"
+        tools:layout="@layout/fragment_update_ticket" />
+    <fragment
+        android:id="@+id/ticketListFragment"
+        android:name="cthree.admin.flypass.ui.TicketListFragment"
+        android:label="fragment_ticket_list"
+        tools:layout="@layout/fragment_ticket_list" >
+        <action
+            android:id="@+id/action_ticketListFragment_to_detailTicketFragment"
+            app:destination="@id/detailTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userAccountDetailFragment"
+        android:name="cthree.admin.flypass.ui.UserAccountDetailFragment"
+        android:label="fragment_user_account_detail"
+        tools:layout="@layout/fragment_user_account_detail" >
+        <argument
+            android:name="detailUser"
+            app:argType="cthree.admin.flypass.models.user.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailTicketFragment"
+        android:name="cthree.admin.flypass.ui.DetailTicketFragment"
+        android:label="fragment_detail_ticket"
+        tools:layout="@layout/fragment_detail_ticket" >
+        <argument
+            android:name="detailTicket"
+            app:argType="cthree.admin.flypass.models.ticketflight.Flight" />
+    </fragment>
 </navigation>

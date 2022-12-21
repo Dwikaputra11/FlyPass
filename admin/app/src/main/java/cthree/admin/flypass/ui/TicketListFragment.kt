@@ -1,33 +1,40 @@
 package cthree.admin.flypass.ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.admin.flypass.R
+import cthree.admin.flypass.adapter.TicketAdapter
+import cthree.admin.flypass.databinding.DialogProgressBarBinding
+import cthree.admin.flypass.databinding.FragmentTicketListBinding
+import cthree.admin.flypass.models.ticketflight.Flight
+import cthree.admin.flypass.utils.SessionManager
+import cthree.admin.flypass.viewmodels.TicketViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TicketListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class TicketListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private val ticketVM: TicketViewModel by viewModels()
+    private lateinit var sessionManager: SessionManager
+    private val ticketAdapter : TicketAdapter = TicketAdapter()
+    private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog: AlertDialog
+
+    lateinit var binding : FragmentTicketListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        sessionManager = SessionManager(requireContext())
+        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
     }
 
     override fun onCreateView(
@@ -35,26 +42,58 @@ class TicketListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ticket_list, container, false)
+        binding = FragmentTicketListBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TicketListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TicketListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupToolbar()
+        initProgressDialog()
+        progressAlertDialog.show()
+
+        ticketVM.callApiTicket()
+        ticketAdapter.submitList(emptyList())
+        ticketVM.getLiveDataTicket().observe(viewLifecycleOwner) {
+            if (it != null){
+                ticketAdapter.submitList(it.flights)
+            }
+        }
+        binding.rvListTicket.adapter = ticketAdapter
+        binding.rvListTicket.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        progressAlertDialog.dismiss()
+
+        ticketAdapter.setOnItemClickListener(object : TicketAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, flight: Flight) {
+                when(view.id){
+                    R.id.btnDetail -> {
+                        val directions = TicketListFragmentDirections.actionTicketListFragmentToDetailTicketFragment(flight)
+                        findNavController().navigate(directions)
+                    }
                 }
             }
+
+        })
+    }
+
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    }
+
+    private fun setupToolbar(){
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbarLayout.toolbar.title = "Ticket List"
+        binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
+        binding.toolbarLayout.toolbar.setNavigationOnClickListener {
+            Navigation.findNavController(binding.root).popBackStack()
+        }
     }
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cthree.user.flypass.api.ApiService
+import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
@@ -45,6 +46,7 @@ class UserViewModel @Inject constructor(
     private val refreshToken        : MutableLiveData<String?>                  = MutableLiveData()
     private val logoutUser          : MutableLiveData<Int?>                     = MutableLiveData()
     private val accessToken         : MutableLiveData<RefreshToken?>            = MutableLiveData()
+    private val googleIdTokenLogin  : MutableLiveData<Login?>                   = MutableLiveData()
 
     fun loginToken()                : LiveData<String?>                 = tokenUser
     fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
@@ -56,6 +58,7 @@ class UserViewModel @Inject constructor(
     fun getRefreshToken()           : LiveData<String?>                 = refreshToken
     fun getLogoutStatus()           : LiveData<Int?>                    = logoutUser
     fun getAccessToken()            : LiveData<RefreshToken?>           = accessToken
+    fun getGoogleIdTokenLogin()     : LiveData<Login?>                  = googleIdTokenLogin
 
     fun refreshToken(token: String){
         apiService.refreshToken("Bearer $token").enqueue(object : Callback<RefreshToken>{
@@ -108,6 +111,27 @@ class UserViewModel @Inject constructor(
         })
     }
 
+    fun callGoogleIdTokenLogin(idToken: GoogleTokenRequest){
+        apiService.googleIdTokenLogin(idToken).enqueue(object : Callback<Login>{
+            override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        tokenUser.postValue(it.userLogin.accesstToken)
+                    }
+                }else{
+                    googleIdTokenLogin.postValue(null)
+                    Log.d(TAG, "onResponse: ${response.errorBody()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Login>, t: Throwable) {
+                googleIdTokenLogin.postValue(null)
+                Log.e(TAG, "googleIdToken: ${t.localizedMessage}")
+            }
+
+        })
+    }
+
     fun registerUser(user: RegisterUser){
         apiService.registerUser(user).enqueue(object : Callback<RegisterResponse>{
             override fun onResponse(
@@ -148,10 +172,10 @@ class UserViewModel @Inject constructor(
         token: String,
         name: RequestBody,
         email: RequestBody,
-        phone: RequestBody,
+        phone: RequestBody?,
         image: MultipartBody.Part,
-        gender: RequestBody,
-        birthDate: RequestBody
+        gender: RequestBody?,
+        birthDate: RequestBody?
     ){
         apiService.updatePhotoProfile("Bearer $token",name,email, phone, image, gender, birthDate).enqueue(object : Callback<UpdateProfileResponse>{
             override fun onResponse(

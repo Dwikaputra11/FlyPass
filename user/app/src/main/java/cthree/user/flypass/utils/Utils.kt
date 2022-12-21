@@ -9,6 +9,7 @@ import android.view.WindowManager
 import com.auth0.android.jwt.JWT
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
+import cthree.user.flypass.data.UserData
 import cthree.user.flypass.databinding.DialogTokenExpiredBinding
 import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.models.user.Profile
@@ -209,19 +210,24 @@ object Utils {
         return "$formattedString"
     }
 
-    fun decodeAccountToken(token: String): Profile {
+    fun decodeAccountToken(token: String): Profile? {
         val user = JWT(token)
         Log.d("User", "decodeAccountToken: ${user.claims}")
-        return Profile(
-            id = user.getClaim("id").asInt()!!,
-            email = user.getClaim("email").asString()!!,
-            birthDate = user.getClaim("birthDate").asString()!!,
-            gender = user.getClaim("gender").asString()!!,
-            image = user.getClaim("image").asString(),
-            phone = user.getClaim("phone").asString()!!,
-            roleId = user.getClaim("roleId").asInt()!!,
-            name = user.getClaim("name").asString()!!
-        )
+        val claim = user.getClaim("user").asObject(UserData::class.java)
+        Log.d("Claim", "decodeAccountToken: $claim")
+        if (claim != null) {
+            return Profile(
+                id = claim.id,
+                email = claim.email,
+                birthDate = claim.birthDate,
+                gender = claim.gender,
+                image = claim.image,
+                phone = claim.phone,
+                roleId = claim.roleId,
+                name = claim.name
+            )
+        }
+        return null
     }
 
     fun isTokenExpired(token: String): Boolean{

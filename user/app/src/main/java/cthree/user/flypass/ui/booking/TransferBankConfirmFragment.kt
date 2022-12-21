@@ -135,6 +135,7 @@ class TransferBankConfirmFragment : Fragment() {
             .setMessage("Pilih Gambar")
             .setPositiveButton("Gallery") { _, _ -> openGallery()  }
             .setNegativeButton("Camera") { _, _ -> openCamera() }
+            .create()
             .show()
     }
 

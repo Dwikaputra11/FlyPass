@@ -1,5 +1,6 @@
 package cthree.user.flypass.api
 
+import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.bookings.BookingListResponse
@@ -9,6 +10,7 @@ import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.login.refreshtoken.RefreshToken
+import cthree.user.flypass.models.notification.NotificationList
 import cthree.user.flypass.models.user.*
 import cthree.user.flypass.models.wishlist.delete.DeleteWishlist
 import cthree.user.flypass.models.wishlist.get.WishList
@@ -49,6 +51,9 @@ interface ApiService {
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>
 
+    @POST("v1/googleidtokenlogin")
+    fun googleIdTokenLogin(@Body request: GoogleTokenRequest): Call<Login>
+
     @GET("v1/refresh")
     fun refreshToken(@Header("Authorization") token: String): Call<RefreshToken>
 
@@ -61,10 +66,10 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part("name") name: RequestBody,
         @Part("email") email: RequestBody,
-        @Part("phone") phone: RequestBody,
+        @Part("phone") phone: RequestBody?,
         @Part image: MultipartBody.Part,
-        @Part("gender") gender: RequestBody,
-        @Part("birthDate") birthDate: RequestBody
+        @Part("gender") gender: RequestBody?,
+        @Part("birthDate") birthDate: RequestBody?
     ): Call<UpdateProfileResponse>
 
     @PUT("v1/user")
@@ -73,8 +78,8 @@ interface ApiService {
     @POST("v1/flights/books")
     fun postBooking(@Header("Authorization") token: String?,@Body booking: BookingRequest): Call<BookingResponse>
 
-    @POST("v1/pay/create")
-    fun postPaymentBooking(@Header("Authorization") token: String?, )
+//    @POST("v1/pay/create")
+//    fun postPaymentBooking(@Header("Authorization") token: String?, ): Call<>
 
 
     @GET("v1/bookings/search")
@@ -91,4 +96,7 @@ interface ApiService {
 
     @DELETE("v1/wishlist/{id}")
     fun deleteWishlist(@Header("Authorization") token: String, @Path("id") id: Int): Call<DeleteWishlist>
+
+    @GET("v1/notification")
+    fun getNotification(@Header("Authorization") token: String): Call<NotificationList>
 }

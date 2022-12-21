@@ -1,10 +1,12 @@
 package cthree.user.flypass.ui.auth
 
 import android.app.Activity
+import android.content.IntentSender
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.*
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -32,8 +34,10 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import cthree.user.flypass.R
+import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentLoginBinding
+import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
@@ -88,34 +92,36 @@ class LoginFragment : Fragment() {
                 Log.d(TAG, "Got ID token -> $idToken")
                 Log.d(TAG, "Got password -> $password")
                 Log.d(TAG, "Got json -> $username")
-                verifier = GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory())
-                    .setAudience(Collections.singletonList(requireContext().getString(R.string.mobile_client_id)))
-                    .setIssuer("accounts.google.com")
-                    .build()
-//                val userToken = JWT(idToken!!)
-                val userToken = verifier.verify(credential.googleIdToken)
-//                Log.d(TAG, "userToken: ${userToken.payload}")
-                Log.d(TAG, "userToken: $userToken")
-                if (userToken != null) {
-                    val payload: Payload = userToken.payload
-                    // Print user identifier
-                    val userId = payload.subject
-                    println("User ID: $userId")
 
-                    // Get profile information from payload
-                    val email = payload.email
-//                    val emailVerified = Boolean.valueOf(payload.emailVerified)
-                    val name = payload["name"] as String?
-                    val pictureUrl = payload["picture"] as String?
-                    val locale = payload["locale"] as String?
-                    val familyName = payload["family_name"] as String?
-                    val givenName = payload["given_name"] as String?
-
-                    // Use or store profile information
-                    // ...
-                } else {
-                    println("Invalid ID token.")
-                }
+                if(idToken != null) userVM.callGoogleIdTokenLogin(GoogleTokenRequest(idToken))
+//                verifier = GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory())
+//                    .setAudience(Collections.singletonList(requireContext().getString(R.string.mobile_client_id)))
+//                    .setIssuer("accounts.google.com")
+//                    .build()
+////                val userToken = JWT(idToken!!)
+//                val userToken = verifier.verify(credential.googleIdToken)
+////                Log.d(TAG, "userToken: ${userToken.payload}")
+//                Log.d(TAG, "userToken: $userToken")
+//                if (userToken != null) {
+//                    val payload: Payload = userToken.payload
+//                    // Print user identifier
+//                    val userId = payload.subject
+//                    println("User ID: $userId")
+//
+//                    // Get profile information from payload
+//                    val email = payload.email
+////                    val emailVerified = Boolean.valueOf(payload.emailVerified)
+//                    val name = payload["name"] as String?
+//                    val pictureUrl = payload["picture"] as String?
+//                    val locale = payload["locale"] as String?
+//                    val familyName = payload["family_name"] as String?
+//                    val givenName = payload["given_name"] as String?
+//
+//                    // Use or store profile information
+//                    // ...
+//                } else {
+//                    println("Invalid ID token.")
+//                }
                 when {
                     idToken != null -> {
                         // Got an ID token from Google. Use it to authenticate
@@ -212,6 +218,7 @@ class LoginFragment : Fragment() {
         getArgs()
         configSignInGoogle()
 
+
         userVM.loginToken().observe(viewLifecycleOwner) {
             if(it != null){
                 Log.d(TAG, "Access Token: $it")
@@ -219,10 +226,12 @@ class LoginFragment : Fragment() {
                 sessionManager.setToken(it)
                 // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
-                sessionManager.setUserId(profile.id)
                 prefVM.saveToken(it)
-                prefVM.saveData(profile)
-                navigateConfig()
+                if(profile != null) {
+                    sessionManager.setUserId(profile.id)
+                    prefVM.saveData(profile)
+                }
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }
 
@@ -278,28 +287,29 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnGoogle.setOnClickListener {
-            signIn()
-//            oneTapClient.beginSignIn(signInRequest)
-//                .addOnCompleteListener(requireActivity()){ result ->
-//                    try {
-//                        Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
-//                        val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
-//                        resolutionForResult.launch(intentSenderRequest)
-//                    }catch (e: IntentSender.SendIntentException) {
-//                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
-//                    }
-//                }
-//                .addOnFailureListener(requireActivity()) { e ->
-//                    // No saved credentials found. Launch the One Tap sign-up flow, or
-//                    // do nothing and continue presenting the signed-out UI.
-//                    Log.d(TAG, e.localizedMessage)
-//                }
+//            signIn()
+            oneTapClient.beginSignIn(signInRequest)
+                .addOnCompleteListener(requireActivity()){ result ->
+                    try {
+                        Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
+                        val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
+                        resolutionForResult.launch(intentSenderRequest)
+                    }catch (e: IntentSender.SendIntentException) {
+                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                    }
+                }
+                .addOnFailureListener(requireActivity()) { e ->
+                    // No saved credentials found. Launch the One Tap sign-up flow, or
+                    // do nothing and continue presenting the signed-out UI.
+                    Log.d(TAG, e.localizedMessage)
+                }
         }
 
         binding.tvtoRegister.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
+
 
     private fun signIn(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -333,18 +343,18 @@ class LoginFragment : Fragment() {
         fromDestination = args.fromDestination
     }
 
-    private fun navigateConfig(){
-        when(fromDestination){
-            TokenNav.BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_bookingFragment)
-            TokenNav.TOP_UP -> findNavController().navigate(R.id.action_loginFragment_to_topUpFragment)
-            TokenNav.MY_BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_myBookingFragment)
-            TokenNav.PAYMENT -> findNavController().navigate(R.id.action_loginFragment_to_paymentFragment)
-            TokenNav.FLIGHT_PAY -> findNavController().navigate(R.id.action_loginFragment_to_flightPayFragment)
-            TokenNav.PROFILE_INFO -> findNavController().navigate(R.id.action_loginFragment_to_profileAccountInfoFragment)
-            TokenNav.WISHLIST -> findNavController().navigate(R.id.action_loginFragment_to_wishlistFragment)
-            else -> findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        }
-    }
+//    private fun navigateConfig(){
+//        when(fromDestination){
+//            TokenNav.BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_bookingFragment)
+//            TokenNav.TOP_UP -> findNavController().navigate(R.id.action_loginFragment_to_topUpFragment)
+//            TokenNav.MY_BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_myBookingFragment)
+//            TokenNav.PAYMENT -> findNavController().navigate(R.id.action_loginFragment_to_paymentFragment)
+//            TokenNav.FLIGHT_PAY -> findNavController().navigate(R.id.action_loginFragment_to_flightPayFragment)
+//            TokenNav.PROFILE_INFO -> findNavController().navigate(R.id.action_loginFragment_to_profileAccountInfoFragment)
+//            TokenNav.WISHLIST -> findNavController().navigate(R.id.action_loginFragment_to_wishlistFragment)
+//            else -> findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+//        }
+//    }
 
     private fun initProgressDialog(){
         val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)

@@ -98,10 +98,12 @@ class BookingFragment : Fragment() {
                 sessionManager.setToken(it)
                 // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
-                sessionManager.setUserId(profile.id)
                 userToken = it
                 prefViewModel.saveToken(it)
-                prefViewModel.saveData(profile)
+                if(profile != null){
+                    prefViewModel.saveData(profile)
+                    sessionManager.setUserId(profile.id)
+                }
             }
         }
 

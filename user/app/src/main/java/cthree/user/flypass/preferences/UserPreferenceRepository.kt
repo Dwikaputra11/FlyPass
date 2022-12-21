@@ -144,22 +144,28 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().setEmail(profile.email).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setBirthDate(profile.birthDate).build()
-        }
-        context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setGender(profile.gender).build()
-        }
-        context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setId(profile.id).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setName(profile.name).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setPhone(profile.phone).build()
-        }
-        context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setRoleId(profile.roleId).build()
+        }
+        if(profile.birthDate != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setBirthDate(profile.birthDate).build()
+            }
+        }
+        if(profile.gender != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setGender(profile.gender).build()
+            }
+        }
+        if(profile.phone != null){
+            context.userPreferencesStore.updateData { preferences ->
+                preferences.toBuilder().setPhone(profile.phone).build()
+            }
         }
         if(profile.image != null){
             context.userPreferencesStore.updateData { preferences ->

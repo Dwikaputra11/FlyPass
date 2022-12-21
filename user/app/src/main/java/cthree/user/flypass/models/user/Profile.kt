@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Profile(
     @SerializedName("birthDate")
-    var birthDate: String,
+    var birthDate: String?,
     @SerializedName("email")
     var email: String,
     @SerializedName("gender")
-    val gender: String,
+    val gender: String?,
     @SerializedName("id")
     val id: Int,
     @SerializedName("image")
@@ -17,7 +17,7 @@ data class Profile(
     @SerializedName("name")
     var name: String,
     @SerializedName("phone")
-    var phone: String,
+    var phone: String?,
     @SerializedName("roleId")
     val roleId: Int
 )

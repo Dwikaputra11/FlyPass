@@ -104,7 +104,7 @@ class EditProfileFragment : Fragment() {
             changePicProfile()
         }
         userViewModel.dataUser.observe(viewLifecycleOwner){
-            if(it.email.isNotEmpty()){
+            if(it.email.isNotEmpty() && it.gender != null && it.birthDate != null && it.phone != null){
                 profile = Profile(
                     name = it.name,
                     roleId = it.roleId,
@@ -193,9 +193,9 @@ class EditProfileFragment : Fragment() {
                 userViewModel.updatePhotoProfile(
                     token = it,
                     name = profile.name.toRequestBody("text/plain".toMediaTypeOrNull()),
-                    phone = profile.phone.toRequestBody("text/plain".toMediaTypeOrNull()),
-                    birthDate = profile.birthDate.toRequestBody("text/plain".toMediaTypeOrNull()),
-                    gender = profile.gender.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    phone = profile.phone?.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    birthDate = profile.birthDate?.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    gender = profile.gender?.toRequestBody("text/plain".toMediaTypeOrNull()),
                     email = profile.email.toRequestBody("text/plain".toMediaTypeOrNull()),
                     image = imageMultipart
                 )

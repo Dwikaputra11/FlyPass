@@ -32,5 +32,13 @@ class HomeFragment : Fragment() {
         binding.btnAddAdmin.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_registerAdminFragment)
         }
+
+        binding.btnTicketList.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_ticketListFragment)
+        }
+
+        binding.btnAddTicket.setOnClickListener {
+
+        }
     }
 }

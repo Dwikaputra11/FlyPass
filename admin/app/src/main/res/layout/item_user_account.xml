@@ -19,7 +19,7 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:text="Full Name"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -70,7 +70,7 @@
 
 
         <ImageView
-            android:id="@+id/ivEdit"
+            android:id="@+id/ivDetail"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginEnd="16dp"

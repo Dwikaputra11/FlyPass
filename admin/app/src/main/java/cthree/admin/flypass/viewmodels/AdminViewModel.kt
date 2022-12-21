@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.admin.*
+import cthree.admin.flypass.models.ticketflight.Flight
+import cthree.admin.flypass.models.ticketflight.GetTicketResponse
 import cthree.admin.flypass.models.user.GetUserResponse
 import cthree.admin.flypass.models.user.User
 import cthree.admin.flypass.preferences.UserPreferenceRepository
@@ -24,8 +26,6 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
 
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataAdmin = prefRepo.readData.asLiveData()
-
-    private lateinit var sessionManager: SessionManager
 
     private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val loginErrorMsg: MutableLiveData<String?> = MutableLiveData()

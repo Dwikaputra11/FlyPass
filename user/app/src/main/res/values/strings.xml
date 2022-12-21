@@ -77,5 +77,20 @@
     <string name="login_dialog_login_btn">Login</string>
     <string name="login_dialog_google_btn">Login with Google</string>
 
+    <string name="payment_method">Metode Pembayaran</string>
+    <string name="any_bank">Pembayaran bisa lewat bank manapun.</string>
+    <string name="bca_oneklik">BCA OneKlik</string>
+    <string name="instan_debit">Debit Instan</string>
+    <string name="bni">Transfer Bank BNI</string>
+    <string name="bri">Transfer Bank BRI</string>
+    <string name="free_admin">Bebas Biaya Admin</string>
+    <string name="payment_proof">Kirim Bukti Pembayaran</string>
+    <string name="upload_payment">Bukti pembayaran bisa upload dibawah ini berupa foto </string>
+    <string name="payment_eng">Payment</string>
+    <string name="payment_method_eng">Payment Method</string>
+    <string name="price">Price</string>
+    <string name="adds_on">Adds On</string>
+    <string name="total_price">Total Price</string>
+    <string name="confirm">Confirm</string>
 
 </resources>

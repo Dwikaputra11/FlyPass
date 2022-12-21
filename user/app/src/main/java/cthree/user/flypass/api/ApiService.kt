@@ -73,6 +73,10 @@ interface ApiService {
     @POST("v1/flights/books")
     fun postBooking(@Header("Authorization") token: String?,@Body booking: BookingRequest): Call<BookingResponse>
 
+    @POST("v1/pay/create")
+    fun postPaymentBooking(@Header("Authorization") token: String?, )
+
+
     @GET("v1/bookings/search")
     fun searchBookingByCode(@Query("bookingcode") bookingCode: String): Call<BookingListResponse>
 

@@ -49,6 +49,7 @@ class WishlistFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+        adapter.submitList(null)
         Log.d(TAG, "onPause: Started")
     }
 

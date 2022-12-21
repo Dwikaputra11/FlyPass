@@ -21,7 +21,7 @@ class WishlistAdapter: RecyclerView.Adapter<WishlistAdapter.ViewHolder>() {
         }
 
         override fun areContentsTheSame(oldItem: WishListItem, newItem: WishListItem): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem.id == newItem.id
         }
 
     }
@@ -62,7 +62,7 @@ class WishlistAdapter: RecyclerView.Adapter<WishlistAdapter.ViewHolder>() {
     fun getList(): List<WishListItem> = differ.currentList
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(list: List<WishListItem>){
+    fun submitList(list: List<WishListItem>?){
         differ.submitList(list)
         notifyDataSetChanged()
     }

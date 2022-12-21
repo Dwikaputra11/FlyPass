@@ -1,10 +1,10 @@
 package cthree.user.flypass.ui.auth
 
-import android.content.IntentSender
+import android.app.Activity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.*
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -15,8 +15,18 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.Scopes
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -33,15 +43,19 @@ import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Boolean
+import org.apache.http.client.methods.HttpPost
+import java.io.File
+import java.io.FileReader
 import java.util.*
 import kotlin.String
 import kotlin.getValue
 import kotlin.run
 import kotlin.toString
 
+
 private const val TAG = "LoginFragment"
 private const val REQ_ONE_TAP = 100
+private const val REQ_SIGN_IN = 200
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
@@ -55,16 +69,22 @@ class LoginFragment : Fragment() {
     private lateinit var oneTapClient: SignInClient
     private lateinit var verifier: GoogleIdTokenVerifier
     private lateinit var signInRequest: BeginSignInRequest
+    private lateinit var signInClient: GoogleSignInClient
 
     private val resolutionForResult = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
     ) { activityResult ->
         run {
             if(activityResult != null){
+                Log.d(TAG, "Activity Result: ${activityResult.data.toString()}")
                 val credential = oneTapClient.getSignInCredentialFromIntent(activityResult.data)
+                Log.d(TAG, "Credential: ${credential.id}")
+                val email = credential.id
                 val idToken = credential.googleIdToken
                 val username = credential.givenName
                 val password = credential.password
+                val httpsPost = HttpPost("")
+                Log.d(TAG, "Got Email: $email")
                 Log.d(TAG, "Got ID token -> $idToken")
                 Log.d(TAG, "Got password -> $password")
                 Log.d(TAG, "Got json -> $username")
@@ -74,18 +94,17 @@ class LoginFragment : Fragment() {
                     .build()
 //                val userToken = JWT(idToken!!)
                 val userToken = verifier.verify(credential.googleIdToken)
-//                Log.d(TAG, "userToken: ${userToken.claims}")
+//                Log.d(TAG, "userToken: ${userToken.payload}")
                 Log.d(TAG, "userToken: $userToken")
                 if (userToken != null) {
                     val payload: Payload = userToken.payload
-
                     // Print user identifier
                     val userId = payload.subject
                     println("User ID: $userId")
 
                     // Get profile information from payload
                     val email = payload.email
-                    val emailVerified = Boolean.valueOf(payload.emailVerified)
+//                    val emailVerified = Boolean.valueOf(payload.emailVerified)
                     val name = payload["name"] as String?
                     val pictureUrl = payload["picture"] as String?
                     val locale = payload["locale"] as String?
@@ -119,6 +138,56 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private val signInResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){result -> run{
+        if(result.resultCode == Activity.RESULT_OK){
+            val data = result.data
+            Log.d(TAG, "SignIn: $data")
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
+                val authCode = account.serverAuthCode
+
+                // Show signed-un UI
+                updateUI(account)
+
+                // TODO(developer): send code to server and exchange for access/refresh/ID tokens
+            } catch (e: ApiException) {
+                Log.w(TAG, "Sign-in failed", e)
+                updateUI(null)
+            }
+        }
+    }}
+
+    private fun updateUI(account: GoogleSignInAccount?) {
+        if(account != null){
+            Log.d(TAG, "updateUI serverAuthCode: ${account.serverAuthCode}")
+            Log.d(TAG, "updateUI idToken: ${account.idToken}")
+            val inputStream = requireContext().resources.assets.open("client_secret_web.json")
+            Log.d(TAG, "inputStream: $inputStream")
+            Log.d(TAG, "available input Stream: ${inputStream.available()}")
+//            Log.d(TAG, "file: $file")
+//            Log.d(TAG, "available input Stream: ${file.path}")
+//            val clientSecrets = GoogleClientSecrets.load(
+//                GsonFactory.getDefaultInstance(), FileReader()
+//            )
+//            val tokenResponse = GoogleAuthorizationCodeTokenRequest(
+//                NetHttpTransport(),
+//                GsonFactory.getDefaultInstance(),
+//                "https://oauth2.googleapis.com/token",
+//                clientSecrets.details.clientId,
+//                clientSecrets.details.clientSecret,
+//                account.serverAuthCode,
+//                ""
+//            ).execute()
+//            Log.d(TAG, "access Token: $tokenResponse")
+//            val accessToken  = tokenResponse.accessToken
+//
+//            Log.d(TAG, "access Token: $accessToken")
         }
     }
 
@@ -209,26 +278,38 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnGoogle.setOnClickListener {
-            oneTapClient.beginSignIn(signInRequest)
-                .addOnCompleteListener(requireActivity()){ result ->
-                    try {
-                        Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
-                        val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
-                        resolutionForResult.launch(intentSenderRequest)
-                    }catch (e: IntentSender.SendIntentException) {
-                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
-                    }
-                }
-                .addOnFailureListener(requireActivity()) { e ->
-                    // No saved credentials found. Launch the One Tap sign-up flow, or
-                    // do nothing and continue presenting the signed-out UI.
-                    Log.d(TAG, e.localizedMessage)
-                }
+            signIn()
+//            oneTapClient.beginSignIn(signInRequest)
+//                .addOnCompleteListener(requireActivity()){ result ->
+//                    try {
+//                        Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
+//                        val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
+//                        resolutionForResult.launch(intentSenderRequest)
+//                    }catch (e: IntentSender.SendIntentException) {
+//                        Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+//                    }
+//                }
+//                .addOnFailureListener(requireActivity()) { e ->
+//                    // No saved credentials found. Launch the One Tap sign-up flow, or
+//                    // do nothing and continue presenting the signed-out UI.
+//                    Log.d(TAG, e.localizedMessage)
+//                }
         }
 
         binding.tvtoRegister.setOnClickListener {
             Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_registerFragment)
         }
+    }
+
+    private fun signIn(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestScopes(Scope(Scopes.DRIVE_APPFOLDER))
+            .requestServerAuthCode(resources.getString(R.string.web_client_id))
+            .requestEmail()
+            .build()
+        signInClient = GoogleSignIn.getClient(requireContext(), gso)
+        val singInIntent = signInClient.signInIntent
+        signInResult.launch(singInIntent)
     }
 
     private fun configSignInGoogle() {

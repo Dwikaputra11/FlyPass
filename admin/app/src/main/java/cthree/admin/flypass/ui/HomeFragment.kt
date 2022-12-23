@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     lateinit var binding : FragmentHomeBinding
@@ -38,7 +40,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnAddTicket.setOnClickListener {
-
+            findNavController().navigate(R.id.action_homeFragment_to_addTicketFragment)
         }
     }
 }

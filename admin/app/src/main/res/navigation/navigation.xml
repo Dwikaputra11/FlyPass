@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/addTicketFragment">
 
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -91,5 +91,8 @@
         <argument
             android:name="detailTicket"
             app:argType="cthree.admin.flypass.models.ticketflight.Flight" />
+        <action
+            android:id="@+id/action_detailTicketFragment_to_updateTicketFragment"
+            app:destination="@id/updateTicketFragment" />
     </fragment>
 </navigation>

@@ -149,7 +149,9 @@
                 <EditText
                     android:id="@+id/et_time_departure"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_time_24"
+                    android:drawableTint="#858585"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -217,7 +219,9 @@
                 <EditText
                     android:id="@+id/et_time_arrival"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_time_24"
+                    android:drawableTint="#858585"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -254,7 +258,8 @@
                 <EditText
                     android:id="@+id/et_price"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -264,7 +269,8 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="35dp"
                 android:text="@string/add_ticket"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:layout_marginBottom="60dp"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

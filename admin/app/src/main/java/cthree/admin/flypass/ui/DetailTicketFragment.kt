@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentDetailTicketBinding
 import cthree.admin.flypass.models.ticketflight.Flight
@@ -19,7 +20,6 @@ import kotlin.properties.Delegates
 class DetailTicketFragment : Fragment() {
 
     lateinit var binding: FragmentDetailTicketBinding
-    private val adminVM: AdminViewModel by viewModels()
     private lateinit var detailTicket : Flight
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,6 @@ class DetailTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-
         getArgs()
         setViews()
     }
@@ -73,6 +72,7 @@ class DetailTicketFragment : Fragment() {
         var baggage = detailTicket.baggage.toString()
         binding.tvBaggage.setText("Baggage {$baggage} kg")
         binding.tvPrice.setText(detailTicket.price.toString())
+        Glide.with(this).load(detailTicket.airline.image).into(binding.ivLogoAirline)
     }
 
     private fun setupToolbar(){

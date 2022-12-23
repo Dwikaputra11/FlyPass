@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentUserAccountDetailBinding
 import cthree.admin.flypass.models.user.User
@@ -47,6 +48,7 @@ class UserAccountDetailFragment() : Fragment() {
         binding.emailUser.setText(detailUser.email)
         binding.phoneUser.setText(detailUser.phone)
         binding.roleUser.setText(detailUser.role.name)
+        Glide.with(this).load(detailUser.image).into(binding.ivUser)
     }
 
     private fun getArgs() {

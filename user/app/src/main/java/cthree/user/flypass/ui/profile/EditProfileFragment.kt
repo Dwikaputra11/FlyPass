@@ -291,7 +291,6 @@ class EditProfileFragment : Fragment() {
         imgUri = getImageUri(requireContext(), bitmap)
         imgFile = ImageConfig.uriToFile(imgUri,requireContext())
         postProfile(imgFile)
-
 //        saveToFirebase()
         Log.d(TAG, "handleCameraImage Uri: $imgUri")
         Log.d(TAG, "handleCameraImage File: $imgFile")

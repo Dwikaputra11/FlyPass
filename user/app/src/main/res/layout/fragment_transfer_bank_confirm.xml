@@ -40,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/llPhotoFilled"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -58,6 +59,7 @@
                     android:layout_height="1dp"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llPhotoEmpty"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -65,14 +67,15 @@
                     android:src="@drawable/ic_outline_add_a_photo_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
                     android:paddingHorizontal="10dp"
                     android:text="Add Photo"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_vertical"
                     android:textColor="@color/color_primary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <ProgressBar

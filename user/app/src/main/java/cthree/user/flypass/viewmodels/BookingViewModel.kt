@@ -8,7 +8,9 @@ import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
+import cthree.user.flypass.models.booking.transaction.TransactionResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,10 +25,12 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
     private val searchBooking: MutableLiveData<BookingListResponse?>    = MutableLiveData()
     private val errorSearchBookMsg: MutableLiveData<String?>            = MutableLiveData()
     private val userBooking: MutableLiveData<BookingListResponse?>      = MutableLiveData()
+    private val paymentResponse: MutableLiveData<TransactionResponse?>  = MutableLiveData()
 
     fun getBookingResp(): LiveData<BookingResponse?> = bookingResp
     fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking
     fun userBookingResponse(): LiveData<BookingListResponse?> = userBooking
+    fun getPaymentResponse(): LiveData<TransactionResponse?> = paymentResponse
 
     fun postBookingRequest(token: String?,bookingRequest: BookingRequest){
         val tokens = if(token?.isNotEmpty() == true) "Bearer $token" else null
@@ -64,6 +68,26 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
 
             override fun onFailure(call: Call<BookingListResponse>, t: Throwable) {
                 Log.e(TAG, "onFailure: ${t.localizedMessage}")
+            }
+
+        })
+    }
+
+    fun callPayment(token: String?, bookingId: Int, image: MultipartBody.Part){
+        apiService.postPaymentBooking(token, bookingId, image).enqueue(object : Callback<TransactionResponse>{
+            override fun onResponse(
+                call: Call<TransactionResponse>,
+                response: Response<TransactionResponse>
+            ) {
+                if(response.isSuccessful){
+                    paymentResponse.postValue(response.body())
+                }else{
+                    paymentResponse.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<TransactionResponse>, t: Throwable) {
+                paymentResponse.postValue(null)
             }
 
         })

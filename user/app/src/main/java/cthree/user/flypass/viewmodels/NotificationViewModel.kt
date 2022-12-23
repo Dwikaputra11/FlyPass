@@ -10,11 +10,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 private const val TAG = "NotificationViewModel"
 
 @HiltViewModel
-class NotificationViewModel constructor(private val apiService: ApiService): ViewModel() {
+class NotificationViewModel @Inject constructor(private val apiService: ApiService): ViewModel() {
 
     val notificationList: MutableLiveData<NotificationList?> = MutableLiveData()
 

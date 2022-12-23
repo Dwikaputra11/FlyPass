@@ -8,34 +8,53 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Binder
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
+import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentTransferBankConfirmBinding
+import cthree.user.flypass.utils.ImageConfig
+import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.viewmodels.BookingViewModel
+import cthree.user.flypass.viewmodels.PreferencesViewModel
+import cthree.user.flypass.viewmodels.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 private const val REQUEST_IMAGE_CODE_PERMISSION = 100
 private const val TAG = "TransferBankConfirmFragment"
 
+@AndroidEntryPoint
 class TransferBankConfirmFragment : Fragment() {
 
     private lateinit var binding: FragmentTransferBankConfirmBinding
     private lateinit var imgUri: Uri
+    private lateinit var imgFile: File
+    private lateinit var progressAlertDialog        : AlertDialog
+    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var downloadUri: Uri
+    private var bookingId: Int = -1
+    private val prefVM: PreferencesViewModel by viewModels()
+    private var userToken: String? = null
+    private lateinit var sessionManager: SessionManager
+    private val bookingVM: BookingViewModel by viewModels()
 
     private val cameraResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -47,12 +66,18 @@ class TransferBankConfirmFragment : Fragment() {
     private val galleryResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
             if(result != null) imgUri = result
+            binding.llTakePhoto.isVisible = false
+            binding.ivPhoto.setImageURI(imgUri)
+            imgFile = ImageConfig.uriToFile(imgUri, requireContext())
+            postImageFile(imgFile)
             Log.d(TAG, "Gallery result: $imgUri")
 //            saveToFirebase()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -66,16 +91,39 @@ class TransferBankConfirmFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupToolbar()
+        setArgs()
+        initProgressDialog()
+
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isNotEmpty()){
+                userToken = it.token
+            }
+        }
+
+
+        bookingVM.getPaymentResponse().observe(viewLifecycleOwner){
+            if(it  != null){
+                progressAlertDialog.dismiss()
+                findNavController().navigate(R.id.action_transferBankConfirmFragment_to_bookingCompleteFragment)
+            }
+        }
 
         binding.paymentDetails.ivIcon.isVisible = false
         binding.paymentDetails.tvPaymentMethod.text = "Transfer Bank"
-        binding.llTakePhoto.setOnClickListener {
+        binding.llPhotoFilled.setOnClickListener {
             Log.d(TAG, "onViewCreated: Clicked")
             checkPermission()
         }
         binding.btnConfirm.setOnClickListener {
-            findNavController().navigate(R.id.action_transferBankConfirmFragment_to_bookingCompleteFragment)
+            postImageFile(imgFile)
         }
+    }
+
+    private fun setArgs(){
+        val bundle = arguments ?: return
+
+        val args = TransferBankConfirmFragmentArgs.fromBundle(bundle)
+        bookingId = args.bookingId
     }
 
     private fun checkPermission(){
@@ -152,7 +200,10 @@ class TransferBankConfirmFragment : Fragment() {
     private fun handleCameraImage(intent: Intent?) {
         val bitmap = intent?.extras?.get("data") as Bitmap
         imgUri = getImageUri(requireContext(), bitmap)
-//        saveToFirebase()
+        imgFile = ImageConfig.uriToFile(imgUri,requireContext())
+        binding.llTakePhoto.isVisible = false
+        binding.ivPhoto.setImageURI(imgUri)
+        postImageFile(imgFile)
         Log.d(TAG, "handleCameraImage: $imgUri")
     }
 
@@ -162,6 +213,33 @@ class TransferBankConfirmFragment : Fragment() {
         val path =
             MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
+    }
+
+    private fun postImageFile(imgFile: File?) {
+        if(imgFile != null){
+            val file = ImageConfig.reduceFileImage(imgFile)
+            val currentImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "image",
+                file.name,
+                currentImageFile
+            )
+            progressAlertDialog.show()
+            bookingVM.callPayment(
+                token = userToken,
+                bookingId = bookingId,
+                image = imageMultipart
+            )
+        }
+    }
+
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
     }
 
     private fun setupToolbar(){

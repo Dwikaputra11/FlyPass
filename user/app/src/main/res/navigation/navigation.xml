@@ -102,6 +102,9 @@
         <action
             android:id="@+id/action_paymentFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="bookingId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/bookingCompleteFragment"
@@ -162,50 +165,46 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_flightPayFragment"
-            app:popUpTo="@id/flightPayFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/flightPayFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_topUpFragment"
-            app:popUpTo="@id/topUpFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/topUpFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_bookingFragment"
-            app:popUpTo="@id/bookingFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/bookingFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_paymentFragment"
-            app:popUpTo="@id/paymentFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/paymentFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_transferBankConfirmFragment"
-            app:popUpTo="@id/transferBankConfirmFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/transferBankConfirmFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_profileAccountInfoFragment"
-            app:popUpTo="@id/profileAccountInfoFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/profileAccountInfoFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_wishlistFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/wishlistFragment"
-            app:destination="@id/wishlistFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_myBookingFragment"
-            app:popUpTo="@id/myBookingFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/myBookingFragment" />
-        <argument
-            android:name="fromDestination"
-            app:argType="cthree.user.flypass.utils.TokenNav"
-            android:defaultValue="HOME" />
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_flightPayFragment"-->
+<!--            app:popUpTo="@id/flightPayFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/flightPayFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_topUpFragment"-->
+<!--            app:popUpTo="@id/topUpFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/topUpFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_bookingFragment"-->
+<!--            app:popUpTo="@id/bookingFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/bookingFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_paymentFragment"-->
+<!--            app:popUpTo="@id/paymentFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/paymentFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_transferBankConfirmFragment"-->
+<!--            app:popUpTo="@id/transferBankConfirmFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/transferBankConfirmFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_profileAccountInfoFragment"-->
+<!--            app:popUpTo="@id/profileAccountInfoFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/profileAccountInfoFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_wishlistFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:popUpTo="@id/wishlistFragment"-->
+<!--            app:destination="@id/wishlistFragment" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_myBookingFragment"-->
+<!--            app:popUpTo="@id/myBookingFragment"-->
+<!--            app:popUpToInclusive="true"-->
+<!--            app:destination="@id/myBookingFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -239,10 +238,6 @@
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <argument
-            android:name="fromDestiantion"
-            app:argType="cthree.user.flypass.utils.TokenNav"
-            android:defaultValue="HOME" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -283,16 +278,26 @@
             app:destination="@id/loginFragment" />
         <argument
             android:name="email"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <argument
             android:name="password"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <argument android:name="confPassword"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <argument
-            android:name="fromDestination"
-            app:argType="cthree.user.flypass.utils.TokenNav"
-            android:defaultValue="HOME" />
+            android:name="idToken"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="registerMethod"
+            app:argType="cthree.user.flypass.utils.RegisterOption" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -415,6 +420,9 @@
         <action
             android:id="@+id/action_transferBankConfirmFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="bookingId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"

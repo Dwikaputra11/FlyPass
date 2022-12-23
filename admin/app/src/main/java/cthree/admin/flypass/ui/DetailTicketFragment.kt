@@ -13,7 +13,6 @@ import cthree.admin.flypass.databinding.FragmentDetailTicketBinding
 import cthree.admin.flypass.models.ticketflight.Flight
 import cthree.admin.flypass.viewmodels.AdminViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class DetailTicketFragment : Fragment() {
@@ -45,10 +44,7 @@ class DetailTicketFragment : Fragment() {
     }
 
     private fun getArgs() {
-        val bundle = arguments
-        if(bundle == null){
-            return
-        }
+        val bundle = arguments ?: return
         val args = DetailTicketFragmentArgs.fromBundle(bundle)
         detailTicket = args.detailTicket
     }

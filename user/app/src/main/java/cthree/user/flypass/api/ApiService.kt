@@ -1,11 +1,13 @@
 package cthree.user.flypass.api
 
 import cthree.user.flypass.data.GoogleTokenRequest
+import cthree.user.flypass.data.RegisterGoogle
 import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
+import cthree.user.flypass.models.booking.transaction.TransactionResponse
 import cthree.user.flypass.models.flight.FlightList
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
@@ -48,6 +50,9 @@ interface ApiService {
     @POST("v1/register")
     fun registerUser(@Body request : RegisterUser) : Call<RegisterResponse>
 
+    @POST("v1/googleregister")
+    fun registerGoogle(@Body request: RegisterGoogle): Call<RegisterResponse>
+
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>
 
@@ -78,9 +83,13 @@ interface ApiService {
     @POST("v1/flights/books")
     fun postBooking(@Header("Authorization") token: String?,@Body booking: BookingRequest): Call<BookingResponse>
 
-//    @POST("v1/pay/create")
-//    fun postPaymentBooking(@Header("Authorization") token: String?, ): Call<>
-
+    @Multipart
+    @POST("v1/pay/create/{bookingId}")
+    fun postPaymentBooking(
+        @Header("Authorization") token: String?,
+        @Path("bookingId") bookingId: Int,
+        @Part image: MultipartBody.Part,
+    ): Call<TransactionResponse>
 
     @GET("v1/bookings/search")
     fun searchBookingByCode(@Query("bookingcode") bookingCode: String): Call<BookingListResponse>

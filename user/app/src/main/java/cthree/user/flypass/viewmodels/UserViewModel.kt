@@ -9,6 +9,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import cthree.user.flypass.api.ApiService
 import cthree.user.flypass.data.GoogleTokenRequest
+import cthree.user.flypass.data.RegisterGoogle
 import cthree.user.flypass.data.UpdateProfile
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
@@ -47,6 +48,7 @@ class UserViewModel @Inject constructor(
     private val logoutUser          : MutableLiveData<Int?>                     = MutableLiveData()
     private val accessToken         : MutableLiveData<RefreshToken?>            = MutableLiveData()
     private val googleIdTokenLogin  : MutableLiveData<Login?>                   = MutableLiveData()
+    private val googleRegster       : MutableLiveData<RegisterResponse?>        = MutableLiveData()
 
     fun loginToken()                : LiveData<String?>                 = tokenUser
     fun getLoginErrorMessage()      : LiveData<String?>                 = loginErrorMsg
@@ -59,6 +61,7 @@ class UserViewModel @Inject constructor(
     fun getLogoutStatus()           : LiveData<Int?>                    = logoutUser
     fun getAccessToken()            : LiveData<RefreshToken?>           = accessToken
     fun getGoogleIdTokenLogin()     : LiveData<Login?>                  = googleIdTokenLogin
+    fun getGoogleRegister()         : LiveData<RegisterResponse?>       = googleRegster
 
     fun refreshToken(token: String){
         apiService.refreshToken("Bearer $token").enqueue(object : Callback<RefreshToken>{
@@ -151,6 +154,28 @@ class UserViewModel @Inject constructor(
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 registErrorMsg.postValue(null)
             }
+        })
+    }
+
+    fun registerGoogle(user: RegisterGoogle){
+        apiService.registerGoogle(user).enqueue(object : Callback<RegisterResponse>{
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                if(response.isSuccessful){
+                    registerDataUser.postValue(response.body())
+                }else{
+                    registerDataUser.postValue(null)
+                    Log.d(TAG, "Unsuccess: ${response.body()}")
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                registerDataUser.postValue(null)
+                Log.e(TAG, "Register Google Failed: ${t.localizedMessage}", )
+            }
+
         })
     }
 

@@ -37,6 +37,7 @@ class PaymentFragment : Fragment() {
     private lateinit var paymentMethodFragment  : PaymentMethodFragment
     private lateinit var passengerList          : List<Traveler>
     private lateinit var contactData            : Contact
+    private var bookingId                       : Int = -1
     private lateinit var sessionManager         : SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +63,8 @@ class PaymentFragment : Fragment() {
             if(binding.paymentDetails.tvPaymentMethod.text == "FlightPay"){
                 findNavController().navigate(R.id.action_paymentFragment_to_bookingCompleteFragment)
             }else{
-                findNavController().navigate(R.id.action_paymentFragment_to_transferBankConfirmFragment)
+                val directions = PaymentFragmentDirections.actionPaymentFragmentToTransferBankConfirmFragment(bookingId)
+                findNavController().navigate(directions)
             }
         }
     }
@@ -195,6 +197,7 @@ class PaymentFragment : Fragment() {
         arrFlight = args.arrFlight
         bookingCode = args.flyPassCode
         contactData = args.contactData
+        bookingId = args.bookingId
         passengerList = args.passengerList.toList()
         Log.d(TAG, "getArgs: Flight ${args.depFlight} Code $bookingCode")
     }

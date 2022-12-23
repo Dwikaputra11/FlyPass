@@ -11,10 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
+import cthree.user.flypass.data.RegisterGoogle
 import cthree.user.flypass.databinding.DialogOneButtonAlertBinding
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentAccountInformationBinding
 import cthree.user.flypass.models.user.RegisterUser
+import cthree.user.flypass.utils.RegisterOption
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,14 +29,16 @@ private const val TAG = "AccountInformationFragment"
 class AccountInformationFragment : Fragment() {
 
     private lateinit var binding                    : FragmentAccountInformationBinding
-    private lateinit var email                      : String
-    private lateinit var password                   : String
-    private lateinit var confPassword               : String
+    private var email                      : String? = null
+    private var password                   : String? = null
+    private var confPassword               : String? = null
     private val cal                                 : Calendar = Calendar.getInstance()
     private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog        : AlertDialog
     private lateinit var messageAlertDialogBuilder  : MaterialAlertDialogBuilder
     private val userViewModel: UserViewModel by viewModels()
+    private lateinit var registerMethod: RegisterOption
+    private var idToken: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         progressAlertDialogBuilder          = MaterialAlertDialogBuilder(requireContext())
@@ -105,16 +109,27 @@ class AccountInformationFragment : Fragment() {
             if(isValid()){
                 val date    = Utils.covertYearMonDay(cal.time)
                 val gender  = view.findViewById<RadioButton>(binding.rgGender.checkedRadioButtonId).text.toString()
-                val registerUser = RegisterUser(
-                    name                    = binding.etName.text.toString(),
-                    email                   = email,
-                    password                = password,
-                    confirmationPassword    = confPassword,
-                    phone                   = binding.etPhoneNumber.text.toString(),
-                    birthDate               = date,
-                    gender                  = gender
-                )
-                userViewModel.registerUser(registerUser)
+                if(registerMethod == RegisterOption.MANUAL){
+                    val register = RegisterUser(
+                        name                    = binding.etName.text.toString(),
+                        email                   = email!!,
+                        password                = password!!,
+                        confirmationPassword    = confPassword!!,
+                        phone                   = binding.etPhoneNumber.text.toString(),
+                        birthDate               = date,
+                        gender                  = gender
+                    )
+                    userViewModel.registerUser(register)
+                }else{
+                    val register = RegisterGoogle(
+                        name = binding.etName.text.toString(),
+                        IdToken = idToken!!,
+                        phone = binding.etPhoneNumber.text.toString(),
+                        birthDate = date,
+                        gender = gender
+                    )
+                    userViewModel.registerGoogle(register)
+                }
                 progressAlertDialog.show()
             }else{
                 with(requireContext()){
@@ -186,5 +201,7 @@ class AccountInformationFragment : Fragment() {
         email           = args.email
         password        = args.password
         confPassword    = args.confPassword
+        registerMethod = args.registerMethod
+        idToken = args.idToken
     }
 }

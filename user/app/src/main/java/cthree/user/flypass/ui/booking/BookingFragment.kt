@@ -141,7 +141,8 @@ class BookingFragment : Fragment() {
                     arrFlight = arrFlight,
                     flyPassCode = it.booking.bookingCode,
                     contactData = contactData,
-                    passengerList = travelerList.toTypedArray()
+                    passengerList = travelerList.toTypedArray(),
+                    bookingId = it.booking.id
                 )
                 findNavController().navigate(directions)
                 // to make booking resp not navigate to payment again when payment click back button to pop backstack

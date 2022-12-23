@@ -3,7 +3,6 @@ package cthree.user.flypass.ui.auth
 import android.app.Activity
 import android.content.IntentSender
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.*
 import androidx.activity.result.IntentSenderRequest
@@ -27,31 +26,22 @@ import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
-import com.google.api.client.http.javanet.NetHttpTransport
-import com.google.api.client.json.gson.GsonFactory
 import cthree.user.flypass.R
 import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentLoginBinding
-import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
-import cthree.user.flypass.utils.TokenNav
+import cthree.user.flypass.utils.RegisterOption
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.apache.http.client.methods.HttpPost
-import java.io.File
-import java.io.FileReader
 import java.util.*
-import kotlin.String
 import kotlin.getValue
 import kotlin.run
 import kotlin.toString
@@ -69,7 +59,7 @@ class LoginFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
-    private lateinit var fromDestination : TokenNav
+    private lateinit var fromDestination : RegisterOption
     private lateinit var oneTapClient: SignInClient
     private lateinit var verifier: GoogleIdTokenVerifier
     private lateinit var signInRequest: BeginSignInRequest
@@ -215,7 +205,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
         setBottomNav()
-        getArgs()
         configSignInGoogle()
 
 
@@ -337,11 +326,6 @@ class LoginFragment : Fragment() {
             .build()
     }
 
-    private fun getArgs(){
-        val bundle = arguments ?: return
-        val args = LoginFragmentArgs.fromBundle(bundle)
-        fromDestination = args.fromDestination
-    }
 
 //    private fun navigateConfig(){
 //        when(fromDestination){

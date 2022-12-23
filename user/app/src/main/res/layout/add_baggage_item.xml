@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/tvNameTraveler"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:text="Adult 1"
         android:paddingVertical="10dp"
         android:textColor="@color/black"

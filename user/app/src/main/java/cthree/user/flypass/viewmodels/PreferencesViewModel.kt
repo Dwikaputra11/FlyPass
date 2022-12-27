@@ -55,6 +55,14 @@ class PreferencesViewModel @Inject constructor(
         viewModelScope.launch { prefRepo.clearRefreshToken() }
     }
 
+    fun savePinMember(pinMember: String){
+        viewModelScope.launch { prefRepo.savePinMember(pinMember) }
+    }
+
+    fun clearPinMember(){
+        viewModelScope.launch { prefRepo.clearPinMember() }
+    }
+
     fun clearAirportSearch(){
         viewModelScope.launch { prefRepo.clearDataDepartArrive() }
     }

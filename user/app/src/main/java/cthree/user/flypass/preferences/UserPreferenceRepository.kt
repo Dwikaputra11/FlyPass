@@ -137,6 +137,16 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().clearRefreshToken().build()
         }
     }
+    suspend fun savePinMember(pinNumber: String){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setPinMember(pinNumber).build()
+        }
+    }
+    suspend fun clearPinMember(){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearPinMember().build()
+        }
+    }
 
     // save data to data store proto
     suspend fun saveDataUser(profile: Profile){

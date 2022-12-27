@@ -29,6 +29,7 @@ message UserProto {
 
   string token = 18;
   string refreshToken = 21;
+  string pinMember = 32;
 
   string depFlight = 22;
   string arrFlight = 23;

@@ -17,6 +17,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.ZoneId
 import java.util.*
 
 object Utils {
@@ -33,7 +34,7 @@ object Utils {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun convertISOTime(context: Context, isoTime: String?, type: String): String {
+    fun convertISOTime(context: Context, isoTime: String?): String {
 
         Log.d("Date", "convertISOTime: $isoTime")
 
@@ -76,7 +77,6 @@ object Utils {
             Log.e("Error Date ", e.message!!)
         }
 
-        if(Constants.TIME_TYPE == type) return formattedTime
         return "$formattedDate"
     }
 
@@ -210,24 +210,39 @@ object Utils {
         return "$formattedString"
     }
 
-    fun decodeAccountToken(token: String): Profile? {
+//    fun decodeAccountToken(token: String): Profile? {
+//        val user = JWT(token)
+//        Log.d("User", "decodeAccountToken: ${user.claims}")
+//        val claim = user.getClaim("user").asObject(UserData::class.java)
+//        Log.d("Claim", "decodeAccountToken: $claim")
+//        if (claim != null) {
+//            return Profile(
+//                id = claim.id,
+//                email = claim.email,
+//                birthDate = claim.birthDate,
+//                gender = claim.gender,
+//                image = claim.image,
+//                phone = claim.phone,
+//                roleId = claim.roleId,
+//                name = claim.name
+//            )
+//        }
+//        return null
+//    }
+
+    fun decodeAccountToken(token: String): Profile {
         val user = JWT(token)
         Log.d("User", "decodeAccountToken: ${user.claims}")
-        val claim = user.getClaim("user").asObject(UserData::class.java)
-        Log.d("Claim", "decodeAccountToken: $claim")
-        if (claim != null) {
-            return Profile(
-                id = claim.id,
-                email = claim.email,
-                birthDate = claim.birthDate,
-                gender = claim.gender,
-                image = claim.image,
-                phone = claim.phone,
-                roleId = claim.roleId,
-                name = claim.name
-            )
-        }
-        return null
+        return Profile(
+            id = user.getClaim("id").asInt()!!,
+            email = user.getClaim("email").asString()!!,
+            birthDate = user.getClaim("birthDate").asString(),
+            gender = user.getClaim("gender").asString(),
+            image = user.getClaim("image").asString(),
+            phone = user.getClaim("phone").asString(),
+            roleId = user.getClaim("roleId").asInt()!!,
+            name = user.getClaim("name").asString()!!
+        )
     }
 
     fun isTokenExpired(token: String): Boolean{
@@ -238,6 +253,22 @@ object Utils {
         Log.d("Token", "expired at: $expire")
         Log.d("Token", "isTokenExpired: $isExpired")
         return isExpired
+    }
+
+    fun getDateNow(): String{
+        val cal = Calendar.getInstance()
+        val formattedDate: String?
+        try{
+            formattedDate = cal.time.let {
+                SimpleDateFormat("E, dd MMM yyyy", Locale.US).format(it)
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
+            Log.e("Date", "convertDateToDay: ")
+            return ""
+        }
+        return "$formattedDate"
+
     }
 
 //    fun expiredTokenDialog(layoutInflater: LayoutInflater, context: Context): AuthOption{

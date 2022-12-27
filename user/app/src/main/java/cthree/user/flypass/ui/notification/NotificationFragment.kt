@@ -5,8 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.NotificationAdapter
 import cthree.user.flypass.databinding.FragmentNotificationBinding
@@ -36,8 +40,10 @@ class NotificationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupToolbar()
+        setBottomNav()
         prefVM.dataUser.observe(viewLifecycleOwner){
-            if(it.token != null){
+            if(it.token.isNotEmpty()){
                 notifyVM.callNotification(it.token)
             }
         }
@@ -51,5 +57,21 @@ class NotificationFragment : Fragment() {
             }
         }
     }
+
+    private fun setupToolbar(){
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbarLayout.toolbar.title = "Notification"
+        binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
+        binding.toolbarLayout.toolbar.setNavigationOnClickListener {
+            Navigation.findNavController(binding.root).popBackStack()
+        }
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
+    }
+
 
 }

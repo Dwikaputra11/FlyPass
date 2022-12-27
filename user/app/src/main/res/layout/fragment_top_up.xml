@@ -1,333 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.flightpay.TopUpFragment"
-    android:background="#F4F4F4">
+    android:background="@color/screen_background">
+
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/toolbar_general"/>
+
     <LinearLayout
+        android:layout_below="@id/toolbarLayout"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            app:cardElevation="10dp"
             android:layout_margin="20dp"
+            android:backgroundTint="@color/white"
             app:cardCornerRadius="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:paddingVertical="12dp"
-                        android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:orientation="vertical"
+                    android:paddingVertical="12dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="@string/topup"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/topup"
+                        android:textColor="#858585"
                         android:textSize="16sp"
-                        android:textColor="#858585"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="5dp"/>
+                        android:textStyle="bold" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#DADCE3"
-                        android:layout_marginBottom="10dp"/>
-                    <LinearLayout
+                        android:layout_marginBottom="10dp"
+                        android:background="#DADCE3" />
+
+                    <RadioGroup
+                        android:id="@+id/rgCash1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
-                        <com.google.android.material.card.MaterialCardView
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:strokeColor="#858585"
-                            app:strokeWidth="1dp"
-                            app:cardCornerRadius="10dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="28dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/top20"/>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                        <com.google.android.material.card.MaterialCardView
+                            android:background="@drawable/topup_background_state"
+                            android:button="@drawable/null_background_radio_button"
+                            android:paddingHorizontal="10dp"
+                            android:text="Rp 20.000"
+                            android:textAlignment="center"
+                            android:textColor="@color/topup_text_color_state"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/topup_background_state"
+                            android:button="@drawable/null_background_radio_button"
+                            android:paddingHorizontal="10dp"
+                            android:text="Rp 50.000"
+                            android:textAlignment="center"
+                            android:textColor="@color/topup_text_color_state"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:strokeColor="#858585"
-                            app:strokeWidth="1dp"
-                            app:cardCornerRadius="10dp"
-                            android:layout_marginHorizontal="10dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="28dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/top50"/>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:strokeColor="#858585"
-                            app:strokeWidth="1dp"
-                            app:cardCornerRadius="10dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="28dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/top100"/>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                    </LinearLayout>
-                    <LinearLayout
+                            android:background="@drawable/topup_background_state"
+                            android:button="@drawable/null_background_radio_button"
+                            android:paddingHorizontal="10dp"
+                            android:text="Rp 100.000"
+                            android:textAlignment="center"
+                            android:textColor="@color/topup_text_color_state"
+                            android:textStyle="bold" />
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:id="@+id/rgCash2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
-                        <com.google.android.material.card.MaterialCardView
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:strokeColor="#858585"
-                            app:strokeWidth="1dp"
-                            app:cardCornerRadius="10dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="28dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/top200"/>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                        <com.google.android.material.card.MaterialCardView
+                            android:background="@drawable/topup_background_state"
+                            android:button="@drawable/null_background_radio_button"
+                            android:paddingHorizontal="10dp"
+                            android:text="Rp 200.000"
+                            android:textAlignment="center"
+                            android:textColor="@color/topup_text_color_state"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/topup_background_state"
+                            android:button="@drawable/null_background_radio_button"
+                            android:paddingHorizontal="10dp"
+                            android:text="Rp 300.000"
+                            android:textAlignment="center"
+                            android:textColor="@color/topup_text_color_state"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            app:strokeColor="#858585"
-                            app:strokeWidth="1dp"
-                            app:cardCornerRadius="10dp"
-                            android:layout_marginHorizontal="10dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="28dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/top300"/>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:strokeColor="#858585"
-                            app:strokeWidth="1dp"
-                            app:cardCornerRadius="10dp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="28dp">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/top500"/>
-                            </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                    </LinearLayout>
+                            android:background="@drawable/topup_background_state"
+                            android:button="@drawable/null_background_radio_button"
+                            android:paddingHorizontal="10dp"
+                            android:text="Rp 500.000"
+                            android:textAlignment="center"
+                            android:textColor="@color/topup_text_color_state"
+                            android:textStyle="bold" />
+                    </RadioGroup>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#DADCE3"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="#DADCE3" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="@string/topup_input"
-                        android:textSize="11sp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/topup_input"
                         android:textColor="#858585"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="5dp"/>
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="@string/currency"
-                            android:textSize="18sp"
-                            android:textColor="#FF000F"
-                            android:textStyle="bold"
+                            android:layout_marginEnd="5dp"
                             android:layout_marginBottom="5dp"
-                            android:layout_marginEnd="5dp"/>
+                            android:text="@string/currency"
+                            android:textColor="#FF000F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
                         <EditText
+                            android:id="@+id/etNominal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:textSize="20sp"
-                            android:textColor="#FF000F"/>
+                            android:inputType="number"
+                            android:imeOptions="actionDone"
+                            android:hint="120.000"
+                            android:textColor="#FF000F"
+                            android:textSize="20sp" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#0CFF0D9E"
-                    tools:text="Nominal minimal isi saldo adalah Rp 20.000."
-                    android:textColor="#FF000F"
-                    android:paddingVertical="7dp"
                     android:paddingHorizontal="20dp"
+                    android:paddingVertical="7dp"
+                    android:text="Nominal minimal isi saldo adalah Rp 20.000."
+                    android:textColor="#FF000F"
                     android:textSize="11dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"/>
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            app:cardElevation="10dp"
             android:layout_marginHorizontal="20dp"
-            app:cardCornerRadius="10dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/cash"
-                        android:layout_marginEnd="5dp"/>
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/cash" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/payment"
-                        android:textSize="10sp"
-                        android:textColor="#858585"/>
+                        android:textColor="#858585"
+                        android:textSize="10sp" />
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_payment_method"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Dompet Digital"
-                    android:textSize="10sp"
-                    android:textColor="#858585"/>
+                    android:text="Dompet Digital"
+                    android:textColor="#858585"
+                    android:textSize="10sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            app:cardElevation="10dp"
             android:layout_marginHorizontal="20dp"
-            app:cardCornerRadius="10dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/topup_nominal"
-                        android:textSize="10sp"
                         android:textColor="#858585"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/tv_topup_nominal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Rp 20.000"
-                        android:textSize="10sp"
+                        android:text="Rp 0"
                         android:textColor="#858585"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="@string/total_topup"
-                        android:textSize="10sp"
+                        android:text="@string/total_topup"
                         android:textColor="@color/black"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/tv_topup_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Rp 20.000"
-                        android:textSize="10sp"
+                        android:text="Rp 0"
                         android:textColor="#FF000F"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-    <com.google.android.material.card.MaterialCardView
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPayNow"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/smokey_500"
+        app:cornerRadius="10dp"
+        android:layout_marginBottom="10dp"
+        app:backgroundTint="@color/white"
+        android:layout_marginHorizontal="20dp"
+        android:text="@string/pay_now"
+        android:textColor="@color/smokey_700"
+        android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:layout_margin="20dp"
-        app:cardCornerRadius="10dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="#858585"
-        app:layout_constraintBottom_toBottomOf="parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="@string/pay_now"
-                android:textSize="14sp"
-                android:textColor="#4D4D4D"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

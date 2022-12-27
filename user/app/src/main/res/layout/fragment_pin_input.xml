@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.flightpay.PinInputFragment">
+
+    <com.hanks.passcodeview.PasscodeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pinView"
+        app:firstInputTip="Enter a passcode of 6 digits"
+        app:passcodeLength="6"
+        app:normalStateColor="@color/white"
+        android:background="@color/color_primary"
+        app:correctStateColor="#71bb4d"
+        app:wrongStateColor="#ea2b46"
+        app:wrongLengthTip="Passcode must contains 6 digits numbers"
+        app:wrongInputTip="Passcode not matched"
+        />
+
+
+</LinearLayout>

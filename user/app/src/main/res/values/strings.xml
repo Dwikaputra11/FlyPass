@@ -15,6 +15,18 @@
     <string name="date_format" translatable="false">MMM d, yyyy</string>
     <string name="time_format" translatable="false">HH:mm a</string>
 
+    <!--  FlightPay  -->
+    <string name="non_member_title">Hanya untuk member!</string>
+    <string name="non_member_msg">Silahkan daftar sebagai member terlebih dahulu</string>
+    <string name="non_member_btn_login">Login</string>
+    <string name="non_member_btn_register">Register</string>
+    <string name="non_member_btn_maybe_later">Nanti Saja</string>
+
+    <!--  Aktivasi Wallet  -->
+    <string name="wallet_activation_title">Aktivasi wallet terlebih dahulu!</string>
+    <string name="wallet_activation_msg">Transaksi tidak bisa dilakukan sebelum diaktivasi.</string>
+    <string name="wallet_activation_btn">Aktivasi</string>
+
     <!--    Login   -->
     <string name="wrong_password_title">Password Anda Salah!</string>
     <string name="wrong_password_subtitle">Silahkan masukkan password yang benar.</string>

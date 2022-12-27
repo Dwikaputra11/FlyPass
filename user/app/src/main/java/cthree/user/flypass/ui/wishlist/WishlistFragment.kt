@@ -6,8 +6,12 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
@@ -26,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 private const val TAG = "WishlistFragment"
 
 @AndroidEntryPoint
-class WishlistFragment : Fragment() {
+class WishlistFragment : Fragment(), MenuProvider {
 
     private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog        : AlertDialog
@@ -63,6 +67,7 @@ class WishlistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
+        setupToolbar()
         setViews()
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
@@ -114,6 +119,17 @@ class WishlistFragment : Fragment() {
             }
         }
     }
+
+    private fun setupToolbar() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
+        supportActionBar?.setLogo(R.drawable.logo_toolbar)
+    }
+
     private fun callLoginDialog() {
         DialogCaller(requireActivity())
             .setTitle(R.string.login_dialog_title)
@@ -148,5 +164,21 @@ class WishlistFragment : Fragment() {
         binding.rvMovie.adapter = adapter
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        Log.d(TAG, "onMenuItemSelected: ")
+        return when (menuItem.itemId){
+            R.id.notification ->{
+                Log.d(TAG, "onMenuItemSelected: Clicked")
+//                checkUserMember()
+                true
+            }
+            else -> false
+        }
     }
 }

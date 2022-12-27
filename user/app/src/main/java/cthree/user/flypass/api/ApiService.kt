@@ -1,14 +1,18 @@
 package cthree.user.flypass.api
 
-import cthree.user.flypass.data.GoogleTokenRequest
-import cthree.user.flypass.data.RegisterGoogle
-import cthree.user.flypass.data.UpdateProfile
+import cthree.user.flypass.data.*
 import cthree.user.flypass.models.airport.AirportList
 import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
 import cthree.user.flypass.models.booking.transaction.TransactionResponse
 import cthree.user.flypass.models.flight.FlightList
+import cthree.user.flypass.models.flightpay.ActivateEWalletResponse
+import cthree.user.flypass.models.flightpay.BookingBalancePay
+import cthree.user.flypass.models.flightpay.UserWallet
+import cthree.user.flypass.models.flightpay.history.HistoryTopupList
+import cthree.user.flypass.models.flightpay.topup.TopupConfirmation
+import cthree.user.flypass.models.flightpay.topup.TopupRequestResponse
 import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.login.refreshtoken.RefreshToken
@@ -108,4 +112,35 @@ interface ApiService {
 
     @GET("v1/notification")
     fun getNotification(@Header("Authorization") token: String): Call<NotificationList>
+
+
+    // Wallet
+    @POST("v1/wallet")
+    fun activateEWallet(@Body pin: InputPinMember, @Header("Authorization") token: String): Call<ActivateEWalletResponse>
+
+    @GET("v1/wallet")
+    fun userWallet(@Header("Authorization") token: String): Call<UserWallet>
+
+    @POST("v1/wallet/payment/{bookingId}")
+    fun bookingWithBalance(
+        @Path("bookingId") id: Int,
+        @Header("Authorization") token: String,
+        @Body pin: InputPinMember
+    ): Call<BookingBalancePay>
+
+    @POST("v1/wallet/topup")
+    fun topUpRequest(
+        @Header("Authorization") token: String,
+        @Body amount: BalanceRequestAmount,
+    ): Call<TopupRequestResponse>
+
+    @POST("v1/wallet/topup/confirm/{walletHistoryId}")
+    fun topUpConfirm(
+        @Header("Authorization") token: String,
+        @Path("walletHistoryId") id: Int,
+    ): Call<TopupConfirmation>
+
+    @GET("v1/wallet/history")
+    fun walletHistory(@Header("Authorization") token: String): Call<HistoryTopupList>
+
 }

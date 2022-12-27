@@ -226,6 +226,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -484,6 +487,9 @@
         <action
             android:id="@+id/action_flightPayFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_flightPayFragment_to_pinInputFragment"
+            app:destination="@id/pinInputFragment" />
     </fragment>
     <fragment
         android:id="@+id/topUpFragment"
@@ -491,11 +497,8 @@
         android:label="fragment_top_up"
         tools:layout="@layout/fragment_top_up" >
         <action
-            android:id="@+id/action_topUpFragment_to_topUpSuccessFragment"
-            app:destination="@id/topUpSuccessFragment" />
-        <action
-            android:id="@+id/action_topUpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_topUpFragment_to_topUpPaymentFragment"
+            app:destination="@id/topUpPaymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/topUpSuccessFragment"
@@ -504,9 +507,52 @@
         tools:layout="@layout/fragment_top_up_success" >
         <action
             android:id="@+id/action_topUpSuccessFragment_to_flightPayFragment"
-            app:destination="@id/flightPayFragment" />
+            app:destination="@id/flightPayFragment"
+            app:popUpTo="@id/flightPayFragment"
+            app:popUpToInclusive="true"
+            />
         <action
             android:id="@+id/action_topUpSuccessFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/flightPayFragment"
+            app:popUpToInclusive="true"
+            />
+        <argument
+            android:name="nominal"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="cthree.user.flypass.ui.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_notificationFragment_to_notificationDetailFragment"
+            app:destination="@id/notificationDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationDetailFragment"
+        android:name="cthree.user.flypass.ui.notification.NotificationDetailFragment"
+        android:label="fragment_notification_detail"
+        tools:layout="@layout/fragment_notification_detail" />
+    <fragment
+        android:id="@+id/pinInputFragment"
+        android:name="cthree.user.flypass.ui.flightpay.PinInputFragment"
+        android:label="fragment_pin_input"
+        tools:layout="@layout/fragment_pin_input" />
+    <fragment
+        android:id="@+id/topUpPaymentFragment"
+        android:name="cthree.user.flypass.ui.flightpay.TopUpPaymentFragment"
+        android:label="fragment_top_up_payment"
+        tools:layout="@layout/fragment_top_up_payment" >
+        <action
+            android:id="@+id/action_topUpPaymentFragment_to_topUpSuccessFragment"
+            app:destination="@id/topUpSuccessFragment" />
+        <argument
+            android:name="nominal"
+            app:argType="string" />
+        <argument
+            android:name="walletId"
+            app:argType="integer" />
     </fragment>
 </navigation>

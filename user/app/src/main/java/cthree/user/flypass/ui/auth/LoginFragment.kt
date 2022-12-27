@@ -215,11 +215,13 @@ class LoginFragment : Fragment() {
                 sessionManager.setToken(it)
                 // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
+                prefVM.clearToken()
+                prefVM.clearRefreshToken()
+                prefVM.clearProfileData()
                 prefVM.saveToken(it)
-                if(profile != null) {
-                    sessionManager.setUserId(profile.id)
-                    prefVM.saveData(profile)
-                }
+                Log.d(TAG, "Profile Not Null: ${profile.toString()}")
+                sessionManager.setUserId(profile.id)
+                prefVM.saveData(profile)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }

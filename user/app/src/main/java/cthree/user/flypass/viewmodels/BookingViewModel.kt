@@ -9,6 +9,7 @@ import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
 import cthree.user.flypass.models.booking.transaction.TransactionResponse
+import cthree.user.flypass.models.flightpay.BookingBalancePay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -26,6 +27,7 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
     private val errorSearchBookMsg: MutableLiveData<String?>            = MutableLiveData()
     private val userBooking: MutableLiveData<BookingListResponse?>      = MutableLiveData()
     private val paymentResponse: MutableLiveData<TransactionResponse?>  = MutableLiveData()
+    private val bookingBalancePay: MutableLiveData<BookingBalancePay?>  = MutableLiveData()
 
     fun getBookingResp(): LiveData<BookingResponse?> = bookingResp
     fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking

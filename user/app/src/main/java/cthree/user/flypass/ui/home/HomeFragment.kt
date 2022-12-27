@@ -2,16 +2,21 @@ package cthree.user.flypass.ui.home
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.appcompat.app.ActionBar.DisplayOptions
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,17 +24,23 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.work.WorkInfo
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.HighlightTopicAdapter
 import cthree.user.flypass.adapter.RecentSearchAdapter
 import cthree.user.flypass.data.DummyData
 import cthree.user.flypass.data.RecentSearch
+import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentHomeBinding
 import cthree.user.flypass.models.airport.Airport
+import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.Constants
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.AirportViewModel
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.RecentSearchViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,17 +50,21 @@ import java.util.*
 private const val TAG = "HomeFragment"
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), MenuProvider {
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
+    private lateinit var progressAlertDialog        : AlertDialog
     private lateinit var sessionManager: SessionManager
     private val airportViewModel: AirportViewModel by viewModels()
     private val recentSearchViewModel: RecentSearchViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
+    private val prefVM: PreferencesViewModel by viewModels()
     private val calDep: Calendar = Calendar.getInstance()
     private val calArr: Calendar = Calendar.getInstance()
     private lateinit var departIata: String
     private lateinit var arriveIata: String
+    private var userToken: String?  = null
     private var departCity: String? = null
     private var arriveCity: String? = null
     private lateinit var onBackPressedCallback: OnBackPressedCallback
@@ -60,6 +75,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate: Started")
         sessionManager = SessionManager(requireContext())
+        progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
         }
         super.onCreate(savedInstanceState)
@@ -79,13 +95,56 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated: Started")
+        initProgressDialog()
+        setupToolbar()
         setViews()
         setAdapter()
+        setOnClickEvent()
         setBottomNav()
-        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
+//        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
+
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isNotEmpty()){
+                userToken = it.token
+            }
+        }
+
+        if(sessionManager.getIsFirstInstall()){
+            Log.d(TAG, "onViewCreated: first")
+            airportViewModel.fetchAirportData()
+            airportViewModel.getAirportWorkerInfo().observe(viewLifecycleOwner){
+                val workInfo = it[0]
+                if(workInfo.state == WorkInfo.State.SUCCEEDED){
+                    Log.d(TAG, "fetchAirport: Done")
+                    sessionManager.setIsFirstInstall(false)
+                }
+            }
+        }
+
+
+    }
+
+    private fun setOnClickEvent() {
         binding.flightPay.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_flightPayFragment)
+            if(userToken != null) findNavController().navigate(R.id.action_homeFragment_to_flightPayFragment)
+            else{
+                DialogCaller(requireActivity())
+                    .setTitle(R.string.non_member_title)
+                    .setMessage(R.string.non_member_msg)
+                    .setPrimaryButton(R.string.non_member_btn_login){ dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    .setSecondaryButton(R.string.non_member_btn_maybe_later){dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    .create(layoutInflater, AlertButton.TWO)
+                    .show()
+            }
         }
 
         binding.topup.setOnClickListener {
@@ -114,19 +173,6 @@ class HomeFragment : Fragment() {
                 // after set we have to update in view
                 updateDate()
             }
-
-
-        if(sessionManager.getIsFirstInstall()){
-            Log.d(TAG, "onViewCreated: first")
-            airportViewModel.fetchAirportData()
-            airportViewModel.getAirportWorkerInfo().observe(viewLifecycleOwner){
-                val workInfo = it[0]
-                if(workInfo.state == WorkInfo.State.SUCCEEDED){
-                    Log.d(TAG, "fetchAirport: Done")
-                    sessionManager.setIsFirstInstall(false)
-                }
-            }
-        }
 
         binding.etDepartureDate.setOnClickListener {
             dateField = Constants.DEPART_DATE
@@ -192,6 +238,26 @@ class HomeFragment : Fragment() {
             recentSearchViewModel.deleteAllSearch()
         }
     }
+
+    private fun setupToolbar() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
+        supportActionBar?.setLogo(R.drawable.logo_toolbar)
+    }
+
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+    }
+
 
     private fun navigateToTicketList() {
         val dateDep = Utils.reverseDateFormat(calDep)
@@ -284,6 +350,34 @@ class HomeFragment : Fragment() {
     private fun setBottomNav(){
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.isVisible = true
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        Log.d(TAG, "onMenuItemSelected: ")
+        return when (menuItem.itemId){
+            R.id.notification ->{
+                Log.d(TAG, "onMenuItemSelected: Clicked")
+                checkUserMember()
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun checkUserMember() {
+        prefVM.dataUser.observe(viewLifecycleOwner) {
+            if (it.token.isNotEmpty()) {
+                findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
+            } else {
+                findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
+                // unregistered user
+//                DialogCaller(requireActivity())
+            }
+        }
     }
 
 }

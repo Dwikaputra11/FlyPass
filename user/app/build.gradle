@@ -48,11 +48,16 @@ android {
 dependencies {
 
     implementation 'com.github.nawinkhatiwada:TopSheet:1.0.0-alpha2'
+    implementation 'com.hanks:passcodeview:0.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'com.auth0.android:jwtdecode:2.0.1'
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+//    implementation ('com.github.omadahealth:lollipin:2.1.0@aar') {
+//        transitive = true
+//    }
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

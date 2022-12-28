@@ -11,7 +11,7 @@
         android:id="@+id/toolbarLayout"
         layout="@layout/toolbar_general"/>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cvHistoryDetail"
+        android:id="@+id/clHistoryDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="15dp"
@@ -51,20 +51,20 @@
                         android:id="@+id/tvDepartCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Jakarta"
+                        android:text="Jakarta"
                         android:textColor="@color/smokey_1100"
                         android:textSize="11sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text=" - "
+                        android:text=" - "
                         android:textColor="@color/smokey_1100"
                         android:textSize="11sp"/>
                     <TextView
                         android:id="@+id/tvArriveCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Semarang"
+                        android:text="Semarang"
                         android:textColor="@color/smokey_1100"
                         android:textSize="11sp"/>
                 </LinearLayout>
@@ -76,13 +76,13 @@
                         android:id="@+id/tvAirplaneName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Lion Air"
+                        android:text="Lion Air"
                         android:textColor="@color/smokey_700"
                         android:textSize="11sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text=" | "
+                        android:text=" | "
                         android:textAlignment="gravity"
                         android:textColor="@color/smokey_700"
                         android:textSize="13sp"/>
@@ -90,13 +90,13 @@
                         android:id="@+id/tvDepartDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="Rab, 30 Nov 2022"
+                        android:text="Rab, 30 Nov 2022"
                         android:textColor="@color/smokey_700"
                         android:textSize="11sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text=" | "
+                        android:text=" | "
                         android:textAlignment="gravity"
                         android:textColor="@color/smokey_700"
                         android:textSize="13sp"/>
@@ -104,20 +104,20 @@
                         android:id="@+id/tvDepartTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="19.30"
+                        android:text="19.30"
                         android:textColor="@color/smokey_700"
                         android:textSize="11sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text=" - "
+                        android:text=" - "
                         android:textColor="@color/smokey_700"
                         android:textSize="11sp"/>
                     <TextView
                         android:id="@+id/tvArriveTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="11.40"
+                        android:text="11.40"
                         android:textColor="@color/smokey_700"
                         android:textSize="11sp"/>
                 </LinearLayout>
@@ -145,7 +145,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvTotalPrice"
                 app:layout_constraintEnd_toStartOf="@+id/tvTotalPrice"
                 app:layout_constraintTop_toTopOf="@+id/tvTotalPrice"
-                tools:text="Rp " />
+                android:text="Rp " />
 
             <TextView
                 android:id="@+id/tvTotalPrice"
@@ -157,7 +157,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="800.189" />
+                android:text="800.189" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -189,24 +189,24 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/smokey_700"
                     android:textSize="11sp"
-                    tools:text="Penumpang" />
+                    android:text="Penumpang" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text=" ("
+                    android:text=" ("
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
                 <TextView
                     android:id="@+id/tvPassengerQty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="1"
+                    android:text="1"
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="x)"
+                    android:text="x)"
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
             </LinearLayout>
@@ -218,14 +218,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Rp "
+                    android:text="Rp "
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
                 <TextView
                     android:id="@+id/tvPassengerPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="762.500"
+                    android:text="762.500"
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
             </LinearLayout>
@@ -239,7 +239,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="Biaya Tambahan"
+                android:text="Biaya Tambahan"
                 android:textSize="11sp"
                 android:textColor="@color/smokey_700"/>
             <LinearLayout
@@ -250,14 +250,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Rp "
+                    android:text="Rp "
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
                 <TextView
                     android:id="@+id/tvBaggagePrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="24.000"
+                    android:text="24.000"
                     android:textSize="11sp"
                     android:textColor="@color/smokey_700"/>
             </LinearLayout>
@@ -273,14 +273,14 @@
             android:id="@+id/bookingStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Pesanan Selesai"
+            android:text="Pesanan Selesai"
             android:textSize="11sp"
             android:textColor="@color/smokey_1100"
             android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Pesananmu Telah Selesai"
+            android:text="Pesananmu Telah Selesai"
             android:textSize="11sp"
             android:textColor="@color/smokey_1100"/>
     </LinearLayout>

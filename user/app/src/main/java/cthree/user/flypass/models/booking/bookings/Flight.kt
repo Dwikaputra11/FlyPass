@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FlightBook(
+data class Flight(
     @SerializedName("Airline")
     val airline: Airline,
     @SerializedName("Airplane")
     val airplane: Airplane,
     @SerializedName("arrivalAirport")
-    val arrivalAirport: Airport,
+    val arrivalAirport: ArrivalAirport,
     @SerializedName("arrivalDate")
     val arrivalDate: String,
     @SerializedName("arrivalTime")
@@ -20,7 +20,7 @@ data class FlightBook(
     @SerializedName("baggage")
     val baggage: Int,
     @SerializedName("departureAirport")
-    val departureAirport: Airport,
+    val departureAirport: DepartureAirport,
     @SerializedName("departureDate")
     val departureDate: String,
     @SerializedName("departureTime")
@@ -39,4 +39,4 @@ data class FlightBook(
     val isAvailable: Boolean,
     @SerializedName("price")
     val price: Int
-) : Parcelable
+): Parcelable

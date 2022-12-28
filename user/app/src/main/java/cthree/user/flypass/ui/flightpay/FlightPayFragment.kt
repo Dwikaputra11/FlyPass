@@ -23,6 +23,7 @@ import cthree.user.flypass.databinding.FragmentFlightPayBinding
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
+import cthree.user.flypass.utils.InputPinFrom
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.FlightPayViewModel
@@ -44,7 +45,7 @@ class FlightPayFragment : Fragment() {
     private lateinit var userToken: String
     private lateinit var sessionManager             : SessionManager
     private val adapter = FlightPayTransactionAdapter()
-    private val pinInputFragment = PinInputFragment()
+    private val pinInputFragment = PinInputFragment(InputPinFrom.FLIGHTPAY)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

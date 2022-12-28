@@ -11,4 +11,4 @@ data class FlightType(
     val id: Int,
     @SerializedName("name")
     val name: String
-) : Parcelable
+): Parcelable

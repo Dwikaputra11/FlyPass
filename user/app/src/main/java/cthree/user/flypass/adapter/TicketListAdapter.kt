@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import cthree.user.flypass.databinding.TicketListItemBinding
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.utils.Constants
@@ -21,6 +22,24 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
         this.listener = listener
     }
     inner class ViewHolder(val binding: TicketListItemBinding): RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(ticket: Flight){
+            val timeDepart = Utils.formattedTime(ticket.departureTime)
+            val timeArrive = Utils.formattedTime(ticket.arrivalTime)
+            binding.iataArriveAirport.text = ticket.arrivalAirport.iata
+            binding.iataDepartAirport.text = ticket.departureAirport.iata
+            binding.tvAirplaneName.text = ticket.airline.name
+            binding.tvArriveTime.text = timeArrive
+            binding.tvDepartTime.text = timeDepart
+            binding.tvDuration.text = ticket.duration
+            binding.tvSeatClass.text = ticket.flightClass.name
+            binding.tvTicketPrice.text = ticket.price.toString()
+            Glide.with(binding.root)
+                .load(ticket.airline.image)
+                .into(binding.ivAirplaneLogo)
+        }
+
+
         init {
             binding.btnDetail.setOnClickListener {
                 listener.onItemClick(binding.btnDetail,differ.currentList[absoluteAdapterPosition])
@@ -49,21 +68,7 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ticket = differ.currentList[position]
-//        val isoTimeDepart = "${ticket.departureDate}T${ticket.departureTime}Z"
-//        val isoTimeArrive = "${ticket.arrivalDate}T${ticket.arrivalTime}Z"
-        val timeDepart = Utils.formattedTime(ticket.departureTime)
-//        val dateDepart = Utils.convertISOTime(holder.binding.root.context, isoTimeDepart, Constants.DATE_TYPE)
-        val timeArrive = Utils.formattedTime(ticket.arrivalTime)
-//        val dateArrive = Utils.convertISOTime(holder.binding.root.context, isoTimeArrive, Constants.DATE_TYPE)
-        holder.binding.iataArriveAirport.text = ticket.arrivalAirport.iata
-        holder.binding.iataDepartAirport.text = ticket.departureAirport.iata
-        holder.binding.tvAirplaneName.text = ticket.airline.name
-        holder.binding.tvArriveTime.text = timeArrive
-        holder.binding.tvDepartTime.text = timeDepart
-        holder.binding.tvDuration.text = ticket.duration
-        holder.binding.tvSeatClass.text = ticket.flightClass.name
-        holder.binding.tvTicketPrice.text = ticket.price.toString()
+        holder.bind(differ.currentList[position])
     }
 
     override fun getItemCount(): Int {

@@ -6,21 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.TravelerDetailsAdapter
 import cthree.user.flypass.data.Contact
 import cthree.user.flypass.data.Traveler
-import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.databinding.FragmentPaymentBinding
 import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.ui.flightpay.PinInputFragment
+import cthree.user.flypass.utils.AlertButton
+import cthree.user.flypass.utils.InputPinFrom
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,21 @@ class PaymentFragment : Fragment() {
     private var bookingId                       : Int = -1
     private lateinit var sessionManager         : SessionManager
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: ")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         paymentMethodFragment   = PaymentMethodFragment()
         sessionManager          = SessionManager(requireContext())
@@ -58,15 +74,22 @@ class PaymentFragment : Fragment() {
         getArgs()
         setupToolbar()
         setViews()
+        setBottomNav()
         binding.btnPayment.setOnClickListener {
 //            notEnoughBalanceDialog()
             if(binding.paymentDetails.tvPaymentMethod.text == "FlightPay"){
-                findNavController().navigate(R.id.action_paymentFragment_to_bookingCompleteFragment)
+                checkBalanceDialog()
             }else{
                 val directions = PaymentFragmentDirections.actionPaymentFragmentToTransferBankConfirmFragment(bookingId)
                 findNavController().navigate(directions)
             }
         }
+    }
+
+    private fun requestPinMember() {
+        val pinInputFragment = PinInputFragment(InputPinFrom.PAYMENT)
+        pinInputFragment.show(requireActivity().supportFragmentManager.beginTransaction(), pinInputFragment.tag)
+        pinInputFragment.setBookingId(bookingId)
     }
 
     private fun setViews() {
@@ -165,25 +188,22 @@ class PaymentFragment : Fragment() {
 //        binding.tvPrice.text = Utils.formattedMoney(totalPrice)
     }
 
-    private fun notEnoughBalanceDialog(){
-        val notEnoughBinding = DialogTwoButtonAlertBinding.inflate(layoutInflater, null, false)
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+    private fun checkBalanceDialog(){
 
-        materialAlertDialogBuilder.setView(notEnoughBinding.root)
-
-        val materAlertDialog = materialAlertDialogBuilder.create()
-        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        materAlertDialog.show()
-
-        notEnoughBinding.btnYes.setOnClickListener {
-            Log.d(TAG, "notEnoughBalanceDialog: Btn TopUp Clicked")
-            materAlertDialog.dismiss()
-        }
-        notEnoughBinding.tvNo.setOnClickListener {
-            Log.d(TAG, "notEnoughBalanceDialog: Maybe Later")
-            materAlertDialog.dismiss()
-        }
+        DialogCaller(requireActivity())
+            .setTitle(R.string.not_enough_balance_title)
+            .setMessage(R.string.not_enough_balance_msg)
+            .setPrimaryButton(R.string.top_up_balance_btn){ dialog, _ ->
+                run{
+//                    findNavController().navigate(R.)
+                }
+            }
+            .setSecondaryButton(R.string.maybe_later){ dialog, _ ->
+                run{
+                    dialog.dismiss()
+                }
+            }.create(layoutInflater, AlertButton.TWO)
+            .show()
     }
 
     private fun getArgs() {
@@ -200,6 +220,11 @@ class PaymentFragment : Fragment() {
         bookingId = args.bookingId
         passengerList = args.passengerList.toList()
         Log.d(TAG, "getArgs: Flight ${args.depFlight} Code $bookingCode")
+    }
+
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
     }
 
     private fun setupToolbar(){

@@ -20,7 +20,6 @@
     <string name="non_member_msg">Silahkan daftar sebagai member terlebih dahulu</string>
     <string name="non_member_btn_login">Login</string>
     <string name="non_member_btn_register">Register</string>
-    <string name="non_member_btn_maybe_later">Nanti Saja</string>
 
     <!--  Aktivasi Wallet  -->
     <string name="wallet_activation_title">Aktivasi wallet terlebih dahulu!</string>
@@ -104,5 +103,16 @@
     <string name="adds_on">Adds On</string>
     <string name="total_price">Total Price</string>
     <string name="confirm">Confirm</string>
+
+    <!--  Not Enough Balance  -->
+    <string name="not_enough_balance_title">Saldo Tidak Cukup !</string>
+    <string name="not_enough_balance_msg">Silahkan isi saldo anda terlebih dahulu</string>
+    <string name="top_up_balance_btn">Ke Menu Top Up</string>
+    <string name="maybe_later">Nanti Saja</string>
+
+    <!--  Continue Booking Process  -->
+    <string name="continue_booking_process_title">Lanjutkan Pembayaran Booking?</string>
+    <string name="continue_booking_process_msg">Proses booking belum selesai. Silahkan lanjutkan proses pembayaran!</string>
+    <string name="continue_booking_process_btn_continue">Lanjutkan</string>
 
 </resources>

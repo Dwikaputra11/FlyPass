@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import cthree.user.flypass.api.ApiService
+import cthree.user.flypass.data.InputPinMember
 import cthree.user.flypass.models.booking.bookings.BookingListResponse
 import cthree.user.flypass.models.booking.request.BookingRequest
 import cthree.user.flypass.models.booking.response.BookingResponse
@@ -33,6 +34,7 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
     fun getSearchBooking(): LiveData<BookingListResponse?> = searchBooking
     fun userBookingResponse(): LiveData<BookingListResponse?> = userBooking
     fun getPaymentResponse(): LiveData<TransactionResponse?> = paymentResponse
+    fun getBookingBalancePay(): LiveData<BookingBalancePay?> = bookingBalancePay
 
     fun postBookingRequest(token: String?,bookingRequest: BookingRequest){
         val tokens = if(token?.isNotEmpty() == true) "Bearer $token" else null
@@ -92,6 +94,26 @@ class BookingViewModel @Inject constructor(private val apiService: ApiService): 
                 paymentResponse.postValue(null)
             }
 
+        })
+    }
+
+    fun paymentWithFlightPay(bookingId: Int,token: String, pin: InputPinMember){
+        apiService.bookingWithBalance(bookingId,"Bearer $token", pin).enqueue(object : Callback<BookingBalancePay>{
+            override fun onResponse(
+                call: Call<BookingBalancePay>,
+                response: Response<BookingBalancePay>
+            ) {
+                if(response.isSuccessful){
+                    bookingBalancePay.postValue(response.body())
+                }else{
+                    bookingBalancePay.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<BookingBalancePay>, t: Throwable) {
+                Log.e(TAG, "Booking With Balance Failed: ${t.localizedMessage}", )
+                bookingBalancePay.postValue(null)
+            }
         })
     }
 

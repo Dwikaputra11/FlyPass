@@ -1,4 +1,4 @@
-package cthree.user.flypass.models.flight
+package cthree.user.flypass.models.booking.bookings
 
 
 import android.os.Parcelable
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DepartureAirport(
+data class ArrivalAirport(
     @SerializedName("city")
     val city: String,
     @SerializedName("country")

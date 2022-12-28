@@ -10,7 +10,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Saldo Tidak Cukup !"
+            android:text="@string/not_enough_balance_title"
             android:textStyle="bold"
             android:textColor="@color/color_primary"
             android:textSize="20sp"
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Silahkan isi saldo anda terlebih dahulu"
+            android:text="@string/not_enough_balance_msg"
             android:textColor="@color/smokey_500"
             android:layout_below="@id/tvTitle"
             />
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ke Menu Top Up"
+                android:text="@string/top_up_balance_btn"
                 android:textAllCaps="false"
                 />
 
@@ -52,7 +52,7 @@
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:layout_weight="1"
-                android:text="Nanti Saja"
+                android:text="@string/maybe_later"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16sp"

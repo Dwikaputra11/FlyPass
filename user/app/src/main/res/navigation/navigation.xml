@@ -400,8 +400,8 @@
             android:id="@+id/action_myBookingFragment_to_historySummaryFragment"
             app:destination="@id/historySummaryFragment" />
         <action
-            android:id="@+id/action_myBookingFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_myBookingFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/wishlistFragment"

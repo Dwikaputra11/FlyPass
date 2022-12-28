@@ -10,16 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingAdapter
+import cthree.user.flypass.data.Contact
+import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentHistoryBinding
 import cthree.user.flypass.models.booking.bookings.Booking
 import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.ui.booking.BookingFragmentDirections
+import cthree.user.flypass.ui.booking.BookingFragmentDirections.Companion.actionBookingFragmentToPaymentFragment
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
+import cthree.user.flypass.utils.BookingStatus
 import cthree.user.flypass.utils.Utils
 import cthree.user.flypass.viewmodels.BookingViewModel
 import cthree.user.flypass.viewmodels.PreferencesViewModel
@@ -97,10 +101,58 @@ class HistoryFragment : Fragment() {
         adapter.setOnItemClickListener(object : BookingAdapter.OnItemClickListener{
             override fun onItemClick(booking: Booking) {
                 Log.d(TAG, "onItemClick: $booking")
-                findNavController().navigate(MyBookingFragmentDirections.actionMyBookingFragmentToHistorySummaryFragment(booking))
+                if(booking.bookingStatus.id == BookingStatus.WAITING.ordinal){
+                    continueBookingProcess(booking)
+                }else{
+                    findNavController().navigate(MyBookingFragmentDirections.actionMyBookingFragmentToHistorySummaryFragment(booking))
+                }
             }
         })
     }
+
+    private fun continueBookingProcess(booking: Booking) {
+        DialogCaller(requireActivity())
+            .setTitle(R.string.continue_booking_process_title)
+            .setMessage(R.string.continue_booking_process_msg)
+            .setPrimaryButton(R.string.continue_booking_process_btn_continue){ dialog, _ ->
+                run{
+                    val contact = Contact(
+                        firstName = booking.passengerContact.firstName,
+                        lastName = booking.passengerContact.lastName,
+                        email = booking.passengerContact.email,
+                        phoneNumber = booking.passengerContact.phone,
+                        title = booking.passengerContact.title
+                    )
+                    val traveler = booking.passengers.map {
+                        Traveler(
+                            title = "Tuan",
+                            firstName = it.firstName,
+                            lastName = it.lastName,
+                            dateBirth = "11/11/2001",
+                            idCard = it.identityNumber
+                        )
+                    }.toList()
+                    val directions = MyBookingFragmentDirections.actionMyBookingFragmentToPaymentFragment(
+                        depFlight = booking.depFlight,
+                        arrFlight = booking.arrFlight,
+                        flyPassCode = booking.bookingCode,
+                        contactData = contact,
+                        passengerList = traveler.toTypedArray(),
+                        bookingId = booking.id
+                    )
+                    findNavController().navigate(directions)
+                    dialog.dismiss()
+                }
+            }
+            .setSecondaryButton(R.string.maybe_later){ dialog, _ ->
+                run{
+                    dialog.dismiss()
+                }
+            }
+            .create(layoutInflater, AlertButton.TWO)
+            .show()
+    }
+
 
     private fun showSessionExpiredDialog(){
         DialogCaller(requireActivity())

@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+
 @Parcelize
 data class Booking(
     @SerializedName("bookingCode")
@@ -16,13 +17,13 @@ data class Booking(
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("flight1")
-    val depFlight: FlightBook,
+    val depFlight: cthree.user.flypass.models.flight.Flight,
     @SerializedName("flight1Id")
-    val depFlightId: Int,
+    val flight1Id: Int,
     @SerializedName("flight2")
-    val arrFlight: FlightBook?,
+    val arrFlight: cthree.user.flypass.models.flight.Flight,
     @SerializedName("flight2Id")
-    val arrFlightId: Int?,
+    val flight2Id: Int,
     @SerializedName("id")
     val id: Int,
     @SerializedName("PassengerContact")
@@ -42,5 +43,5 @@ data class Booking(
     @SerializedName("updatedAt")
     val updatedAt: String,
     @SerializedName("userId")
-    val userId: Int?
-) : Parcelable
+    val userId: Int
+): Parcelable

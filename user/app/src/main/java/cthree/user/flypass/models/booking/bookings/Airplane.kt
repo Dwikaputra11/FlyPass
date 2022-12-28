@@ -17,4 +17,4 @@ data class Airplane(
     val model: String,
     @SerializedName("updatedAt")
     val updatedAt: String
-) : Parcelable
+): Parcelable

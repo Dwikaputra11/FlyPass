@@ -2,14 +2,12 @@ package cthree.user.flypass.ui.home
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
-import androidx.appcompat.app.ActionBar.DisplayOptions
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
@@ -32,8 +30,6 @@ import cthree.user.flypass.data.DummyData
 import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentHomeBinding
-import cthree.user.flypass.models.airport.Airport
-import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.Constants
@@ -137,7 +133,7 @@ class HomeFragment : Fragment(), MenuProvider {
                             dialog.dismiss()
                         }
                     }
-                    .setSecondaryButton(R.string.non_member_btn_maybe_later){dialog, _ ->
+                    .setSecondaryButton(R.string.maybe_later){ dialog, _ ->
                         run{
                             dialog.dismiss()
                         }

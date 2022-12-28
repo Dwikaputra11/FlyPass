@@ -40,7 +40,7 @@ class HistorySummaryFragment : Fragment() {
         setupToolbar()
         setViews()
         setBottomNav()
-        binding.cvHistoryDetail.setOnClickListener {
+        binding.clHistoryDetail.setOnClickListener {
 
         }
     }

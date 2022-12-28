@@ -26,6 +26,8 @@
     <color name="smokey_1000">#545454</color>
     <color name="smokey_1100">#424242</color>
 
+    <color name="orange_500">#FF8A00</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

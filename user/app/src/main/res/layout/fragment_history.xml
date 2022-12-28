@@ -3,16 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.mybooking.HistoryFragment"
     android:background="@color/screen_background">
 
     <include
+        android:visibility="gone"
         android:id="@+id/notFound"
         layout="@layout/not_found_item"/>
+<!--    <TextView-->
+<!--        android:text="Booking on Process"-->
+<!--        android:textColor="@color/smokey_700"-->
+<!--        android:padding="10dp"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:visibility="visible"-->
+<!--        android:id="@+id/rvBookingOnProcess"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        tools:listitem="@layout/history_booking_item"-->
+<!--        tools:itemCount="2"-->
+<!--        />-->
+<!--    <View-->
+<!--        android:layout_marginVertical="10dp"-->
+<!--        android:background="@color/smokey_300"-->
+<!--        android:layout_marginHorizontal="10dp"-->
+<!--        android:visibility="visible"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"/>-->
+<!--    <TextView-->
+<!--        android:text="Complete"-->
+<!--        android:textColor="@color/smokey_700"-->
+<!--        android:padding="10dp"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
     <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
+        android:layout_marginBottom="?actionBarSize"
+        android:visibility="visible"
         android:id="@+id/rvBookingHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/row_history"/>
+        tools:itemCount="4"
+        tools:listitem="@layout/history_booking_item"/>
 </LinearLayout>

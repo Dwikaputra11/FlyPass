@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import cthree.user.flypass.data.PassengerBaggage
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.FragmentTravelerDetailsBinding
 import cthree.user.flypass.models.booking.request.Passenger
@@ -103,10 +102,10 @@ class TravelerDetailsFragment : BottomSheetDialogFragment() {
 
     private fun setInput() {
         with(traveler!!){
-            binding.etFirstName.setText(name)
+            binding.etFirstName.setText(firstName)
             binding.etBirthDate.setText(dateBirth)
             binding.etIdCard.setText(idCard)
-            binding.etLastName.setText(surname)
+            binding.etLastName.setText(lastName)
         }
     }
 

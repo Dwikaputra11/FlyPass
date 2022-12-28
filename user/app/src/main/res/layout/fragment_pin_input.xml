@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +7,33 @@
     tools:context=".ui.flightpay.PinInputFragment">
 
     <com.hanks.passcodeview.PasscodeView
+        android:id="@+id/pinView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/pinView"
-        app:firstInputTip="Enter a passcode of 6 digits"
-        app:passcodeLength="6"
-        app:normalStateColor="@color/white"
         android:background="@color/color_primary"
         app:correctStateColor="#71bb4d"
-        app:wrongStateColor="#ea2b46"
-        app:wrongLengthTip="Passcode must contains 6 digits numbers"
+        app:firstInputTip="Enter a passcode of 6 digits"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:normalStateColor="@color/white"
+        app:passcodeLength="6"
         app:wrongInputTip="Passcode not matched"
-        />
+        app:wrongLengthTip="Passcode must contains 6 digits numbers"
+        app:wrongStateColor="#ea2b46" />
+
+    <TextView
+        android:id="@+id/tvForgotPinNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot Your Pin Number?"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.60" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

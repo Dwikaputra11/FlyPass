@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Airport(
+data class DepartureAirport(
     @SerializedName("city")
     val city: String,
     @SerializedName("country")
@@ -17,4 +17,4 @@ data class Airport(
     val id: Int,
     @SerializedName("name")
     val name: String
-) : Parcelable
+): Parcelable

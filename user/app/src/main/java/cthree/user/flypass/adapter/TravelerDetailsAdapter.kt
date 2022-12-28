@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.TravelerDetailsItemBinding
-import kotlin.math.log
 
 private const val TAG = "TravelerDetailsAdapter"
 class TravelerDetailsAdapter(private val passengerAmount: Int): RecyclerView.Adapter<TravelerDetailsAdapter.ViewHolder>() {
@@ -60,7 +59,7 @@ class TravelerDetailsAdapter(private val passengerAmount: Int): RecyclerView.Ada
         if(differ.currentList.isNotEmpty() && differ.currentList.size != holder.absoluteAdapterPosition){
             Log.d(TAG, "onBindViewHolder: not empty")
             val traveler = differ.currentList[position]
-            holder.binding.tvAdultName.text = if(traveler != null) "${traveler.title}. ${traveler.surname}, ${traveler.name}"
+            holder.binding.tvAdultName.text = if(traveler != null) "${traveler.title}. ${traveler.lastName}, ${traveler.firstName}"
             else "Adult ${position + 1}"
         }else{
             holder.binding.tvAdultName.text = "Adult ${position + 1}"

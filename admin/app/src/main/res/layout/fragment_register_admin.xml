@@ -228,13 +228,13 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNext"
+                android:id="@+id/btnRegister"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Next"
+                android:text="Register"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -255,7 +255,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnNext">
+                app:layout_constraintTop_toBottomOf="@+id/btnRegister">
 
                 <View
                     android:layout_width="150dp"
@@ -285,6 +285,7 @@
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="35dp"
+                android:layout_marginBottom="60dp"
                 android:text="Login with Google"
                 android:textAllCaps="false"
                 android:textColor="@color/smokey_900"
@@ -301,35 +302,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/registerDivider"
                 app:rippleColor="@color/color_primary" />
-
-            <LinearLayout
-                android:id="@+id/registerOptions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerGoogle">
-
-                <TextView
-                    android:id="@+id/tvaskRegister"
-                    style="@style/divider"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Joined us before?" />
-
-                <TextView
-                    android:id="@+id/tvtoLogin"
-                    style="@style/divider"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Login"
-                    android:textColor="@color/color_primary" />
-
-            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

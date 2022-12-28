@@ -6,6 +6,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import cthree.admin.flypass.UserProto
 import cthree.admin.flypass.models.admin.UserAdmin
+import cthree.admin.flypass.models.airline.Airline
+import cthree.admin.flypass.models.airplane.Airplane
+import cthree.admin.flypass.models.airport.Airport
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import java.io.IOException
@@ -36,22 +39,78 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-//    suspend fun saveDataUserId(id: Int){
-//        context.userPreferencesStore.updateData { preferences ->
-//            preferences.toBuilder().setId(id).build()
-//        }
-//    }
-
     suspend fun saveLoginStatus(paramIsLogin: Boolean){
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setSaveLoginStatus(paramIsLogin).build()
         }
     }
 
+    suspend fun saveDataAirportDepart(airport: Airport) {
+        //Depart
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportCity(airport.city).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportCountry(airport.country).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportIata(airport.iata).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportId(airport.id).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportName(airport.name).build()
+        }
+    }
 
-    // delete datastore
-    suspend fun clearData(){
+    suspend fun saveDataAirportArrive(airport: Airport){
+        //Arrive
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportCity(airport.city).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportCountry(airport.country).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportIata(airport.iata).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportId(airport.id).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportName(airport.name).build()
+        }
+    }
 
+    suspend fun saveDataAirline(airline: Airline){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineId(airline.id).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineIata(airline.iata).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineName(airline.name).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineImage(airline.image).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineImageId(airline.imageId).build()
+        }
+    }
+
+    suspend fun saveDataAirplane(airplane: Airplane){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirplaneIcao(airplane.icao).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirplaneId(airplane.id).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirplaneModel(airplane.model).build()
+        }
     }
 
 

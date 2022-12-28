@@ -4,10 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIService
-import cthree.admin.flypass.models.admin.AdminDataClass
-import cthree.admin.flypass.models.admin.LoginAdminResponse
-import cthree.admin.flypass.models.admin.RegisterAdminDataClass
-import cthree.admin.flypass.models.admin.UserAdmin
+import cthree.admin.flypass.models.admin.*
 import cthree.admin.flypass.models.user.GetUserResponse
 import cthree.admin.flypass.models.user.User
 import cthree.admin.flypass.preferences.UserPreferenceRepository
@@ -32,17 +29,19 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
 
     private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val loginErrorMsg: MutableLiveData<String?> = MutableLiveData()
+    private val registerErrorMsg: MutableLiveData<String?> = MutableLiveData()
     private val liveDataUser: MutableLiveData<GetUserResponse?> = MutableLiveData()
-    private val postRegisterAdmin: MutableLiveData<RegisterAdminDataClass?> = MutableLiveData()
+    private val postRegisterAdmin: MutableLiveData<RegisterAdminResponse?> = MutableLiveData()
 
     fun getLoginToken(): LiveData<String?> = tokenAdmin
     fun getLoginErrorMessage(): LiveData<String?> = loginErrorMsg
+    fun getRegisterErrorMessage(): LiveData<String?> = registerErrorMsg
 
     fun getLiveDataUsers() : MutableLiveData<GetUserResponse?> {
         return liveDataUser
     }
 
-    fun postRegisterAdmin(): MutableLiveData<RegisterAdminDataClass?> {
+    fun postRegisterAdmin(): MutableLiveData<RegisterAdminResponse?> {
         return postRegisterAdmin
     }
 
@@ -71,26 +70,24 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
             })
     }
 
-    fun registerAdmin(registerData: RegisterAdminDataClass){
-        apiService.registerAdmin(registerData)
-            .enqueue(object : Callback<LoginAdminResponse> {
+    fun registerAdmin(token : String, registerData: RegisterAdminDataClass){
+        apiService.registerAdmin(token, registerData)
+            .enqueue(object : Callback<RegisterAdminResponse> {
                 override fun onResponse(
-                    call: Call<LoginAdminResponse>,
-                    response: Response<LoginAdminResponse>
+                    call: Call<RegisterAdminResponse>,
+                    response: Response<RegisterAdminResponse>
                 ) {
                     if (response.isSuccessful){
-                        response.body()?.let {
-                            tokenAdmin.postValue(it.userAdmin.accesstToken)
-                        }
+                        postRegisterAdmin.postValue(response.body())
                     }else{
-                        tokenAdmin.postValue(null)
+                        postRegisterAdmin.postValue(null)
                         val jsonObject = JSONObject(response.errorBody()!!.charStream().readText())
-                        loginErrorMsg.postValue(jsonObject.getString("message"))
+                        registerErrorMsg.postValue(jsonObject.getString("message"))
                     }
                 }
 
-                override fun onFailure(call: Call<LoginAdminResponse>, t: Throwable) {
-                    tokenAdmin.postValue(null)
+                override fun onFailure(call: Call<RegisterAdminResponse>, t: Throwable) {
+                    postRegisterAdmin.postValue(null)
                 }
 
             })
@@ -120,10 +117,6 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
     fun saveData(admin: UserAdmin){
         viewModelScope.launch { prefRepo.saveDataAdmin(admin) }
     }
-
-//    fun saveDataId(id : Int){
-//        viewModelScope.launch { prefRepo.saveDataUserId(id) }
-//    }
 
     fun saveLoginStatus(status : Boolean){
         viewModelScope.launch { prefRepo.saveLoginStatus(status) }

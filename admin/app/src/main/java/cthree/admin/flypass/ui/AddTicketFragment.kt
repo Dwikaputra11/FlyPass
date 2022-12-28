@@ -19,6 +19,8 @@ import com.google.android.material.timepicker.TimeFormat
 import cthree.admin.flypass.R
 import cthree.admin.flypass.adapter.TicketAdapter
 import cthree.admin.flypass.databinding.FragmentAddTicketBinding
+import cthree.admin.flypass.utils.Constants
+import cthree.admin.flypass.viewmodels.AirportViewModel
 import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -31,7 +33,11 @@ class AddTicketFragment : Fragment() {
     val seatClass = arrayOf("Economy", "Executive", "Bussiness")
     lateinit var binding : FragmentAddTicketBinding
     private val ticketVM : TicketViewModel by viewModels()
-    private val ticketAdapter : TicketAdapter = TicketAdapter()
+    private val airportVM : AirportViewModel by viewModels()
+    private var departAirportId : Int = 0
+    private var arriveAirportId : Int = 0
+    private var airlineId : Int = 0
+    private var airplaneId : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +56,11 @@ class AddTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
+        setViews()
+
+        binding.btnAddTicket.setOnClickListener {
+
+        }
 
         val arrayAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
         binding.spSeatClass.adapter = arrayAdapter
@@ -65,14 +76,14 @@ class AddTicketFragment : Fragment() {
         }
 
         val calendar = Calendar.getInstance()
-        val datePickerDeparture = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePickerDeparture = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateLableDepart(calendar)
         }
 
-        val datePickerArrival = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePickerArrival = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -95,6 +106,12 @@ class AddTicketFragment : Fragment() {
 
         binding.etTimeArrival.setOnClickListener {
             openTimePickerArrive()
+        }
+
+        binding.etFrom.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Constants.FLIGHT_DIR, Constants.DEPART_AIRPORT)
+            Navigation.findNavController(binding.root).navigate(R.id.action_addTicketFragment_to_searchAirportFragment, bundle)
         }
     }
 
@@ -168,6 +185,27 @@ class AddTicketFragment : Fragment() {
         val format = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(format, Locale.US)
         binding.etDateArrival.setText(sdf.format(calendar.time))
+    }
+
+    private fun setViews(){
+        airportVM.dataUser.observe(viewLifecycleOwner){
+            if (it.departAirportCity.isNotEmpty()){
+                binding.etFrom.setText(it.departAirportCity)
+                departAirportId = it.departAirportId
+            }
+            if (it.arriveAirportCity.isNotEmpty()){
+                binding.etTo.setText(it.arriveAirportCity)
+                arriveAirportId = it.arriveAirportId
+            }
+            if (it.airlineName.isNotEmpty()){
+                binding.etAirlineName.setText(it.airlineName)
+                airlineId = it.airlineId
+            }
+            if (it.airplaneModel.isNotEmpty()){
+                binding.etAirplaneType.setText(it.airplaneModel)
+                airplaneId = it.airplaneId
+            }
+        }
     }
 
     private fun setupToolbar(){

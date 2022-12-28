@@ -4,12 +4,16 @@ import cthree.admin.flypass.models.admin.AdminDataClass
 import cthree.admin.flypass.models.admin.LoginAdminResponse
 import cthree.admin.flypass.models.admin.RegisterAdminDataClass
 import cthree.admin.flypass.models.admin.RegisterAdminResponse
+import cthree.admin.flypass.models.airline.GetAirlineResponse
+import cthree.admin.flypass.models.airplane.GetAirplaneResponse
+import cthree.admin.flypass.models.airport.GetAirportResponse
 import cthree.admin.flypass.models.ticketflight.Flight
 import cthree.admin.flypass.models.ticketflight.GetTicketResponse
 import cthree.admin.flypass.models.user.GetUserResponse
 import cthree.admin.flypass.models.user.User
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -28,4 +32,19 @@ interface APIService {
 
     @GET("v1/flights")
     fun getAllTickets() : Call<GetTicketResponse>
+
+//    @POST("v1/flights")
+//    fun addTickets(@Body request : ) : Call<GetTicketResponse>
+
+    @DELETE("v1/flights/{id}")
+    fun deleteTicket(@Header("Authorization") token: String, @Path("id") id : Int) : Call<GetTicketResponse>
+
+    @GET("v1/airport")
+    fun apiServiceAirport() : Call<GetAirportResponse>
+
+    @GET("v1/airlines")
+    fun apiServiceAirline() : Call<GetAirlineResponse>
+
+    @GET("v1/airplanes")
+    fun apiServiceAirplane() : Call<GetAirplaneResponse>
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -12,18 +13,22 @@ import com.bumptech.glide.Glide
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentDetailTicketBinding
 import cthree.admin.flypass.models.ticketflight.Flight
-import cthree.admin.flypass.viewmodels.AdminViewModel
+import cthree.admin.flypass.utils.SessionManager
+import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class DetailTicketFragment : Fragment() {
 
     lateinit var binding: FragmentDetailTicketBinding
     private lateinit var detailTicket : Flight
+    private lateinit var sessionManager: SessionManager
+    private val ticketVM: TicketViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -41,6 +46,22 @@ class DetailTicketFragment : Fragment() {
         setupToolbar()
         getArgs()
         setViews()
+
+        val token = sessionManager.getToken()
+        var idTicket = detailTicket.id
+
+        var bundle = Bundle()
+        bundle.putString(detailTicket.flightCode, null)
+        bundle.putString(detailTicket.airline.name, null)
+        bundle.putString(detailTicket.airplane.model, null)
+        bundle.putString(detailTicket.departureAirport.city, null)
+
+
+        binding.btnDelete.setOnClickListener {
+            ticketVM.callDeleteTicket("Bearer ${token!!.trim()}", idTicket)
+            Toast.makeText(requireContext(), "Tiket Berhasil Dihapus", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(binding.root).popBackStack()
+        }
     }
 
     private fun getArgs() {

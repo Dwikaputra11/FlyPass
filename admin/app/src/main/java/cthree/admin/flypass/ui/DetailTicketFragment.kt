@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentDetailTicketBinding
@@ -50,16 +51,14 @@ class DetailTicketFragment : Fragment() {
         val token = sessionManager.getToken()
         var idTicket = detailTicket.id
 
-        var bundle = Bundle()
-        bundle.putString(detailTicket.flightCode, null)
-        bundle.putString(detailTicket.airline.name, null)
-        bundle.putString(detailTicket.airplane.model, null)
-        bundle.putString(detailTicket.departureAirport.city, null)
-
+        binding.btnEdit.setOnClickListener {
+            val directions = DetailTicketFragmentDirections.actionDetailTicketFragmentToUpdateTicketFragment(detailTicket)
+            findNavController().navigate(directions)
+        }
 
         binding.btnDelete.setOnClickListener {
             ticketVM.callDeleteTicket("Bearer ${token!!.trim()}", idTicket)
-            Toast.makeText(requireContext(), "Tiket Berhasil Dihapus", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Delete Ticket Success", Toast.LENGTH_SHORT).show()
             Navigation.findNavController(binding.root).popBackStack()
         }
     }
@@ -91,7 +90,7 @@ class DetailTicketFragment : Fragment() {
         binding.tvArrivalDate.setText(detailTicket.arrivalDate)
         binding.tvAirplane.setText(detailTicket.airplane.model)
         var baggage = detailTicket.baggage.toString()
-        binding.tvBaggage.setText("Baggage {$baggage} kg")
+        binding.tvBaggage.setText("Baggage $baggage kg")
         binding.tvPrice.setText(detailTicket.price.toString())
         Glide.with(this).load(detailTicket.airline.image).into(binding.ivLogoAirline)
     }

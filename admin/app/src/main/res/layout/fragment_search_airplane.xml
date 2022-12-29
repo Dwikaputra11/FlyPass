@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/screen_background"
-    tools:context=".ui.SearchAirlineFragment">
+    tools:context=".ui.SearchAirplaneFragment">
 
     <include
         android:id="@+id/toolbarLayout"
         layout="@layout/toolbar_search"/>
 
     <include
-        android:id="@+id/existAirlineList"
-        layout="@layout/exist_airline_list_layout"/>
+        android:id="@+id/existAirplaneList"
+        layout="@layout/exist_airplane_list_layout"/>
 
     <ProgressBar
         android:visibility="gone"

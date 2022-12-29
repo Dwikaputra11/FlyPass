@@ -20,6 +20,7 @@ import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentUpdateTicketBinding
 import cthree.admin.flypass.models.ticketflight.Flight
 import cthree.admin.flypass.utils.Constants
+import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -28,14 +29,29 @@ import java.util.*
 @AndroidEntryPoint
 class UpdateTicketFragment : Fragment() {
 
+    val seatClass = arrayOf("Economy", "Executive", "Bussiness")
     lateinit var binding : FragmentUpdateTicketBinding
     private lateinit var detailTicket : Flight
     private val ticketVM: TicketViewModel by viewModels()
-    val seatClass = arrayOf("Economy", "Executive", "Bussiness")
+    private lateinit var sessionManager: SessionManager
+    private lateinit var flightNumber : String
+    private var departAirportId : Int = 0
+    private var arriveAirportId : Int = 0
+    private var airlineId : Int = 0
+    private var airplaneId : Int = 0
+    private lateinit var calendarDepart : String
+    private lateinit var calendarArrival : String
+    private lateinit var timeDepart : String
+    private lateinit var timeArrival : String
+    private lateinit var price : String
+    private var baggage : Int = 20
+    private var isAvailable : Boolean = true
+    private var spSeatClass : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -51,21 +67,24 @@ class UpdateTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-
+        getArgs()
         setViews()
+
+        val token = sessionManager.getToken()
+
+        binding.btnUpdateTicket.setOnClickListener {
+            flightNumber = binding.etFlightNumber.text.toString()
+            calendarDepart = binding.etDateDeparture.text.toString()
+            calendarArrival = binding.etDateArrival.text.toString()
+            timeDepart = binding.etTimeDeparture.text.toString()
+            timeArrival = binding.etTimeArrival.text.toString()
+            price = binding.etPrice.text.toString()
+            spSeatClass = (binding.spSeatClass.selectedItemPosition+1).toString().toInt()
+        }
 
         val arrayAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
         binding.spSeatClass.adapter = arrayAdapter
-        binding.spSeatClass.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(requireContext(), "You Clicked " +seatClass[position], Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
+        binding.spSeatClass.selectedItemPosition+1
 
         val calendar = Calendar.getInstance()
         val datePickerDeparture = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
@@ -109,8 +128,27 @@ class UpdateTicketFragment : Fragment() {
         }
     }
 
-    private fun setViews() {
+    private fun getArgs() {
+        val bundle = arguments
+        if(bundle == null){
+            return
+        }
+        val args = UpdateTicketFragmentArgs.fromBundle(bundle)
+        detailTicket = args.detailTicket
+    }
 
+    private fun setViews() {
+        binding.etFlightNumber.setText(detailTicket.flightCode)
+        binding.etAirlineName.setText(detailTicket.airline.name)
+        binding.etAirplaneType.setText(detailTicket.airplane.model)
+        binding.etFrom.setText("${detailTicket.departureAirport.city}, ${detailTicket.departureAirport.country}")
+        binding.etDateDeparture.setText(detailTicket.departureDate)
+        binding.etTimeDeparture.setText(detailTicket.departureTime)
+        binding.etTo.setText("${detailTicket.arrivalAirport.city}, ${detailTicket.arrivalAirport.country}")
+        binding.etDateArrival.setText(detailTicket.arrivalDate)
+        binding.etTimeArrival.setText(detailTicket.arrivalTime)
+        binding.spSeatClass.setSelection(detailTicket.flightClass.id)
+        binding.etPrice.setText(detailTicket.price)
     }
 
     private fun openTimePickerArrive() {

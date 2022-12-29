@@ -12,24 +12,24 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import cthree.admin.flypass.R
-import cthree.admin.flypass.adapter.AirlineSearchAdapter
-import cthree.admin.flypass.databinding.FragmentSearchAirlineBinding
-import cthree.admin.flypass.models.airline.Airline
+import cthree.admin.flypass.adapter.AirplaneSearchAdapter
+import cthree.admin.flypass.databinding.FragmentSearchAirplaneBinding
+import cthree.admin.flypass.models.airplane.Airplane
 import cthree.admin.flypass.utils.Constants
 import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.utils.Utils
-import cthree.admin.flypass.viewmodels.AirlineViewModel
+import cthree.admin.flypass.viewmodels.AirplaneViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchAirlineFragment : Fragment() {
+class SearchAirplaneFragment : Fragment() {
 
-    lateinit var binding : FragmentSearchAirlineBinding
-    private val airlineViewModel : AirlineViewModel by viewModels()
+    lateinit var binding : FragmentSearchAirplaneBinding
+    private val airplaneViewModel : AirplaneViewModel by viewModels()
     private lateinit var sessionManager: SessionManager
     private lateinit var args: String
-    private val airlineAdapter = AirlineSearchAdapter()
-    private val searchAdapter = AirlineSearchAdapter()
+    private val airplaneAdapter = AirplaneSearchAdapter()
+    private val searchAdapter = AirplaneSearchAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class SearchAirlineFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentSearchAirlineBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSearchAirplaneBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -53,7 +53,7 @@ class SearchAirlineFragment : Fragment() {
 
         args = requireArguments().getString(Constants.FLIGHT_DIR).toString()
 
-        setAirlineList()
+        setAirplaneList()
 
         binding.toolbarLayout.searchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -61,8 +61,8 @@ class SearchAirlineFragment : Fragment() {
                 binding.progressBar.isVisible = true
                 if(query != null) {
                     val searchQuery = Utils.getCountryCode(query) ?: query
-                    airlineViewModel.searchAirline(searchQuery).observe(viewLifecycleOwner) {
-                        binding.existAirlineList.root.isVisible = false
+                    airplaneViewModel.searchAirplane(searchQuery).observe(viewLifecycleOwner) {
+                        binding.existAirplaneList.root.isVisible = false
                         binding.progressBar.isVisible = false
                         if (it != null) {
                             binding.rvSearchResult.isVisible = true
@@ -75,10 +75,10 @@ class SearchAirlineFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 binding.progressBar.isVisible                   = true
-                binding.existAirlineList.root.isVisible         = false
+                binding.existAirplaneList.root.isVisible         = false
                 binding.rvSearchResult.isVisible                = false
                 if(newText == null || newText.isEmpty()){
-                    binding.existAirlineList.root.isVisible     = true
+                    binding.existAirplaneList.root.isVisible     = true
                     binding.rvSearchResult.isVisible            = false
                     binding.progressBar.isVisible               = false
                 }else{
@@ -98,37 +98,37 @@ class SearchAirlineFragment : Fragment() {
         })
     }
 
-    private fun setAirlineList() {
+    private fun setAirplaneList() {
         binding.rvSearchResult.adapter                  = searchAdapter
         binding.rvSearchResult.layoutManager            = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        searchAdapter.senOnItemClickListener(object : AirlineSearchAdapter.OnItemClickListener{
-            override fun onItemClick(airline: Airline) {
-                setNavigation(airline)
+        searchAdapter.senOnItemClickListener(object : AirplaneSearchAdapter.OnItemClickListener{
+            override fun onItemClick(airplane: Airplane) {
+                setNavigation(airplane)
             }
         })
-        airlineViewModel.getAllAirlineFromDB().observe(viewLifecycleOwner){
-            airlineAdapter.submitList(it)
+        airplaneViewModel.getAllAirlineFromDB().observe(viewLifecycleOwner){
+            airplaneAdapter.submitList(it)
         }
-        binding.existAirlineList.rvListAirline.adapter        = airlineAdapter
-        binding.existAirlineList.rvListAirline.layoutManager  = object : LinearLayoutManager(requireContext()){
+        binding.existAirplaneList.rvListAirline.adapter        = airplaneAdapter
+        binding.existAirplaneList.rvListAirline.layoutManager  = object : LinearLayoutManager(requireContext()){
             override fun canScrollVertically(): Boolean {
                 return false
             }
         }
-        airlineAdapter.senOnItemClickListener(object : AirlineSearchAdapter.OnItemClickListener{
-            override fun onItemClick(airline: Airline) {
-                setNavigation(airline)
+        airplaneAdapter.senOnItemClickListener(object : AirplaneSearchAdapter.OnItemClickListener{
+            override fun onItemClick(airplane: Airplane) {
+                setNavigation(airplane)
             }
         })
     }
 
-    fun setNavigation(airline: Airline){
-        if(args == Constants.AIRLINE_NAME){
-            airlineViewModel.addAirlinePrefs(airline)
+    fun setNavigation(airplane: Airplane){
+        if(args == Constants.AIRPLANE_TYPE){
+            airplaneViewModel.addAirplanePrefs(airplane)
         }else{
 
         }
-        Navigation.findNavController(binding.root).navigate(R.id.action_searchAirlineFragment_to_addTicketFragment)
+        Navigation.findNavController(binding.root).navigate(R.id.action_searchAirplaneFragment_to_addTicketFragment)
     }
 
     private fun setToolbar() {

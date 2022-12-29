@@ -16,6 +16,8 @@ object Constants {
     const val ARRIVE_DATE_TV = "arriveDateTv"
     const val DEP_FLIGHT = "depFlight"
     const val ARR_FLIGHT = "arrFlight"
+    const val AIRLINE_NAME = "airlineName"
+    const val AIRPLANE_TYPE = "airplaneType"
 
     // Shared Preferences
     const val PREF_NAME                 = "shared_pref"

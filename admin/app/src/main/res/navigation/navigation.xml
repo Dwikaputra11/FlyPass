@@ -66,6 +66,12 @@
         <action
             android:id="@+id/action_addTicketFragment_to_searchAirportFragment"
             app:destination="@id/searchAirportFragment" />
+        <action
+            android:id="@+id/action_addTicketFragment_to_searchAirlineFragment"
+            app:destination="@id/searchAirlineFragment" />
+        <action
+            android:id="@+id/action_addTicketFragment_to_searchAirplaneFragment"
+            app:destination="@id/searchAirplaneFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailTicketFragment"
@@ -116,6 +122,15 @@
         <argument
             android:name="detailTicket"
             app:argType="cthree.admin.flypass.models.ticketflight.Flight" />
+        <action
+            android:id="@+id/action_updateTicketFragment_to_searchAirplaneFragment"
+            app:destination="@id/searchAirplaneFragment" />
+        <action
+            android:id="@+id/action_updateTicketFragment_to_searchAirlineFragment"
+            app:destination="@id/searchAirlineFragment" />
+        <action
+            android:id="@+id/action_updateTicketFragment_to_searchAirportFragment"
+            app:destination="@id/searchAirportFragment" />
     </fragment>
     <fragment
         android:id="@+id/refundStatusFragment"
@@ -137,5 +152,38 @@
         <argument
             android:name="flight_dir"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchAirportFragment_to_updateTicketFragment"
+            app:destination="@id/updateTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchAirlineFragment"
+        android:name="cthree.admin.flypass.ui.SearchAirlineFragment"
+        android:label="fragment_search_airline"
+        tools:layout="@layout/fragment_search_airline" >
+        <argument
+            android:name="flight_dir"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchAirlineFragment_to_addTicketFragment"
+            app:destination="@id/addTicketFragment" />
+        <action
+            android:id="@+id/action_searchAirlineFragment_to_updateTicketFragment"
+            app:destination="@id/updateTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchAirplaneFragment"
+        android:name="cthree.admin.flypass.ui.SearchAirplaneFragment"
+        android:label="fragment_search_airplane"
+        tools:layout="@layout/fragment_search_airplane" >
+        <action
+            android:id="@+id/action_searchAirplaneFragment_to_addTicketFragment"
+            app:destination="@id/addTicketFragment" />
+        <argument
+            android:name="flight_dir"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchAirplaneFragment_to_updateTicketFragment"
+            app:destination="@id/updateTicketFragment" />
     </fragment>
 </navigation>

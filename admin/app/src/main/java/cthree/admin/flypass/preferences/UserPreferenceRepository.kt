@@ -96,9 +96,6 @@ class UserPreferenceRepository(private val context: Context) {
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setAirlineImage(airline.image).build()
         }
-        context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setAirlineImageId(airline.imageId).build()
-        }
     }
 
     suspend fun saveDataAirplane(airplane: Airplane){

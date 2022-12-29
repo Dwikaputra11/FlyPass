@@ -28,7 +28,6 @@ message UserProto {
   string airlineIata = 18;
   string airlineName = 19;
   string airlineImage = 20;
-  string airlineImageId = 21;
 
   int32 airplaneId = 22;
   string airplaneIcao = 23;

@@ -11,6 +11,11 @@
         android:id="@+id/toolbarLayout"
         layout="@layout/toolbar_home"/>
 
+    <include
+        android:visibility="gone"
+        android:id="@+id/notFound"
+        layout="@layout/not_found_wishlist"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"

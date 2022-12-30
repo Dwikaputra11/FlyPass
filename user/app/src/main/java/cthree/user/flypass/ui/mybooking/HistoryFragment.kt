@@ -92,7 +92,6 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
         configSignInGoogle()
-        progressAlertDialog.show()
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
                 val profile = Utils.decodeAccountToken(it)
@@ -105,6 +104,7 @@ class HistoryFragment : Fragment() {
         }
         prefVM.dataUser.observe(viewLifecycleOwner){
             if(it.token.isNotEmpty()){
+                progressAlertDialog.show()
                 userToken = it.token
                 Log.d(TAG, "access token: ${it.token}")
                 Log.d(TAG, "refresh token: ${it.refreshToken}")
@@ -115,6 +115,10 @@ class HistoryFragment : Fragment() {
                 }else if(!Utils.isTokenExpired(it.token)){
                     bookingVM.getUserBooking(it.token)
                 }
+            }else if(it.token.isEmpty()){
+                binding.rvBookingHistory.isVisible = false
+                binding.notFound.root.isVisible = false
+                joinMemberDialog()
             }
         }
         val adapter = BookingAdapter()
@@ -152,6 +156,19 @@ class HistoryFragment : Fragment() {
             adapter.submitList(listOf())
             bookingVM.getUserBooking(userToken)
         }
+    }
+
+    private fun joinMemberDialog() {
+        DialogCaller(requireActivity())
+            .setTitle(R.string.member_only_title)
+            .setMessage(R.string.member_only_msg)
+            .setPrimaryButton(R.string.confirm_one_btn_dialog){dialog, _ ->
+                run {
+                    dialog.dismiss()
+                }
+            }
+            .create(layoutInflater, AlertButton.ONE)
+            .show()
     }
 
     private fun continueBookingProcess(booking: Booking) {

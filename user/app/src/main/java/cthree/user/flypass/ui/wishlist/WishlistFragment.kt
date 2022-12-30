@@ -109,19 +109,26 @@ class WishlistFragment : Fragment(), MenuProvider {
                     userToken = it.token
                     Log.d(TAG, "Adapter count: ${adapter.getList().isEmpty()}")
                     if(adapter.getList().isEmpty()) wishlistVM.getUserWishlist(it.token)
+                    progressAlertDialog.show()
                 }else{
                     showSessionExpiredDialog()
                 }
-            }else{
-                // unregistered user
-//                DialogCaller(requireActivity())
+            }else if(it.token.isEmpty()){
+                binding.notFound.root.isVisible  = false
+                binding.rvMovie.isVisible = false
+                joinMemberDialog()
             }
         }
         wishlistVM.getAllWishlist().observe(viewLifecycleOwner){
             if(it != null){
                 adapter.submitList(it.wishlistItem)
                 binding.swipeRefresh.isRefreshing = false
+                binding.notFound.root.isVisible = false
+                binding.rvMovie.isVisible = true
                 progressAlertDialog.dismiss()
+            }else{
+                binding.notFound.root.isVisible = true
+                binding.rvMovie.isVisible = false
             }
         }
         binding.swipeRefresh.setOnRefreshListener {
@@ -143,6 +150,19 @@ class WishlistFragment : Fragment(), MenuProvider {
     private fun setBottomNav(){
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.isVisible = true
+    }
+
+    private fun joinMemberDialog() {
+        DialogCaller(requireActivity())
+            .setTitle(R.string.member_only_title)
+            .setMessage(R.string.member_only_msg)
+            .setPrimaryButton(R.string.confirm_one_btn_dialog){dialog, _ ->
+                run {
+                    dialog.dismiss()
+                }
+            }
+            .create(layoutInflater, AlertButton.ONE)
+            .show()
     }
 
     private fun showSessionExpiredDialog(){

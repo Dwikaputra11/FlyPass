@@ -123,6 +123,9 @@
     <string name="forgot_pin_msg">Your latest pin will be remove.</string>
     <string name="forgot_pin_continue_btn">Continue</string>
     <string name="forgot_pin_cancel_btn">Cancel</string>
+
+    <string name="member_only_title">Fitur Member</string>
+    <string name="member_only_msg">Segera daftarkan dirimu menjadi member.</string>
     
     
 </resources>

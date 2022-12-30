@@ -60,6 +60,13 @@ class SettingsFragment : Fragment() {
         binding.cvPrivacyPolicy.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_privacyPolicyFragment)
         }
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isEmpty()){
+                val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+                findNavController().popBackStack()
+                bottomNav.selectedItemId = R.id.homeFragment
+            }
+        }
 
         binding.btnLogout.setOnClickListener {
             DialogCaller(requireActivity())
@@ -70,9 +77,6 @@ class SettingsFragment : Fragment() {
                         prefVM.clearProfileData()
                         prefVM.clearRefreshToken()
                         prefVM.clearToken()
-                        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
-                        findNavController().popBackStack()
-                        bottomNav.selectedItemId = R.id.homeFragment
 //                        userViewModel.logoutUser(sessionManager.getToken()!!)
 //                        progressAlertDialog.show()
                         dialog.dismiss()

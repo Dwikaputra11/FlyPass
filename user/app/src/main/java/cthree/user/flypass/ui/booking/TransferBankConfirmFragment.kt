@@ -70,7 +70,6 @@ class TransferBankConfirmFragment : Fragment() {
             binding.llTakePhoto.isVisible = false
             binding.ivPhoto.setImageURI(imgUri)
             imgFile = ImageConfig.uriToFile(imgUri, requireContext())
-            postImageFile(imgFile)
             Log.d(TAG, "Gallery result: $imgUri")
 //            saveToFirebase()
         }
@@ -118,6 +117,7 @@ class TransferBankConfirmFragment : Fragment() {
         }
         binding.btnConfirm.setOnClickListener {
             postImageFile(imgFile)
+            progressAlertDialog.show()
         }
     }
 
@@ -205,7 +205,6 @@ class TransferBankConfirmFragment : Fragment() {
         imgFile = ImageConfig.uriToFile(imgUri,requireContext())
         binding.llTakePhoto.isVisible = false
         binding.ivPhoto.setImageURI(imgUri)
-        postImageFile(imgFile)
         Log.d(TAG, "handleCameraImage: $imgUri")
     }
 

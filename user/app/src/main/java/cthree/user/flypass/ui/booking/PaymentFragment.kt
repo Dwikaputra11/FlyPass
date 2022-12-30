@@ -50,20 +50,9 @@ class PaymentFragment : Fragment() {
     private var booking                : BookingResponse? = null
     private var totalPrice: Int = 0
     private val flightPayVM: FlightPayViewModel by viewModels()
-    private val bookingVM: BookingViewModel by viewModels()
     private val prefVM: PreferencesViewModel by viewModels()
     private lateinit var userToken: String
     private lateinit var pinMember: String
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume: ")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause: ")
-    }
 
     override fun onStart() {
         super.onStart()
@@ -246,6 +235,7 @@ class PaymentFragment : Fragment() {
                 run{
                     prefVM.saveActiveBookProcess(bookingCode)
                     findNavController().navigate(R.id.action_paymentFragment_to_topUpFragment)
+                    dialog.dismiss()
                 }
             }
             .setSecondaryButton(R.string.maybe_later){ dialog, _ ->

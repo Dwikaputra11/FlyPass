@@ -2,9 +2,12 @@ package cthree.user.flypass.ui.booking
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -13,13 +16,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.BookingBaggageAdapter
 import cthree.user.flypass.adapter.TravelerDetailsAdapter
 import cthree.user.flypass.data.Contact
+import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.data.PassengerBaggage
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.DialogProgressBarBinding
@@ -51,7 +57,7 @@ class BookingFragment : Fragment() {
     private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog        : AlertDialog
     private val bookingViewModel                    : BookingViewModel by viewModels()
-    private val prefViewModel                       : PreferencesViewModel by viewModels()
+    private val prefVM                              : PreferencesViewModel by viewModels()
     private val userVM                              : UserViewModel by viewModels()
     private lateinit var contactData                : Contact
     private val travelerList        = arrayListOf<Traveler>()
@@ -61,14 +67,37 @@ class BookingFragment : Fragment() {
     private var passengerAmount     = 0
     private var isEdit              = false
     private var arrFlight: Flight?  = null
-    private var isExpired           = false
     private var userToken: String?  = null
-    private var token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaW1hZ2UiOiJodHRwczovL3Jlcy5jbG91ZGluYXJ5LmNvbS9kaXhscnVsZW4vaW1hZ2UvdXBsb2FkL3YxNjY5NjkwMjQ2L3Byb2ZpbGUveDBzdnZ0ZnViamc3dWxwZzBpbTMuanBnIiwiZW1haWwiOiJqb2huZG9lQG1haWwuY29tIiwiYmlydGhEYXRlIjpudWxsLCJnZW5kZXIiOm51bGwsInBob25lIjpudWxsLCJyb2xlSWQiOjEsImNyZWF0ZWRBdCI6IjIwMjItMTItMDFUMTA6MjQ6NTEuNDYwWiIsInVwZGF0ZWRBdCI6IjIwMjItMTItMTFUMjA6NDY6NDkuOTE1WiIsImlhdCI6MTY3MDc5NTM1MSwiZXhwIjoxNjcwODE2OTUxfQ.YZoTufde4f6DMHpWi6QwTC0Q5oPPGMUTuBOYykJ4ED4"
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+
+    private val resolutionForResult = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { activityResult ->
+        run {
+            if(activityResult != null){
+                Log.d(TAG, "Activity Result: ${activityResult.data.toString()}")
+                val credential = oneTapClient.getSignInCredentialFromIntent(activityResult.data)
+                Log.d(TAG, "Credential: ${credential.id}")
+                val email = credential.id
+                val idToken = credential.googleIdToken
+                val username = credential.givenName
+                val password = credential.password
+                Log.d(TAG, "Got Email: $email")
+                Log.d(TAG, "Got ID token -> $idToken")
+                Log.d(TAG, "Got password -> $password")
+                Log.d(TAG, "Got json -> $username")
+
+                if(idToken != null) userVM.callGoogleIdTokenLogin(GoogleTokenRequest(idToken))
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         sessionManager = SessionManager(requireActivity())
+        oneTapClient = Identity.getSignInClient(requireContext())
     }
 
     override fun onCreateView(
@@ -86,35 +115,30 @@ class BookingFragment : Fragment() {
         setInputConfig()
         setFlightInfo()
         initProgressDialog()
-
-        userVM.getRefreshToken().observe(viewLifecycleOwner){
-            if(it != null){
-                prefViewModel.saveRefreshToken(it)
-            }
-        }
+        configSignInGoogle()
 
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
                 sessionManager.setToken(it)
-                // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
+                // save incoming data
+                prefVM.saveToken(it)
                 userToken = it
-                prefViewModel.saveToken(it)
-                prefViewModel.saveData(profile)
-                sessionManager.setUserId(profile.id)
+                userVM.saveToken(it)
+                prefVM.saveData(profile)
             }
         }
 
         userVM.getAccessToken().observe(viewLifecycleOwner){
             // get new access token from refresh token
             if(it != null){
-                prefViewModel.saveToken(it.accessToken)
+                prefVM.saveToken(it.accessToken)
                 userToken = it.accessToken
             }
         }
 
-        prefViewModel.dataUser.observe(viewLifecycleOwner){
+        prefVM.dataUser.observe(viewLifecycleOwner){
             if(it.token.isNotEmpty()){
                 if(Utils.isTokenExpired(it.token)){
                     userToken = null
@@ -164,27 +188,7 @@ class BookingFragment : Fragment() {
                     passenger = passengerList,
                 )
                 if(userToken == null){
-                    DialogCaller(requireActivity())
-                        .setTitle(R.string.token_expired_title)
-                        .setMessage(R.string.token_expired_subtitle)
-                        .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
-                            run{
-                                // handle data
-                                prefViewModel.clearToken()
-                                prefViewModel.clearRefreshToken()
-                                dialog.dismiss()
-                                callLoginDialog()
-                            }
-                        }
-                        .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
-                            run{
-                                // post the booking without token
-                                bookingViewModel.postBookingRequest(null,booking)
-                                dialog.dismiss()
-                            }
-                        }
-                        .create(layoutInflater, AlertButton.TOKEN)
-                        .show()
+                    showSessionExpiredDialog(booking)
                 }else{
                     bookingViewModel.postBookingRequest(userToken, booking)
                 }
@@ -205,6 +209,28 @@ class BookingFragment : Fragment() {
 
     }
 
+    private fun showSessionExpiredDialog(booking: BookingRequest){
+        DialogCaller(requireActivity())
+            .setTitle(R.string.token_expired_title)
+            .setMessage(R.string.token_expired_subtitle)
+            .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
+                run{
+                    // handle data
+                    dialog.dismiss()
+                    callLoginDialog()
+                }
+            }
+            .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
+                run{
+                    // post the booking without token
+                    bookingViewModel.postBookingRequest(null,booking)
+                    dialog.dismiss()
+                }
+            }
+            .create(layoutInflater, AlertButton.TOKEN)
+            .show()
+    }
+
     private fun callLoginDialog() {
         DialogCaller(requireActivity())
             .setTitle(R.string.login_dialog_title)
@@ -219,7 +245,21 @@ class BookingFragment : Fragment() {
             })
             .setGoogleButton(R.string.login_dialog_google_btn, object : DialogCaller.OnClickGoogleListener{
                 override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
-                    Log.d(TAG, "onClick Google: $email, $password")
+                    oneTapClient.beginSignIn(signInRequest)
+                        .addOnCompleteListener(requireActivity()){ result ->
+                            try {
+                                Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
+                                val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
+                                resolutionForResult.launch(intentSenderRequest)
+                            }catch (e: IntentSender.SendIntentException) {
+                                Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                            }
+                        }
+                        .addOnFailureListener(requireActivity()) { e ->
+                            // No saved credentials found. Launch the One Tap sign-up flow, or
+                            // do nothing and continue presenting the signed-out UI.
+                            Log.d(TAG, e.localizedMessage)
+                        }
                     dialog.dismiss()
                 }
             })
@@ -227,18 +267,20 @@ class BookingFragment : Fragment() {
             .show()
     }
 
-    private fun saveDataToPref() {
-        val gson = Gson()
-        val depFlightJson = gson.toJson(depFlight)
-        val arrFlightJson = if(arrFlight != null) gson.toJson(arrFlight) else null
-        val passengerListJson = gson.toJson(passengerList)
-        val contactJson = gson.toJson(contactData)
-        val baggageListJson = gson.toJson(baggagePassList)
-        Log.d(TAG, "saveDataToPref: $depFlightJson")
-        Log.d(TAG, "saveDataToPref: $arrFlightJson")
-        Log.d(TAG, "saveDataToPref: $passengerListJson")
-        Log.d(TAG, "saveDataToPref: $contactJson")
-        prefViewModel.saveBookingData(depFlightJson, arrFlightJson, passengerListJson, contactJson, baggageListJson)
+    private fun configSignInGoogle() {
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(
+                BeginSignInRequest.PasswordRequestOptions.builder()
+                    .setSupported(true)
+                    .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(requireContext().getString(R.string.web_client_id))
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            .setAutoSelectEnabled(true)
+            .build()
     }
 
     private fun isValid(): Boolean {

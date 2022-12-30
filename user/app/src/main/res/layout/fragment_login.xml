@@ -70,6 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_field"
+                        android:imeOptions="actionNext"
                         android:hint="Email"
                         android:textAllCaps="false" />
 
@@ -110,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_field"
+                        android:imeOptions="actionDone"
                         android:hint="Password"
                         android:inputType="textPassword"
                         android:textAllCaps="false" />

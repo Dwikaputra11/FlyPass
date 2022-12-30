@@ -71,4 +71,9 @@
     <style name="AppModelStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="background">@drawable/bottom_sheet_corner</item>
     </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_right_anim</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right_anim</item>
+    </style>
 </resources>

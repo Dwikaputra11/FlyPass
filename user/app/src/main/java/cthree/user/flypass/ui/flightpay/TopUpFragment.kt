@@ -2,6 +2,7 @@ package cthree.user.flypass.ui.flightpay
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.IntentSender
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RadioGroup.OnCheckedChangeListener
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -18,10 +21,14 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.data.BalanceRequestAmount
+import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentTopUpBinding
 import cthree.user.flypass.models.login.LoginData
@@ -45,11 +52,36 @@ class TopUpFragment : Fragment() {
     private val userVM: UserViewModel by viewModels()
     private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog        : AlertDialog
-    private lateinit var userToken: String
     private lateinit var sessionManager             : SessionManager
+    private lateinit var userToken: String
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+
+    private val resolutionForResult = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { activityResult ->
+        run {
+            if(activityResult != null){
+                Log.d(TAG, "Activity Result: ${activityResult.data.toString()}")
+                val credential = oneTapClient.getSignInCredentialFromIntent(activityResult.data)
+                Log.d(TAG, "Credential: ${credential.id}")
+                val email = credential.id
+                val idToken = credential.googleIdToken
+                val username = credential.givenName
+                val password = credential.password
+                Log.d(TAG, "Got Email: $email")
+                Log.d(TAG, "Got ID token -> $idToken")
+                Log.d(TAG, "Got password -> $password")
+                Log.d(TAG, "Got json -> $username")
+
+                if(idToken != null) userVM.callGoogleIdTokenLogin(GoogleTokenRequest(idToken))
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        oneTapClient = Identity.getSignInClient(requireContext())
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
         sessionManager = SessionManager(requireContext())
     }
@@ -72,6 +104,7 @@ class TopUpFragment : Fragment() {
         Log.d(TAG, "onViewCreated: Started")
         setBottomNav()
         setupToolbar()
+        configSignInGoogle()
         initProgressDialog()
 
         userVM.loginToken().observe(viewLifecycleOwner){
@@ -81,9 +114,6 @@ class TopUpFragment : Fragment() {
                 // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
                 userToken = it
-                preferencesVM.clearToken()
-                preferencesVM.clearProfileData()
-
                 preferencesVM.saveToken(it)
                 preferencesVM.saveData(profile)
                 sessionManager.setUserId(profile.id)
@@ -91,22 +121,10 @@ class TopUpFragment : Fragment() {
         }
         preferencesVM.dataUser.observe(viewLifecycleOwner){
             if(it.token.isNotEmpty()){
-                userToken = it.token
                 if(Utils.isTokenExpired(it.token)){
-                    DialogCaller(requireActivity())
-                        .setTitle(R.string.token_expired_title)
-                        .setMessage(R.string.token_expired_subtitle)
-                        .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
-                            run{
-                                // handle data
-                                preferencesVM.clearToken()
-                                preferencesVM.clearRefreshToken()
-                                dialog.dismiss()
-                                callLoginDialog()
-                            }
-                        }
-                        .create(layoutInflater, AlertButton.ONE)
-                        .show()
+                    showSessionExpiredDialog()
+                }else{
+                    userToken = it.token
                 }
             }
         }
@@ -204,6 +222,27 @@ class TopUpFragment : Fragment() {
         }
     }
 
+    private fun showSessionExpiredDialog(){
+        DialogCaller(requireActivity())
+            .setTitle(R.string.token_expired_title)
+            .setMessage(R.string.token_expired_subtitle)
+            .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
+                run{
+                    // handle data
+                    dialog.dismiss()
+                    callLoginDialog()
+                }
+            }
+            .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
+                run{
+                    // handle without token
+                    dialog.dismiss()
+                }
+            }
+            .create(layoutInflater, AlertButton.TOKEN)
+            .show()
+    }
+
     private fun callLoginDialog() {
         DialogCaller(requireActivity())
             .setTitle(R.string.login_dialog_title)
@@ -218,12 +257,42 @@ class TopUpFragment : Fragment() {
             })
             .setGoogleButton(R.string.login_dialog_google_btn, object : DialogCaller.OnClickGoogleListener{
                 override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
-                    Log.d(TAG, "onClick Google: $email, $password")
+                    oneTapClient.beginSignIn(signInRequest)
+                        .addOnCompleteListener(requireActivity()){ result ->
+                            try {
+                                Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
+                                val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
+                                resolutionForResult.launch(intentSenderRequest)
+                            }catch (e: IntentSender.SendIntentException) {
+                                Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                            }
+                        }
+                        .addOnFailureListener(requireActivity()) { e ->
+                            // No saved credentials found. Launch the One Tap sign-up flow, or
+                            // do nothing and continue presenting the signed-out UI.
+                            Log.d(TAG, e.localizedMessage)
+                        }
                     dialog.dismiss()
                 }
             })
             .create(layoutInflater, AlertButton.LOGIN)
             .show()
+    }
+
+    private fun configSignInGoogle() {
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(
+                BeginSignInRequest.PasswordRequestOptions.builder()
+                    .setSupported(true)
+                    .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(requireContext().getString(R.string.web_client_id))
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            .setAutoSelectEnabled(true)
+            .build()
     }
 
     private fun initProgressDialog(){

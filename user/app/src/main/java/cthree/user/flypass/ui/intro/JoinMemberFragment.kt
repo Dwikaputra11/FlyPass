@@ -1,21 +1,28 @@
 package cthree.user.flypass.ui.intro
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.FragmentJoinMemberBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class  JoinMemberFragment : Fragment() {
+@AndroidEntryPoint
+class  JoinMemberFragment : DialogFragment() {
 
     private lateinit var binding: FragmentJoinMemberBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setStyle(STYLE_NORMAL,android.R.style.Theme_Light_NoTitleBar_Fullscreen)
         super.onCreate(savedInstanceState)
     }
 
@@ -28,20 +35,20 @@ class  JoinMemberFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setBottomNav()
+        requireDialog().window?.attributes?.windowAnimations = R.style.DialogAnimation
         binding.btnLogin.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_joinMemberFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            dismiss()
         }
         binding.btnRegister.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_joinMemberFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_registerFragment)
+            dismiss()
         }
         binding.btnNanti.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_joinMemberFragment_to_homeFragment)
-//            Navigation.findNavController(binding.root).popBackStack(R.id.joinMemberFragment, false)
+            dismiss()
         }
-    }
-    private fun setBottomNav(){
-        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNav?.isVisible = false
+        binding.ibCloseLayout.setOnClickListener {
+            dismiss()
+        }
     }
 }

@@ -122,13 +122,13 @@ class UserViewModel @Inject constructor(
                         tokenUser.postValue(it.userLogin.accesstToken)
                     }
                 }else{
-                    googleIdTokenLogin.postValue(null)
+                    tokenUser.postValue(null)
                     Log.d(TAG, "onResponse: ${response.errorBody()}")
                 }
             }
 
             override fun onFailure(call: Call<Login>, t: Throwable) {
-                googleIdTokenLogin.postValue(null)
+                tokenUser.postValue(null)
                 Log.e(TAG, "googleIdToken: ${t.localizedMessage}")
             }
 

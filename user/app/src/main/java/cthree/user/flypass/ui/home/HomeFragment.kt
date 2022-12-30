@@ -31,6 +31,7 @@ import cthree.user.flypass.data.RecentSearch
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentHomeBinding
 import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.ui.intro.JoinMemberFragment
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.Constants
 import cthree.user.flypass.utils.SessionManager
@@ -101,8 +102,10 @@ class HomeFragment : Fragment(), MenuProvider {
 //        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
         prefVM.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isNotEmpty()){
-                userToken = it.token
+            if(it.token.isEmpty()){
+                Log.d(TAG, "token: null")
+                val joinMemberFragment = JoinMemberFragment()
+                joinMemberFragment.show(requireActivity().supportFragmentManager.beginTransaction(), joinMemberFragment.tag)
             }
         }
 
@@ -117,8 +120,6 @@ class HomeFragment : Fragment(), MenuProvider {
                 }
             }
         }
-
-
     }
 
     private fun setOnClickEvent() {
@@ -370,8 +371,6 @@ class HomeFragment : Fragment(), MenuProvider {
                 findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
             } else {
                 findNavController().navigate(R.id.action_homeFragment_to_notificationFragment)
-                // unregistered user
-//                DialogCaller(requireActivity())
             }
         }
     }

@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PreferencesViewModel @Inject constructor(
-    private val apiService: ApiService,
     application: Application
 ) : ViewModel(){
     private val prefRepo = UserPreferenceRepository(application.applicationContext)

@@ -56,17 +56,10 @@ class EditProfileFragment : Fragment() {
 
     private val cameraResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if(result){
-//                postProfile(imgFile)
-//                Log.d(TAG, "Camera result File: ${imgFile?.absoluteFile}")
-//                Log.d(TAG, "Camera result Uri: $imgUri")
-//            }
             if (result.resultCode == Activity.RESULT_OK) {
-//                binding.ivImageProfile.setImageURI(imgUri)
                 handleCameraImage(result.data)
                 Log.d(TAG, "Camera result File: ${imgFile?.absoluteFile}")
                 Log.d(TAG, "Camera result Uri: $imgUri")
-//                postProfile(imgFile)
             }
         }
 

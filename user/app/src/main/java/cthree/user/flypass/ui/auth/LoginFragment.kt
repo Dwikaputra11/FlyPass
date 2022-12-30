@@ -59,9 +59,7 @@ class LoginFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog: AlertDialog
-    private lateinit var fromDestination : RegisterOption
     private lateinit var oneTapClient: SignInClient
-    private lateinit var verifier: GoogleIdTokenVerifier
     private lateinit var signInRequest: BeginSignInRequest
     private lateinit var signInClient: GoogleSignInClient
 
@@ -77,41 +75,12 @@ class LoginFragment : Fragment() {
                 val idToken = credential.googleIdToken
                 val username = credential.givenName
                 val password = credential.password
-                val httpsPost = HttpPost("")
                 Log.d(TAG, "Got Email: $email")
                 Log.d(TAG, "Got ID token -> $idToken")
                 Log.d(TAG, "Got password -> $password")
                 Log.d(TAG, "Got json -> $username")
 
                 if(idToken != null) userVM.callGoogleIdTokenLogin(GoogleTokenRequest(idToken))
-//                verifier = GoogleIdTokenVerifier.Builder(NetHttpTransport(), GsonFactory())
-//                    .setAudience(Collections.singletonList(requireContext().getString(R.string.mobile_client_id)))
-//                    .setIssuer("accounts.google.com")
-//                    .build()
-////                val userToken = JWT(idToken!!)
-//                val userToken = verifier.verify(credential.googleIdToken)
-////                Log.d(TAG, "userToken: ${userToken.payload}")
-//                Log.d(TAG, "userToken: $userToken")
-//                if (userToken != null) {
-//                    val payload: Payload = userToken.payload
-//                    // Print user identifier
-//                    val userId = payload.subject
-//                    println("User ID: $userId")
-//
-//                    // Get profile information from payload
-//                    val email = payload.email
-////                    val emailVerified = Boolean.valueOf(payload.emailVerified)
-//                    val name = payload["name"] as String?
-//                    val pictureUrl = payload["picture"] as String?
-//                    val locale = payload["locale"] as String?
-//                    val familyName = payload["family_name"] as String?
-//                    val givenName = payload["given_name"] as String?
-//
-//                    // Use or store profile information
-//                    // ...
-//                } else {
-//                    println("Invalid ID token.")
-//                }
                 when {
                     idToken != null -> {
                         // Got an ID token from Google. Use it to authenticate
@@ -150,8 +119,6 @@ class LoginFragment : Fragment() {
 
                 // Show signed-un UI
                 updateUI(account)
-
-                // TODO(developer): send code to server and exchange for access/refresh/ID tokens
             } catch (e: ApiException) {
                 Log.w(TAG, "Sign-in failed", e)
                 updateUI(null)
@@ -166,24 +133,6 @@ class LoginFragment : Fragment() {
             val inputStream = requireContext().resources.assets.open("client_secret_web.json")
             Log.d(TAG, "inputStream: $inputStream")
             Log.d(TAG, "available input Stream: ${inputStream.available()}")
-//            Log.d(TAG, "file: $file")
-//            Log.d(TAG, "available input Stream: ${file.path}")
-//            val clientSecrets = GoogleClientSecrets.load(
-//                GsonFactory.getDefaultInstance(), FileReader()
-//            )
-//            val tokenResponse = GoogleAuthorizationCodeTokenRequest(
-//                NetHttpTransport(),
-//                GsonFactory.getDefaultInstance(),
-//                "https://oauth2.googleapis.com/token",
-//                clientSecrets.details.clientId,
-//                clientSecrets.details.clientSecret,
-//                account.serverAuthCode,
-//                ""
-//            ).execute()
-//            Log.d(TAG, "access Token: $tokenResponse")
-//            val accessToken  = tokenResponse.accessToken
-//
-//            Log.d(TAG, "access Token: $accessToken")
         }
     }
 
@@ -207,7 +156,6 @@ class LoginFragment : Fragment() {
         setBottomNav()
         configSignInGoogle()
 
-
         userVM.loginToken().observe(viewLifecycleOwner) {
             if(it != null){
                 Log.d(TAG, "Access Token: $it")
@@ -215,21 +163,11 @@ class LoginFragment : Fragment() {
                 sessionManager.setToken(it)
                 // save data profile to proto
                 val profile = Utils.decodeAccountToken(it)
-                prefVM.clearToken()
-                prefVM.clearRefreshToken()
-                prefVM.clearProfileData()
                 prefVM.saveToken(it)
-                Log.d(TAG, "Profile Not Null: ${profile.toString()}")
+                Log.d(TAG, "Profile Not Null: $profile")
                 sessionManager.setUserId(profile.id)
                 prefVM.saveData(profile)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-            }
-        }
-
-        userVM.getRefreshToken().observe(viewLifecycleOwner){
-            if(it != null){
-                Log.d(TAG, "Refresh Token: $it")
-                userVM.saveRefreshToken(it)
             }
         }
         
@@ -327,20 +265,6 @@ class LoginFragment : Fragment() {
             .setAutoSelectEnabled(true)
             .build()
     }
-
-
-//    private fun navigateConfig(){
-//        when(fromDestination){
-//            TokenNav.BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_bookingFragment)
-//            TokenNav.TOP_UP -> findNavController().navigate(R.id.action_loginFragment_to_topUpFragment)
-//            TokenNav.MY_BOOKING -> findNavController().navigate(R.id.action_loginFragment_to_myBookingFragment)
-//            TokenNav.PAYMENT -> findNavController().navigate(R.id.action_loginFragment_to_paymentFragment)
-//            TokenNav.FLIGHT_PAY -> findNavController().navigate(R.id.action_loginFragment_to_flightPayFragment)
-//            TokenNav.PROFILE_INFO -> findNavController().navigate(R.id.action_loginFragment_to_profileAccountInfoFragment)
-//            TokenNav.WISHLIST -> findNavController().navigate(R.id.action_loginFragment_to_wishlistFragment)
-//            else -> findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-//        }
-//    }
 
     private fun initProgressDialog(){
         val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)

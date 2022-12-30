@@ -24,7 +24,7 @@ class OnBoardingAdapter(private val list: List<OnBoarding>): RecyclerView.Adapte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.btnGetStarted.isVisible = holder.absoluteAdapterPosition == list.size - 1
         holder.binding.btnGetStarted.setOnClickListener {
-            Navigation.findNavController(holder.binding.root).navigate(R.id.action_onBoardingFragment_to_joinMemberFragment)
+            Navigation.findNavController(holder.binding.root).navigate(R.id.action_onBoardingFragment_to_homeFragment)
         }
 
         Glide.with(holder.binding.root)

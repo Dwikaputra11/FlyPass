@@ -1,7 +1,6 @@
 package cthree.user.flypass.ui.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -13,13 +12,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogProgressBarBinding
-import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
 import cthree.user.flypass.databinding.FragmentSettingsBinding
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
-import cthree.user.flypass.utils.AuthOption
 import cthree.user.flypass.utils.SessionManager
-import cthree.user.flypass.viewmodels.UserViewModel
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "SettingsFragment"
@@ -31,7 +28,7 @@ class SettingsFragment : Fragment() {
     private lateinit var progressAlertDialog: AlertDialog
     private lateinit var progressAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var sessionManager: SessionManager
-    private val userViewModel : UserViewModel by viewModels()
+    private val prefVM : PreferencesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +48,6 @@ class SettingsFragment : Fragment() {
         setupToolbar()
         setBottomNav()
         initProgressDialog()
-//        userViewModel.getLogoutStatus().observe(viewLifecycleOwner){
-//            if(it != null && it == 200){
-//                Log.d(TAG, "logoutConfirmation: Observe")
-//                progressAlertDialog.dismiss()
-//                val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
-//                findNavController().popBackStack()
-//                bottomNav.selectedItemId = R.id.homeFragment
-//            }
-//        }
         binding.cvAccountInfo.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_profileAccountInfoFragment)
         }
@@ -79,9 +67,9 @@ class SettingsFragment : Fragment() {
                 .setMessage(R.string.logout_confirm_subtitle)
                 .setPrimaryButton(R.string.logout_confirm_btn_yes){ dialog, _ ->
                     run {
-                        userViewModel.clearProfileData()
-                        userViewModel.clearRefreshToken()
-                        userViewModel.clearToken()
+                        prefVM.clearProfileData()
+                        prefVM.clearRefreshToken()
+                        prefVM.clearToken()
                         val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
                         findNavController().popBackStack()
                         bottomNav.selectedItemId = R.id.homeFragment

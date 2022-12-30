@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.auth.RegisterFragment">
@@ -62,6 +63,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:hintEnabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -100,8 +102,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
+                    app:hintEnabled="false"
                     android:layout_height="wrap_content"
-                    app:endIconMode="password_toggle">
+                    app:passwordToggleTint="@color/smokey_500"
+                    app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/registerPassword"
@@ -139,8 +143,10 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
+                    app:hintEnabled="false"
                     android:layout_height="wrap_content"
-                    app:endIconMode="password_toggle">
+                    app:passwordToggleTint="@color/smokey_500"
+                    app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/registerConfirm"
@@ -223,7 +229,7 @@
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="35dp"
-                android:text="Login with Google"
+                android:text="Sign Up with Google"
                 android:textAllCaps="false"
                 android:textColor="@color/smokey_900"
                 android:textSize="18sp"
@@ -245,14 +251,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingBottom="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/registerGoogle">
 
                 <TextView
-                    android:id="@+id/tvaskRegister"
                     style="@style/divider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -266,7 +273,6 @@
                     android:layout_marginStart="8dp"
                     android:text="Login"
                     android:textColor="@color/color_primary" />
-
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

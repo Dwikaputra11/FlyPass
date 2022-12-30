@@ -1,9 +1,12 @@
 package cthree.user.flypass.ui.wishlist
 
 import android.content.DialogInterface
+import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +17,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.WishlistAdapter
+import cthree.user.flypass.data.GoogleTokenRequest
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentWishlistBinding
 import cthree.user.flypass.models.login.LoginData
@@ -42,22 +48,35 @@ class WishlistFragment : Fragment(), MenuProvider {
     private val wishlistVM: WishlistViewModel by viewModels()
     private val prefVM: PreferencesViewModel by viewModels()
     private val userVM: UserViewModel by viewModels()
-    private var isFirstFetch = true
+    private lateinit var userToken: String
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+
+    private val resolutionForResult = registerForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { activityResult ->
+        run {
+            if(activityResult != null){
+                Log.d(TAG, "Activity Result: ${activityResult.data.toString()}")
+                val credential = oneTapClient.getSignInCredentialFromIntent(activityResult.data)
+                Log.d(TAG, "Credential: ${credential.id}")
+                val email = credential.id
+                val idToken = credential.googleIdToken
+                val username = credential.givenName
+                val password = credential.password
+                Log.d(TAG, "Got Email: $email")
+                Log.d(TAG, "Got ID token -> $idToken")
+                Log.d(TAG, "Got password -> $password")
+                Log.d(TAG, "Got json -> $username")
+
+                if(idToken != null) userVM.callGoogleIdTokenLogin(GoogleTokenRequest(idToken))
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume: Started")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        adapter.submitList(null)
-        Log.d(TAG, "onPause: Started")
     }
 
     override fun onCreateView(
@@ -70,45 +89,28 @@ class WishlistFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
+        configSignInGoogle()
         setupToolbar()
         setViews()
         setBottomNav()
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
+                val profile = Utils.decodeAccountToken(it)
+                // save incoming data
                 prefVM.saveToken(it)
-                binding.rvMovie.isVisible = false
-                binding.progressBar.isVisible = true
+                userToken = it
+                prefVM.saveData(profile)
                 wishlistVM.getUserWishlist(it)
-                progressAlertDialog.dismiss()
             }
         }
         prefVM.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isNotEmpty() && isFirstFetch){
+            if(it.token.isNotEmpty()){
                 if(!Utils.isTokenExpired(it.token.toString())){
-                    binding.rvMovie.isVisible = false
-                    binding.progressBar.isVisible = true
+                    userToken = it.token
                     Log.d(TAG, "Adapter count: ${adapter.getList().isEmpty()}")
                     if(adapter.getList().isEmpty()) wishlistVM.getUserWishlist(it.token)
                 }else{
-                    DialogCaller(requireActivity())
-                        .setTitle(R.string.token_expired_title)
-                        .setMessage(R.string.token_expired_subtitle)
-                        .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
-                            run{
-                                // handle data
-                                prefVM.clearToken()
-                                prefVM.clearRefreshToken()
-                                dialog.dismiss()
-                                callLoginDialog()
-                            }
-                        }
-                        .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
-                            run{
-                                dialog.dismiss()
-                            }
-                        }
-                        .create(layoutInflater, AlertButton.TOKEN)
-                        .show()
+                    showSessionExpiredDialog()
                 }
             }else{
                 // unregistered user
@@ -117,10 +119,14 @@ class WishlistFragment : Fragment(), MenuProvider {
         }
         wishlistVM.getAllWishlist().observe(viewLifecycleOwner){
             if(it != null){
-                binding.rvMovie.isVisible = true
-                binding.progressBar.isVisible = false
                 adapter.submitList(it.wishlistItem)
+                binding.swipeRefresh.isRefreshing = false
+                progressAlertDialog.dismiss()
             }
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            adapter.submitList(listOf())
+            wishlistVM.getUserWishlist(userToken)
         }
     }
 
@@ -139,6 +145,27 @@ class WishlistFragment : Fragment(), MenuProvider {
         bottomNav?.isVisible = true
     }
 
+    private fun showSessionExpiredDialog(){
+        DialogCaller(requireActivity())
+            .setTitle(R.string.token_expired_title)
+            .setMessage(R.string.token_expired_subtitle)
+            .setPrimaryButton(R.string.token_expired_login){dialog, _ ->
+                run{
+                    // handle data
+                    dialog.dismiss()
+                    callLoginDialog()
+                }
+            }
+            .setSecondaryButton(R.string.token_expired_later){dialog, _ ->
+                run{
+                    // handle without token
+                    dialog.dismiss()
+                }
+            }
+            .create(layoutInflater, AlertButton.TOKEN)
+            .show()
+    }
+
     private fun callLoginDialog() {
         DialogCaller(requireActivity())
             .setTitle(R.string.login_dialog_title)
@@ -153,12 +180,42 @@ class WishlistFragment : Fragment(), MenuProvider {
             })
             .setGoogleButton(R.string.login_dialog_google_btn, object : DialogCaller.OnClickGoogleListener{
                 override fun onClick(dialog: DialogInterface, email: String?, password: String?) {
-                    Log.d(TAG, "onClick Google: $email, $password")
+                    oneTapClient.beginSignIn(signInRequest)
+                        .addOnCompleteListener(requireActivity()){ result ->
+                            try {
+                                Log.d(TAG, "Login Success: ${result.result.pendingIntent}")
+                                val intentSenderRequest = IntentSenderRequest.Builder(result.result.pendingIntent).build()
+                                resolutionForResult.launch(intentSenderRequest)
+                            }catch (e: IntentSender.SendIntentException) {
+                                Log.e(TAG, "Couldn't start One Tap UI: ${e.localizedMessage}")
+                            }
+                        }
+                        .addOnFailureListener(requireActivity()) { e ->
+                            // No saved credentials found. Launch the One Tap sign-up flow, or
+                            // do nothing and continue presenting the signed-out UI.
+                            Log.d(TAG, e.localizedMessage)
+                        }
                     dialog.dismiss()
                 }
             })
             .create(layoutInflater, AlertButton.LOGIN)
             .show()
+    }
+
+    private fun configSignInGoogle() {
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(
+                BeginSignInRequest.PasswordRequestOptions.builder()
+                    .setSupported(true)
+                    .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    .setServerClientId(requireContext().getString(R.string.web_client_id))
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            .setAutoSelectEnabled(true)
+            .build()
     }
     private fun initProgressDialog(){
         val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)

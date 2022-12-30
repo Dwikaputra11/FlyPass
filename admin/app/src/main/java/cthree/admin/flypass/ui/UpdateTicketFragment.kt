@@ -18,6 +18,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentUpdateTicketBinding
+import cthree.admin.flypass.models.postticket.TicketDataClass
 import cthree.admin.flypass.models.ticketflight.Flight
 import cthree.admin.flypass.utils.Constants
 import cthree.admin.flypass.utils.SessionManager
@@ -31,9 +32,10 @@ class UpdateTicketFragment : Fragment() {
 
     val seatClass = arrayOf("Economy", "Executive", "Bussiness")
     lateinit var binding : FragmentUpdateTicketBinding
-    private lateinit var detailTicket : Flight
+//    private lateinit var detailTicket : Flight
     private val ticketVM: TicketViewModel by viewModels()
     private lateinit var sessionManager: SessionManager
+    private var idTicket : Int = 0
     private lateinit var flightNumber : String
     private var departAirportId : Int = 0
     private var arriveAirportId : Int = 0
@@ -67,7 +69,7 @@ class UpdateTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-        getArgs()
+//        getArgs()
         setViews()
 
         val token = sessionManager.getToken()
@@ -80,6 +82,10 @@ class UpdateTicketFragment : Fragment() {
             timeArrival = binding.etTimeArrival.text.toString()
             price = binding.etPrice.text.toString()
             spSeatClass = (binding.spSeatClass.selectedItemPosition+1).toString().toInt()
+
+            ticketVM.putApiTicket("Bearer ${token!!.trim()}", detailTicket.id, TicketDataClass(flightNumber, airlineId, airplaneId, departAirportId, arriveAirportId,
+                calendarDepart, timeDepart, calendarArrival, timeArrival, price.toInt(), spSeatClass, baggage, isAvailable)
+            )
         }
 
         val arrayAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
@@ -123,32 +129,60 @@ class UpdateTicketFragment : Fragment() {
 
         binding.etFrom.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString(Constants.FLIGHT_DIR, Constants.DEPART_AIRPORT)
-            Navigation.findNavController(binding.root).navigate(R.id.action_addTicketFragment_to_searchAirportFragment, bundle)
+            bundle.putString(Constants.FLIGHT_DIR, Constants.DEPART_AIRPORT_UPDATE)
+            Navigation.findNavController(binding.root).navigate(R.id.action_updateTicketFragment_to_searchAirportFragment, bundle)
+        }
+        binding.etTo.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Constants.FLIGHT_DIR, Constants.ARRIVE_AIRPORT_UPDATE)
+            Navigation.findNavController(binding.root).navigate(R.id.action_updateTicketFragment_to_searchAirportFragment, bundle)
+        }
+        binding.etAirlineName.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Constants.FLIGHT_DIR, Constants.AIRLINE_NAME_UPDATE)
+            Navigation.findNavController(binding.root).navigate(R.id.action_updateTicketFragment_to_searchAirlineFragment, bundle)
+        }
+        binding.etAirplaneType.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(Constants.FLIGHT_DIR, Constants.AIRPLANE_TYPE_UPDATE)
+            Navigation.findNavController(binding.root).navigate(R.id.action_updateTicketFragment_to_searchAirplaneFragment, bundle)
         }
     }
 
-    private fun getArgs() {
-        val bundle = arguments
-        if(bundle == null){
-            return
-        }
-        val args = UpdateTicketFragmentArgs.fromBundle(bundle)
-        detailTicket = args.detailTicket
-    }
+//    private fun getArgs() {
+//        val bundle = arguments
+//        if(bundle == null){
+//            return
+//        }
+//        val args = UpdateTicketFragmentArgs.fromBundle(bundle)
+//        detailTicket = args.detailTicket
+//    }
 
     private fun setViews() {
-        binding.etFlightNumber.setText(detailTicket.flightCode)
-        binding.etAirlineName.setText(detailTicket.airline.name)
-        binding.etAirplaneType.setText(detailTicket.airplane.model)
-        binding.etFrom.setText("${detailTicket.departureAirport.city}, ${detailTicket.departureAirport.country}")
-        binding.etDateDeparture.setText(detailTicket.departureDate)
-        binding.etTimeDeparture.setText(detailTicket.departureTime)
-        binding.etTo.setText("${detailTicket.arrivalAirport.city}, ${detailTicket.arrivalAirport.country}")
-        binding.etDateArrival.setText(detailTicket.arrivalDate)
-        binding.etTimeArrival.setText(detailTicket.arrivalTime)
-        binding.spSeatClass.setSelection(detailTicket.flightClass.id)
-        binding.etPrice.setText(detailTicket.price)
+        ticketVM.dataUser.observe(viewLifecycleOwner){
+            binding.etFlightNumber.setText(it.flightCode)
+            binding.etAirlineName.setText(it.airlineName)
+            binding.etAirplaneType.setText(it.airplaneModel)
+            binding.etFrom.setText(it.departAirportCity)
+            binding.etDateDeparture.setText(it.calendarDepart)
+            binding.etTimeDeparture.setText(it.timeDepart)
+            binding.etTo.setText(it.arriveAirportCity)
+            binding.etDateArrival.setText(it.calendarArrival)
+            binding.etTimeArrival.setText(it.timeArrival)
+            binding.etPrice.setText(it.price.toString())
+            binding.spSeatClass.setSelection(it.spSeatClass-1)
+        }
+//        binding.etFlightNumber.setText(detailTicket.flightCode)
+//        binding.etAirlineName.setText(detailTicket.airline.name)
+//        binding.etAirplaneType.setText(detailTicket.airplane.model)
+//        binding.etFrom.setText("${detailTicket.departureAirport.city}, ${detailTicket.departureAirport.country}")
+//        binding.etDateDeparture.setText(detailTicket.departureDate)
+//        binding.etTimeDeparture.setText(detailTicket.departureTime)
+//        binding.etTo.setText("${detailTicket.arrivalAirport.city}, ${detailTicket.arrivalAirport.country}")
+//        binding.etDateArrival.setText(detailTicket.arrivalDate)
+//        binding.etTimeArrival.setText(detailTicket.arrivalTime)
+//        binding.spSeatClass.setSelection(detailTicket.flightClass.id)
+//        binding.etPrice.setText(detailTicket.price.toString())
     }
 
     private fun openTimePickerArrive() {

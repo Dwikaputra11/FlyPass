@@ -159,10 +159,17 @@ class SearchAirportFragment : Fragment() {
     fun setNavigation(airport: Airport){
         if(args == Constants.DEPART_AIRPORT){
             airportViewModel.addAirportDepartPrefs(airport)
+            Navigation.findNavController(binding.root).navigate(R.id.action_searchAirportFragment_to_addTicketFragment)
+        }else if(args == Constants.ARRIVE_AIRPORT){
+            airportViewModel.addAirportArrivePrefs(airport)
+            Navigation.findNavController(binding.root).navigate(R.id.action_searchAirportFragment_to_addTicketFragment)
+        } else if (args == Constants.DEPART_AIRPORT_UPDATE){
+            airportViewModel.addAirportDepartPrefs(airport)
+            Navigation.findNavController(binding.root).navigate(R.id.action_searchAirportFragment_to_updateTicketFragment)
         }else{
             airportViewModel.addAirportArrivePrefs(airport)
+            Navigation.findNavController(binding.root).navigate(R.id.action_searchAirportFragment_to_updateTicketFragment)
         }
-        Navigation.findNavController(binding.root).navigate(R.id.action_searchAirportFragment_to_addTicketFragment)
     }
 
     private fun setToolbar() {

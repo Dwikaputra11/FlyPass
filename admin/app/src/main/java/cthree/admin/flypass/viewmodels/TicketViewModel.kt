@@ -3,12 +3,17 @@ package cthree.admin.flypass.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.postticket.GetPostTicketResponse
 import cthree.admin.flypass.models.ticketflight.GetTicketResponse
 import cthree.admin.flypass.models.postticket.TicketDataClass
 import cthree.admin.flypass.models.putticket.GetPutTicketResponse
+import cthree.admin.flypass.models.update.ForUpdate
+import cthree.admin.flypass.preferences.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,6 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TicketViewModel@Inject constructor(private val apiService: APIService, application: Application) : ViewModel() {
+
+    private val prefRepo = UserPreferenceRepository(application.applicationContext)
+    val dataUser = prefRepo.readData.asLiveData()
 
     private val liveDataTicket: MutableLiveData<GetTicketResponse?> = MutableLiveData()
     private val postDataTicket: MutableLiveData<GetPostTicketResponse?> = MutableLiveData()
@@ -113,5 +121,11 @@ class TicketViewModel@Inject constructor(private val apiService: APIService, app
                 }
 
             })
+    }
+
+    fun saveDataForUpdatePrefs(forUpdate: ForUpdate){
+        viewModelScope.launch {
+            prefRepo.saveDataForUpdateTicket(forUpdate)
+        }
     }
 }

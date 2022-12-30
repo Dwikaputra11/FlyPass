@@ -32,4 +32,15 @@ message UserProto {
   int32 airplaneId = 22;
   string airplaneIcao = 23;
   string airplaneModel = 24;
+
+  int32 idTicket = 25;
+  string flightCode = 26;
+  string calendarDepart = 27;
+  string calendarArrival = 28;
+  string timeDepart = 29;
+  string timeArrival = 30;
+  int32 price = 31;
+  int32 baggage = 32;
+  int32 spSeatClass = 33;
+  bool isAvailable = 34;
 }

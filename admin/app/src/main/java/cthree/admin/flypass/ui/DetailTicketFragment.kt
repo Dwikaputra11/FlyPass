@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentDetailTicketBinding
 import cthree.admin.flypass.models.ticketflight.Flight
+import cthree.admin.flypass.models.update.ForUpdate
 import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,18 @@ class DetailTicketFragment : Fragment() {
     private lateinit var detailTicket : Flight
     private lateinit var sessionManager: SessionManager
     private val ticketVM: TicketViewModel by viewModels()
+    private var idTicket : Int = 0
+    private lateinit var flightNumber : String
+    private lateinit var departAirportCity : String
+    private lateinit var arriveAirportCity : String
+    private lateinit var airlineName : String
+    private lateinit var airplaneType : String
+    private lateinit var calendarDepart : String
+    private lateinit var calendarArrival : String
+    private lateinit var timeDepart : String
+    private lateinit var timeArrival : String
+    private var price : Int = 0
+    private var spSeatClass : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +62,25 @@ class DetailTicketFragment : Fragment() {
         setViews()
 
         val token = sessionManager.getToken()
-        var idTicket = detailTicket.id
+        idTicket = detailTicket.id
+
+        flightNumber = detailTicket.flightCode
+        departAirportCity = detailTicket.departureAirport.city
+        arriveAirportCity = detailTicket.arrivalAirport.city
+        airlineName = detailTicket.airline.name
+        airplaneType = detailTicket.airplane.model
+        calendarDepart = detailTicket.departureDate
+        calendarArrival = detailTicket.arrivalDate
+        timeDepart = detailTicket.departureTime
+        timeArrival = detailTicket.arrivalTime
+        price = detailTicket.price
+        spSeatClass = detailTicket.flightClass.id
 
         binding.btnEdit.setOnClickListener {
-            val directions = DetailTicketFragmentDirections.actionDetailTicketFragmentToUpdateTicketFragment(detailTicket)
-            findNavController().navigate(directions)
+            ticketVM.saveDataForUpdatePrefs(ForUpdate(flightNumber, departAirportCity, arriveAirportCity, airlineName, airplaneType, calendarDepart, calendarArrival, timeDepart, timeArrival, price, spSeatClass))
+            Navigation.findNavController(binding.root).navigate(R.id.action_detailTicketFragment_to_updateTicketFragment)
+//            val directions = DetailTicketFragmentDirections.actionDetailTicketFragmentToUpdateTicketFragment(detailTicket)
+//            findNavController().navigate(directions)
         }
 
         binding.btnDelete.setOnClickListener {

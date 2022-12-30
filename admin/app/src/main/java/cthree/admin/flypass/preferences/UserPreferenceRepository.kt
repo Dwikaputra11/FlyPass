@@ -9,6 +9,7 @@ import cthree.admin.flypass.models.admin.UserAdmin
 import cthree.admin.flypass.models.airline.Airline
 import cthree.admin.flypass.models.airplane.Airplane
 import cthree.admin.flypass.models.airport.Airport
+import cthree.admin.flypass.models.update.ForUpdate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import java.io.IOException
@@ -107,6 +108,45 @@ class UserPreferenceRepository(private val context: Context) {
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setAirplaneModel(airplane.model).build()
+        }
+    }
+
+    suspend fun saveDataForUpdateTicket(forUpdate: ForUpdate){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setFlightCode(forUpdate.flightNumber).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineName(forUpdate.airlineName).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirplaneModel(forUpdate.airplaneType).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineName(forUpdate.airlineName).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportCity(forUpdate.departAirportCity).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportCity(forUpdate.arriveAirportCity).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setCalendarDepart(forUpdate.calendarDepart).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setCalendarArrival(forUpdate.calendarArrival).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setTimeDepart(forUpdate.timeDepart).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setTimeArrival(forUpdate.timeArrival).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setPrice(forUpdate.price).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setSpSeatClass(forUpdate.spSeatClass).build()
         }
     }
 

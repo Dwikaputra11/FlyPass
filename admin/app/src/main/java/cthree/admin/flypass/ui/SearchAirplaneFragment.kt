@@ -125,10 +125,11 @@ class SearchAirplaneFragment : Fragment() {
     fun setNavigation(airplane: Airplane){
         if(args == Constants.AIRPLANE_TYPE){
             airplaneViewModel.addAirplanePrefs(airplane)
+            Navigation.findNavController(binding.root).navigate(R.id.action_searchAirplaneFragment_to_addTicketFragment)
         }else{
-
+            airplaneViewModel.addAirplanePrefs(airplane)
+            Navigation.findNavController(binding.root).navigate(R.id.action_searchAirplaneFragment_to_updateTicketFragment)
         }
-        Navigation.findNavController(binding.root).navigate(R.id.action_searchAirplaneFragment_to_addTicketFragment)
     }
 
     private fun setToolbar() {

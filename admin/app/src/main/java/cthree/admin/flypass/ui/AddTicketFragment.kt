@@ -43,7 +43,7 @@ class AddTicketFragment : Fragment() {
     private lateinit var calendarArrival : String
     private lateinit var timeDepart : String
     private lateinit var timeArrival : String
-    private lateinit var price : String
+    private var price : Int = 0
     private var baggage : Int = 20
     private var isAvailable : Boolean = true
     private var spSeatClass : Int = 0
@@ -77,11 +77,11 @@ class AddTicketFragment : Fragment() {
             calendarArrival = binding.etDateArrival.text.toString()
             timeDepart = binding.etTimeDeparture.text.toString()
             timeArrival = binding.etTimeArrival.text.toString()
-            price = binding.etPrice.text.toString()
+            price = binding.etPrice.text.toString().toInt()
             spSeatClass = (binding.spSeatClass.selectedItemPosition+1).toString().toInt()
 
             ticketVM.postApiTicket("Bearer ${token!!.trim()}", TicketDataClass(flightNumber, airlineId, airplaneId, departAirportId, arriveAirportId,
-            calendarDepart, timeDepart, calendarArrival, timeArrival, price.toInt(), spSeatClass, baggage, isAvailable)
+            calendarDepart, timeDepart, calendarArrival, timeArrival, price, spSeatClass, baggage, isAvailable)
             )
         }
 

@@ -18,6 +18,7 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentUpdateTicketBinding
+import cthree.admin.flypass.models.postticket.TicketDataClass
 import cthree.admin.flypass.models.ticketflight.Flight
 import cthree.admin.flypass.utils.Constants
 import cthree.admin.flypass.utils.SessionManager
@@ -25,6 +26,8 @@ import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+
+private const val TAG = "UpdateTicketFragment"
 
 @AndroidEntryPoint
 class UpdateTicketFragment : Fragment() {
@@ -72,6 +75,12 @@ class UpdateTicketFragment : Fragment() {
 
         val token = sessionManager.getToken()
 
+        ticketVM.getPutDataTicket().observe(viewLifecycleOwner){
+            if(it != null){
+                Log.d(TAG, "Update: Success")
+            }
+        }
+
         binding.btnUpdateTicket.setOnClickListener {
             flightNumber = binding.etFlightNumber.text.toString()
             calendarDepart = binding.etDateDeparture.text.toString()
@@ -80,9 +89,13 @@ class UpdateTicketFragment : Fragment() {
             timeArrival = binding.etTimeArrival.text.toString()
             price = binding.etPrice.text.toString()
             spSeatClass = (binding.spSeatClass.selectedItemPosition+1).toString().toInt()
+            ticketVM.putApiTicket(token!!,detailTicket.id,
+                TicketDataClass(flightNumber, airlineId, airplaneId, departAirportId, arriveAirportId,
+                calendarDepart, timeDepart, calendarArrival, timeArrival, price.toInt(), spSeatClass, baggage, isAvailable)
+            )
         }
 
-        val arrayAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
+        val arrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
         binding.spSeatClass.adapter = arrayAdapter
         binding.spSeatClass.selectedItemPosition+1
 
@@ -148,7 +161,7 @@ class UpdateTicketFragment : Fragment() {
         binding.etDateArrival.setText(detailTicket.arrivalDate)
         binding.etTimeArrival.setText(detailTicket.arrivalTime)
         binding.spSeatClass.setSelection(detailTicket.flightClass.id)
-        binding.etPrice.setText(detailTicket.price)
+        binding.etPrice.setText(detailTicket.price.toString())
     }
 
     private fun openTimePickerArrive() {

@@ -41,4 +41,6 @@ message UserProto {
   int32 totalPrice = 28;
   int32 addOnsPrice = 29;
   string bookingCode = 30;
+
+  string bookPayOnProcess = 33;
 }

@@ -8,15 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.TravelerDetailsAdapter
 import cthree.user.flypass.data.Contact
+import cthree.user.flypass.data.InputPinMember
 import cthree.user.flypass.data.Traveler
 import cthree.user.flypass.databinding.FragmentPaymentBinding
+import cthree.user.flypass.models.booking.response.BookingResponse
 import cthree.user.flypass.models.flight.Flight
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.ui.flightpay.PinInputFragment
@@ -24,6 +28,9 @@ import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.InputPinFrom
 import cthree.user.flypass.utils.SessionManager
 import cthree.user.flypass.utils.Utils
+import cthree.user.flypass.viewmodels.BookingViewModel
+import cthree.user.flypass.viewmodels.FlightPayViewModel
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "PaymentFragment"
@@ -37,9 +44,16 @@ class PaymentFragment : Fragment() {
     private lateinit var bookingCode            : String
     private lateinit var paymentMethodFragment  : PaymentMethodFragment
     private lateinit var passengerList          : List<Traveler>
-    private lateinit var contactData            : Contact
+    private var contactData            : Contact? = null
     private var bookingId                       : Int = -1
     private lateinit var sessionManager         : SessionManager
+    private var booking                : BookingResponse? = null
+    private var totalPrice: Int = 0
+    private val flightPayVM: FlightPayViewModel by viewModels()
+    private val bookingVM: BookingViewModel by viewModels()
+    private val prefVM: PreferencesViewModel by viewModels()
+    private lateinit var userToken: String
+    private lateinit var pinMember: String
 
     override fun onResume() {
         super.onResume()
@@ -75,10 +89,22 @@ class PaymentFragment : Fragment() {
         setupToolbar()
         setViews()
         setBottomNav()
+        flightPayVM.getUserWallet().observe(viewLifecycleOwner){
+            if(it != null){
+                if(it.wallet.balance < totalPrice){
+                    topUpBalanceDialog()
+                }else{
+                    requestPinMember()
+                }
+            }
+        }
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            if(it.token.isNotEmpty()) userToken = it.token
+            if(it.pinMember.isNotEmpty()) pinMember = it.pinMember
+        }
         binding.btnPayment.setOnClickListener {
-//            notEnoughBalanceDialog()
             if(binding.paymentDetails.tvPaymentMethod.text == "FlightPay"){
-                checkBalanceDialog()
+                flightPayVM.userWallet(userToken) // check user wallet balance
             }else{
                 val directions = PaymentFragmentDirections.actionPaymentFragmentToTransferBankConfirmFragment(bookingId)
                 findNavController().navigate(directions)
@@ -93,21 +119,45 @@ class PaymentFragment : Fragment() {
     }
 
     private fun setViews() {
-        // change visibility if booking is round trip
-        binding.roundFlightDetails.root.isVisible   = arrFlight != null
-        binding.tvFlypassCode.text                  = bookingCode
-
         val adapter                         = TravelerDetailsAdapter(sessionManager.getPassenger())
         binding.rvPassenger.adapter         = adapter
         binding.rvPassenger.layoutManager   = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter.submitList(passengerList)
+        adapter.setOnItemClickListener(object : TravelerDetailsAdapter.OnItemClickListener{
+            override fun onItemClick(traveler: Traveler?, position: Int) {
+                Log.d(TAG, "onItemClick: $traveler")
+            }
+        })
+        if(booking != null){
+            // change visibility if booking is round trip
+            binding.roundFlightDetails.root.isVisible          = booking!!.booking.roundtrip
+            binding.tvFlypassCode.text                         = bookingCode
+            binding.contactDetails.tvContactEmail.text         = booking!!.passengerContact.email
+            binding.contactDetails.tvContactNumber.text        = booking!!.passengerContact.phone
+            binding.contactDetails.tvContactTitle.text         = booking!!.passengerContact.title
+            binding.contactDetails.tvContactFirstName.text     = booking!!.passengerContact.firstName
+            binding.contactDetails.tvContactLastName.text      = booking!!.passengerContact.lastName
+            with(binding.paymentDetails){
+                totalPrice = booking!!.booking.totalPrice
+                tvPrice.text = Utils.formattedMoney(booking!!.booking.totalPrice)
+                tvAddsOn.text = Utils.formattedMoney(booking!!.booking.totalPassengerBaggagePrice)
+                tvTotalPrice.text = Utils.formattedMoney(booking!!.booking.totalPrice)
+            }
+        }else{
+            binding.roundFlightDetails.root.isVisible          = arrFlight != null
+            binding.tvFlypassCode.text                         = bookingCode
+            binding.contactDetails.tvContactEmail.text         = contactData!!.email
+            binding.contactDetails.tvContactNumber.text        = contactData!!.phoneNumber
+            binding.contactDetails.tvContactTitle.text         = contactData!!.title
+            binding.contactDetails.tvContactFirstName.text     = contactData!!.firstName
+            binding.contactDetails.tvContactLastName.text      = contactData!!.lastName
+            with(binding.paymentDetails){
+                totalPrice = depFlight.price + (arrFlight?.price ?: 0)
+                tvPrice.text = Utils.formattedMoney(totalPrice)
+                tvTotalPrice.text = Utils.formattedMoney(totalPrice)
+            }
+        }
 
-        binding.contactDetails.tvContactEmail.text         = contactData.email
-        binding.contactDetails.tvContactNumber.text        = contactData.phoneNumber
-        binding.contactDetails.tvContactTitle.text         = contactData.title
-        binding.contactDetails.tvContactFirstName.text     = contactData.firstName
-        binding.contactDetails.tvContactLastName.text      = contactData.lastName
-        binding.contactDetails.tvContactLastName.text      = contactData.lastName
 
         // set Details Description Flights
         with(binding.flightDetails){
@@ -117,11 +167,13 @@ class PaymentFragment : Fragment() {
             tvDepartCity.text           = depFlight.departureAirport.city
             tvArrivalDate.text          = Utils.convertDateToDayDate(depFlight.arrivalDate)
             tvDepartDate.text           = Utils.convertDateToDayDate(depFlight.departureDate)
-            tvFlightCode.text           = depFlight.flightCode
             tvArriveTime.text           = Utils.formattedTime(depFlight.arrivalTime)
             tvDepartTime.text           = Utils.formattedTime(depFlight.departureTime)
             tvArrivalAirportName.text   = depFlight.arrivalAirport.name
             tvDepartAirportName.text    = depFlight.departureAirport.name
+            Glide.with(root)
+                .load(depFlight.airline.image)
+                .into(ivAirplaneLogo)
         }
 
         // set show Details Flight
@@ -146,11 +198,13 @@ class PaymentFragment : Fragment() {
                 tvDepartCity.text           = arrFlight!!.departureAirport.city
                 tvArrivalDate.text          = Utils.convertDateToDayDate(arrFlight!!.arrivalDate)
                 tvDepartDate.text           = Utils.convertDateToDayDate(arrFlight!!.departureDate)
-                tvFlightCode.text           = arrFlight!!.flightCode
                 tvArriveTime.text           = Utils.formattedTime(arrFlight!!.arrivalTime)
                 tvDepartTime.text           = Utils.formattedTime(arrFlight!!.departureTime)
                 tvArrivalAirportName.text   = arrFlight!!.arrivalAirport.name
                 tvDepartAirportName.text    = arrFlight!!.departureAirport.name
+                Glide.with(root)
+                    .load(arrFlight!!.airline.image)
+                    .into(ivAirplaneLogo)
             }
 
             // set show Details Flight
@@ -182,20 +236,16 @@ class PaymentFragment : Fragment() {
                 binding.paymentDetails.tvPaymentMethod.text = method
             }
         })
-
-        val arrPrice = arrFlight?.price ?: 0
-        val totalPrice = depFlight.price + arrPrice
-//        binding.tvPrice.text = Utils.formattedMoney(totalPrice)
     }
 
-    private fun checkBalanceDialog(){
-
+    private fun topUpBalanceDialog(){
         DialogCaller(requireActivity())
             .setTitle(R.string.not_enough_balance_title)
             .setMessage(R.string.not_enough_balance_msg)
             .setPrimaryButton(R.string.top_up_balance_btn){ dialog, _ ->
                 run{
-//                    findNavController().navigate(R.)
+                    prefVM.saveActiveBookProcess(bookingCode)
+                    findNavController().navigate(R.id.action_paymentFragment_to_topUpFragment)
                 }
             }
             .setSecondaryButton(R.string.maybe_later){ dialog, _ ->
@@ -213,19 +263,22 @@ class PaymentFragment : Fragment() {
             return
         }
         val args = PaymentFragmentArgs.fromBundle(bundle)
+        booking = args.booking
         depFlight = args.depFlight
         arrFlight = args.arrFlight
-        bookingCode = args.flyPassCode
-        contactData = args.contactData
+        passengerList = args.travelerList.toList()
         bookingId = args.bookingId
-        passengerList = args.passengerList.toList()
-        Log.d(TAG, "getArgs: Flight ${args.depFlight} Code $bookingCode")
+        bookingCode = args.flypassCode
+        contactData = args.contactData
+//        Log.d(TAG, "getArgs: Flight ${args.depFlight} Code $bookingCode")
     }
 
     private fun setBottomNav(){
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav?.isVisible = false
     }
+
+    // TODO BUAT TRAVELER
 
     private fun setupToolbar(){
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbarLayout.toolbar)

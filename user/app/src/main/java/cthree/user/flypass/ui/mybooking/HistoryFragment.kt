@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,8 +20,6 @@ import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentHistoryBinding
 import cthree.user.flypass.models.booking.bookings.Booking
 import cthree.user.flypass.models.login.LoginData
-import cthree.user.flypass.ui.booking.BookingFragmentDirections
-import cthree.user.flypass.ui.booking.BookingFragmentDirections.Companion.actionBookingFragmentToPaymentFragment
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.BookingStatus
@@ -59,31 +58,24 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initProgressDialog()
         progressAlertDialog.show()
-        userVM.getAccessToken().observe(viewLifecycleOwner){
-            // get new access token from refresh token
-            if(it != null){
-                userVM.saveToken(it.accessToken)
-                bookingVM.getUserBooking(it.accessToken)
-            }
-        }
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
+                userToken = it
                 userVM.saveToken(it)
                 bookingVM.getUserBooking(it)
             }
         }
         prefVM.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isNotEmpty() && it.refreshToken.isNotEmpty()){
+            if(it.token.isNotEmpty()){
+                userToken = it.token
                 Log.d(TAG, "access token: ${it.token}")
                 Log.d(TAG, "refresh token: ${it.refreshToken}")
-                Log.d(TAG, "token status: ${Utils.isTokenExpired(it.token) && Utils.isTokenExpired(it.refreshToken)}")
+                Log.d(TAG, "token status: ${Utils.isTokenExpired(it.token)}")
                 if(Utils.isTokenExpired(it.token)){
                     progressAlertDialog.dismiss()
                     showSessionExpiredDialog()
                 }else if(!Utils.isTokenExpired(it.token)){
                     bookingVM.getUserBooking(it.token)
-                }else{
-                    userVM.refreshToken(it.refreshToken)
                 }
             }
         }
@@ -92,10 +84,17 @@ class HistoryFragment : Fragment() {
         binding.rvBookingHistory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         bookingVM.userBookingResponse().observe(viewLifecycleOwner){
             if(it != null){
-                binding.notFound.root.isVisible = false
-                binding.rvBookingHistory.isVisible = true
-                progressAlertDialog.dismiss()
-                adapter.submitList(it.booking)
+                if(it.booking.isEmpty()){
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.notFound.root.isVisible = true
+                    progressAlertDialog.dismiss()
+                }else{
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.notFound.root.isVisible = false
+                    binding.rvBookingHistory.isVisible = true
+                    progressAlertDialog.dismiss()
+                    adapter.submitList(it.booking)
+                }
             }
         }
         adapter.setOnItemClickListener(object : BookingAdapter.OnItemClickListener{
@@ -104,10 +103,17 @@ class HistoryFragment : Fragment() {
                 if(booking.bookingStatus.id == BookingStatus.WAITING.ordinal){
                     continueBookingProcess(booking)
                 }else{
-                    findNavController().navigate(MyBookingFragmentDirections.actionMyBookingFragmentToHistorySummaryFragment(booking))
+                    val directions = MyBookingFragmentDirections.actionMyBookingFragmentToHistorySummaryFragment(booking)
+                    findNavController().navigate(directions)
                 }
             }
         })
+
+        binding.swipeRefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(),R.color.color_primary))
+        binding.swipeRefresh.setOnRefreshListener {
+            adapter.submitList(listOf())
+            bookingVM.getUserBooking(userToken)
+        }
     }
 
     private fun continueBookingProcess(booking: Booking) {
@@ -132,12 +138,13 @@ class HistoryFragment : Fragment() {
                             idCard = it.identityNumber
                         )
                     }.toList()
+
                     val directions = MyBookingFragmentDirections.actionMyBookingFragmentToPaymentFragment(
-                        depFlight = booking.depFlight,
-                        arrFlight = booking.arrFlight,
-                        flyPassCode = booking.bookingCode,
+                        depFlight = booking.depFlightBooking,
+                        arrFlight = booking.arrFlightBooking,
+                        flypassCode = booking.bookingCode,
                         contactData = contact,
-                        passengerList = traveler.toTypedArray(),
+                        travelerList = traveler.toTypedArray(),
                         bookingId = booking.id
                     )
                     findNavController().navigate(directions)

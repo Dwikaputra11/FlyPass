@@ -1,23 +1,35 @@
 package cthree.user.flypass.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.DialogInterface
+import android.os.Build
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Window
-import android.view.WindowManager
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.auth0.android.jwt.JWT
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
-import cthree.user.flypass.data.UserData
-import cthree.user.flypass.databinding.DialogTokenExpiredBinding
-import cthree.user.flypass.databinding.DialogTwoButtonAlertBinding
+import cthree.user.flypass.data.Traveler
+import cthree.user.flypass.models.booking.bookings.FlightBooking
+import cthree.user.flypass.models.booking.bookings.Passenger
+import cthree.user.flypass.models.flight.Airline
+import cthree.user.flypass.models.flight.Airplane
+import cthree.user.flypass.models.flight.Flight
+import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.user.Profile
+import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.Constants.CHANNEL_ID
+import cthree.user.flypass.utils.Constants.NOTIFICATION_ID
+import cthree.user.flypass.utils.Constants.NOTIFICATION_TITLE
+import cthree.user.flypass.utils.Constants.VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION
+import cthree.user.flypass.utils.Constants.VERBOSE_NOTIFICATION_CHANNEL_NAME
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.ZoneId
 import java.util.*
 
 object Utils {
@@ -210,6 +222,14 @@ object Utils {
         return "$formattedString"
     }
 
+    fun formattedDuration(time: String): String{
+        val raw = time.subSequence(0..4).toString()
+        val splitTime = raw.split(":")
+        val hour = splitTime[0].toInt()
+        val minute = splitTime[1].toInt()
+        return "${hour}h ${minute}m"
+    }
+
 //    fun decodeAccountToken(token: String): Profile? {
 //        val user = JWT(token)
 //        Log.d("User", "decodeAccountToken: ${user.claims}")
@@ -271,28 +291,47 @@ object Utils {
 
     }
 
-//    fun expiredTokenDialog(layoutInflater: LayoutInflater, context: Context): AuthOption{
-//        val notEnoughBinding = DialogTokenExpiredBinding.inflate(layoutInflater, null, false)
-//        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-//
-//        materialAlertDialogBuilder.setView(notEnoughBinding.root)
-//
-//        val materAlertDialog = materialAlertDialogBuilder.create()
-//        materAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-//        materAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
-//        materAlertDialog.show()
-//
-//        notEnoughBinding.btnLogin.setOnClickListener {
-//            Log.d("Alert Dialog", "expiredTokenDialog: ")
-//            materAlertDialog.dismiss()
-//        }
-//        notEnoughBinding.btnRegister.setOnClickListener {
-//            Log.d("Alert Dialog", "expiredTokenDialog: ")
-//            materAlertDialog.dismiss()
-//        }
-//        notEnoughBinding.btnNanti.setOnClickListener {
-//            Log.d("Alert Dialog", "expiredTokenDialog: ")
-//            materAlertDialog.dismiss()
-//        }
-//    }
+    fun makeStatusNotification(message: String, context: Context) {
+
+        // Make a channel if necessary
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel, but only on API 26+ because
+            // the NotificationChannel class is new and not in the support library
+            val name = VERBOSE_NOTIFICATION_CHANNEL_NAME
+            val description = VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+            channel.description = description
+
+            // Add the channel
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+
+            notificationManager?.createNotificationChannel(channel)
+        }
+
+        // Create the notification
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(NOTIFICATION_TITLE)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setVibrate(LongArray(0))
+
+        // Show the notification
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build())
+    }
+
+    fun passengerToTravelerDataClass(passenger: List<Passenger>): List<Traveler?>{
+        val travelers = passenger.map {
+            Traveler(
+                title = "Mr",
+                firstName = it.firstName,
+                lastName = it.lastName,
+                dateBirth = "2001-05-20",
+                idCard = it.identityNumber
+            )
+        }.toList()
+        return travelers
+    }
 }

@@ -12,13 +12,16 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.WishlistAdapter
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentWishlistBinding
 import cthree.user.flypass.models.login.LoginData
+import cthree.user.flypass.models.wishlist.get.WishListItem
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.Utils
@@ -69,6 +72,7 @@ class WishlistFragment : Fragment(), MenuProvider {
         initProgressDialog()
         setupToolbar()
         setViews()
+        setBottomNav()
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
                 prefVM.saveToken(it)
@@ -130,6 +134,11 @@ class WishlistFragment : Fragment(), MenuProvider {
         supportActionBar?.setLogo(R.drawable.logo_toolbar)
     }
 
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = true
+    }
+
     private fun callLoginDialog() {
         DialogCaller(requireActivity())
             .setTitle(R.string.login_dialog_title)
@@ -163,7 +172,11 @@ class WishlistFragment : Fragment(), MenuProvider {
     private fun setViews() {
         binding.rvMovie.adapter = adapter
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
+        adapter.setOnItemClickListener(object : WishlistAdapter.OnItemClickListener{
+            override fun onClick(wishlist: WishListItem) {
+                Log.d(TAG, "onClick: $wishlist")
+            }
+        })
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -175,10 +188,22 @@ class WishlistFragment : Fragment(), MenuProvider {
         return when (menuItem.itemId){
             R.id.notification ->{
                 Log.d(TAG, "onMenuItemSelected: Clicked")
-//                checkUserMember()
+                checkUserMember()
                 true
             }
             else -> false
         }
     }
+    private fun checkUserMember() {
+        prefVM.dataUser.observe(viewLifecycleOwner) {
+            if (it.token.isNotEmpty()) {
+                findNavController().navigate(R.id.action_wishlistFragment_to_notificationFragment)
+            } else {
+                findNavController().navigate(R.id.action_wishlistFragment_to_notificationFragment)
+                // unregistered user
+//                DialogCaller(requireActivity())
+            }
+        }
+    }
+
 }

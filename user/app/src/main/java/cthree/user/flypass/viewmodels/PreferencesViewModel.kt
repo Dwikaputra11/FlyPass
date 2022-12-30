@@ -71,4 +71,12 @@ class PreferencesViewModel @Inject constructor(
         viewModelScope.launch { prefRepo.saveLoginData(profile) }
     }
 
+    fun saveActiveBookProcess(bookingCode: String){
+        viewModelScope.launch { prefRepo.saveActiveBookPayment(bookingCode) }
+    }
+
+    fun clearActiveBookingProcess(){
+        viewModelScope.launch{ prefRepo.clearActiveBookPayment() }
+    }
+
 }

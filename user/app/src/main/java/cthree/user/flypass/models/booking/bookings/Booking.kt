@@ -3,6 +3,7 @@ package cthree.user.flypass.models.booking.bookings
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import cthree.user.flypass.models.flight.Flight
 import kotlinx.parcelize.Parcelize
 
 
@@ -17,11 +18,11 @@ data class Booking(
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("flight1")
-    val depFlight: cthree.user.flypass.models.flight.Flight,
+    val depFlightBooking: Flight,
     @SerializedName("flight1Id")
     val flight1Id: Int,
     @SerializedName("flight2")
-    val arrFlight: cthree.user.flypass.models.flight.Flight,
+    val arrFlightBooking: Flight?,
     @SerializedName("flight2Id")
     val flight2Id: Int,
     @SerializedName("id")

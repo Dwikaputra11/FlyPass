@@ -1,8 +1,11 @@
 package cthree.user.flypass.models.booking.response
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Booking(
     @SerializedName("bookingCode")
     val bookingCode: String,
@@ -30,4 +33,4 @@ data class Booking(
     val updatedAt: String,
     @SerializedName("userId")
     val userId: Int
-)
+): Parcelable

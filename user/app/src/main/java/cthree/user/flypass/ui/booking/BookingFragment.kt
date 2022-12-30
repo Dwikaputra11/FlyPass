@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import cthree.user.flypass.R
@@ -120,9 +121,6 @@ class BookingFragment : Fragment() {
                 }else if(!Utils.isTokenExpired(it.token)){
                     Log.d(TAG, "From Access Token")
                     userToken = it.token
-                }else{
-                    Log.d(TAG, "From Refresh Token")
-                    userVM.refreshToken(it.refreshToken)
                 }
                 Log.d(TAG, "User Token: $userToken")
             }
@@ -137,9 +135,9 @@ class BookingFragment : Fragment() {
                 val directions = BookingFragmentDirections.actionBookingFragmentToPaymentFragment(
                     depFlight = depFlight,
                     arrFlight = arrFlight,
-                    flyPassCode = it.booking.bookingCode,
-                    contactData = contactData,
-                    passengerList = travelerList.toTypedArray(),
+                    flypassCode = it.booking.bookingCode,
+                    travelerList = travelerList.toTypedArray(),
+                    booking = it,
                     bookingId = it.booking.id
                 )
                 findNavController().navigate(directions)

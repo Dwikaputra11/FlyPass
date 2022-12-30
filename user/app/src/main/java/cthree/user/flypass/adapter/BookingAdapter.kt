@@ -29,7 +29,7 @@ class BookingAdapter: RecyclerView.Adapter<BookingAdapter.ViewHolder>() {
         }
 
         override fun areContentsTheSame(oldItem: Booking,newItem: Booking): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem == newItem
         }
     }
 
@@ -39,18 +39,18 @@ class BookingAdapter: RecyclerView.Adapter<BookingAdapter.ViewHolder>() {
         fun bind(booking: Booking){
             binding.apply {
                 tvBookingCode.text = booking.bookingCode
-                tvDuration.text = Utils.formattedTime(booking.depFlight.duration)
-                tvArriveTime.text = Utils.formattedTime(booking.depFlight.arrivalTime)
-                tvDepartTime.text = Utils.formattedTime(booking.depFlight.departureTime)
+                tvDuration.text = Utils.formattedTime(booking.depFlightBooking.duration)
+                tvArriveTime.text = Utils.formattedTime(booking.depFlightBooking.arrivalTime)
+                tvDepartTime.text = Utils.formattedTime(booking.depFlightBooking.departureTime)
                 tvTicketPrice.text = Utils.formattedMoney(booking.totalPrice)
                 tvSeatClass.text = "Economy"
-                tvAirplaneName.text = booking.depFlight.airline.name
+                tvAirplaneName.text = booking.depFlightBooking.airline.name
                 tvBookingStatus.text = booking.bookingStatus.name
-                iataDepartAirport.text = booking.depFlight.departureAirport.iata
-                iataArriveAirport.text = booking.depFlight.arrivalAirport.iata
+                iataDepartAirport.text = booking.depFlightBooking.departureAirport.iata
+                iataArriveAirport.text = booking.depFlightBooking.arrivalAirport.iata
 
                 Glide.with(root)
-                    .load(booking.depFlight.airline.image)
+                    .load(booking.depFlightBooking.airline.image)
                     .into(ivAirplaneLogo)
                 when (booking.bookingStatus.id) {
                     BookingStatus.PAID.ordinal -> {
@@ -64,11 +64,8 @@ class BookingAdapter: RecyclerView.Adapter<BookingAdapter.ViewHolder>() {
                     }
                 }
             }
-        }
-
-        init {
             binding.root.setOnClickListener {
-                listener.onItemClick(differ.currentList[absoluteAdapterPosition])
+                listener.onItemClick(booking)
             }
         }
     }

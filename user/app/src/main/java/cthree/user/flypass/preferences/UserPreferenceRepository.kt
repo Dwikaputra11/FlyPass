@@ -249,12 +249,6 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
-
-    // delete datastore
-    suspend fun clearData(){
-
-    }
-
     suspend fun clearDataDepartArrive(){
         //Depart
         context.userPreferencesStore.updateData { preferences ->
@@ -290,6 +284,18 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().clearArriveAirportName().build()
         }
 
+    }
+
+    suspend fun saveActiveBookPayment(bookingCode: String){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setBookPayOnProcess(bookingCode).build()
+        }
+    }
+
+    suspend fun clearActiveBookPayment(){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearBookPayOnProcess().build()
+        }
     }
 
 

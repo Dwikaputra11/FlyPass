@@ -27,7 +27,7 @@ class AirportSearchAdapter(): RecyclerView.Adapter<AirportSearchAdapter.ViewHold
         }
 
         override fun areContentsTheSame(oldItem: Airport, newItem: Airport): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem == newItem
         }
     }
 

@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogProgressBarBinding
@@ -110,6 +111,9 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
             tvArriveCity.text = depFlight.arrivalAirport.city
             tvDepartCity.text = depFlight.departureAirport.city
             tvAirplaneName.text = depFlight.airline.name
+            Glide.with(root)
+                .load(depFlight.airline.image)
+                .into(ivAirplaneLogo)
         }
 
         // set Details Description Flights
@@ -125,6 +129,9 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
             tvDepartTime.text = Utils.formattedTime(depFlight.departureTime)
             tvArrivalAirportName.text = depFlight.arrivalAirport.name
             tvDepartAirportName.text = depFlight.departureAirport.name
+            Glide.with(root)
+                .load(depFlight.airline.image)
+                .into(ivAirplaneLogo)
         }
 
         // set show Details Flight
@@ -148,6 +155,9 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
                 tvArriveCity.text = arrFlight!!.arrivalAirport.city
                 tvDepartCity.text = arrFlight!!.departureAirport.city
                 tvAirplaneName.text = arrFlight!!.airline.name
+                Glide.with(root)
+                    .load(arrFlight!!.airline.image)
+                    .into(ivAirplaneLogo)
             }
 
             // set Details Description Flights
@@ -163,6 +173,9 @@ class FlightConfirmationFragment : Fragment(), MenuProvider{
                 tvDepartTime.text = Utils.formattedTime(arrFlight!!.departureTime)
                 tvArrivalAirportName.text = arrFlight!!.arrivalAirport.name
                 tvDepartAirportName.text = arrFlight!!.departureAirport.name
+                Glide.with(root)
+                    .load(arrFlight!!.airline.image)
+                    .into(ivAirplaneLogo)
             }
 
             // set show Details Flight

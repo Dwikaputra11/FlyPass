@@ -28,6 +28,7 @@ import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentTransferBankConfirmBinding
 import cthree.user.flypass.utils.ImageConfig
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.utils.Utils.makeStatusNotification
 import cthree.user.flypass.viewmodels.BookingViewModel
 import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
@@ -103,6 +104,7 @@ class TransferBankConfirmFragment : Fragment() {
 
         bookingVM.getPaymentResponse().observe(viewLifecycleOwner){
             if(it  != null){
+                makeStatusNotification(getString(R.string.payment_success_with_trf_msg),requireContext())
                 progressAlertDialog.dismiss()
                 findNavController().navigate(R.id.action_transferBankConfirmFragment_to_bookingCompleteFragment)
             }

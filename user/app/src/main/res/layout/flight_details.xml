@@ -147,7 +147,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvArrivalAirportName" />
 
     <ImageView
-        android:id="@+id/airplaneLogo"
+        android:id="@+id/ivAirplaneLogo"
         android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
@@ -164,9 +164,9 @@
         android:text="Garuda Indonesia"
         android:textColor="@color/black"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/airplaneLogo"
-        app:layout_constraintStart_toEndOf="@+id/airplaneLogo"
-        app:layout_constraintTop_toTopOf="@+id/airplaneLogo" />
+        app:layout_constraintBottom_toBottomOf="@+id/ivAirplaneLogo"
+        app:layout_constraintStart_toEndOf="@+id/ivAirplaneLogo"
+        app:layout_constraintTop_toTopOf="@+id/ivAirplaneLogo" />
 
     <TextView
         android:id="@+id/tvFlightCode"

@@ -115,4 +115,14 @@
     <string name="continue_booking_process_msg">Proses booking belum selesai. Silahkan lanjutkan proses pembayaran!</string>
     <string name="continue_booking_process_btn_continue">Lanjutkan</string>
 
+    <string name="payment_success_with_trf_msg">Please wait for admin confirmation</string>
+    <string name="forgot_pin_number"><u>Forgot Pin Number?</u></string>
+
+    <!--  Forgot Pin Number  -->
+    <string name="forgot_pin_title">Forgot Pin Number?</string>
+    <string name="forgot_pin_msg">Your latest pin will be remove.</string>
+    <string name="forgot_pin_continue_btn">Continue</string>
+    <string name="forgot_pin_cancel_btn">Cancel</string>
+    
+    
 </resources>

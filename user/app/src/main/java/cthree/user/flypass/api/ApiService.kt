@@ -60,7 +60,7 @@ interface ApiService {
     @POST("v1/login")
     fun loginUser(@Body login: LoginData): Call<Login>
 
-    @POST("v1/googleidtokenlogin")
+    @POST("v1/googlelogin")
     fun googleIdTokenLogin(@Body request: GoogleTokenRequest): Call<Login>
 
     @GET("v1/refresh")

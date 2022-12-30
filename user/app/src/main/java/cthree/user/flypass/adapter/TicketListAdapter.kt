@@ -14,6 +14,7 @@ import cthree.user.flypass.utils.Utils
 
 class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() {
     private lateinit var listener: OnItemClickListener
+
     interface OnItemClickListener{
         fun onItemClick(view: View, flight: Flight)
     }
@@ -33,7 +34,7 @@ class TicketListAdapter(): RecyclerView.Adapter<TicketListAdapter.ViewHolder>() 
             binding.tvDepartTime.text = timeDepart
             binding.tvDuration.text = ticket.duration
             binding.tvSeatClass.text = ticket.flightClass.name
-            binding.tvTicketPrice.text = ticket.price.toString()
+            binding.tvTicketPrice.text = Utils.formattedMoney(ticket.price)
             Glide.with(binding.root)
                 .load(ticket.airline.image)
                 .into(binding.ivAirplaneLogo)

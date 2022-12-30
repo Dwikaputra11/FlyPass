@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/tvDepartTime"
@@ -75,7 +75,7 @@
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="@+id/tvDepartTime"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvDepartTime"
             app:layout_constraintTop_toBottomOf="@+id/tvDepartTime">
 
             <TextView
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="5dp"
                 android:paddingVertical="3dp"
                 android:text="YIA"
                 android:textAllCaps="true"
@@ -111,7 +111,7 @@
                 android:textAllCaps="true"
                 android:textSize="12sp"
                 android:paddingVertical="3dp"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="5dp"
                 android:text="YIA"
                 android:textColor="@color/white" />
         </androidx.cardview.widget.CardView>

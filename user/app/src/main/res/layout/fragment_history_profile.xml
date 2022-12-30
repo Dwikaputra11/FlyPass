@@ -9,9 +9,20 @@
     <include
         android:id="@+id/toolbarLayout"
         layout="@layout/toolbar_general"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistoryProfile"
+
+    <include
+        android:id="@+id/notFound"
+        layout="@layout/not_found_item"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/row_history"/>
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/rvHistoryProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/history_booking_item"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

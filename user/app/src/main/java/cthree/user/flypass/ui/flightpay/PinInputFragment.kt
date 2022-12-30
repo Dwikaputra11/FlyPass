@@ -19,6 +19,7 @@ import cthree.user.flypass.data.InputPinMember
 import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentPinInputBinding
 import cthree.user.flypass.ui.dialog.DialogCaller
+import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.InputPinFrom
 import cthree.user.flypass.viewmodels.BookingViewModel
 import cthree.user.flypass.viewmodels.FlightPayViewModel
@@ -86,6 +87,7 @@ class PinInputFragment(private val inputPinFrom: InputPinFrom) : DialogFragment(
         bookingVM.getBookingBalancePay().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
+                findNavController().navigate(R.id.action_paymentFragment_to_bookingCompleteFragment)
                 dismiss()
             }
         }
@@ -115,7 +117,22 @@ class PinInputFragment(private val inputPinFrom: InputPinFrom) : DialogFragment(
         }
 
         binding.tvForgotPinNumber.setOnClickListener {
-
+            DialogCaller(requireActivity())
+                .setTitle(R.string.forgot_pin_title)
+                .setMessage(R.string.forgot_pin_msg)
+                .setPrimaryButton(R.string.forgot_pin_continue_btn){ dialog, _ ->
+                    run{
+                        binding.pinView.passcodeType = PasscodeViewType.TYPE_SET_PASSCODE
+                        dialog.dismiss()
+                    }
+                }
+                .setSecondaryButton(R.string.forgot_pin_cancel_btn){ dialog, _ ->
+                    run{
+                        dialog.dismiss()
+                    }
+                }
+                .create(layoutInflater, AlertButton.TWO)
+                .show()
         }
     }
 

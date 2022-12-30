@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_primary"
-        app:correctStateColor="#71bb4d"
+        app:correctStateColor="@color/green_500"
         app:firstInputTip="Enter a passcode of 6 digits"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,13 +27,14 @@
         android:id="@+id/tvForgotPinNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot Your Pin Number?"
+        android:text="@string/forgot_pin_number"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.60" />
+        app:layout_constraintVertical_bias="0.30" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

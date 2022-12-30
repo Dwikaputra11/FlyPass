@@ -122,11 +122,20 @@ class TicketListFragment : Fragment() {
     }
 
     private fun setAdapter(){
+        binding.progressBar.isVisible = true
         flightViewModel.callSearchFlight(search.departDate, search.iataDepartAirport, search.iataArriveAirport)
         adapter.submitList(emptyList())
         flightViewModel.getSearchFlights().observe(viewLifecycleOwner){
             if(it != null){
-                adapter.submitList(it.flights)
+                binding.progressBar.isVisible = false
+                if(it.flights.isEmpty()){
+                    binding.notFound.root.isVisible = true
+                    binding.rvTicketList.isVisible = false
+                }else{
+                    binding.notFound.root.isVisible = false
+                    binding.rvTicketList.isVisible = true
+                    adapter.submitList(it.flights)
+                }
             }
         }
         binding.rvTicketList.adapter = adapter

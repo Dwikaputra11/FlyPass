@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class WishList(
     @SerializedName("wishlist")
-    val wishlistItem: List<WishListItem>
+    val wishlistItem: List<WishListItem>?
 )

@@ -118,12 +118,21 @@ class TicketRoundTripListFragment : Fragment() {
 
 
     private fun setAdapter(){
+        binding.progressBar.isVisible = true
         binding.rvTicketList.adapter = adapter
         binding.rvTicketList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         flightViewModel.callSearchFlight(search.arriveDate!!, search.iataArriveAirport, search.iataDepartAirport)
         flightViewModel.getSearchFlights().observe(viewLifecycleOwner){
             if(it != null){
-                adapter.submitList(it.flights)
+                binding.progressBar.isVisible = false
+                if(it.flights.isEmpty()){
+                    binding.notFound.root.isVisible = true
+                    binding.rvTicketList.isVisible = false
+                }else{
+                    binding.notFound.root.isVisible = false
+                    binding.rvTicketList.isVisible = true
+                    adapter.submitList(it.flights)
+                }
             }
         }
         adapter.setOnItemClickListener(object : TicketListAdapter.OnItemClickListener{

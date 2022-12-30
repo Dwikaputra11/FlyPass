@@ -61,6 +61,8 @@
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etFirstName"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName"
             android:hint="ex. Rangga Laksana"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -75,6 +77,8 @@
         <EditText
             android:id="@+id/etLastName"
             android:hint="ex. Haryanto"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
@@ -141,6 +145,7 @@
         <EditText
             android:id="@+id/etIdCard"
             android:inputType="number"
+            android:imeOptions="actionDone"
             android:hint="ex. 8398209381746352"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

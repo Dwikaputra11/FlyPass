@@ -67,7 +67,7 @@ class TransferBankConfirmFragment : Fragment() {
     private val galleryResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
             if(result != null) imgUri = result
-            binding.llTakePhoto.isVisible = false
+            binding.llPhotoEmpty.isVisible = false
             binding.ivPhoto.setImageURI(imgUri)
             imgFile = ImageConfig.uriToFile(imgUri, requireContext())
             Log.d(TAG, "Gallery result: $imgUri")
@@ -203,7 +203,7 @@ class TransferBankConfirmFragment : Fragment() {
         val bitmap = intent?.extras?.get("data") as Bitmap
         imgUri = getImageUri(requireContext(), bitmap)
         imgFile = ImageConfig.uriToFile(imgUri,requireContext())
-        binding.llTakePhoto.isVisible = false
+        binding.llPhotoEmpty.isVisible = false
         binding.ivPhoto.setImageURI(imgUri)
         Log.d(TAG, "handleCameraImage: $imgUri")
     }

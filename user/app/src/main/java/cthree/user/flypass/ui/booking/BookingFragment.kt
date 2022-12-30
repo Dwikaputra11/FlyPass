@@ -116,6 +116,7 @@ class BookingFragment : Fragment() {
         setFlightInfo()
         initProgressDialog()
         configSignInGoogle()
+        initTravelerBaggage()
 
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
@@ -207,6 +208,15 @@ class BookingFragment : Fragment() {
 
         }
 
+    }
+
+    private fun initTravelerBaggage() {
+        for(i in 0 until passengerAmount){
+            if(arrFlight != null)
+                baggagePassList.add(PassengerBaggage(mutableListOf("20", "20")))
+            else
+                baggagePassList.add(PassengerBaggage(mutableListOf("20")))
+        }
     }
 
     private fun showSessionExpiredDialog(booking: BookingRequest){

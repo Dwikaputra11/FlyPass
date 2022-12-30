@@ -106,6 +106,8 @@ class HomeFragment : Fragment(), MenuProvider {
                 Log.d(TAG, "token: null")
                 val joinMemberFragment = JoinMemberFragment()
                 joinMemberFragment.show(requireActivity().supportFragmentManager.beginTransaction(), joinMemberFragment.tag)
+            }else if(it.token.isNotEmpty()){
+                userToken = it.token
             }
         }
 
@@ -145,7 +147,24 @@ class HomeFragment : Fragment(), MenuProvider {
         }
 
         binding.topup.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_topUpFragment)
+            if(userToken != null) findNavController().navigate(R.id.action_homeFragment_to_topUpFragment)
+            else{
+                DialogCaller(requireActivity())
+                    .setTitle(R.string.non_member_title)
+                    .setMessage(R.string.non_member_msg)
+                    .setPrimaryButton(R.string.non_member_btn_login){ dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    .setSecondaryButton(R.string.maybe_later){ dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    .create(layoutInflater, AlertButton.TWO)
+                    .show()
+            }
         }
 
         binding.swRoundTrip.setOnClickListener {

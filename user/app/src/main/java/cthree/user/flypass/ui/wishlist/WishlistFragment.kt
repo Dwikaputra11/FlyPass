@@ -120,15 +120,19 @@ class WishlistFragment : Fragment(), MenuProvider {
             }
         }
         wishlistVM.getAllWishlist().observe(viewLifecycleOwner){
+            Log.d(TAG, "wishlist: $it")
             if(it != null){
-                adapter.submitList(it.wishlistItem)
-                binding.swipeRefresh.isRefreshing = false
-                binding.notFound.root.isVisible = false
-                binding.rvMovie.isVisible = true
+                if(it.wishlistItem != null){
+                    adapter.submitList(it.wishlistItem)
+                    binding.swipeRefresh.isRefreshing = false
+                    binding.notFound.root.isVisible = false
+                    binding.rvMovie.isVisible = true
+                }else{
+                    Log.d(TAG, "wishlist: null")
+                    binding.notFound.root.isVisible = true
+                    binding.rvMovie.isVisible = false
+                }
                 progressAlertDialog.dismiss()
-            }else{
-                binding.notFound.root.isVisible = true
-                binding.rvMovie.isVisible = false
             }
         }
         binding.swipeRefresh.setOnRefreshListener {

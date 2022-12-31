@@ -97,6 +97,7 @@ class FlightPayFragment : Fragment() {
         Log.d(TAG, "onViewCreated: Started")
         setupToolbar()
         setBottomNav()
+        configSignInGoogle()
 
         binding.swipeRefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(),R.color.color_primary))
 
@@ -111,8 +112,6 @@ class FlightPayFragment : Fragment() {
                 prefVM.saveToken(it)
                 prefVM.saveData(profile)
                 sessionManager.setUserId(profile.id)
-                flightPayVM.userWallet(it)
-                flightPayVM.walletHistory(it)
             }
         }
         binding.swipeRefresh.setOnRefreshListener {

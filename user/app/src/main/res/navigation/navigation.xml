@@ -495,7 +495,11 @@
         android:id="@+id/notificationDetailFragment"
         android:name="cthree.user.flypass.ui.notification.NotificationDetailFragment"
         android:label="fragment_notification_detail"
-        tools:layout="@layout/fragment_notification_detail" />
+        tools:layout="@layout/fragment_notification_detail" >
+        <argument
+            android:name="notification"
+            app:argType="cthree.user.flypass.models.notification.Notification" />
+    </fragment>
     <fragment
         android:id="@+id/pinInputFragment"
         android:name="cthree.user.flypass.ui.flightpay.PinInputFragment"

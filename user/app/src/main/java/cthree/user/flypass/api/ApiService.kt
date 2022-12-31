@@ -17,6 +17,7 @@ import cthree.user.flypass.models.login.Login
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.login.refreshtoken.RefreshToken
 import cthree.user.flypass.models.notification.NotificationList
+import cthree.user.flypass.models.notification.UpdateNotify
 import cthree.user.flypass.models.user.*
 import cthree.user.flypass.models.wishlist.delete.DeleteWishlist
 import cthree.user.flypass.models.wishlist.get.WishList
@@ -110,8 +111,12 @@ interface ApiService {
     @DELETE("v1/wishlist/{id}")
     fun deleteWishlist(@Header("Authorization") token: String, @Path("id") id: Int): Call<DeleteWishlist>
 
+    //notification
     @GET("v1/notification")
     fun getNotification(@Header("Authorization") token: String): Call<NotificationList>
+
+    @PUT("v1/notification/{id}")
+    fun updateNotification(@Header("Authorization") token: String, @Path("id") id: Int): Call<UpdateNotify>
 
 
     // Wallet

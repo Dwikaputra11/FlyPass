@@ -61,7 +61,7 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_privacyPolicyFragment)
         }
         prefVM.dataUser.observe(viewLifecycleOwner){
-            if(it.token.isEmpty()){
+            if(it.token.isEmpty() && it.email.isEmpty() && it.name.isEmpty()){
                 val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
                 findNavController().popBackStack()
                 bottomNav.selectedItemId = R.id.homeFragment

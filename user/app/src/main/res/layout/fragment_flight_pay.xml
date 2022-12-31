@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="40sp"
                         android:textColor="@color/white"
-                        android:text="250.000"
+                        android:text="0"
                         android:textStyle="bold"/>
                 </LinearLayout>
                 <com.google.android.material.card.MaterialCardView

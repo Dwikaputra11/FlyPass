@@ -22,6 +22,7 @@ import cthree.user.flypass.models.user.Profile
 import cthree.user.flypass.ui.dialog.DialogCaller
 import cthree.user.flypass.utils.AlertButton
 import cthree.user.flypass.utils.SessionManager
+import cthree.user.flypass.viewmodels.PreferencesViewModel
 import cthree.user.flypass.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -33,7 +34,8 @@ private const val TAG = "ProfileAccountInfoFragment"
 class ProfileAccountInfoFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileAccountInfoBinding
-    private val userViewModel: UserViewModel by viewModels()
+    private val prefVM: PreferencesViewModel by viewModels()
+    private val userVM: UserViewModel by viewModels()
     private lateinit var progressAlertDialogBuilder : MaterialAlertDialogBuilder
     private lateinit var progressAlertDialog        : AlertDialog
     private lateinit var confirmAlertBuilder        : MaterialAlertDialogBuilder
@@ -71,11 +73,14 @@ class ProfileAccountInfoFragment : Fragment() {
                 // after set we have to update in view
                 updateDateInView()
             }
-        userViewModel.dataUser.observe(viewLifecycleOwner){
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            Log.d(TAG, "Profile: $it")
+            Log.d(TAG, "Profile: ${it.email}")
+            Log.d(TAG, "Profile: ${it.name}")
             if(it.email.isNotEmpty()){
-                binding.etEmail.setText(it.email)
-                binding.etName.setText(it.name)
-                binding.etPhone.setText(it.phone)
+                binding.etEmail.setText(it.email.toString())
+                binding.etName.setText(it.name.toString())
+                binding.etPhone.setText(it.phone.toString())
                 userId = it.id
                 roleId = it.roleId
                 userToken = it.refreshToken
@@ -88,7 +93,7 @@ class ProfileAccountInfoFragment : Fragment() {
                     .into(binding.ivProfile)
             }
         }
-        userViewModel.getUpdateProfile().observe(viewLifecycleOwner){
+        userVM.getUpdateProfile().observe(viewLifecycleOwner){
             if(it != null){
                 progressAlertDialog.dismiss()
                 val gender = requireActivity().findViewById<RadioButton>(binding.rgGender.checkedRadioButtonId).text
@@ -102,7 +107,7 @@ class ProfileAccountInfoFragment : Fragment() {
                     id = userId,
                     roleId = roleId,
                 )
-                userViewModel.saveData(profile)
+                prefVM.saveData(profile)
                 // TODO: DIALOG NOT SHOW
                 updateStatusDialog()
             }
@@ -193,7 +198,7 @@ class ProfileAccountInfoFragment : Fragment() {
                 birthDate = binding.etBirthDate.text.toString(),
                 gender = gender.toString(),
             )
-            userViewModel.updateProfile(userToken, profile)
+            userVM.updateProfile(userToken, profile)
             materAlertDialog.dismiss()
         }
         alertDialogBinding.tvNo.setOnClickListener {

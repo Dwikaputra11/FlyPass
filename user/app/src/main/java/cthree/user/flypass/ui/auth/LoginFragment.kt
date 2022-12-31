@@ -167,6 +167,11 @@ class LoginFragment : Fragment() {
                 Log.d(TAG, "Profile Not Null: $profile")
                 sessionManager.setUserId(profile.id)
                 prefVM.saveData(profile)
+            }
+        }
+
+        prefVM.dataUser.observe(viewLifecycleOwner){
+            if(it.email.isNotEmpty() && it.name.isNotEmpty() && it.phone.isNotEmpty() && it.birthDate.isNotEmpty() && it.gender.isNotEmpty()){
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
         }

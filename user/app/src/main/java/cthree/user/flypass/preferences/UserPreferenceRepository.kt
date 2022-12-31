@@ -150,6 +150,7 @@ class UserPreferenceRepository(private val context: Context) {
 
     // save data to data store proto
     suspend fun saveDataUser(profile: Profile){
+        Log.d(TAG, "saveDataUser: $profile")
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setEmail(profile.email).build()
         }

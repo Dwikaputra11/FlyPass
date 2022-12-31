@@ -1,8 +1,11 @@
 package cthree.user.flypass.models.notification
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Notification(
     @SerializedName("admin")
     val admin: Boolean,
@@ -22,4 +25,4 @@ data class Notification(
     val updatedAt: String,
     @SerializedName("userId")
     val userId: Int
-)
+): Parcelable

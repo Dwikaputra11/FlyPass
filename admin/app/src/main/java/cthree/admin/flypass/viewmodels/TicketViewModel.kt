@@ -83,7 +83,7 @@ class TicketViewModel@Inject constructor(private val apiService: APIService, app
     }
 
     fun putApiTicket(token: String, id: Int, ticketDataClass: TicketDataClass){
-        apiService.updateTicket(token, id, ticketDataClass)
+        apiService.updateTicket("Bearer $token", id, ticketDataClass)
             .enqueue(object : Callback<GetPutTicketResponse> {
                 override fun onResponse(
                     call: Call<GetPutTicketResponse>,

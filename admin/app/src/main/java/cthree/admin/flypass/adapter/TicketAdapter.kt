@@ -39,7 +39,7 @@ class TicketAdapter: RecyclerView.Adapter<TicketAdapter.ViewHolder>() {
         }
 
         override fun areContentsTheSame(oldItem: Flight, newItem: Flight): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem == newItem
         }
     }
 

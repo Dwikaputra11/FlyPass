@@ -61,6 +61,7 @@
                 android:layout_marginBottom="12dp">
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/et_airline_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -79,6 +80,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/et_airplane_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -107,6 +109,7 @@
                 android:layout_marginBottom="12dp">
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/et_from"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -126,6 +129,7 @@
                 android:layout_marginBottom="12dp">
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/et_date_departure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,6 +151,7 @@
                 android:layout_marginBottom="12dp">
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/et_time_departure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -178,6 +183,7 @@
 
                 <EditText
                     android:id="@+id/et_to"
+                    android:focusable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -197,6 +203,7 @@
 
                 <EditText
                     android:id="@+id/et_date_arrival"
+                    android:focusable="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_baseline_calendar_today_24"
@@ -219,6 +226,7 @@
                 <EditText
                     android:id="@+id/et_time_arrival"
                     android:layout_width="match_parent"
+                    android:focusable="false"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_time_24"
                     android:drawableTint="#858585"/>

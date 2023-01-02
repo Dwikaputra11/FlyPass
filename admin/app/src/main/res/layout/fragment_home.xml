@@ -51,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:text="User Account"
                 android:textColor="@color/black"
-                android:textSize="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="70dp"
                 android:fontFamily="@font/poppins_regular"
@@ -62,7 +61,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/btn_refund_status"
+        android:id="@+id/btn_confirm_booking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
@@ -89,9 +88,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Refund Status"
+                android:text="Confirm Booking"
                 android:textColor="@color/black"
-                android:textSize="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="70dp"
                 android:fontFamily="@font/poppins_regular"
@@ -110,7 +108,7 @@
         android:layout_marginEnd="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_refund_status">
+        app:layout_constraintTop_toBottomOf="@id/btn_confirm_booking">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +127,6 @@
                 android:layout_height="wrap_content"
                 android:text="Ticket List"
                 android:textColor="@color/black"
-                android:textSize="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="70dp"
                 android:fontFamily="@font/poppins_regular"
@@ -167,7 +164,6 @@
                 android:layout_height="wrap_content"
                 android:text="Add Ticket"
                 android:textColor="@color/black"
-                android:textSize="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="70dp"
                 android:fontFamily="@font/poppins_regular"
@@ -208,7 +204,6 @@
                 android:fontFamily="@font/poppins_regular"
                 android:text="Add Admin"
                 android:textColor="@color/black"
-                android:textSize="16dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

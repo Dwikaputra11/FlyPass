@@ -3,6 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="default_time_format" translatable="false">yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'</string>
+    <string name="date_format" translatable="false">MMM d, yyyy</string>
+    <string name="time_format" translatable="false">HH:mm a</string>
+
     <!--    Login   -->
     <string name="wrong_password_title">Password Anda Salah!</string>
     <string name="wrong_password_subtitle">Silahkan masukkan password yang benar.</string>
@@ -13,7 +17,7 @@
     <string name="wrong_confirm_password_title">Confirm password anda salah!</string>
     <string name="wrong_confirm_password_subtitle">Silahkan masukkan confirm password yang benar.</string>
     <string name="confirm_one_btn_dialog">OK, I got it!</string>
-    <string name="flight_number">Flight Number</string>
+    <string name="flight_code">Flight Code</string>
     <string name="airplane_name">Airplane Name</string>
     <string name="airplane_type">Airplane Type</string>
     <string name="departure">Departure</string>

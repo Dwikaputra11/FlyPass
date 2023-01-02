@@ -5,8 +5,6 @@ import android.util.Log
 import androidx.lifecycle.*
 import cthree.admin.flypass.api.APIService
 import cthree.admin.flypass.models.admin.*
-import cthree.admin.flypass.models.ticketflight.Flight
-import cthree.admin.flypass.models.ticketflight.GetTicketResponse
 import cthree.admin.flypass.models.user.GetUserResponse
 import cthree.admin.flypass.models.user.User
 import cthree.admin.flypass.preferences.UserPreferenceRepository
@@ -26,6 +24,8 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
 
     private val prefRepo = UserPreferenceRepository(application.applicationContext)
     val dataAdmin = prefRepo.readData.asLiveData()
+
+    private lateinit var sessionManager: SessionManager
 
     private val tokenAdmin: MutableLiveData<String?> = MutableLiveData()
     private val loginErrorMsg: MutableLiveData<String?> = MutableLiveData()
@@ -70,7 +70,7 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
             })
     }
 
-    fun registerAdmin(token: String, registerData: RegisterAdminDataClass){
+    fun registerAdmin(token : String, registerData: RegisterAdminDataClass){
         apiService.registerAdmin(token, registerData)
             .enqueue(object : Callback<RegisterAdminResponse> {
                 override fun onResponse(
@@ -117,10 +117,6 @@ class AdminViewModel @Inject constructor(private val apiService: APIService, app
     fun saveData(admin: UserAdmin){
         viewModelScope.launch { prefRepo.saveDataAdmin(admin) }
     }
-
-//    fun saveDataId(id : Int){
-//        viewModelScope.launch { prefRepo.saveDataUserId(id) }
-//    }
 
     fun saveLoginStatus(status : Boolean){
         viewModelScope.launch { prefRepo.saveLoginStatus(status) }

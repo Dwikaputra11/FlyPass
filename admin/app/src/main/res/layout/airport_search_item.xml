@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp"
+    android:paddingHorizontal="8dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvAirportLocation"
+        android:textStyle="bold"
+        android:text="Denpasar, Bali"
+        android:textSize="16sp"
+        android:textColor="@color/smokey_900"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvAirportName"
+        android:text="Bandara Ngurah Rai"
+        android:paddingVertical="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="@color/smokey_300"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+
+
+</LinearLayout>

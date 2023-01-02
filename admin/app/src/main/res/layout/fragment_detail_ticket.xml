@@ -198,7 +198,8 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
-                                tools:text="Jakarta (CGK)" />
+                                android:layout_marginRight="5dp"
+                                tools:text="Jakarta" />
 
                             <TextView
                                 android:id="@+id/tv_depature_iata"
@@ -206,7 +207,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
-                                tools:text="Jakarta (CGK)" />
+                                tools:text="(CGK)" />
                         </LinearLayout>
 
                         <TextView
@@ -271,7 +272,8 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
-                                tools:text="Jakarta (CGK)" />
+                                android:layout_marginRight="5dp"
+                                tools:text="Jakarta" />
 
                             <TextView
                                 android:id="@+id/tv_arrival_iata"
@@ -279,7 +281,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
                                 android:textSize="12sp"
-                                tools:text="Jakarta (CGK)" />
+                                tools:text="(CGK)" />
                         </LinearLayout>
 
                         <TextView
@@ -395,7 +397,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#858585"
                         android:textSize="10sp"
-                        tools:text="Cabin Baggage 7 kg" />
+                        android:text="Cabin Baggage 7 kg" />
                 </LinearLayout>
 
                 <LinearLayout

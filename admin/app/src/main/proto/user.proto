@@ -11,4 +11,36 @@ message UserProto {
   string password = 4;
   string accesstToken = 5;
   bool saveLoginStatus = 6;
+
+  int32 departAirportId = 7;
+  string departAirportCity = 8;
+  string departAirportIata = 9;
+  string departAirportCountry = 10;
+  string departAirportName = 11;
+
+  int32 arriveAirportId = 12;
+  string arriveAirportCity = 13;
+  string arriveAirportIata = 14;
+  string arriveAirportCountry = 15;
+  string arriveAirportName = 16;
+
+  int32 airlineId = 17;
+  string airlineIata = 18;
+  string airlineName = 19;
+  string airlineImage = 20;
+
+  int32 airplaneId = 22;
+  string airplaneIcao = 23;
+  string airplaneModel = 24;
+
+  int32 idTicket = 25;
+  string flightCode = 26;
+  string calendarDepart = 27;
+  string calendarArrival = 28;
+  string timeDepart = 29;
+  string timeArrival = 30;
+  int32 price = 31;
+  int32 baggage = 32;
+  int32 spSeatClass = 33;
+  bool isAvailable = 34;
 }

@@ -5,24 +5,48 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentDetailTicketBinding
 import cthree.admin.flypass.models.ticketflight.Flight
-import cthree.admin.flypass.viewmodels.AdminViewModel
+import cthree.admin.flypass.models.update.ForUpdate
+import cthree.admin.flypass.utils.SessionManager
+import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailTicketFragment : Fragment() {
 
     lateinit var binding: FragmentDetailTicketBinding
-    private val adminVM: AdminViewModel by viewModels()
     private lateinit var detailTicket : Flight
+    private lateinit var sessionManager: SessionManager
+    private val ticketVM: TicketViewModel by viewModels()
+    private var idTicket : Int = 0
+    private lateinit var flightNumber : String
+    private lateinit var departAirportCity : String
+    private var departAirportId : Int = 0
+    private lateinit var arriveAirportCity : String
+    private var arriveAirportId : Int = 0
+    private lateinit var airlineName : String
+    private var airlineId : Int = 0
+    private lateinit var airplaneType : String
+    private var airplaneId : Int = 0
+    private lateinit var calendarDepart : String
+    private lateinit var calendarArrival : String
+    private lateinit var timeDepart : String
+    private lateinit var timeArrival : String
+    private var price : Int = 0
+    private var spSeatClass : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
@@ -38,9 +62,40 @@ class DetailTicketFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolbar()
-
         getArgs()
         setViews()
+
+        val token = sessionManager.getToken()
+        idTicket = detailTicket.id
+
+        flightNumber = detailTicket.flightCode
+        departAirportCity = detailTicket.departureAirport.city
+        departAirportId = detailTicket.departureAirport.id
+        arriveAirportCity = detailTicket.arrivalAirport.city
+        arriveAirportId = detailTicket.arrivalAirport.id
+        airlineName = detailTicket.airline.name
+        airlineId = detailTicket.airline.id
+        airplaneType = detailTicket.airplane.model
+        airplaneId = detailTicket.airplane.id
+        calendarDepart = detailTicket.departureDate
+        calendarArrival = detailTicket.arrivalDate
+        timeDepart = detailTicket.departureTime
+        timeArrival = detailTicket.arrivalTime
+        price = detailTicket.price
+        spSeatClass = detailTicket.flightClass.id
+
+        binding.btnEdit.setOnClickListener {
+            ticketVM.saveDataForUpdatePrefs(ForUpdate(idTicket, flightNumber, departAirportCity, departAirportId, arriveAirportCity, arriveAirportId, airlineName, airlineId, airplaneType, airplaneId, calendarDepart, calendarArrival, timeDepart, timeArrival, price, spSeatClass))
+            Navigation.findNavController(binding.root).navigate(R.id.action_detailTicketFragment_to_updateTicketFragment)
+//            val directions = DetailTicketFragmentDirections.actionDetailTicketFragmentToUpdateTicketFragment(detailTicket)
+//            findNavController().navigate(directions)
+        }
+
+        binding.btnDelete.setOnClickListener {
+            ticketVM.callDeleteTicket("Bearer ${token!!.trim()}", idTicket)
+            Toast.makeText(requireContext(), "Delete Ticket Success", Toast.LENGTH_SHORT).show()
+            Navigation.findNavController(binding.root).popBackStack()
+        }
     }
 
     private fun getArgs() {
@@ -67,8 +122,9 @@ class DetailTicketFragment : Fragment() {
         binding.tvArrivalDate.setText(detailTicket.arrivalDate)
         binding.tvAirplane.setText(detailTicket.airplane.model)
         var baggage = detailTicket.baggage.toString()
-        binding.tvBaggage.setText("Baggage {$baggage} kg")
+        binding.tvBaggage.setText("Baggage $baggage kg")
         binding.tvPrice.setText(detailTicket.price.toString())
+        Glide.with(this).load(detailTicket.airline.image).into(binding.ivLogoAirline)
     }
 
     private fun setupToolbar(){

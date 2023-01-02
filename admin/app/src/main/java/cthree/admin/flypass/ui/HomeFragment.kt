@@ -1,17 +1,38 @@
 package cthree.admin.flypass.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.work.WorkInfo
 import cthree.admin.flypass.R
 import cthree.admin.flypass.databinding.FragmentHomeBinding
+import cthree.admin.flypass.utils.SessionManager
+import cthree.admin.flypass.viewmodels.AirlineViewModel
+import cthree.admin.flypass.viewmodels.AirplaneViewModel
+import cthree.admin.flypass.viewmodels.AirportViewModel
+import cthree.admin.flypass.viewmodels.TicketViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     lateinit var binding : FragmentHomeBinding
+    private lateinit var sessionManager: SessionManager
+    private val airportViewModel : AirportViewModel by viewModels()
+    private val airlineViewModel : AirlineViewModel by viewModels()
+    private val airplaneViewModel : AirplaneViewModel by viewModels()
+    private val ticketVM : TicketViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +45,30 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(sessionManager.getIsFirstInstall()){
+            airportViewModel.fetchAirportData()
+            airlineViewModel.fetchAirlineData()
+            airplaneViewModel.fetchAirplaneData()
+            airportViewModel.getAirportWorkerInfo().observe(viewLifecycleOwner){
+                val workInfo = it[0]
+                if(workInfo.state == WorkInfo.State.SUCCEEDED){
+                    sessionManager.setIsFirstInstall(false)
+                }
+            }
+            airlineViewModel.getAirlineWorkerInfo().observe(viewLifecycleOwner){
+                val workInfo = it[0]
+                if(workInfo.state == WorkInfo.State.SUCCEEDED){
+                    sessionManager.setIsFirstInstall(false)
+                }
+            }
+            airplaneViewModel.getAirplaneWorkerInfo().observe(viewLifecycleOwner){
+                val workInfo = it[0]
+                if(workInfo.state == WorkInfo.State.SUCCEEDED){
+                    sessionManager.setIsFirstInstall(false)
+                }
+            }
+        }
 
         binding.btnUserAccount.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_userAccountFragment)
@@ -38,7 +83,11 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnAddTicket.setOnClickListener {
-
+            ticketVM.clearTicketPref()
+            findNavController().navigate(R.id.action_homeFragment_to_addTicketFragment)
+        }
+        binding.btnConfirmBooking.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_confirmBookingFragment)
         }
     }
 }

@@ -15,7 +15,7 @@ class UserAccountAdapter(): RecyclerView.Adapter<UserAccountAdapter.ViewHolder>(
 
     private lateinit var listener: OnItemClickListener
     interface OnItemClickListener{
-        fun onItemClick(view: View, user: User)
+        fun onItemClick(user: User)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener){
@@ -24,8 +24,8 @@ class UserAccountAdapter(): RecyclerView.Adapter<UserAccountAdapter.ViewHolder>(
 
     inner class ViewHolder(val binding: ItemUserAccountBinding): RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.ivDetail.setOnClickListener {
-                listener.onItemClick(binding.ivDetail,differ.currentList[absoluteAdapterPosition])
+            binding.root.setOnClickListener {
+                listener.onItemClick(differ.currentList[absoluteAdapterPosition])
             }
         }
     }
@@ -36,7 +36,7 @@ class UserAccountAdapter(): RecyclerView.Adapter<UserAccountAdapter.ViewHolder>(
         }
 
         override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem == newItem
         }
     }
 

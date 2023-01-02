@@ -74,13 +74,9 @@ class UserAccountFragment : Fragment() {
         progressAlertDialog.dismiss()
 
         userAccountAdapter.setOnItemClickListener(object : UserAccountAdapter.OnItemClickListener{
-            override fun onItemClick(view: View, user: User) {
-                when(view.id){
-                    R.id.ivDetail->{
-                        val directions = UserAccountFragmentDirections.actionUserAccountFragmentToUserAccountDetailFragment(user)
-                        findNavController().navigate(directions)
-                    }
-                }
+            override fun onItemClick(user: User) {
+                val directions = UserAccountFragmentDirections.actionUserAccountFragmentToUserAccountDetailFragment(user)
+                findNavController().navigate(directions)
             }
 
         })

@@ -397,7 +397,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#858585"
                         android:textSize="10sp"
-                        tools:text="Cabin Baggage 7 kg" />
+                        android:text="Cabin Baggage 7 kg" />
                 </LinearLayout>
 
                 <LinearLayout

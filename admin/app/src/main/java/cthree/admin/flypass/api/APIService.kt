@@ -39,7 +39,7 @@ interface APIService {
     fun addTickets(@Header("Authorization") token: String, @Body request : TicketDataClass) : Call<GetPostTicketResponse>
 
     @PUT("v1/flights/{id}")
-    fun updateTicket(@Header("Authorization") token: String, @Path("id") id : Int, @Body requst : TicketDataClass) : Call<GetPutTicketResponse>
+    fun updateTicket(@Header("Authorization") token: String, @Path("id") id : Int, @Body request : TicketDataClass) : Call<GetPutTicketResponse>
 
     @DELETE("v1/flights/{id}")
     fun deleteTicket(@Header("Authorization") token: String, @Path("id") id : Int) : Call<GetTicketResponse>

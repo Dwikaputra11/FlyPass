@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import cthree.admin.flypass.R
@@ -43,7 +45,7 @@ class AddTicketFragment : Fragment() {
     private lateinit var calendarArrival : String
     private lateinit var timeDepart : String
     private lateinit var timeArrival : String
-    private lateinit var price : String
+    private var price : Int = 0
     private var baggage : Int = 20
     private var isAvailable : Boolean = true
     private var spSeatClass : Int = 0
@@ -71,17 +73,24 @@ class AddTicketFragment : Fragment() {
 
         val token = sessionManager.getToken()
 
+        ticketVM.getPostDataTicket().observe(viewLifecycleOwner){
+            if(it != null){
+                Toast.makeText(requireContext(), "Add Ticket Success", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_addTicketFragment_to_homeFragment)
+            }
+        }
+
         binding.btnAddTicket.setOnClickListener {
             flightNumber = binding.etFlightNumber.text.toString()
             calendarDepart = binding.etDateDeparture.text.toString()
             calendarArrival = binding.etDateArrival.text.toString()
             timeDepart = binding.etTimeDeparture.text.toString()
             timeArrival = binding.etTimeArrival.text.toString()
-            price = binding.etPrice.text.toString()
+            price = binding.etPrice.text.toString().toInt()
             spSeatClass = (binding.spSeatClass.selectedItemPosition+1).toString().toInt()
 
             ticketVM.postApiTicket("Bearer ${token!!.trim()}", TicketDataClass(flightNumber, airlineId, airplaneId, departAirportId, arriveAirportId,
-            calendarDepart, timeDepart, calendarArrival, timeArrival, price.toInt(), spSeatClass, baggage, isAvailable)
+            calendarDepart, timeDepart, calendarArrival, timeArrival, price, spSeatClass, baggage, isAvailable)
             )
         }
 

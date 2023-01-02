@@ -17,7 +17,9 @@ object Constants {
     const val DEP_FLIGHT = "depFlight"
     const val ARR_FLIGHT = "arrFlight"
     const val AIRLINE_NAME = "airlineName"
+    const val AIRLINE_NAME_UPDATE = "airlineNameUpdate"
     const val AIRPLANE_TYPE = "airplaneType"
+    const val AIRPLANE_TYPE_UPDATE = "airplaneTypeUpdate"
 
     // Shared Preferences
     const val PREF_NAME                 = "shared_pref"
@@ -40,6 +42,8 @@ object Constants {
     const val ARRIVE_DEFAULT_VAL        = "arriveDefaultVal"
     const val SEAT_CLASS                = "seatClass"
     const val USER_ID                   = "userId"
+    const val DEPART_AIRPORT_UPDATE     = "departAirportUpdate"
+    const val ARRIVE_AIRPORT_UPDATE     = "arriveAirportUpdate"
 
     // WORK MANAGER
     const val AIRPORT_WORKER = "airport_worker"

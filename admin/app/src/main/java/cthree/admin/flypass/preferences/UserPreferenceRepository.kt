@@ -162,6 +162,33 @@ class UserPreferenceRepository(private val context: Context) {
         }
     }
 
+    suspend fun clearDataTicket(){
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearDepartAirportCity().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearDepartAirportCountry().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearDepartAirportId().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearArriveAirportCity().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearArriveAirportCountry().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearArriveAirportId().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearAirlineName().build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().clearAirplaneModel().build()
+        }
+    }
+
 
     // read data store proto
     private val TAG: String = "UserPreferencesRepo"

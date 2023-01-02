@@ -75,6 +75,7 @@ class UpdateTicketFragment : Fragment() {
 
         ticketVM.getPutDataTicket().observe(viewLifecycleOwner){
             if (it != null){
+                ticketVM.clearTicketPref()
                 Toast.makeText(requireContext(), "Update Ticket Success", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_updateTicketFragment_to_homeFragment)
             }

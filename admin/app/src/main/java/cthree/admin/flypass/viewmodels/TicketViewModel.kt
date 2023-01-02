@@ -128,4 +128,10 @@ class TicketViewModel@Inject constructor(private val apiService: APIService, app
             prefRepo.saveDataForUpdateTicket(forUpdate)
         }
     }
+
+    fun clearTicketPref(){
+        viewModelScope.launch {
+            prefRepo.clearDataTicket()
+        }
+    }
 }

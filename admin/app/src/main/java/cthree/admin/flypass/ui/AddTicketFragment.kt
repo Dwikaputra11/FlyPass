@@ -75,6 +75,7 @@ class AddTicketFragment : Fragment() {
 
         ticketVM.getPostDataTicket().observe(viewLifecycleOwner){
             if(it != null){
+                ticketVM.clearTicketPref()
                 Toast.makeText(requireContext(), "Add Ticket Success", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_addTicketFragment_to_homeFragment)
             }
@@ -252,6 +253,7 @@ class AddTicketFragment : Fragment() {
         binding.toolbarLayout.toolbar.title = "Add Ticket"
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
+            ticketVM.clearTicketPref()
             Navigation.findNavController(binding.root).popBackStack()
         }
     }

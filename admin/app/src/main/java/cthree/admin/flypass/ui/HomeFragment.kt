@@ -86,5 +86,8 @@ class HomeFragment : Fragment() {
             ticketVM.clearTicketPref()
             findNavController().navigate(R.id.action_homeFragment_to_addTicketFragment)
         }
+        binding.btnConfirmBooking.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_confirmBookingFragment)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package cthree.admin.flypass.api
 
+import android.media.audiofx.DynamicsProcessing.Config
 import cthree.admin.flypass.models.admin.AdminDataClass
 import cthree.admin.flypass.models.admin.LoginAdminResponse
 import cthree.admin.flypass.models.admin.RegisterAdminDataClass
@@ -7,10 +8,12 @@ import cthree.admin.flypass.models.admin.RegisterAdminResponse
 import cthree.admin.flypass.models.airline.GetAirlineResponse
 import cthree.admin.flypass.models.airplane.GetAirplaneResponse
 import cthree.admin.flypass.models.airport.GetAirportResponse
+import cthree.admin.flypass.models.confirm.ConfirmBooking
 import cthree.admin.flypass.models.postticket.GetPostTicketResponse
 import cthree.admin.flypass.models.ticketflight.GetTicketResponse
 import cthree.admin.flypass.models.postticket.TicketDataClass
 import cthree.admin.flypass.models.putticket.GetPutTicketResponse
+import cthree.admin.flypass.models.transaction.TransactionList
 import cthree.admin.flypass.models.user.GetUserResponse
 import retrofit2.Call
 import retrofit2.http.Body
@@ -52,4 +55,13 @@ interface APIService {
 
     @GET("v1/airplanes")
     fun apiServiceAirplane() : Call<GetAirplaneResponse>
+
+    @PUT("/v1/pay/confirm/{idTransaction}")
+    fun confirmTicket(@Path("idTransaction") id: Int,@Header("Authorization") token: String ): Call<ConfirmBooking>
+
+    @PUT("v1/pay/reject/{idTransaction}")
+    fun rejectTicket(@Path("idTransaction") id: Int, @Header("Authorization") token: String): Call<ConfirmBooking>
+
+    @GET("v1/pay/find/all")
+    fun getAllTransaction(@Header("Authorization") token: String): Call<TransactionList>
 }

@@ -41,8 +41,8 @@
             android:id="@+id/action_homeFragment_to_ticketListFragment"
             app:destination="@id/ticketListFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_refundStatusFragment"
-            app:destination="@id/refundStatusFragment" />
+            android:id="@+id/action_homeFragment_to_confirmBookingFragment"
+            app:destination="@id/confirmBookingFragment" />
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
@@ -110,11 +110,6 @@
             app:argType="cthree.admin.flypass.models.user.User" />
     </fragment>
     <fragment
-        android:id="@+id/refundStatusDetailFragment"
-        android:name="cthree.admin.flypass.ui.RefundStatusDetailFragment"
-        android:label="fragment_refund_status_detail"
-        tools:layout="@layout/fragment_refund_status_detail" />
-    <fragment
         android:id="@+id/updateTicketFragment"
         android:name="cthree.admin.flypass.ui.UpdateTicketFragment"
         android:label="fragment_update_ticket"
@@ -137,15 +132,6 @@
         <action
             android:id="@+id/action_updateTicketFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/refundStatusFragment"
-        android:name="cthree.admin.flypass.ui.RefundStatusFragment"
-        android:label="fragment_refund_status"
-        tools:layout="@layout/fragment_refund_status" >
-        <action
-            android:id="@+id/action_refundStatusFragment_to_refundStatusDetailFragment"
-            app:destination="@id/refundStatusDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchAirportFragment"
@@ -191,5 +177,22 @@
         <action
             android:id="@+id/action_searchAirplaneFragment_to_updateTicketFragment"
             app:destination="@id/updateTicketFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmBookingFragment"
+        android:name="cthree.admin.flypass.ui.ConfirmBookingFragment"
+        android:label="fragment_confirm_booking"
+        tools:layout="@layout/fragment_confirm_booking" >
+        <action
+            android:id="@+id/action_confirmBookingFragment_to_confirmBookingDetailFragment"
+            app:destination="@id/confirmBookingDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmBookingDetailFragment"
+        android:name="cthree.admin.flypass.ui.ConfirmBookingDetailFragment"
+        android:label="ConfirmBookingDetailFragment" >
+        <argument
+            android:name="idTransaction"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -92,12 +92,12 @@ class UpdateTicketFragment : Fragment() {
             price = binding.etPrice.text.toString().toInt()
             spSeatClass = (binding.spSeatClass.selectedItemPosition+1).toString().toInt()
 
-            ticketVM.putApiTicket("Bearer ${token!!.trim()}", idTicket, TicketDataClass(flightNumber, airlineId, airplaneId, departAirportId, arriveAirportId,
+            ticketVM.putApiTicket(token!!, idTicket, TicketDataClass(flightNumber, airlineId, airplaneId, departAirportId, arriveAirportId,
                 calendarDepart, timeDepart, calendarArrival, timeArrival, price, spSeatClass, baggage, isAvailable)
             )
         }
 
-        val arrayAdapter = ArrayAdapter<String>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
+        val arrayAdapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, seatClass)
         binding.spSeatClass.adapter = arrayAdapter
         binding.spSeatClass.selectedItemPosition+1
 

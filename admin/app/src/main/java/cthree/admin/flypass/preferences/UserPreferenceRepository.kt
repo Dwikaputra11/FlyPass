@@ -113,22 +113,34 @@ class UserPreferenceRepository(private val context: Context) {
 
     suspend fun saveDataForUpdateTicket(forUpdate: ForUpdate){
         context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setIdTicket(forUpdate.idTicket).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setFlightCode(forUpdate.flightNumber).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setAirlineName(forUpdate.airlineName).build()
         }
         context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setAirlineId(forUpdate.airlineId).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setAirplaneModel(forUpdate.airplaneType).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setAirlineName(forUpdate.airlineName).build()
+            preferences.toBuilder().setAirlineId(forUpdate.airplaneId).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setDepartAirportCity(forUpdate.departAirportCity).build()
         }
         context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setDepartAirportId(forUpdate.departAirportId).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setArriveAirportCity(forUpdate.arriveAirportCity).build()
+        }
+        context.userPreferencesStore.updateData { preferences ->
+            preferences.toBuilder().setArriveAirportId(forUpdate.arriveAirportId).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setCalendarDepart(forUpdate.calendarDepart).build()

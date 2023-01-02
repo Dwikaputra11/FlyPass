@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_addTicketFragment_to_searchAirplaneFragment"
             app:destination="@id/searchAirplaneFragment" />
+        <action
+            android:id="@+id/action_addTicketFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailTicketFragment"
@@ -131,6 +134,9 @@
         <action
             android:id="@+id/action_updateTicketFragment_to_searchAirportFragment"
             app:destination="@id/searchAirportFragment" />
+        <action
+            android:id="@+id/action_updateTicketFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/refundStatusFragment"

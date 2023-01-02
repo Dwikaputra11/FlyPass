@@ -29,9 +29,13 @@ class DetailTicketFragment : Fragment() {
     private var idTicket : Int = 0
     private lateinit var flightNumber : String
     private lateinit var departAirportCity : String
+    private var departAirportId : Int = 0
     private lateinit var arriveAirportCity : String
+    private var arriveAirportId : Int = 0
     private lateinit var airlineName : String
+    private var airlineId : Int = 0
     private lateinit var airplaneType : String
+    private var airplaneId : Int = 0
     private lateinit var calendarDepart : String
     private lateinit var calendarArrival : String
     private lateinit var timeDepart : String
@@ -66,9 +70,13 @@ class DetailTicketFragment : Fragment() {
 
         flightNumber = detailTicket.flightCode
         departAirportCity = detailTicket.departureAirport.city
+        departAirportId = detailTicket.departureAirport.id
         arriveAirportCity = detailTicket.arrivalAirport.city
+        arriveAirportId = detailTicket.arrivalAirport.id
         airlineName = detailTicket.airline.name
+        airlineId = detailTicket.airline.id
         airplaneType = detailTicket.airplane.model
+        airplaneId = detailTicket.airplane.id
         calendarDepart = detailTicket.departureDate
         calendarArrival = detailTicket.arrivalDate
         timeDepart = detailTicket.departureTime
@@ -77,7 +85,7 @@ class DetailTicketFragment : Fragment() {
         spSeatClass = detailTicket.flightClass.id
 
         binding.btnEdit.setOnClickListener {
-            ticketVM.saveDataForUpdatePrefs(ForUpdate(flightNumber, departAirportCity, arriveAirportCity, airlineName, airplaneType, calendarDepart, calendarArrival, timeDepart, timeArrival, price, spSeatClass))
+            ticketVM.saveDataForUpdatePrefs(ForUpdate(idTicket, flightNumber, departAirportCity, departAirportId, arriveAirportCity, arriveAirportId, airlineName, airlineId, airplaneType, airplaneId, calendarDepart, calendarArrival, timeDepart, timeArrival, price, spSeatClass))
             Navigation.findNavController(binding.root).navigate(R.id.action_detailTicketFragment_to_updateTicketFragment)
 //            val directions = DetailTicketFragmentDirections.actionDetailTicketFragmentToUpdateTicketFragment(detailTicket)
 //            findNavController().navigate(directions)

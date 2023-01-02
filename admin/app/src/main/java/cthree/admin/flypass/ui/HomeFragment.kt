@@ -15,6 +15,7 @@ import cthree.admin.flypass.utils.SessionManager
 import cthree.admin.flypass.viewmodels.AirlineViewModel
 import cthree.admin.flypass.viewmodels.AirplaneViewModel
 import cthree.admin.flypass.viewmodels.AirportViewModel
+import cthree.admin.flypass.viewmodels.TicketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,7 @@ class HomeFragment : Fragment() {
     private val airportViewModel : AirportViewModel by viewModels()
     private val airlineViewModel : AirlineViewModel by viewModels()
     private val airplaneViewModel : AirplaneViewModel by viewModels()
+    private val ticketVM : TicketViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +83,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnAddTicket.setOnClickListener {
+            ticketVM.clearTicketPref()
             findNavController().navigate(R.id.action_homeFragment_to_addTicketFragment)
         }
     }

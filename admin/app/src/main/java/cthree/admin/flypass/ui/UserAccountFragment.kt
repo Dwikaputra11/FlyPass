@@ -102,7 +102,7 @@ class UserAccountFragment : Fragment() {
         binding.toolbarLayout.toolbar.title = "User Account List"
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
-            Navigation.findNavController(binding.root).popBackStack()
+            findNavController().navigate(R.id.action_userAccountFragment_to_homeFragment)
         }
     }
 }

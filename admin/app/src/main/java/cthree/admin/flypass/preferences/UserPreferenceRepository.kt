@@ -128,7 +128,7 @@ class UserPreferenceRepository(private val context: Context) {
             preferences.toBuilder().setAirplaneModel(forUpdate.airplaneType).build()
         }
         context.userPreferencesStore.updateData { preferences ->
-            preferences.toBuilder().setAirlineId(forUpdate.airplaneId).build()
+            preferences.toBuilder().setAirplaneId(forUpdate.airplaneId).build()
         }
         context.userPreferencesStore.updateData { preferences ->
             preferences.toBuilder().setDepartAirportCity(forUpdate.departAirportCity).build()

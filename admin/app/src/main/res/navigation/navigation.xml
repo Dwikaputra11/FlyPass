@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_homeFragment_to_confirmBookingFragment"
             app:destination="@id/confirmBookingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/userAccountFragment"
@@ -52,6 +55,9 @@
         <action
             android:id="@+id/action_userAccountFragment_to_userAccountDetailFragment"
             app:destination="@id/userAccountDetailFragment" />
+        <action
+            android:id="@+id/action_userAccountFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerAdminFragment"
@@ -99,6 +105,9 @@
         <action
             android:id="@+id/action_ticketListFragment_to_detailTicketFragment"
             app:destination="@id/detailTicketFragment" />
+        <action
+            android:id="@+id/action_ticketListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/userAccountDetailFragment"
@@ -130,8 +139,8 @@
             android:id="@+id/action_updateTicketFragment_to_searchAirportFragment"
             app:destination="@id/searchAirportFragment" />
         <action
-            android:id="@+id/action_updateTicketFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_updateTicketFragment_to_ticketListFragment"
+            app:destination="@id/ticketListFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchAirportFragment"
@@ -186,6 +195,9 @@
         <action
             android:id="@+id/action_confirmBookingFragment_to_confirmBookingDetailFragment"
             app:destination="@id/confirmBookingDetailFragment" />
+        <action
+            android:id="@+id/action_confirmBookingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/confirmBookingDetailFragment"

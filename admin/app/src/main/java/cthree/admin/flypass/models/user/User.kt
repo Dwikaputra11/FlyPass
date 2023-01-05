@@ -32,8 +32,7 @@ data class User(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readParcelable(Role::class.java.classLoader)!!
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(birthDate)

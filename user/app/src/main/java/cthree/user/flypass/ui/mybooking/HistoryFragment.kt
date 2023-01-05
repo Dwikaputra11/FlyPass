@@ -52,6 +52,7 @@ class HistoryFragment : Fragment() {
     private lateinit var userToken: String
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
+    private var firstOpen: Boolean = true
 
     private val resolutionForResult = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
@@ -118,7 +119,10 @@ class HistoryFragment : Fragment() {
             }else if(it.token.isEmpty()){
                 binding.rvBookingHistory.isVisible = false
                 binding.notFound.root.isVisible = false
-                joinMemberDialog()
+                if(firstOpen){
+                    joinMemberDialog()
+                    firstOpen = false
+                }
             }
         }
         val adapter = BookingAdapter()

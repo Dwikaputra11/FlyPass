@@ -25,7 +25,7 @@
                 android:padding="10dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="80dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/ivOne"
@@ -117,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:text="Completed"
                     android:textColor="@color/smokey_700"
-                    app:layout_constraintEnd_toEndOf="@+id/ivThree"
-                    app:layout_constraintStart_toEndOf="@+id/line4"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivThree" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

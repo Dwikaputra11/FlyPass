@@ -11,7 +11,11 @@ import cthree.user.flypass.databinding.HighligtTopicBinding
 class HighlightTopicAdapter(private val list: List<HighlightTopic>): RecyclerView.Adapter<HighlightTopicAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: HighligtTopicBinding): RecyclerView.ViewHolder(binding.root) {
-
+        fun bind(item: HighlightTopic){
+            binding.tvTitle.text = item.title
+            binding.tvMsg.text = item.msg
+            binding.ivHighlight.setImageResource(item.image)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,7 +28,7 @@ class HighlightTopicAdapter(private val list: List<HighlightTopic>): RecyclerVie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.tvTitle.text = list[position].title
+        holder.bind(list[position])
     }
 
     override fun getItemCount(): Int {

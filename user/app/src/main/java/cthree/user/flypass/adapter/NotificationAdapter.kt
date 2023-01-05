@@ -40,7 +40,7 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ViewHolder>(
         fun bind(notify: Notification){
             binding.tvTitle.text = notify.bookingCode
             binding.tvDesc.text = notify.message
-            binding.ivNext.isVisible = notify.isRead
+            binding.ivNext.isVisible = !notify.isRead
             binding.root.setOnClickListener {
                 listener.onItemClick(notify)
             }

@@ -99,6 +99,7 @@ class ProfileFragment : Fragment(), MenuProvider {
                 userToken = it
                 prefVM.saveData(profile)
                 setUserPrefView()
+                progressAlertDialog.dismiss()
             }
         }
         prefVM.dataUser.observe(viewLifecycleOwner){
@@ -259,10 +260,35 @@ class ProfileFragment : Fragment(), MenuProvider {
         return when (menuItem.itemId){
             R.id.notification ->{
                 Log.d(TAG, "onMenuItemSelected: Clicked")
-//                checkUserMember()
+                checkUserMember()
                 true
             }
             else -> false
+        }
+    }
+
+    private fun checkUserMember() {
+        prefVM.dataUser.observe(viewLifecycleOwner) {
+            if (it.token.isNotEmpty()) {
+                findNavController().navigate(R.id.action_profileFragment_to_notificationFragment)
+            } else {
+                DialogCaller(requireActivity())
+                    .setTitle(R.string.non_member_title)
+                    .setMessage(R.string.non_member_msg)
+                    .setPrimaryButton(R.string.non_member_btn_login){ dialog, _ ->
+                        run{
+                            callLoginDialog()
+                            dialog.dismiss()
+                        }
+                    }
+                    .setSecondaryButton(R.string.maybe_later){ dialog, _ ->
+                        run{
+                            dialog.dismiss()
+                        }
+                    }
+                    .create(layoutInflater, AlertButton.TWO)
+                    .show()
+            }
         }
     }
 }

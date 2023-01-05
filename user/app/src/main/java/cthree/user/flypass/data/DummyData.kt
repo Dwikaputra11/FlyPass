@@ -194,13 +194,22 @@ object DummyData {
 
     val highlightTopicItem = listOf(
         HighlightTopic(
-            "Highlight 1"
+            id = 1,
+            "Liburan ke Bali",
+            msg = "Berikut merupakan objek wisata favorit di Bali",
+            image = R.drawable.bali
         ),
         HighlightTopic(
-            "Highlight 2"
+            id = 2,
+            "Tempat Wisata di Raja Ampat",
+            msg = "Pemandangan pantai dan pulau-pulau di raja ampat.",
+            image = R.drawable.raja_ampat
         ),
         HighlightTopic(
-            "Highlight 3"
+            id = 3,
+            "Nikmati Pemandangan Labuan Bajo",
+            msg = "Nikmati pemandanga Labuan Bajo dan keindahan Sirkuit Mandalika",
+            image = R.drawable.labuan_bajo
         ),
     )
     val frequentSearch = listOf(

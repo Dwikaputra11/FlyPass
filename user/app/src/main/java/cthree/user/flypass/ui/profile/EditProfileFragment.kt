@@ -17,9 +17,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.databinding.DialogProgressBarBinding
@@ -92,6 +94,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupToolbar()
+        setBottomNav()
         initProgressDialog()
         binding.ivImageProfile.setOnClickListener {
             changePicProfile()
@@ -296,5 +299,9 @@ class EditProfileFragment : Fragment() {
         val path =
             MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
+    }
+    private fun setBottomNav(){
+        val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav?.isVisible = false
     }
 }

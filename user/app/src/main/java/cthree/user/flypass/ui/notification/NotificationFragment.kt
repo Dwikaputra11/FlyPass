@@ -4,10 +4,8 @@ import android.content.DialogInterface
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +23,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import cthree.user.flypass.R
 import cthree.user.flypass.adapter.NotificationAdapter
 import cthree.user.flypass.data.GoogleTokenRequest
+import cthree.user.flypass.databinding.DialogProgressBarBinding
 import cthree.user.flypass.databinding.FragmentNotificationBinding
 import cthree.user.flypass.models.login.LoginData
 import cthree.user.flypass.models.notification.Notification
@@ -94,6 +93,7 @@ class NotificationFragment : Fragment() {
         setupToolbar()
         setBottomNav()
         configSignInGoogle()
+        initProgressDialog()
         progressAlertDialog.show()
         userVM.loginToken().observe(viewLifecycleOwner){
             if(it != null){
@@ -124,6 +124,7 @@ class NotificationFragment : Fragment() {
                 val directions = NotificationFragmentDirections.actionNotificationFragmentToNotificationDetailFragment(notification)
                 findNavController().navigate(directions)
                 progressAlertDialog.dismiss()
+                notifyVM.updateNotification.postValue(null)
             }
         }
 
@@ -227,6 +228,14 @@ class NotificationFragment : Fragment() {
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
             Navigation.findNavController(binding.root).popBackStack()
         }
+    }
+    private fun initProgressDialog(){
+        val progressBarBinding = DialogProgressBarBinding.inflate(layoutInflater, null, false)
+        progressAlertDialogBuilder.setView(progressBarBinding.root)
+
+        progressAlertDialog = progressAlertDialogBuilder.create()
+        progressAlertDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        progressAlertDialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
     }
     private fun setBottomNav(){
         val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)

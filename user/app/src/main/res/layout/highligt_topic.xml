@@ -4,24 +4,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     app:cardElevation="4dp"
-    android:paddingHorizontal="10dp"
-    android:layout_height="150dp">
+    android:layout_marginHorizontal="10dp"
+    android:layout_height="180dp">
 
     <RelativeLayout
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<!--        <ImageView-->
-<!--            android:id="@+id/ivHighlight"-->
-<!--            android:background="@color/color_primary"-->
-<!--            android:src="@mipmap/ic_launcher"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
+        <ImageView
+            android:id="@+id/ivHighlight"
+            android:background="@color/color_primary"
+            android:scaleType="center"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
         <TextView
-            android:layout_centerInParent="true"
             android:id="@+id/tvTitle"
-            android:text="Highlight Topic 1"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivHighlight"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="5dp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:text="Highlight Topic 1"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:paddingHorizontal="10dp"
+            android:textSize="12sp"
+            android:text="Message"
+            />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

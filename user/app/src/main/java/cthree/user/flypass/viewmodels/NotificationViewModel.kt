@@ -19,7 +19,7 @@ private const val TAG = "NotificationViewModel"
 class NotificationViewModel @Inject constructor(private val apiService: ApiService): ViewModel() {
 
     private val notificationList: MutableLiveData<NotificationList?> = MutableLiveData()
-    private val updateNotification: MutableLiveData<UpdateNotify?> = MutableLiveData()
+    val updateNotification: MutableLiveData<UpdateNotify?> = MutableLiveData()
 
     fun getNotification(): LiveData<NotificationList?> = notificationList
     fun getUpdateNotify(): LiveData<UpdateNotify?> = updateNotification

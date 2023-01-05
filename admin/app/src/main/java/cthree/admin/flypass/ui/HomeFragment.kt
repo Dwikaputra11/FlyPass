@@ -89,5 +89,8 @@ class HomeFragment : Fragment() {
         binding.btnConfirmBooking.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_confirmBookingFragment)
         }
+        binding.btnLogout.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+        }
     }
 }

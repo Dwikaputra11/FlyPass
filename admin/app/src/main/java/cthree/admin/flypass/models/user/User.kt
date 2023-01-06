@@ -11,26 +11,26 @@ data class User(
     @SerializedName("email")
     val email: String,
     @SerializedName("gender")
-    val gender: String,
+    val gender: String?,
     @SerializedName("id")
     val id: Int,
     @SerializedName("image")
-    val image: String,
+    val image: String?,
     @SerializedName("name")
     val name: String,
     @SerializedName("phone")
-    val phone: String,
+    val phone: String?,
     @SerializedName("Role")
     val role: Role
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
+        parcel.readString(),
         parcel.readInt(),
+        parcel.readString(),
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!,
+        parcel.readString(),
         parcel.readParcelable(Role::class.java.classLoader)!!
     )
 

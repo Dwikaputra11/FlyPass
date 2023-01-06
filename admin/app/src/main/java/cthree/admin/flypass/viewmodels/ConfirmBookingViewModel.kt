@@ -75,14 +75,14 @@ class ConfirmBookingViewModel @Inject constructor(private val apiService: APISer
                 response: Response<ConfirmBooking>
             ) {
                 if(response.isSuccessful){
-                    confirmStatus.postValue(response.body())
+                    rejectStatus.postValue(response.body())
                 }else{
-                    confirmStatus.postValue(null)
+                    rejectStatus.postValue(null)
                 }
             }
 
             override fun onFailure(call: Call<ConfirmBooking>, t: Throwable) {
-                confirmStatus.postValue(null)
+                rejectStatus.postValue(null)
                 Log.e(TAG, "Reject Ticket: ${t.localizedMessage}")
             }
 

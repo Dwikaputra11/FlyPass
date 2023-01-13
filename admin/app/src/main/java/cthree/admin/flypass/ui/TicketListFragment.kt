@@ -93,7 +93,7 @@ class TicketListFragment : Fragment() {
         binding.toolbarLayout.toolbar.title = "Ticket List"
         binding.toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_round_arrow_back_ios_24)
         binding.toolbarLayout.toolbar.setNavigationOnClickListener {
-            Navigation.findNavController(binding.root).popBackStack()
+            findNavController().navigate(R.id.action_ticketListFragment_to_homeFragment)
         }
     }
 }

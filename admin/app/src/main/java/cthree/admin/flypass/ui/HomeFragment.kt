@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.work.WorkInfo
@@ -90,6 +91,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_confirmBookingFragment)
         }
         binding.btnLogout.setOnClickListener {
+            Toast.makeText(requireContext(), "Logout Berhasil", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
         }
     }

@@ -44,7 +44,7 @@ class ConfirmBookingDetailFragment : Fragment() {
 
         confirmVM.getConfirmStatus().observe(viewLifecycleOwner){
             if(it != null){
-                Toast.makeText(requireContext(), "Confirmation", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Confirmation Success", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
             }
         }

@@ -77,7 +77,7 @@ class UpdateTicketFragment : Fragment() {
             if (it != null){
                 ticketVM.clearTicketPref()
                 Toast.makeText(requireContext(), "Update Ticket Success", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_updateTicketFragment_to_homeFragment)
+                findNavController().navigate(R.id.action_updateTicketFragment_to_ticketListFragment)
             }
         }
 

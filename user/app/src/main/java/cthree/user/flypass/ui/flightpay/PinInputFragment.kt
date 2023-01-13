@@ -71,7 +71,7 @@ class PinInputFragment(private val inputPinFrom: InputPinFrom) : DialogFragment(
             if(it.token.isNotEmpty()){
                 userToken = it.token
             }
-            if(it.pinMember.isNotEmpty()){
+            if(it.pinMember.isNotEmpty() && inputPinFrom == InputPinFrom.PAYMENT){
                 Log.d(TAG, "Pin Member: ${it.pinMember}")
                 pin = it.pinMember
                 binding.pinView.localPasscode = it.pinMember

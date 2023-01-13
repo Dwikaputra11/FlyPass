@@ -126,6 +126,9 @@
 
     <string name="member_only_title">Fitur Member</string>
     <string name="member_only_msg">Segera daftarkan dirimu menjadi member.</string>
+
+    <string name="feature_not_available_title">Fitur Belum Tersedia</string>
+    <string name="feature_not_available_msg">Terus pantau aplikai kita.</string>
     
     
 </resources>
